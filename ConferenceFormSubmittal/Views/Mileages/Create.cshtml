@@ -1,0 +1,122 @@
+﻿@model ConferenceFormSubmittal.Models.Mileage
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center">Create Mileage</h3>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row mt-3">
+
+        <div class="col-3">
+            <div class="card card-body bg-NCDSB-Grey">
+                <div class="col-12">
+
+                    <input type="button" value="Create" class="btn btn-primary btn-block mb-3" />
+
+                    @Html.ActionLink("Back to List", "Index", "Mileages", null, new { @class = "btn btn-primary btn-block mb-3" })
+                </div>
+            </div>
+        </div> <!--col-->
+
+
+        <div class="col-9">
+            <div class="row mb-3">
+                <div class="col-12">
+
+                    <div class="card card-body bg-NCDSB-Grey">
+                        <div class="row">
+                            <div class="col-6">
+                                <b class="d-block">Date of Travel</b>
+                                @*@Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
+
+                                <b class="d-block">Distance</b>
+                                @*@Html.LabelFor(model => model.Kilometres, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                @Html.EditorFor(model => model.Kilometres, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="col-6">
+
+                                <b class="d-block">Start Address</b>
+                                @*@Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
+
+
+                                <b class="d-block">End Address</b>
+                                @*@Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-body bg-NCDSB-Grey mt-3">
+                                <div class="col-12">
+                                    <b class="d-block mt-2">Select Conference</b>
+
+                                    <table class="table">
+                                        <tbody>
+
+                                            <tr class="rgba-grey-light">
+                                                <td>
+                                                    <select name="status" class="d-block">
+                                                        <option selected>Code Jam </option>
+                                                        <option>Math Expo</option>
+                                                        <option>Code Jam</option>
+                                                        <option>Code Jam</option>
+                                                    </select>
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" />
+                                                </td>
+                                                <td>
+                                                    <a class="badge badge-primary" href="#">+</a>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div> <!--col-->
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

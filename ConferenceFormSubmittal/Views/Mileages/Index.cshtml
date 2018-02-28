@@ -1,0 +1,129 @@
+﻿@model IEnumerable<ConferenceFormSubmittal.Models.Mileage>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center">My Mileage</h3>
+        </div>
+    </div>
+</div>
+
+
+<div class="row pt-3">
+    <div class="col-3">
+
+        <div class="card card-body bg-NCDSB-Grey pb-2">
+            @Html.ActionLink("Create New", "Create", "Mileages", null, new { @class = "btn btn-primary btn-block mb-3" })
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body bg-NCDSB-Grey">
+
+
+                <b>Start Date</b>
+                <input type="date" class="form-control">
+
+                <b>End Date</b>
+                <input type="date" class="form-control">
+
+                <b>Address</b>
+                <input type="text" class="form-control">
+
+
+                <b>Status</b>
+                <select name="status" class="d-block">
+                    <option selected>Submitted  </option>
+                    <option>Denied </option>
+                    <option>Approved</option>
+                    <option>Draft</option>
+                </select>
+            </div>
+
+            <div class="card-footer bg-NCDSB-Grey">
+                <button type="button" class="btn btn-primary btn-block">Search</button>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <div class="col-9">
+        <!--Panel-->
+        <div class="card card-body bg-NCDSB-Grey ">
+
+            <table class="table">
+                <tr>
+
+                    <th>
+                        <b> @Html.DisplayNameFor(model => model.StartAddress) </b>
+                    </th>
+                    <th>
+                        <b> @Html.DisplayNameFor(model => model.EndAddress)</b>
+                    </th>
+                    <th>
+                        <b> @Html.DisplayNameFor(model => model.Kilometres)</b>
+                    </th>
+                    <th>
+                        <b> @Html.DisplayNameFor(model => model.TravelDate)</b>
+                    </th>
+                    <th>
+                        <b> @Html.DisplayNameFor(model => model.Status.Description)</b>
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+    {
+            <tr class="
+                @(item.StatusID == 1 ? "rgba-green-light" : "")
+                @(item.StatusID == 2 ? "rgba-black-light" : "")
+                @(item.StatusID == 3 ? "" : "")
+                @(item.StatusID == 4 ? "gba-yellow-light" : "")">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kilometres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TravelDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("View", "Details", new { id = item.ID }, new { @class = "badge badge-primary bg-NCDSB-Blue text-white" })
+
+                </td>
+            </tr>
+}
+
+            </table>
+
+        </div>
+        <!--/.Panel-->
+
+
+
+
+    </div>
+</div>
+
+
+
+
+

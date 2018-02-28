@@ -1,0 +1,21 @@
+NCDSB COLOURS
+
+blue		#2e2e74 -niagaracatholic.ca
+blue 		#343481 -niagaracatholic.ca:hover
+blue		#20307e -largelogotext
+blue		#2a348c
+blue		#3150a9
+
+green		#438f27 -niagaracatholic.ca:hover
+green 		#3e8424 -niagaracatholic.ca
+green		#00923f -largelogotext
+green		#139c49
+green		#00a85a
+
+grey-5		#333	
+grey-4		#bbb
+grey-3		#ccc
+grey-2 		#d6d6d6
+grey-1		#e3e3e3
+
+white		#fff

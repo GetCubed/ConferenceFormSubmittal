@@ -1,0 +1,232 @@
+﻿@model ConferenceFormSubmittal.Models.Application
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center">Application Details</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+
+    <div class="col-3">
+        <div class="card card-body bg-NCDSB-Grey">
+            <div class="col-12">
+
+                @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-primary btn-block mt-3" })
+
+                @Html.ActionLink("Back to List", "Index", "Applications", null, new { @class = "btn btn-primary btn-block mt-3" })
+
+            </div>
+        </div>
+    </div> <!--col-->
+
+    <div class="col-9">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-group w-100">
+
+                    <div class="card card-body bg-NCDSB-Grey mr-2">
+                        <b class="d-block mt-2 ">Conference Name</b>
+                        @*@Html.DisplayNameFor(model => model.Conference.Name)*@
+                        @Html.DisplayFor(model => model.Conference.Name)
+
+                        <b class="d-block mt-2">Date Submitted</b>
+                        @Html.DisplayFor(model => model.DateSubmitted)
+
+
+                        <b class="d-block mt-2">Budget Code</b>
+                        @Html.DisplayFor(model => model.BudgetCode)
+                    </div>
+
+                    <div class="card card-body bg-NCDSB-Grey ml-2">
+                        <b class="d-block mt-2">Status</b>
+                        @Html.DisplayFor(model => model.Status.Description)
+
+                        <b class="d-block mt-2">Require Replacement Staff</b>
+                        @Html.DisplayFor(model => model.ReplStaffReq)
+
+                        <b class="d-block mt-2">Payment Type</b>
+                        <select name="status" class="d-block">
+                            <option selected>Corporate Credit Card </option>
+                            <option>Union Reimbursement</option>
+                            <option>Corporate Cheque Requisition</option>
+                            <option>Paid By Staff Member</option>
+                        </select>
+                        
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-body bg-NCDSB-Grey mt-3">
+                    <div class="col-12">
+                        <b class="d-block mt-2">Rationale</b>
+                        @Html.DisplayFor(model => model.Rationale)
+
+                        <b class="d-block mt-2">Feedback</b>
+                        @Html.DisplayFor(model => model.Feedback)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-body bg-NCDSB-Grey mt-3">
+                    <div class="col-12">
+                        <b class="d-block mt-2">Add Expense</b>
+
+                        <table class="table">
+                            <tbody>
+
+                                <tr>
+                                    <th>
+                                        <b> Type</b>
+                                    <th>
+                                        <b>Cost</b>
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                <tr class="rgba-grey-light">                    
+                                    <td>
+                                        <select name="status" class="d-block">
+                                            <option selected>Food </option>
+                                            <option>Food</option>
+                                            <option>Food</option>
+                                            <option>Hotel</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" />
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary" href="#">Upload File</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary" href="#">+</a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+
+                        <b class="d-block mt-2">Expenses</b>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        <b>Type</b>
+                                    </th>
+                                    <th>
+                                        <b>Estimated Cost</b>
+                                    </th>
+                                    <th>
+                                        <b>Actual Cost</b>
+                                    </th>
+                                    <th>
+                                        <b>Status</b>
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+
+
+                                <tr class="rgba-green-light">
+                                    <td>
+                                        Food
+                                    </td>
+                                    <td>
+                                        $200.00
+                                    </td>
+                                    <td>
+                                        $180.00
+                                    </td>
+                                    <td>
+                                        Approved
+                                    </td>
+                                    <td>
+                                        <a class="badge badge-primary bg-NCDSB-Blue text-white" href="/Expenses/Details/1">View</a>
+                                    </td>
+                                </tr>
+
+                                <tr class="rgba-black-light">
+
+                                    <td>
+                                        Hotel
+                                    </td>
+                                    <td>
+                                        $20.00
+                                    </td>
+                                    <td>
+                                        $21.00
+                                    </td>
+                                    <td>
+                                        Denied
+                                    </td>
+                                    <td>
+                                        <a class="badge badge-primary bg-NCDSB-Blue text-white" href="/Expenses/Details/1">View</a>
+                                        <a class="badge badge-danger" href="/Expenses/Delete/1">Delete</a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Limo
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        $180.00
+                                    </td>
+                                    <td>
+                                        Submitted
+                                    </td>
+                                    <td>
+                                        <a class="badge badge-primary" href="/Expenses/Edit/1">Eval</a>
+                                    </td>
+                                </tr>
+
+                                <tr class="rgba-green-light">
+                                    <td>
+                                        Food
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        $400.00
+                                    </td>
+                                    <td>
+                                        Approved
+                                    </td>
+                                    <td>
+                                        <a class="badge badge-primary bg-NCDSB-Blue text-white" href="/Expenses/Details/1">View</a>
+                                    </td>
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div> <!--col-->
+</div>

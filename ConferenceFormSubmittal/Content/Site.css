@@ -1,0 +1,87 @@
+﻿body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-image: url(../Images/background.jpg);
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-color: #fff;
+}
+
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+/* Header */
+.masthead {
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+    .masthead h3 {
+        height: 90px;
+        margin: 0;
+    }
+
+        .masthead h3 a {
+            color: #000;
+            text-decoration: none;
+            width: 318px;
+            height: 60px;
+            background: url(../Images/logo-header.png) center left no-repeat;
+            text-indent: -999px;
+            float: left;
+            padding: 0;
+            margin: 15px 0 15px 10px;
+            overflow: hidden;
+            display: block;
+            font-size: 0;
+            line-height: 0;
+        }
+
+
+.bg-NCDSB-Blue {
+    background-color: #2e2e74 !important;
+}
+
+.bg-NCDSB-Grey {
+    background-color: #d6d6d6 !important;
+}
+
+.bg-NCDSB-GreyLight {
+    background-color: #e3e3e3 !important;
+}
+
+.bg-NCDSB-GreyDark {
+    background-color: #bbb !important;
+}
+
+
+.btn-primary {
+    color: #fff;
+    background-color: #2e2e74 !important;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }

@@ -1,0 +1,253 @@
+﻿@model ConferenceFormSubmittal.Models.Application
+
+@{
+    ViewBag.Title = "Evaluate";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID)
+
+    <!--HEADING-->
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card card-header bg-NCDSB-Grey">
+                <h3 class="text-center">Evaluate Application</h3>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row mt-3">
+        <div class="col-3">
+            <div class="card card-body bg-NCDSB-Grey">
+                <div class="col-12">
+                    <input type="button" value="Approve" class="btn btn-primary btn-block mt-3" />
+                    <input type="button" value="Deny" class="btn btn-danger btn-block mt-3" />
+
+                    @Html.ActionLink("Back to List", "IndexAdmin", "Applications", null, new { @class = "btn btn-primary btn-block mt-3" })
+
+
+                </div>
+            </div>
+        </div> <!--col-->
+
+        <div class="col-9">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-group w-100">
+
+                        <div class="card card-body bg-NCDSB-Grey mr-2">
+                            <b class="d-block mt-2 ">Conference Name</b>
+                            @*@Html.DisplayNameFor(model => model.Conference.Name)*@
+                            @Html.DisplayFor(model => model.Conference.Name)
+
+                            <b class="d-block mt-2">Date Submitted</b>
+                            @Html.DisplayFor(model => model.DateSubmitted)
+
+
+                            <b class="d-block mt-2">Budget Code</b>
+                            @Html.DisplayFor(model => model.BudgetCode)
+                        </div>
+
+                        <div class="card card-body bg-NCDSB-Grey ml-2">
+                            <b class="d-block mt-2">Status</b>
+                            @Html.DisplayFor(model => model.Status.Description)
+
+                            <b class="d-block mt-2">Require Repl Staff</b>
+                            @Html.DisplayFor(model => model.ReplStaffReq)
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body bg-NCDSB-Grey mt-3">
+                        <div class="col-12">
+                            <b class="d-block mt-2">Rationale</b>
+                            @Html.DisplayFor(model => model.Rationale)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body bg-NCDSB-Grey mt-3">
+                        <div class="col-12">
+                            <b class="d-block mt-2">Feedback</b>
+                            <input type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body bg-NCDSB-Grey mt-3">
+                        <div class="col-12">
+                            <b class="d-block mt-2">Expenses</b>
+
+
+
+                            <table class="table">
+                                <tbody>
+
+                                    <tr>
+                                        <th>
+                                            <b>Type</b>
+                                        </th>
+                                        <th>
+                                            <b>Estimated Cost</b>
+                                        </th>
+                                        <th>
+                                            <b>Payment Type</b>
+                                        </th>
+                                        <th>
+                                            <b>Status</b>
+                                        </th>
+                                        <th>
+                                            
+                                        </th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            Food
+                                        </td>
+                                        <td>
+                                            $200.00
+                                        </td>
+                                        <td>
+                                            Credit Card
+                                        </td>
+                                        <td>
+                                            Estimated
+                                        </td>
+                                        <td>
+                                            <a class="badge badge-primary" href="/Expenses/Edit/1">Eval</a>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="rgba-black-light">
+                                        <td>
+                                            Hotel
+                                        </td>
+                                        <td>
+                                            $20.00
+                                        </td>
+                                        <td>
+                                            Credit Card
+                                        </td>
+                                        <td>
+                                            Denied
+                                        </td>
+                                        <td>
+                                            <a class="badge badge-primary bg-NCDSB-Blue text-white" href="/Expenses/Details/1">View</a>
+                                            <a class="badge badge-danger" href="/Expenses/Delete/1">Delete</a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            Limo
+                                        </td>
+
+                                        <td>
+                                            $200.00
+                                        </td>
+                                        <td>
+                                            Cash
+                                        </td>
+                                        <td>
+                                            Estimated
+                                        </td>
+                                        <td>
+                                            <a class="badge badge-primary" href="/Expenses/Edit/1">Eval</a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            Food
+                                        </td>
+
+                                        <td>
+                                            $200.00
+                                        </td>
+                                        <td>
+                                            Cash
+                                        </td>
+                                        <td>
+                                            Estimated
+                                        </td>
+                                        <td>
+                                            <a class="badge badge-primary" href="/Expenses/Edit/1">Eval</a>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="rgba-black-light">
+                                        <td>
+                                            Hotel
+                                        </td>
+                                        <td>
+                                            $20.00
+                                        </td>
+                                        <td>
+                                            Cash
+                                        </td>
+                                        <td>
+                                            Denied
+                                        </td>
+                                        <td>
+                                            <a class="badge badge-primary bg-NCDSB-Blue text-white" href="/Expenses/Details/1">View</a>
+                                            <a class="badge badge-danger" href="/Expenses/Delete/2">Delete</a>
+                                        </td>
+
+                                    </tr>
+                                    <tr class="gba-yellow-light">
+                                        <td>
+                                            Limo
+                                        </td>
+                                        <td>
+                                            $200.00
+                                        </td>
+                                        <td>
+                                            Credit Card
+                                        </td>
+                                        <td>
+                                            Estimated
+                                        </td>
+                                        <td>
+                                            <a class="badge badge-primary" href="/Expenses/Edit/1">Eval</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="rgba-green-light">
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div> <!--col-->
+
+
+
+
+
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

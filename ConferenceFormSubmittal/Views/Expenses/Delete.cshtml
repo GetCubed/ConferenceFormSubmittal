@@ -1,0 +1,64 @@
+﻿@model ConferenceFormSubmittal.Models.Expense
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <!--HEADING-->
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card card-header bg-NCDSB-Grey">
+                <h3 class="text-center">Application Details</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-3">
+            <div class="card card-body bg-NCDSB-Grey">
+                <div class="col-12">
+                    <input type="submit" value="Delete" class="btn btn-danger btn-block mt-2" />
+
+                    <b class="d-block mt-3">Application</b>
+                    @Html.DisplayFor(model => model.Application.Rationale)
+
+                    <b class="d-block mt-2">Expense Type</b>
+                    @Html.DisplayFor(model => model.Status.Description)
+
+                    <b class="d-block mt-2">Status</b>
+                    @Html.DisplayNameFor(model => model.Status.Description)
+
+                    <b class="d-block mt-2">Estimated Cost</b>
+                    @Html.DisplayFor(model => model.EstimatedCost)
+
+                    <b class="d-block mt-2">Actual Cost</b>
+                    @Html.DisplayFor(model => model.ActualCost)
+
+                    @Html.ActionLink("Back to List", "Index", "Expenses", null, new { @class = "btn btn-primary btn-block mt-3" })
+
+                </div>
+            </div>
+        </div> <!--col-->
+
+        <div class="col-9">
+            <div class="card card-body bg-NCDSB-Grey">
+                <div class="col-12">
+                    <b class="d-block mt-2">Rationale</b>
+                    @Html.DisplayFor(model => model.Rationale)
+
+                    <b class="d-block mt-2">Feedback</b>
+                    @Html.DisplayFor(model => model.Feedback)
+
+                </div>
+            </div>
+        </div> <!--col-->
+    </div>
+}
+

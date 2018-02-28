@@ -1,0 +1,119 @@
+﻿@model IEnumerable<ConferenceFormSubmittal.Models.Expense>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center">All Expenses</h3>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row pt-3">
+    <div class="col-3">
+        <div class="card card-body bg-NCDSB-Grey">
+            @Html.ActionLink("Create New", "Create", "Expenses", null, new { @class = "btn btn-primary btn-block mb-3" })
+
+            <b>Status</b>
+            <input type="text" class="form-control">
+
+            <b>Name</b>
+            <input type="text" class="form-control">
+
+            <b>Conference</b>
+            <input type="text" class="form-control">
+
+            <button type="button" class="btn btn-primary btn-block">Search</button>
+        </div>
+    </div>
+    
+    <div class="col-9">
+        <!--Panel-->
+        <div class="card card-body bg-NCDSB-Grey">
+
+            <table class="table">
+                <tr>
+                    <th>
+                        <b>@Html.DisplayNameFor(model => model.Application.Employee.FullName)</b>
+                    </th>
+                    <th>
+                        <b>@Html.DisplayNameFor(model => model.ExpenseType.Description)</b>
+                    </th>
+                    <th>
+                        <b>Status @*@Html.DisplayNameFor(model => model.Status.Description)*@</b>
+                    </th>
+                    <th>
+                        <b>@Html.DisplayNameFor(model => model.EstimatedCost)</b>
+                    </th>
+                    <th>
+                        <b>@Html.DisplayNameFor(model => model.ActualCost)</b>
+                    </th>
+                    <th></th>
+                </tr>
+
+                @for (int c = 0; c < 5; c++)
+                {
+
+                foreach (var item in Model)
+                {
+                    <tr class="
+                @(item.StatusID == 1 ? "rgba-green-light" : "")
+                @(item.StatusID == 2 ? "rgba-black-light" : "")
+                @(item.StatusID == 3 ? "" : "")
+                @(item.StatusID == 4 ? "gba-yellow-light" : "")">
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Application.Employee.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExpenseType.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstimatedCost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActualCost)
+                        </td>
+                        <td>
+
+                            
+
+                            @if (item.StatusID == 2)
+                        {
+                            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "badge badge-primary" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "badge badge-danger" })
+                    }
+                            @if (item.StatusID == 4)
+                        {
+                            @Html.ActionLink("Eval", "Edit", new { id = item.ID }, new { @class = "badge badge-primary" })
+                    }                         
+
+                        </td>
+                    </tr>
+
+            }
+
+
+        }
+
+            </table>
+
+        </div>
+        <!--/.Panel-->
+    </div>
+
+
+</div>
+
+
+

@@ -1,0 +1,16 @@
+﻿add-migration -ConfigurationTypeName MedicalOffice.DAL.SEcurityMigrations.Configuration
+update-database -ConfigurationTypeName MedicalOffice.DAL.SEcurityMigrations.Configuration
+add-migration -ConfigurationTypeName MedicalOffice.DAL.SEcurityMigrations.Configuration
+update-database -ConfigurationTypeName MedicalOffice.DAL.MOMigrations.Configuration
+
+
+Enable-Migrations -ContextTypeName StrikeEntities -MigrationsDirectory DAL\StrikeMigrations
+Enable-Migrations -ContextTypeName ApplicationDbContext -MigrationsDirectory DAL\SecurityMigrations
+
+Add-Migration -ConfigurationTypeName rmativo3_College_Strike.DAL.StrikeMigrations.Configuration
+Update-Database -ConfigurationTypeName rmativo3_College_Strike.DAL.StrikeMigrations.Configuration
+
+Add-Migration -ConfigurationTypeName rmativo3_College_Strike.DAL.SecurityMigrations.Configuration
+Update-Database -ConfigurationTypeName rmativo3_College_Strike.DAL.SecurityMigrations.Configuration
+
+Update-Database -ConfigurationTypeName ConferenceFormSubmittal.DAL.CFSMigrations.Configuration

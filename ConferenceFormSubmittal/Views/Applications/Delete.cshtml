@@ -1,0 +1,81 @@
+﻿@model ConferenceFormSubmittal.Models.Application
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+        <!--HEADING-->
+        <div class="row pt-3">
+            <div class="col-12">
+                <div class="card card-header bg-NCDSB-Grey">
+                    <h3 class="text-center">Application Details</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-3">
+                <div class="card card-body bg-NCDSB-Grey">
+                    <div class="col-12">
+                        <input type="submit" value="Delete" class="btn btn-danger btn-block mt-2" />
+
+                        <b class="d-block mt-3">Employee Name</b>
+                        @Html.DisplayFor(model => model.Employee.FullName)
+
+                        <b class="d-block mt-2">Conference Name</b>
+                        @*@Html.DisplayNameFor(model => model.Conference.Name)*@
+                        @Html.DisplayFor(model => model.Conference.Name)
+
+                        <b class="d-block mt-2">Status</b>
+                        @Html.DisplayFor(model => model.Status.Description)
+
+                        <b class="d-block mt-2">Require Repl Staff</b>
+                        @Html.DisplayFor(model => model.ReplStaffReq)
+
+                        <b class="d-block mt-2">Budget Code</b>
+                        @Html.DisplayFor(model => model.BudgetCode)
+
+                        <b class="d-block mt-2">Date Submitted</b>
+                        @Html.DisplayFor(model => model.DateSubmitted)
+
+                        @Html.ActionLink("Back to List", "Index", "Applications", null, new { @class = "btn btn-primary btn-block mt-3" })
+
+
+                    </div>
+                </div>
+            </div> <!--col-->
+
+            <div class="col-9">
+                <div class="card card-body bg-NCDSB-Grey">
+                    <div class="col-12">
+                        <b class="d-block mt-2">Rationale</b>
+                        @Html.DisplayFor(model => model.Rationale)
+
+                        <b class="d-block mt-2">Feedback</b>
+                        @Html.DisplayFor(model => model.Feedback)
+
+                        @{if (Model.StatusID == 1)
+                            {
+                                <b class="d-block mt-2">Expenses</b>
+
+                                {
+                                    foreach (var item in Model.Expenses)
+                                    {
+                                        @item.ExpenseType.Description <br />
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div> <!--col-->
+        </div>
+    }
+

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<ConferenceFormSubmittal.Models.Conference>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center">Conferences</h3>
+        </div>
+    </div>
+</div>
+
+
+<div class="row pt-3">
+    <div class="col-3">
+
+        <div class="card card-body bg-NCDSB-Grey pb-2">
+            @Html.ActionLink("Create New", "Create", "Conferences", null, new { @class = "btn btn-primary btn-block mb-3" })
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body bg-NCDSB-Grey">
+                <b>Start Date</b>
+                <input type="date" class="form-control">
+
+                <b>End Date</b>
+                <input type="date" class="form-control">
+
+                <b>Name</b>
+                <input type="text" class="form-control">
+
+                <b>Conference</b>
+                <input type="text" class="form-control">
+
+            </div>
+            <div class="card-footer bg-NCDSB-Grey">
+                <button type="button" class="btn btn-primary btn-block">Search</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-9">
+        <!--Panel-->
+        <div class="card card-body bg-NCDSB-Grey">
+
+            <table class="table">
+                <tr>
+                    <th>
+                       <b>Conference</b>
+                    </th>
+                    <th>
+                        <b>Location</b>
+                    </th>
+                    <th>
+                        <b>Registration Cost</b>
+                    </th>
+                    <th>
+                        <b>Start Date</b>
+                    </th>
+                    <th>
+                        <b>End Date</b>
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationCost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @*<a href="~/Conferences/Details/1" class="badge badge-primary bg-NCDSB-Blue white-text">View</a>*@
+                    <a href="~/Applications/Create" class="badge badge-primary">Select</a>
+                </td>
+            </tr>
+}
+
+            </table>
+
+
+        </div>
+        <!--/.Panel-->
+
+
+
+
+    </div>
+</div>
+
+
