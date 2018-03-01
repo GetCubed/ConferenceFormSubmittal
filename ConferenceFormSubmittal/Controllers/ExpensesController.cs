@@ -18,7 +18,7 @@ namespace ConferenceFormSubmittal.Controllers
         // GET: Expenses
         public ActionResult Index()
         {
-            var expenses = db.Expenses.Include(e => e.Application).Include(e => e.ExpenseType).Include(e => e.Status);
+            var expenses = db.Expenses.Include(e => e.Application).Include(e => e.ExpenseType);
             return View(expenses.ToList());
         }
 
@@ -62,7 +62,6 @@ namespace ConferenceFormSubmittal.Controllers
 
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", expense.ApplicationID);
             ViewBag.ExpenseTypeID = new SelectList(db.ExpenseTypes, "ID", "Description", expense.ExpenseTypeID);
-            ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", expense.StatusID);
             return View(expense);
         }
 
@@ -80,7 +79,6 @@ namespace ConferenceFormSubmittal.Controllers
             }
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", expense.ApplicationID);
             ViewBag.ExpenseTypeID = new SelectList(db.ExpenseTypes, "ID", "Description", expense.ExpenseTypeID);
-            ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", expense.StatusID);
             return View(expense);
         }
 
@@ -99,7 +97,6 @@ namespace ConferenceFormSubmittal.Controllers
             }
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", expense.ApplicationID);
             ViewBag.ExpenseTypeID = new SelectList(db.ExpenseTypes, "ID", "Description", expense.ExpenseTypeID);
-            ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", expense.StatusID);
             return View(expense);
         }
 
