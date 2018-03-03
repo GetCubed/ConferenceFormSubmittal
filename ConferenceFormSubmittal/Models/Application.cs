@@ -58,17 +58,25 @@ namespace ConferenceFormSubmittal.Models
         [StringLength(500, ErrorMessage = "Feedback may include a maximum of 500 characters.")]
         public string Feedback { get; set; }
 
+        [Display(Name = "Employee")]
         public int EmployeeID { get; set; }
 
+        [Display(Name = "Conference")]
         public int ConferenceID { get; set; }
 
+        [Display(Name = "Status")]
         public int StatusID { get; set; }
+
+        [Display(Name = "Payment Type")]
+        public int PaymentTypeID { get; set; }
 
         public virtual Employee Employee { get; set; }
 
         public virtual Conference Conference { get; set; }
 
         public virtual Status Status { get; set; }
+
+        public virtual PaymentType PaymentType { get; set; }
 
         public virtual ICollection<Mileage> Mileages { get; set; }
 

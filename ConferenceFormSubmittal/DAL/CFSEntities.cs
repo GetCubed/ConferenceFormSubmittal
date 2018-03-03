@@ -25,6 +25,7 @@ namespace ConferenceFormSubmittal.DAL
         public DbSet<Mileage> Mileages { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<PaymentType> PaymentTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

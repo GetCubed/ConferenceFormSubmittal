@@ -87,6 +87,16 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
             conferences.ForEach(a => context.Conferences.AddOrUpdate(n => n.Name, a));
             SaveChanges(context);
 
+            var paymentTypes = new List<PaymentType>
+            {
+                new PaymentType {Description="Corporate Credit Card"},
+                new PaymentType {Description="Union Reimbursement"},
+                new PaymentType {Description="Corporate Cheque Requisition"},
+                new PaymentType {Description="Paid By Staff Member"}
+            };
+            paymentTypes.ForEach(a => context.PaymentTypes.AddOrUpdate(n => n.Description, a));
+            SaveChanges(context);
+
             var applications = new List<Application>
             {
                 new Application {Rationale="Pencil pushing is my life's passion.", ReplStaffReq=true, BudgetCode="12345",
@@ -95,7 +105,8 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
                     DateSubmitted =DateTime.Parse("2018-2-7"),
                     EmployeeID =(context.Employees.Where(e => e.Email == "fflintstone@outlook.com").SingleOrDefault().ID),
                     ConferenceID=(context.Conferences.Where(c=>c.Name == "Pencil Pushing 101").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Submitted").SingleOrDefault().ID)
+                    StatusID=(context.Statuses.Where(s => s.Description == "Submitted").SingleOrDefault().ID),
+                    PaymentTypeID=(context.PaymentTypes.Where(p => p.Description == "Corporate Credit Card").SingleOrDefault().ID)
                 },
                 new Application {Rationale="Need to learn about math.", ReplStaffReq=true, BudgetCode="12345",
                     DepartureDate =DateTime.Parse("2018-3-8"), ReturnDate =DateTime.Parse("2018-3-12"),
@@ -103,7 +114,8 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
                     DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
                     EmployeeID =(context.Employees.Where(e => e.Email == "wflintstone@outlook.com").SingleOrDefault().ID),
                     ConferenceID=(context.Conferences.Where(c=>c.Name == "Math Expo").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID)
+                    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
+                    PaymentTypeID=(context.PaymentTypes.Where(p => p.Description == "Union Reimbursement").SingleOrDefault().ID)
                 },
                 new Application {Rationale="I'm a square", ReplStaffReq=true, BudgetCode="12345",
                     DepartureDate =DateTime.Parse("2018-3-8"), ReturnDate =DateTime.Parse("2018-3-12"),
@@ -111,7 +123,8 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
                     DateSubmitted =DateTime.Parse("2018-2-7"), Feedback="Not gonna happen",
                     EmployeeID =(context.Employees.Where(e => e.Email == "brubble@outlook.com").SingleOrDefault().ID),
                     ConferenceID=(context.Conferences.Where(c=>c.Name == "Shapes and Lines").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Denied").SingleOrDefault().ID)
+                    StatusID=(context.Statuses.Where(s => s.Description == "Denied").SingleOrDefault().ID),
+                    PaymentTypeID=(context.PaymentTypes.Where(p => p.Description == "Paid By Staff Member").SingleOrDefault().ID)
                 }
             };
             applications.ForEach(a => context.Applications.AddOrUpdate(n => n.Rationale, a));

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Create";
+    ViewBag.ConferenceID = Request.QueryString["Conference"];
 }
 
 <!--HEADING-->
@@ -37,36 +38,21 @@
                     <div class="card card-body bg-NCDSB-Grey">
                         <div class="row">
                             <div class="col-6">
-                                @*<b class="d-block">Employee</b>
-                                    @Html.LabelFor(model => model.EmployeeID, "EmployeeID", htmlAttributes: new { @class = "control-label" })
-                                    Fred Flintsone
-                                    @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })*@
-
-                                <b class="d-block">Conference</b>
-                                @*@Html.LabelFor(model => model.ConferenceID, "ConferenceID", htmlAttributes: new { @class = "control-label col-md-2" })*@
-                                Code Jam
+                                @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @ViewBag.Conference.Name
                                 @Html.ValidationMessageFor(model => model.ConferenceID, "", new { @class = "text-danger" })
 
-
-
-                                <b class="d-block mt-2">Payment Type</b>
-                                <select name="status" class="d-block">
-                                    <option selected>Corporate Credit Card </option>
-                                    <option>Union Reimbursement</option>
-                                    <option>Corporate Cheque Requisition</option>
-                                    <option>Paid By Staff Member</option>
-                                </select>
+                                @Html.LabelFor(model => model.PaymentTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.DropDownList("PaymentTypeID", null, "Select a Payment Type...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PaymentTypeID, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="col-6">
-
-                                <b class="d-block">Budget Code</b>
-                                @*@Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @Html.EditorFor(model => model.BudgetCode, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.BudgetCode, "", new { @class = "text-danger" })
 
-                                <b class="d-block">Require Replacement Staff</b>
-                                @*@Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                @Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 <div class="checkbox">
                                     @Html.EditorFor(model => model.ReplStaffReq)
                                     @Html.ValidationMessageFor(model => model.ReplStaffReq, "", new { @class = "text-danger" })
@@ -80,15 +66,34 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card card-body bg-NCDSB-Grey">
-                        <b>Rationale</b>
-                        @*@Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        @Html.EditorFor(model => model.Rationale, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Rationale, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-12">
+                                @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.EditorFor(model => model.Rationale, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Rationale, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.AttendStartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.EditorFor(model => model.AttendStartDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.AttendStartDate, "", new { @class = "text-danger" })
+
+                                @Html.LabelFor(model => model.AttendEndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.EditorFor(model => model.AttendEndDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.AttendEndDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DepartureDate, "", new { @class = "text-danger" })
+
+                                <b>@Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label" })</b>
+                                @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
 
             <div class="row">
                 <div class="col-12">
@@ -98,7 +103,6 @@
 
                             <table class="table">
                                 <tbody>
-
                                     <tr>
                                         <th>
                                             <b>Type</b>

@@ -51,7 +51,7 @@
             <table class="table">
                 <tr>
                     <th>
-                       <b>Conference</b>
+                        <b>Conference</b>
                     </th>
                     <th>
                         <b>Location</b>
@@ -69,33 +69,30 @@
                 </tr>
 
                 @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RegistrationCost)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @*<a href="~/Conferences/Details/1" class="badge badge-primary bg-NCDSB-Blue white-text">View</a>*@
-                    <a href="~/Applications/Create" class="badge badge-primary">Select</a>
-                </td>
-            </tr>
-}
-
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RegistrationCost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndDate)
+                        </td>
+                        <td>
+                            @*<a href="~/Conferences/Details/1" class="badge badge-primary bg-NCDSB-Blue white-text">View</a>*@
+                            <a href="~/Applications/Create?ConferenceID=@item.ID" class="badge badge-primary bg-NCDSB-Blue white-text">Select</a>
+                        </td>
+                    </tr>
+                }
             </table>
-
-
         </div>
         <!--/.Panel-->
 
@@ -104,5 +101,3 @@
 
     </div>
 </div>
-
-
