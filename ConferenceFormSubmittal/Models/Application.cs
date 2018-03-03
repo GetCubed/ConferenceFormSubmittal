@@ -22,14 +22,39 @@ namespace ConferenceFormSubmittal.Models
         // Replacement Staff Required
         public bool ReplStaffReq { get; set; }
 
-        // awaiting specifications for this field
         public string BudgetCode { get; set; }
 
+        // The date on which they will travel to the conference
+        [Display(Name = "Departure Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime DepartureDate { get; set; }
+
+        // The date on which they will return from the conference
+        [Display(Name = "Return Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime ReturnDate { get; set; }
+
+        // The first day they will attend the conference
+        [Display(Name = "Attendance Start Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime AttendStartDate { get; set; }
+
+        // The last day they will attend the conference
+        [Display(Name = "Attendance End Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime AttendEndDate { get; set; }
+
+        // The actual submission date (Applications can be saved as drafts)
         [Display(Name = "Date Submitted")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? DateSubmitted { get; set; }
 
+        // Administrator feedback
         [StringLength(500, ErrorMessage = "Feedback may include a maximum of 500 characters.")]
         public string Feedback { get; set; }
 

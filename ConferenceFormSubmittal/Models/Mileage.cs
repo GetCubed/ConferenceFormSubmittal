@@ -25,6 +25,9 @@ namespace ConferenceFormSubmittal.Models
         [StringLength(100)]
         public string EndAddress { get; set; }
 
+        [Display(Name = "Round Trip")]
+        public bool RoundTrip { get; set; }
+
         // to be calculated
         public decimal Kilometres { get; set; }
 

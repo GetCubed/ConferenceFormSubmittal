@@ -21,18 +21,11 @@ namespace ConferenceFormSubmittal.Models
         [DataType(DataType.Currency)]
         public decimal? ActualCost { get; set; }
 
-        [StringLength(500, ErrorMessage = "Feedback may include a maximum of 500 characters.")]
-        public string Feedback { get; set; }
-
         public int ExpenseTypeID { get; set; }
-
-        public int StatusID { get; set; }
 
         public int ApplicationID { get; set; }
 
         public virtual ExpenseType ExpenseType { get; set; }
-
-        public virtual Status Status { get; set; }
 
         public virtual Application Application { get; set; }
     }

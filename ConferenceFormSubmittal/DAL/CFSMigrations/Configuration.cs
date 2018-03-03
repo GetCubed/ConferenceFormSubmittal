@@ -9,7 +9,7 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
     using System.Linq;
     using System.Text;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ConferenceFormSubmittal.DAL.CFSEntities>
+    internal sealed class Configuration : DbMigrationsConfiguration<CFSEntities>
     {
         public Configuration()
         {
@@ -51,15 +51,16 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
             }
         }
 
-        protected override void Seed(ConferenceFormSubmittal.DAL.CFSEntities context)
+        protected override void Seed(CFSEntities context)
         {
             //  This method will be called after migrating to the latest version.
 
             var statuses = new List<Status>
             {
+                new Status {Description="Submitted"},
                 new Status {Description="Approved"},
-                new Status {Description="Not Approved"},
-                new Status {Description="Very Approved"}
+                new Status {Description="Denied"},
+                new Status {Description="Draft"}
             };
             statuses.ForEach(a => context.Statuses.AddOrUpdate(n => n.Description, a));
             SaveChanges(context);
@@ -88,12 +89,30 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
 
             var applications = new List<Application>
             {
-                new Application {Rationale="Need to learn about pencils", ReplStaffReq=true, BudgetCode="12345",
-                    DateSubmitted =DateTime.Parse("2018-2-7"), Feedback="Very usefull", EmployeeID=1, ConferenceID=1, StatusID=1  },
-                new Application {Rationale="Need to learn about pencils", ReplStaffReq=true, BudgetCode="12345",
-                    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very usefull", EmployeeID=2, ConferenceID=2, StatusID=2  },
-                new Application {Rationale="Need to learn about pencils", ReplStaffReq=true, BudgetCode="12345",
-                    DateSubmitted =DateTime.Parse("2018-2-7"), Feedback="Very usefull", EmployeeID=3, ConferenceID=3, StatusID=3  },
+                new Application {Rationale="Pencil pushing is my life's passion.", ReplStaffReq=true, BudgetCode="12345",
+                    DepartureDate =DateTime.Parse("2018-3-8"), ReturnDate =DateTime.Parse("2018-3-12"),
+                    AttendStartDate =DateTime.Parse("2018-3-9"), AttendEndDate =DateTime.Parse("2018-3-11"),
+                    DateSubmitted =DateTime.Parse("2018-2-7"),
+                    EmployeeID =(context.Employees.Where(e => e.Email == "fflintstone@outlook.com").SingleOrDefault().ID),
+                    ConferenceID=(context.Conferences.Where(c=>c.Name == "Pencil Pushing 101").SingleOrDefault().ID),
+                    StatusID=(context.Statuses.Where(s => s.Description == "Submitted").SingleOrDefault().ID)
+                },
+                new Application {Rationale="Need to learn about math.", ReplStaffReq=true, BudgetCode="12345",
+                    DepartureDate =DateTime.Parse("2018-3-8"), ReturnDate =DateTime.Parse("2018-3-12"),
+                    AttendStartDate =DateTime.Parse("2018-3-9"), AttendEndDate =DateTime.Parse("2018-3-11"),
+                    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
+                    EmployeeID =(context.Employees.Where(e => e.Email == "wflintstone@outlook.com").SingleOrDefault().ID),
+                    ConferenceID=(context.Conferences.Where(c=>c.Name == "Math Expo").SingleOrDefault().ID),
+                    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID)
+                },
+                new Application {Rationale="I'm a square", ReplStaffReq=true, BudgetCode="12345",
+                    DepartureDate =DateTime.Parse("2018-3-8"), ReturnDate =DateTime.Parse("2018-3-12"),
+                    AttendStartDate =DateTime.Parse("2018-3-9"), AttendEndDate =DateTime.Parse("2018-3-11"),
+                    DateSubmitted =DateTime.Parse("2018-2-7"), Feedback="Not gonna happen",
+                    EmployeeID =(context.Employees.Where(e => e.Email == "brubble@outlook.com").SingleOrDefault().ID),
+                    ConferenceID=(context.Conferences.Where(c=>c.Name == "Shapes and Lines").SingleOrDefault().ID),
+                    StatusID=(context.Statuses.Where(s => s.Description == "Denied").SingleOrDefault().ID)
+                }
             };
             applications.ForEach(a => context.Applications.AddOrUpdate(n => n.Rationale, a));
             SaveChanges(context);
@@ -101,20 +120,21 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
             var expenseTypes = new List<ExpenseType>
             {
                 new ExpenseType {Description="Food"},
-                new ExpenseType {Description="Hotel"},
-                new ExpenseType {Description="Limo"}
+                new ExpenseType {Description="Accomodation"},
+                new ExpenseType {Description="Limo"},
+                new ExpenseType {Description="Airfare"}
             };
             expenseTypes.ForEach(a => context.ExpenseTypes.AddOrUpdate(n => n.Description, a));
             SaveChanges(context);
 
             var expenses = new List<Expense>
             {
-                new Expense {Rationale="Need to learn about pencils", EstimatedCost=200, ActualCost=180, Feedback="good work",
-                    ExpenseTypeID=1, StatusID=1, ApplicationID=1 },
-                new Expense {Rationale="Need to learn about pencils", EstimatedCost=20, ActualCost=18, Feedback="good work",
-                    ExpenseTypeID=2, StatusID=2, ApplicationID=1 },
-                new Expense {Rationale="Need to learn about pencils", EstimatedCost=200, ActualCost=180, Feedback="good work",
-                    ExpenseTypeID=3, StatusID=3, ApplicationID=2 },
+                new Expense {Rationale="I will get hungry.", EstimatedCost=200, ActualCost=180,
+                    ExpenseTypeID =1, ApplicationID=1 },
+                new Expense {Rationale="I need a place to stay.", EstimatedCost=20, ActualCost=18,
+                    ExpenseTypeID=2, ApplicationID=1 },
+                new Expense {Rationale="I'm a too important for a taxi.", EstimatedCost=200, ActualCost=180,
+                    ExpenseTypeID=3, ApplicationID=2 },
             };
             expenses.ForEach(a => context.Expenses.AddOrUpdate(n => n.Rationale, a));
             SaveChanges(context);        
@@ -122,11 +142,11 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
             var mileages = new List<Mileage>
             {
                 new Mileage {TravelDate=DateTime.Parse("2018-2-7"), StartAddress="123 drive road", EndAddress="456 long parkway",
-                    Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=1, ApplicationID=1},
+                    RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=1, ApplicationID=1},
                 new Mileage {TravelDate=DateTime.Parse("2018-10-7"), StartAddress="11 white water road", EndAddress="321 oak drive",
-                    Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=2, ApplicationID=2},
+                    RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=2, ApplicationID=2},
                 new Mileage {TravelDate=DateTime.Parse("2018-2-7"), StartAddress="432 paved road", EndAddress="789 joke road",
-                    Kilometres =60, Feedback="okay lets go", StatusID=3, EmployeeID=3, ApplicationID=3}
+                    RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=3, EmployeeID=3, ApplicationID=3}
             };
             mileages.ForEach(a => context.Mileages.AddOrUpdate(n => n.StartAddress, a));
             SaveChanges(context);
@@ -138,11 +158,6 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
             };
             sites.ForEach(a => context.Sites.AddOrUpdate(n => n.Name, a));
             SaveChanges(context);
-
-
-
-
-
         }
     }
 }
