@@ -15,7 +15,7 @@ namespace ConferenceFormSubmittal.Models
 
         public int ID { get; set; }
 
-        [Display(Name = "Conference Name")]
+        [Display(Name = "Conference")]
         [Required(ErrorMessage = "Conference Name is required.")]
         [StringLength(100, MinimumLength = 5, ErrorMessage = "Conference Name must be between 5 and 100 characters in length.")]
         public string Name { get; set; }
