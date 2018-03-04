@@ -24,7 +24,7 @@
             <div class="card card-body bg-NCDSB-Grey">
                 <div class="col-12">
                     <input type="button" value="Save As Draft" class="btn btn-primary btn-block mb-3" />
-                    <input type="button" value="Submit" class="btn btn-primary btn-block mb-3" />
+                    <input type="submit" value="Submit" class="btn btn-primary btn-block mb-3" />
 
                     @Html.ActionLink("Back to List", "Index", "Conferences", null, new { @class = "btn btn-primary btn-block mb-3" })
                 </div>
@@ -40,23 +40,20 @@
                             <div class="col-6">
                                 @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @ViewBag.Conference.Name
-                                @Html.ValidationMessageFor(model => model.ConferenceID, "", new { @class = "text-danger" })
 
-                                @Html.LabelFor(model => model.PaymentTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.DropDownList("PaymentTypeID", null, "Select a Payment Type...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.PaymentTypeID, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.Conference.StartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @ViewBag.Conference.StartDate
+
+                                @Html.LabelFor(model => model.Conference.EndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @ViewBag.Conference.EndDate
                             </div>
 
                             <div class="col-6">
-                                @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.EditorFor(model => model.BudgetCode, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.BudgetCode, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @ViewBag.Conference.Location
 
-                                @Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                <div class="checkbox">
-                                    @Html.EditorFor(model => model.ReplStaffReq)
-                                    @Html.ValidationMessageFor(model => model.ReplStaffReq, "", new { @class = "text-danger" })
-                                </div>
+                                @Html.LabelFor(model => model.Conference.RegistrationCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @ViewBag.Conference.RegistrationCost
                             </div>
                         </div>
                     </div>
@@ -80,67 +77,81 @@
                                 @Html.LabelFor(model => model.AttendEndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @Html.EditorFor(model => model.AttendEndDate, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.AttendEndDate, "", new { @class = "text-danger" })
+
+                                @Html.LabelFor(model => model.PaymentTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.DropDownList("PaymentTypeID", null, "Select a Payment Type...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PaymentTypeID, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-6">
                                 @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.DepartureDate, "", new { @class = "text-danger" })
 
-                                <b>@Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label" })</b>
+                                @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+
+                                @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.EditorFor(model => model.BudgetCode, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BudgetCode, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-12">
+                                @Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.ReplStaffReq)
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+}
 
-            <div class="row">
+@using (Html.BeginForm("Create", "Expenses", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-body bg-NCDSB-Grey mt-3">
                 <div class="col-12">
-                    <div class="card card-body bg-NCDSB-Grey mt-3">
-                        <div class="col-12">
-                            <b class="d-block mt-2">Expenses</b>
+                    <b class="d-block mt-2">Expenses</b>
 
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <th>
-                                            <b>Type</b>
-                                        </th>
-                                        <th>
-                                            <b>Estimated Cost</b>
-                                        </th>
-                                        <th></th>
-                                    </tr>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <b>Type</b>
+                                </th>
+                                <th>
+                                    <b>Estimated Cost</b>
+                                </th>
+                                <th></th>
+                            </tr>
 
-                                    <tr class="rgba-grey-light">
-                                        <td>
-                                            <select name="status" class="d-block">
-                                                <option selected>Food </option>
-                                                <option>Food</option>
-                                                <option>Food</option>
-                                                <option>Hotel</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" />
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-primary" href="#">+</a>
-                                        </td>
-                                    </tr>
+                            <tr class="rgba-grey-light">
+                                <td>
+                                    <select name="status" class="d-block">
+                                        <option selected>Food </option>
+                                        <option>Food</option>
+                                        <option>Food</option>
+                                        <option>Hotel</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" />
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" href="#">+</a>
+                                </td>
+                            </tr>
 
-                                </tbody>
-                            </table>
+                        </tbody>
+                    </table>
 
-                        </div>
-                    </div>
                 </div>
             </div>
-
-
-        </div> <!--col-->
-
+        </div>
     </div>
 }
 
