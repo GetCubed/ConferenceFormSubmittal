@@ -14,41 +14,49 @@
     </div>
 </div>
 
-
 <div class="row pt-3">
-    <div class="col-3">
+    <div class="col-12">
 
+        <div class="card card-body bg-NCDSB-Grey">
+            <div class="row">
+                <div class="col-5">
+                    <b>Name</b>
+                    <input type="text" class="form-control">
 
-        <div class="card">
-            <div class="card-body bg-NCDSB-Grey">
-                <b>Start Date</b>
-                <input type="date" class="form-control">
+                    <b>Conference</b>
+                    <input type="text" class="form-control">
 
-                <b>End Date</b>
-                <input type="date" class="form-control">
+                   
+                </div>
+                <div class="col-4">
+                    <b>Start Date</b>
+                    <input type="date" class="form-control">
 
-                <b>Name</b>
-                <input type="text" class="form-control">
+                    <b>End Date</b>
+                    <input type="date" class="form-control">
+                </div>
+                <div class="col-3">
+                    <b>Status</b>
+                    <select name="status" class="d-block">
+                        <option selected>Submitted  </option>
+                        <option>Denied </option>
+                        <option>Approved</option>
+                    </select>
 
-                <b>Conference</b>
-                <input type="text" class="form-control">
-
-                <b>Status</b>
-                <select name="status" class="d-block">
-                    <option selected>Submitted  </option>
-                    <option>Denied </option>
-                    <option>Approved</option>
-                </select>
-
+                    <button type="button" class="btn btn-primary btn-block mt-5">Filter</button>
+                </div>
             </div>
-            <div class="card-footer bg-NCDSB-Grey">
-                <button type="button" class="btn btn-primary btn-block">Search</button>
-            </div>
+            
+ 
         </div>
-
     </div>
 
-    <div class="col-9">
+</div>
+
+
+<div class="row pt-3">
+   
+    <div class="col-12">
         <!--Panel-->
         <div class="card card-body bg-NCDSB-Grey">
 
