@@ -100,10 +100,30 @@
                                 Submitted
                             </td>
                             <td>
-                                <a href="~/Applications/Details/3" class="badge badge-primary bg-NCDSB-Blue text-white">View</a>
+                                
+
+                                <span class="badge badge-primary bg-NCDSB-Blue ">
+                                    @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "text-white fa fa-eye fa-3x" })
+                                    <br />
+                                    <a href="~/Applications/Details/3" class="text-white  ">View</a>
+                                </span>
+
                                 @*@Html.ActionLink("View", "Details", new { id = item.ID }, new { @class = "badge badge-primary bg-NCDSB-Blue text-white" })*@
-                                @Html.ActionLink("Eval", "Evaluate", new { id = item.ID }, new { @class = "badge badge-primary" })
-                                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "badge badge-danger" })
+                                <span class="badge badge-primary">
+                                    @Html.ActionLink(" ", "Evaluate", new { id = item.ID }, new { @class = "fa fa-question fa-3x" })
+                                    <br />
+                                    @Html.ActionLink("Eval", "Evaluate", new { id = item.ID }, new { @class = "" })
+                                </span>
+
+
+
+                                <span class="badge badge-danger">
+                                    @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa fa-trash fa-3x" })
+                                    <br />
+                                    @Html.ActionLink("Delete ", "Delete", new { id = item.ID }, new { @class = "" })
+                                </span>
+
+
 
                             </td>
                         </tr>

@@ -6331,8 +6331,10 @@ button:focus {
   background-color: #f7f7f9; }
 
 .navbar {
-  font-weight: 300;
-  padding-right: 1rem !important; }
+    font-size: 18px;
+    font-weight: 300;
+    padding-right: 1rem !important;
+}
   .navbar form input {
     margin: 0 5px 1px 8px;
     height: 1rem; }
@@ -8026,12 +8028,12 @@ ul.instagram-photos {
   transition: 0.5s; }
 
 table th {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400; }
 
 table td {
-  font-size: 0.9rem;
-  font-weight: 300; }
+  font-size: 1rem;
+  font-weight: 400; }
 
 table.table thead th {
   border-top: none; }
