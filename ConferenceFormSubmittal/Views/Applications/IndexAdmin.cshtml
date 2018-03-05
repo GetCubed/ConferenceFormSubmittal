@@ -99,31 +99,26 @@
                             <td>
                                 Submitted
                             </td>
-                            <td>
-                                
 
+                            <td style="width:20%">
                                 <span class="badge badge-primary bg-NCDSB-Blue ">
-                                    @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "text-white fa fa-eye fa-3x" })
+                                    <a href="~/Applications/Details/3" class="text-white fa fa-eye fa-3x"></a>
                                     <br />
+                                    @*@Html.ActionLink("View", "Details", new { id = item.ID }, new { @class = "badge badge-primary bg-NCDSB-Blue text-white" })*@
                                     <a href="~/Applications/Details/3" class="text-white  ">View</a>
                                 </span>
-
-                                @*@Html.ActionLink("View", "Details", new { id = item.ID }, new { @class = "badge badge-primary bg-NCDSB-Blue text-white" })*@
+                                
                                 <span class="badge badge-primary">
                                     @Html.ActionLink(" ", "Evaluate", new { id = item.ID }, new { @class = "fa fa-question fa-3x" })
                                     <br />
-                                    @Html.ActionLink("Eval", "Evaluate", new { id = item.ID }, new { @class = "" })
+                                    @Html.ActionLink("Eval  ", "Evaluate", new { id = item.ID }, new { @class = "px-2" })
                                 </span>
-
-
 
                                 <span class="badge badge-danger">
                                     @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa fa-trash fa-3x" })
                                     <br />
                                     @Html.ActionLink("Delete ", "Delete", new { id = item.ID }, new { @class = "" })
                                 </span>
-
-
 
                             </td>
                         </tr>
