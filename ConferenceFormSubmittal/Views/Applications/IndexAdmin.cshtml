@@ -8,7 +8,7 @@
 <!--HEADING-->
 <div class="row pt-3">
     <div class="col-12">
-        <div class="card card-header bg-NCDSB-Grey">
+        <div class="card card-body bg-NCDSB-Grey">
             <h3 class="text-center">View Applications</h3>
         </div>
     </div>
@@ -43,7 +43,7 @@
                         <option>Approved</option>
                     </select>
 
-                    <button type="button" class="btn btn-primary btn-block mt-5">Filter <i class="fa fa-filter"></i></button>
+                    <button type="button" class="btn btn-primary btn-block mt-5"><i class="fa fa-filter fa-2x"></i> Filter </button>
                 </div>
             </div>
             
@@ -72,7 +72,7 @@
                         <b>@Html.DisplayNameFor(model => model.DateSubmitted)</b>
                     </th>
                     <th>
-                        <b>Status @*@Html.DisplayNameFor(model => model.Status.Description)*@</b>
+                        <b>@Html.DisplayNameFor(model => model.Status.Description)</b>
                     </th>
                     <th></th>
                 </tr>
@@ -97,30 +97,27 @@
                                 2018-02-11
                             </td>
                             <td>
-
                                 <i class="fa fa-paper-plane fa-2x"></i>
                                 Submitted
                             </td>
 
                             <td style="width:20%">
-                                <span class="badge badge-primary bg-NCDSB-Blue ">
-                                    <a href="~/Applications/Details/3" class="text-white fa fa-eye fa-3x"></a>
-                                    <br />
-                                    @*@Html.ActionLink("View", "Details", new { id = item.ID }, new { @class = "badge badge-primary bg-NCDSB-Blue text-white" })*@
-                                    <a href="~/Applications/Details/3" class="text-white  ">View</a>
-                                </span>
-                                
-                                <span class="badge badge-primary">
-                                    @Html.ActionLink(" ", "Evaluate", new { id = item.ID }, new { @class = "fa fa-question fa-3x" })
-                                    <br />
-                                    @Html.ActionLink("Eval  ", "Evaluate", new { id = item.ID }, new { @class = "px-2" })
-                                </span>
 
-                                <span class="badge badge-danger">
-                                    @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa fa-trash fa-3x" })
+                                <a href='@Url.Action("Details", "Applications", new { id = item.ID })' class="badge badge-primary bg-NCDSB-Blue text-white">
+                                    <i class="text-white fa fa-eye fa-3x"></i>
                                     <br />
-                                    @Html.ActionLink("Delete ", "Delete", new { id = item.ID }, new { @class = "" })
-                                </span>
+                                    View
+                                </a>
+                                <a href='@Url.Action("Edit", "Applications", new { id = item.ID })' class="badge badge-primary">
+                                    <i class="fa fa-pencil fa-3x"></i>
+                                    <br />
+                                    Edit
+                                </a>
+                                <a href='@Url.Action("Delete", "Applications",new { id = item.ID })' class="badge badge-danger">
+                                    <i class="fa fa-flag fa-3x"></i>
+                                    <br />
+                                    Flag
+                                </a>
 
                             </td>
                         </tr>

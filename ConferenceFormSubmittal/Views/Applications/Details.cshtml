@@ -21,12 +21,10 @@
                 <div class="col-5">
                  
                         <b class="d-block mt-2 ">Conference Name</b>
-                        @*@Html.DisplayNameFor(model => model.Conference.Name)*@
                         @Html.DisplayFor(model => model.Conference.Name)
 
                         <b class="d-block mt-2">Date Submitted</b>
                         @Html.DisplayFor(model => model.DateSubmitted)
-
 
                         <b class="d-block mt-2">Budget Code</b>
                         @Html.DisplayFor(model => model.BudgetCode)
@@ -53,16 +51,11 @@
 
                 <div class="col-2">
 
-                    <a href='@Url.Action("Delete", "Applications", new { id = Model.ID })' class="btn btn-danger btn-block mt-3">
-                        <i class="fa fa-trash fa-3x"></i>
-                        Delete
+                    <a href='@Url.Action("Delete", "Applications", new { id = Model.ID })' class="btn btn-danger btn-block">
+                        <i class="fa fa-flag fa-2x"></i>
+                        Flag
                     </a>
-
-                    <a href='@Url.Action("Index", "Applications", new { id = Model.ID })' class="btn btn-primary btn-block mt-3">
-                        <i class="fa fa-long-arrow-left fa-3x"></i>
-                        Back to list
-                    </a>
-
+ 
 
                 </div>
             </div>
@@ -120,10 +113,15 @@
                                         <input type="text" />
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary" href="#">Upload File</a>
+                                        <a href='#' class="btn btn-primary">
+                                            <i class="fa fa-upload fa-2x"></i>
+                                            Upload
+                                        </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary" href="#">+</a>
+                                        <a href='#' class="btn btn-primary">
+                                            <i class="fa fa-plus fa-2x"></i>
+                                        </a>
                                     </td>
                                 </tr>
 
@@ -132,104 +130,7 @@
 
 
                         <b class="d-block mt-2">Expenses</b>
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <th>
-                                        <b>Type</b>
-                                    </th>
-                                    <th>
-                                        <b>Estimated Cost</b>
-                                    </th>
-                                    <th>
-                                        <b>Actual Cost</b>
-                                    </th>
-                                    <th>
-                                        <b>Status</b>
-                                    </th>
-                                    <th></th>
-                                </tr>
 
-
-
-                                <tr class="rgba-green-light">
-                                    <td>
-                                        Food
-                                    </td>
-                                    <td>
-                                        $200.00
-                                    </td>
-                                    <td>
-                                        $180.00
-                                    </td>
-                                    <td>
-                                        Approved
-                                    </td>
-                                    <td>
-                                        <a class="badge badge-primary bg-NCDSB-Blue text-white" href="/Expenses/Details/1">View</a>
-                                    </td>
-                                </tr>
-
-                                <tr class="rgba-black-light">
-
-                                    <td>
-                                        Hotel
-                                    </td>
-                                    <td>
-                                        $20.00
-                                    </td>
-                                    <td>
-                                        $21.00
-                                    </td>
-                                    <td>
-                                        Denied
-                                    </td>
-                                    <td>
-                                        <a class="badge badge-primary bg-NCDSB-Blue text-white" href="/Expenses/Details/1">View</a>
-                                        <a class="badge badge-danger" href="/Expenses/Delete/1">Delete</a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        Limo
-                                    </td>
-                                    <td>
-                                        
-                                    </td>
-                                    <td>
-                                        $180.00
-                                    </td>
-                                    <td>
-                                        Submitted
-                                    </td>
-                                    <td>
-                                        <a class="badge badge-primary" href="/Expenses/Edit/1">Eval</a>
-                                    </td>
-                                </tr>
-
-                                <tr class="rgba-green-light">
-                                    <td>
-                                        Food
-                                    </td>
-                                    <td>
-                                        
-                                    </td>
-                                    <td>
-                                        $400.00
-                                    </td>
-                                    <td>
-                                        Approved
-                                    </td>
-                                    <td>
-                                        <a class="badge badge-primary bg-NCDSB-Blue text-white" href="/Expenses/Details/1">View</a>
-                                    </td>
-                                </tr>
-
-
-
-                            </tbody>
-                        </table>
 
                     </div>
                 </div>
