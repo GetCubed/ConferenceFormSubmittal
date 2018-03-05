@@ -257,6 +257,8 @@
     <Content Include="Images\check_Black.png" />
     <Content Include="Images\check_stroke.png" />
     <Content Include="Images\logo-header.png" />
+    <Content Include="Images\logo-headerdarkpng.png" />
+    <Content Include="Images\logo-headerlite.png" />
     <Content Include="Images\myconferences.jpeg" />
     <Content Include="Images\NCDSBColours.txt" />
     <Content Include="Images\NCDSB_LOGO_LARGE.jpg" />
