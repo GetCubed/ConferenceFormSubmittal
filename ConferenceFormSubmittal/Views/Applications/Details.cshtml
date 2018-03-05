@@ -9,30 +9,17 @@
     <div class="col-12">
         <div class="card card-header bg-NCDSB-Grey">
             <h3 class="text-center">Application Details</h3>
+
         </div>
     </div>
 </div>
 
 <div class="row mt-3">
-
-    <div class="col-3">
+    <div class="col-12">
         <div class="card card-body bg-NCDSB-Grey">
-            <div class="col-12">
-
-                @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-primary btn-block mt-3" })
-
-                @Html.ActionLink("Back to List", "Index", "Applications", null, new { @class = "btn btn-primary btn-block mt-3" })
-
-            </div>
-        </div>
-    </div> <!--col-->
-
-    <div class="col-9">
-        <div class="row">
-            <div class="col-12">
-                <div class="card-group w-100">
-
-                    <div class="card card-body bg-NCDSB-Grey mr-2">
+            <div class="row">
+                <div class="col-5">
+                 
                         <b class="d-block mt-2 ">Conference Name</b>
                         @*@Html.DisplayNameFor(model => model.Conference.Name)*@
                         @Html.DisplayFor(model => model.Conference.Name)
@@ -43,11 +30,13 @@
 
                         <b class="d-block mt-2">Budget Code</b>
                         @Html.DisplayFor(model => model.BudgetCode)
-                    </div>
 
-                    <div class="card card-body bg-NCDSB-Grey ml-2">
+                </div>
+
+                <div class="col-5">
+                    
                         <b class="d-block mt-2">Status</b>
-                        @Html.DisplayFor(model => model.Status.Description)
+                        <i class="fa fa-thumbs-down fa-2x"></i> @Html.DisplayFor(model => model.Status.Description)
 
                         <b class="d-block mt-2">Require Replacement Staff</b>
                         @Html.DisplayFor(model => model.ReplStaffReq)
@@ -59,13 +48,33 @@
                             <option>Corporate Cheque Requisition</option>
                             <option>Paid By Staff Member</option>
                         </select>
-                        
-                    </div>
+
+                </div>
+
+                <div class="col-2">
+
+                    <a href='@Url.Action("Delete", "Applications", new { id = Model.ID })' class="btn btn-danger btn-block mt-3">
+                        <i class="fa fa-trash fa-3x"></i>
+                        Delete
+                    </a>
+
+                    <a href='@Url.Action("Index", "Applications", new { id = Model.ID })' class="btn btn-primary btn-block mt-3">
+                        <i class="fa fa-long-arrow-left fa-3x"></i>
+                        Back to list
+                    </a>
+
+
                 </div>
             </div>
-
-
+           
         </div>
+    </div> <!--col-->
+</div>
+
+<div class="row">
+
+    <div class="col-12">
+ 
         <div class="row">
             <div class="col-12">
                 <div class="card card-body bg-NCDSB-Grey mt-3">
