@@ -45,11 +45,15 @@ namespace ConferenceFormSubmittal.Controllers
         }
 
         // GET: Applications/Create
-        public ActionResult Create()
+        public ActionResult Create(int? ConferenceID)
         {
-            ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name");
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName");
-            ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description");
+            if (!ConferenceID.HasValue)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewBag.Conference = db.Conferences.Find(ConferenceID);
+            PopulateDropDownLists();
             return View();
         }
 
@@ -58,7 +62,7 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,Feedback,EmployeeID,ConferenceID,StatusID")] Application application)
+        public ActionResult Create([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,EmployeeID,ConferenceID,StatusID")] Application application)
         {
             if (ModelState.IsValid)
             {
@@ -67,9 +71,7 @@ namespace ConferenceFormSubmittal.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name", application.ConferenceID);
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName", application.EmployeeID);
-            ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", application.StatusID);
+            PopulateDropDownLists(application);
             return View(application);
         }
 
@@ -85,9 +87,7 @@ namespace ConferenceFormSubmittal.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name", application.ConferenceID);
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName", application.EmployeeID);
-            ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", application.StatusID);
+            PopulateDropDownLists(application);
             return View(application);
         }
 
@@ -105,9 +105,7 @@ namespace ConferenceFormSubmittal.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name", application.ConferenceID);
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName", application.EmployeeID);
-            ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", application.StatusID);
+            PopulateDropDownLists(application);
             return View(application);
         }
 
@@ -125,9 +123,8 @@ namespace ConferenceFormSubmittal.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name", application.ConferenceID);
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName", application.EmployeeID);
-            ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", application.StatusID);
+
+            PopulateDropDownLists(application);
             return View(application);
         }
 
@@ -144,9 +141,7 @@ namespace ConferenceFormSubmittal.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name", application.ConferenceID);
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName", application.EmployeeID);
-            ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", application.StatusID);
+            PopulateDropDownLists(application);
             return View(application);
         }
 
@@ -174,6 +169,14 @@ namespace ConferenceFormSubmittal.Controllers
             db.Applications.Remove(application);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        private void PopulateDropDownLists(Application application = null)
+        {
+            var pQuery = from p in db.PaymentTypes
+                         orderby p.Description
+                         select p;
+            ViewBag.PaymentTypeID = new SelectList(pQuery, "ID", "Description", application?.PaymentTypeID);
         }
 
         protected override void Dispose(bool disposing)

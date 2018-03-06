@@ -207,6 +207,10 @@
     <Compile Include="DAL\CFSMigrations\201803012100319_Prototype1_Feedback.Designer.cs">
       <DependentUpon>201803012100319_Prototype1_Feedback.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\CFSMigrations\201803032210225_PaymentTypes.cs" />
+    <Compile Include="DAL\CFSMigrations\201803032210225_PaymentTypes.Designer.cs">
+      <DependentUpon>201803032210225_PaymentTypes.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -220,6 +224,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Mileage.cs" />
+    <Compile Include="Models\PaymentType.cs" />
     <Compile Include="Models\Site.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -374,6 +379,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\CFSMigrations\201803012100319_Prototype1_Feedback.resx">
       <DependentUpon>201803012100319_Prototype1_Feedback.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201803032210225_PaymentTypes.resx">
+      <DependentUpon>201803032210225_PaymentTypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
