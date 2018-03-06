@@ -1,9 +1,10 @@
 ﻿body {
     padding-top: 0px;
     padding-bottom: 0px;
-    background-image: url(../Images/background.jpg);
+    background-image: url(../Images/App_Background3.jpg);
     background-position: top left;
     background-repeat: no-repeat;
+    background-size: cover;
     background-color: #fff;
 }
 
@@ -45,7 +46,7 @@ textarea {
             text-decoration: none;
             width: 318px;
             height: 60px;
-            background: url(../Images/logo-header.png) center left no-repeat;
+            background: url(../Images/logo-headerdark.png) center left no-repeat;
             text-indent: -999px;
             float: left;
             padding: 0;
@@ -85,3 +86,13 @@ textarea {
         background-color: #0069d9;
         border-color: #0062cc;
     }
+
+
+.container-fluid {
+    max-width: 1400px;
+    /*width: 100%;*/
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}

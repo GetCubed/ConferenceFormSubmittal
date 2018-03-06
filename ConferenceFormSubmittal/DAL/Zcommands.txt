@@ -15,5 +15,3 @@ Update-Database -ConfigurationTypeName rmativo3_College_Strike.DAL.SecurityMigra
 
 Update-Database -ConfigurationTypeName ConferenceFormSubmittal.DAL.CFSMigrations.Configuration
 
-
-small change
