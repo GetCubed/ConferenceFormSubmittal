@@ -17,3 +17,5 @@ Update-Database -ConfigurationTypeName ConferenceFormSubmittal.DAL.CFSMigrations
 
 
 asdfasdfasdfas
+
+asdasd
