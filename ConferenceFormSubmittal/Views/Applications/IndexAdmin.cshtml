@@ -8,47 +8,63 @@
 <!--HEADING-->
 <div class="row pt-3">
     <div class="col-12">
-        <div class="card card-body bg-NCDSB-Grey">
-            <h3 class="text-center">View Applications</h3>
+        <div class="card card-header bg-NCDSB-Grey">
+                <h3 class="text-center font-weight-bold">View Applications</h3>
         </div>
     </div>
 </div>
 
 <div class="row pt-3">
     <div class="col-12">
+  
+        <!--HEADER CARD---------------------------------->
+        <div class="card bg-NCDSB-Grey">
 
-        <div class="card card-body bg-NCDSB-Grey">
-            <div class="row">
-                <div class="col-5">
-                    <b>Name</b>
-                    <input type="text" class="form-control">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Filter Applications
+                </h5>
+                <div class="row">
+                    <div class="col-5">
+                        <b>Name</b>
+                        <input type="text" class="form-control">
 
-                    <b>Conference</b>
-                    <input type="text" class="form-control">
+                        <b>Conference</b>
+                        <input type="text" class="form-control">
 
-                   
-                </div>
-                <div class="col-4">
-                    <b>Start Date</b>
-                    <input type="date" class="form-control">
 
-                    <b>End Date</b>
-                    <input type="date" class="form-control">
-                </div>
-                <div class="col-3">
-                    <b>Status</b>
-                    <select name="status" class="d-block">
-                        <option selected>Submitted  </option>
-                        <option>Denied </option>
-                        <option>Approved</option>
-                    </select>
+                    </div>
+                    <div class="col-4">
+                        <b>Start Date</b>
+                        <input type="date" class="form-control">
 
-                    <button type="button" class="btn btn-primary btn-block mt-5"><i class="fa fa-filter fa-2x"></i> Filter </button>
+                        <b>End Date</b>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <b>Status</b>
+                        <select name="status" class="">
+                            <option selected>Submitted  </option>
+                            <option>Approved</option>
+                            <option>Denied </option>
+                            <option>Draft</option>
+
+                        </select>
+
+
+                    </div>
                 </div>
             </div>
-            
- 
+
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary btn-block"><i class="fa fa-filter fa-2x"></i> Filter </button>
+            </div>
+
+
         </div>
+        <!--HEADER CARD---------------------------------->
+
+
     </div>
 
 </div>
@@ -72,7 +88,7 @@
                         <b>@Html.DisplayNameFor(model => model.DateSubmitted)</b>
                     </th>
                     <th>
-                        <b>@Html.DisplayNameFor(model => model.Status.Description)</b>
+                        <b>Status @*@Html.DisplayNameFor(model => model.Status.Description)*@</b>
                     </th>
                     <th></th>
                 </tr>
@@ -136,6 +152,59 @@
 
 
 
+
+    </div>
+</div>
+
+<div class="row pt-3">
+    <div class="col-12">
+
+        <!--Footer CARD---------------------------------->
+        <div class="card bg-NCDSB-Grey">
+
+            <div class="card-body">
+                <h4 class="card-title">
+                    Filter Applications
+                </h4>
+                <div class="row">
+                    <div class="col-5">
+                        Name
+                        <input type="text" class="form-control">
+
+                        Conference
+                        <input type="text" class="form-control">
+
+
+                    </div>
+                    <div class="col-4">
+                        <b>Start Date</b>
+                        <input type="date" class="form-control">
+
+                        <b>End Date</b>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <b>Status</b>
+                        <select name="status" class="">
+                            <option selected>Submitted  </option>
+                            <option>Approved</option>
+                            <option>Denied </option>
+                            <option>Draft</option>
+
+                        </select>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary btn-block"><i class="fa fa-filter fa-2x"></i> Filter </button>
+            </div>
+
+
+        </div>
+        <!--Footer CARD---------------------------------->
 
     </div>
 </div>

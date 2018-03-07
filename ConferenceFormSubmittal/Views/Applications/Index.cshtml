@@ -8,54 +8,63 @@
 <!--HEADING-->
 <div class="row pt-3">
     <div class="col-12">
-        <div class="card card-body bg-NCDSB-Grey">
-            <h3 class="text-center">My Applications</h3>
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">My Applications</h3>
         </div>
     </div>
 </div>
 
 <div class="row pt-3">
-   
     <div class="col-12">
-        <div class="card card-body bg-NCDSB-Grey">
-            <div class="row">
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-body">
+                <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
+                    <i class="fa fa-file-text fa-2x"></i>
+                    Create New
+                </a>
+            </div>
+        </div>   
+    </div>
+</div>
+
+<div class="row pt-3">
+    <div class="col-12">
+           <div class="card col-8 bg-NCDSB-Grey">
+                <div class="card-body">
+
+                    <div class="card-title">
+                        Filter Applications
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendStartDate)</b>
+                            <input type="date" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendEndDate)</b>
+                            <input type="date" class="form-control">
 
 
-                <div class="col-2">     
-                    <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary btn-block">
-                        <i class="fa fa-file-text fa-2x"></i>
-                        Create New
-                    </a>
-                </div>
+                        </div>
+                        <div class="col-6">
+                            <b>@Html.DisplayNameFor(model => model.Conference)</b>
+                            <input type="text" class="form-control">
 
-                <div class="col-4">
-
-                    <b>@Html.DisplayNameFor(model => model.AttendStartDate)</b>
-                    <input type="date" class="form-control">
-
-                    <b>@Html.DisplayNameFor(model => model.AttendEndDate)</b>
-                    <input type="date" class="form-control">
-
-
-                </div>
-                <div class="col-4">
-                    <b>@Html.DisplayNameFor(model => model.Conference)</b>
-                    <input type="text" class="form-control">
-
-                    <b>@Html.DisplayNameFor(model => model.Status)</b>
-                    <select name="status" class="d-block">
-                        <option selected>Submitted  </option>
-                        <option>Denied </option>
-                        <option>Approved</option>
-                        <option>Draft</option>
-                    </select>
-                </div>
-                <div class="col-2">
-
+                            <b>@Html.DisplayNameFor(model => model.Status)</b>
+                            <select name="status" class="d-block">
+                                <option selected>Submitted  </option>
+                                <option>Denied </option>
+                                <option>Approved</option>
+                                <option>Draft</option>
+                            </select>
+                        </div>
+                    </div>
+                </div> 
+                <div class="card-footer">
                     <button type="button" class="btn btn-primary btn-block"> <i class="fa fa-filter fa-2x"></i> Filter</button>
                 </div>
             </div>
-        </div>
+
 
     </div>
 
