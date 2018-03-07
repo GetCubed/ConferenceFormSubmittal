@@ -14,27 +14,26 @@
     </div>
 </div>
 
+
+<!-- Filter CARD----------------->
 <div class="row pt-3">
     <div class="col-12">
         <div class="card bg-NCDSB-Grey">
-            <div class="card-body">
+
+            <div class="card-header d-flex justify-content-between ">
                 <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
                     <i class="fa fa-file-text fa-2x"></i>
                     Create New
                 </a>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="collapseExample,collapseExamples">
+                    <i class="fa fa-filter fa-2x"></i> Filter Applications
+                </button>
             </div>
-        </div>   
-    </div>
-</div>
 
-<div class="row pt-3">
-    <div class="col-12">
-           <div class="card col-8 bg-NCDSB-Grey">
+            <div class="collapse filter">
                 <div class="card-body">
 
-                    <div class="card-title">
-                        Filter Applications
-                    </div>
+
                     <div class="row">
                         <div class="col-6">
 
@@ -43,7 +42,6 @@
 
                             <b>@Html.DisplayNameFor(model => model.AttendEndDate)</b>
                             <input type="date" class="form-control">
-
 
                         </div>
                         <div class="col-6">
@@ -59,25 +57,26 @@
                             </select>
                         </div>
                     </div>
-                </div> 
+                </div>
+
                 <div class="card-footer">
                     <button type="button" class="btn btn-primary btn-block"> <i class="fa fa-filter fa-2x"></i> Filter</button>
                 </div>
+
             </div>
 
-
+        </div>
     </div>
-
 </div>
-
+<!-- Filter CARD----------------->
 
 <div class="row pt-3">
-    
+
 
     <div class="col-12">
         <!--Panel-->
         <div class="card card-body bg-NCDSB-Grey ">
-            
+
             <table class="table">
                 <tr>
                     <th>
@@ -95,54 +94,59 @@
                 @{ int i = 0;}
 
                 @for (int c = 0; c < 5; c++)
-    {
+                {
 
-        foreach (var item in Model)
-        {
-            i++;
+                    foreach (var item in Model)
+                    {
+                        i++;
 
-            <tr class="
+                        <tr class="
                 @(item.StatusID == 1 ? "rgba-green-light" : "")
                 @(item.StatusID == 2 ? "rgba-black-light" : "")
                 @(item.StatusID == 3 ? "" : "")
                 @(item.StatusID == 4 ? "gba-yellow-light" : "")
                 ">
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Conference.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateSubmitted)
-                </td>
-                <td>
-                    <i class="fa fa-paper-plane fa-2x"></i>
-                    @Html.DisplayFor(modelItem => item.Status.Description)
-                </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Conference.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DateSubmitted)
+                            </td>
+                            <td>
+                                <i class="
+                                   @(item.StatusID == 1 ? "fa fa-paper-plane fa-2x" : "")
+                                   @(item.StatusID == 2 ? "fa fa-thumbs-down fa-2x" : "")
+                                   @(item.StatusID == 3 ? "fa fa-thumbs-up fa-2x" : "")
+                                   @(item.StatusID == 4 ? "fa fa-paperclip fa-2x" : "")
+                                   "></i>
+                                @Html.DisplayFor(modelItem => item.Status.Description)
+                            </td>
 
-                <td style="width:20%">
+                            <td style="width:20%">
 
-                    <a href='@Url.Action("Details", "Applications", new { id = item.ID })' class="badge badge-primary bg-NCDSB-Blue text-white">
-                        <i class="text-white fa fa-eye fa-3x"></i>
-                        <br />
-                        View
-                    </a>
-                    <a href='@Url.Action("Edit", "Applications", new { id = item.ID })' class="badge badge-primary">
-                        <i class="fa fa-pencil fa-3x"></i>
-                        <br />
-                        Edit
-                    </a>
-                    <a href='@Url.Action("Delete", "Applications",new { id = item.ID })' class="badge badge-danger">
-                        <i class="fa fa-flag fa-3x"></i>
-                        <br />
-                        Flag
-                    </a>
-                </td>
-            </tr>
+                                <a href='@Url.Action("Details", "Applications", new { id = item.ID })' class="badge badge-primary bg-NCDSB-Blue text-white">
+                                    <i class="text-white fa fa-eye fa-3x"></i>
+                                    <br />
+                                    View
+                                </a>
+                                <a href='@Url.Action("Edit", "Applications", new { id = item.ID })' class="badge badge-primary">
+                                    <i class="fa fa-pencil fa-3x"></i>
+                                    <br />
+                                    Edit
+                                </a>
+                                <a href='@Url.Action("Delete", "Applications",new { id = item.ID })' class="badge badge-danger">
+                                    <i class="fa fa-flag fa-3x"></i>
+                                    <br />
+                                    Flag
+                                </a>
+                            </td>
+                        </tr>
 
-}
+                    }
 
 
-}
+                }
 
 
 
@@ -154,6 +158,63 @@
 
 
 
+
+
     </div>
 </div>
 
+
+<!-- Filter CARD----------------->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey">
+
+            <div class="card-header d-flex justify-content-between ">
+                <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
+                    <i class="fa fa-file-text fa-2x"></i>
+                    Create New
+                </a>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="collapseExample,collapseExamples">
+                    <i class="fa fa-filter fa-2x"></i> Filter Applications
+                </button>
+            </div>
+
+            <div class="collapse filter">
+                <div class="card-body">
+
+
+                    <div class="row">
+                        <div class="col-6">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendStartDate)</b>
+                            <input type="date" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendEndDate)</b>
+                            <input type="date" class="form-control">
+
+                        </div>
+                        <div class="col-6">
+                            <b>@Html.DisplayNameFor(model => model.Conference)</b>
+                            <input type="text" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.Status)</b>
+                            <select name="status" class="d-block">
+                                <option selected>Submitted  </option>
+                                <option>Denied </option>
+                                <option>Approved</option>
+                                <option>Draft</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary btn-block"> <i class="fa fa-filter fa-2x"></i> Filter</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Filter CARD----------------->

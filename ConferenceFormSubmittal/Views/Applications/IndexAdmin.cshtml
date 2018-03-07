@@ -9,69 +9,69 @@
 <div class="row pt-3">
     <div class="col-12">
         <div class="card card-header bg-NCDSB-Grey">
-                <h3 class="text-center font-weight-bold">View Applications</h3>
+            <h3 class="text-center font-weight-bold">View Applications</h3>
         </div>
     </div>
 </div>
 
+
+<!-- Filter CARD----------------->
 <div class="row pt-3">
     <div class="col-12">
-  
-        <!--HEADER CARD---------------------------------->
         <div class="card bg-NCDSB-Grey">
 
-            <div class="card-body">
-                <h5 class="card-title">
-                    Filter Applications
-                </h5>
-                <div class="row">
-                    <div class="col-5">
-                        <b>Name</b>
-                        <input type="text" class="form-control">
+            <div class="card-header d-flex justify-content-between ">
+                <a href='@Url.Action("Index", "Home")' class="btn btn-primary">
+                    <i class="fa fa-long-arrow-left fa-2x"></i> Go Back
+                </a>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="collapseExample,collapseExamples">
+                    <i class="fa fa-filter fa-2x"></i> Filter Applications
+                </button>
+            </div>
 
-                        <b>Conference</b>
-                        <input type="text" class="form-control">
-
-
-                    </div>
-                    <div class="col-4">
-                        <b>Start Date</b>
-                        <input type="date" class="form-control">
-
-                        <b>End Date</b>
-                        <input type="date" class="form-control">
-                    </div>
-                    <div class="col-3">
-                        <b>Status</b>
-                        <select name="status" class="">
-                            <option selected>Submitted  </option>
-                            <option>Approved</option>
-                            <option>Denied </option>
-                            <option>Draft</option>
-
-                        </select>
+            <div class="collapse filter">
+                <div class="card-body">
 
 
+                    <div class="row">
+                        <div class="col-6">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendStartDate)</b>
+                            <input type="date" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendEndDate)</b>
+                            <input type="date" class="form-control">
+
+                        </div>
+                        <div class="col-6">
+                            <b>@Html.DisplayNameFor(model => model.Conference)</b>
+                            <input type="text" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.Status)</b>
+                            <select name="status" class="d-block">
+                                <option selected>Submitted  </option>
+                                <option>Denied </option>
+                                <option>Approved</option>
+                                <option>Draft</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="card-footer">
-                <button type="button" class="btn btn-primary btn-block"><i class="fa fa-filter fa-2x"></i> Filter </button>
-            </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary btn-block"> <i class="fa fa-filter fa-2x"></i> Filter</button>
+                </div>
 
+            </div>
 
         </div>
-        <!--HEADER CARD---------------------------------->
-
-
     </div>
-
 </div>
+<!-- Filter CARD----------------->
 
 
 <div class="row pt-3">
-   
+
     <div class="col-12">
         <!--Panel-->
         <div class="card card-body bg-NCDSB-Grey">
@@ -156,56 +156,59 @@
     </div>
 </div>
 
+
+
+
+<!-- Filter CARD----------------->
 <div class="row pt-3">
     <div class="col-12">
-
-        <!--Footer CARD---------------------------------->
         <div class="card bg-NCDSB-Grey">
 
-            <div class="card-body">
-                <h4 class="card-title">
-                    Filter Applications
-                </h4>
-                <div class="row">
-                    <div class="col-5">
-                        Name
-                        <input type="text" class="form-control">
+            <div class="card-header d-flex justify-content-between ">
+                <a href='@Url.Action("Index", "Home")' class="btn btn-primary">
+                    <i class="fa fa-long-arrow-left fa-2x"></i> Go Back
+                </a>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="collapseExample,collapseExamples">
+                    <i class="fa fa-filter fa-2x"></i> Filter Applications
+                </button>
+            </div>
 
-                        Conference
-                        <input type="text" class="form-control">
-
-
-                    </div>
-                    <div class="col-4">
-                        <b>Start Date</b>
-                        <input type="date" class="form-control">
-
-                        <b>End Date</b>
-                        <input type="date" class="form-control">
-                    </div>
-                    <div class="col-3">
-                        <b>Status</b>
-                        <select name="status" class="">
-                            <option selected>Submitted  </option>
-                            <option>Approved</option>
-                            <option>Denied </option>
-                            <option>Draft</option>
-
-                        </select>
+            <div class="collapse filter">
+                <div class="card-body">
 
 
+                    <div class="row">
+                        <div class="col-6">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendStartDate)</b>
+                            <input type="date" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendEndDate)</b>
+                            <input type="date" class="form-control">
+
+                        </div>
+                        <div class="col-6">
+                            <b>@Html.DisplayNameFor(model => model.Conference)</b>
+                            <input type="text" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.Status)</b>
+                            <select name="status" class="d-block">
+                                <option selected>Submitted  </option>
+                                <option>Denied </option>
+                                <option>Approved</option>
+                                <option>Draft</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="card-footer">
-                <button type="button" class="btn btn-primary btn-block"><i class="fa fa-filter fa-2x"></i> Filter </button>
-            </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary btn-block"> <i class="fa fa-filter fa-2x"></i> Filter</button>
+                </div>
 
+            </div>
 
         </div>
-        <!--Footer CARD---------------------------------->
-
     </div>
 </div>
-
+<!-- Filter CARD----------------->
