@@ -177,6 +177,11 @@ namespace ConferenceFormSubmittal.Controllers
                          orderby p.Description
                          select p;
             ViewBag.PaymentTypeID = new SelectList(pQuery, "ID", "Description", application?.PaymentTypeID);
+
+            var eQuery = from e in db.ExpenseTypes
+                         orderby e.Description
+                         select e;
+            ViewBag.ExpenseTypeID = new SelectList(eQuery, "ID", "Description");
         }
 
         protected override void Dispose(bool disposing)

@@ -109,53 +109,82 @@
     </div>
 }
 
-@using (Html.BeginForm("Create", "Expenses", FormMethod.Post))
+@using (Ajax.BeginForm("AddExpense", new AjaxOptions()
 {
-    <div class="row">
-        <div class="col-12">
-            <div class="card card-body bg-NCDSB-Grey mt-3">
-                <div class="col-12">
-                    <b class="d-block mt-2">Expenses</b>
-
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <th>
-                                    <b>Type</b>
-                                </th>
-                                <th>
-                                    <b>Estimated Cost</b>
-                                </th>
-                                <th></th>
-                            </tr>
-
-                            <tr class="rgba-grey-light">
-                                <td>
-                                    <select name="status" class="d-block">
-                                        <option selected>Food </option>
-                                        <option>Food</option>
-                                        <option>Food</option>
-                                        <option>Hotel</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="text" />
-                                </td>
-                                <td>
-                                    <a class="btn btn-primary" href="#">+</a>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
+    HttpMethod = "Post",
+    InsertionMode = InsertionMode.Replace
+}))
+{
+    <div id="form-content">
+        @Html.Partial("ApplicationExpensePartial", Model)
     </div>
 }
 
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $("#txtEstimatedCost").keydown(function () {
+            $("#lblInvalidCost").addClass("d-none");
+        });
+        $("#ddlExpenseType").change(function () {
+            $("#lblInvalidType").addClass("d-none");
+        });
+
+        function validExpense(typeID, cost)
+        {
+            $("#lblInvalidCost").addClass("d-none");
+            $("#lblInvalidType").addClass("d-none");
+
+            var result = true;
+
+            if (typeID == "")
+            {
+                result = false;
+                $("#lblInvalidType").removeClass("d-none");
+            }
+
+            if (!/^\d+(\.\d{0,2})?$/.test(cost))
+            {
+                result = false
+                $("#lblInvalidCost").removeClass("d-none");
+            }
+
+            return result;
+        }
+
+        // adds the expense to the table if valid
+        function addExpense() {
+
+            // get values
+            var $ddlType = $("#ddlExpenseType"),
+                $txtCost = $("#txtEstimatedCost"),
+                $txtRationale = $("#txtRationale"),
+                type = $ddlType.find(":selected").text(),
+                typeID = $ddlType.val(),
+                cost = $txtCost.val(),
+                rationale = $txtRationale.val();
+
+            if (validExpense(typeID, cost))
+            {
+                // add the expense to the table
+                $("#trAddExpense").before(
+                    "<tr class='trExpense' data-expenseType='" + typeID + "'>" +
+                    "<td class='expenseType'>" + type + "</td>" +
+                    "<td class='estimatedCost'>$" + parseFloat(cost).toFixed(2) + "</td>" +
+                    "<td class='rationale'>" + rationale + "</td>" +
+                    "<td><a onclick='removeExpense($(this))' class='removeExpense btn btn-danger'><i class='fa fa-minus'></i></a></td>" +
+                    "</tr>");
+                // clear the input fields
+                $ddlType.prop("selectedIndex", 0);
+                $txtCost.val("");
+                $txtRationale.val("");
+            }
+        }
+
+        // removes an expense from the table
+        function removeExpense($row) {
+            $row.closest(".trExpense").remove();
+        }
+    </script>
 }

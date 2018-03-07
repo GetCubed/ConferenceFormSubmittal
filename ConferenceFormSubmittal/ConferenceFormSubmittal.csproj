@@ -211,6 +211,10 @@
     <Compile Include="DAL\CFSMigrations\201803032210225_PaymentTypes.Designer.cs">
       <DependentUpon>201803032210225_PaymentTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\CFSMigrations\201803071507269_whatever.cs" />
+    <Compile Include="DAL\CFSMigrations\201803071507269_whatever.Designer.cs">
+      <DependentUpon>201803071507269_whatever.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -405,6 +409,7 @@
     <Content Include="Views\Mileages\Details.cshtml" />
     <Content Include="Views\Mileages\Edit.cshtml" />
     <Content Include="Views\Mileages\Index.cshtml" />
+    <Content Include="Views\Applications\ApplicationExpensePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -421,6 +426,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\CFSMigrations\201803032210225_PaymentTypes.resx">
       <DependentUpon>201803032210225_PaymentTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201803071507269_whatever.resx">
+      <DependentUpon>201803071507269_whatever.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
