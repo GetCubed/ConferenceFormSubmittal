@@ -26,7 +26,8 @@ namespace ConferenceFormSubmittal
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/mdb.css",
-                      "~/Content/Site.css"));
+                      "~/Content/Site.css",
+                      "~/Content/font-awesome.css"));
 
 
 

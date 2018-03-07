@@ -16,6 +16,3 @@ Update-Database -ConfigurationTypeName rmativo3_College_Strike.DAL.SecurityMigra
 Update-Database -ConfigurationTypeName ConferenceFormSubmittal.DAL.CFSMigrations.Configuration
 
 
-sqllocaldb.exe stop 
-sqllocaldb.exe delete 
-//sqllocaldb.exe start 
