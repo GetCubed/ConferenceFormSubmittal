@@ -38,6 +38,42 @@
             <div class="row mb-3">
                 <div class="col-12">
 
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-body bg-NCDSB-Grey mt-3">
+                                <div class="col-12">
+                                    <b class="d-block mt-2">Select Conference</b>
+
+                                    <table class="table">
+                                        <tbody>
+
+                                            <tr class="rgba-grey-light">
+                                                <td>
+                                                    @Html.DropDownListFor(m => Model.ApplicationID, null, "Select An Application To Attach", htmlAttributes: new { @class = "form-control" })
+                                                    @*<select name="status" class="d-block">
+                                                            <option selected>Connect To Application</option>
+                                                            <option>Math Expo @Html.DisplayFor(model => model.ApplicationID, new { htmlAttributes = new { @class = "form-control", @Value = 1 , @text = 1} })</option>
+                                                            <option>Code Jam</option>
+                                                            <option>Code Jam</option>
+                                                        </select>*@
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" />
+                                                </td>
+                                                <td>
+                                                    <a class="badge badge-primary" href="#">+</a>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card card-body bg-NCDSB-Grey">
                         <input type="button" value="Add New Mileage" onclick="AddNewRoute()" />
                         <div class="row">
@@ -113,34 +149,33 @@
                         </div>
                     </div>
 
+                    @*Jason Changed Attpemt at adding a table*@
                     <div class="row">
                         <div class="col-12">
                             <div class="card card-body bg-NCDSB-Grey mt-3">
                                 <div class="col-12">
-                                    <b class="d-block mt-2">Select Conference</b>
+                                    <b class="d-block mt-2">Mileages</b>
 
-                                    <table class="table">
+                                    <table class="table" id="mileageTable">
                                         <tbody>
-
-                                            <tr class="rgba-grey-light">
-                                                <td>
-                                                    @Html.DropDownListFor(m => Model.ApplicationID, null, "Select An Application To Attach", htmlAttributes: new { @class = "form-control" })
-                                                    @*<select name="status" class="d-block">
-                                                            <option selected>Connect To Application</option>
-                                                            <option>Math Expo @Html.DisplayFor(model => model.ApplicationID, new { htmlAttributes = new { @class = "form-control", @Value = 1 , @text = 1} })</option>
-                                                            <option>Code Jam</option>
-                                                            <option>Code Jam</option>
-                                                        </select>*@
-                                                </td>
-
-                                                <td>
-                                                    <input type="text" />
-                                                </td>
-                                                <td>
-                                                    <a class="badge badge-primary" href="#">+</a>
-                                                </td>
+                                            <tr>
+                                                <th>
+                                                    <b>Travel Date</b>
+                                                </th>
+                                                <th>
+                                                    <b>Start Address</b>
+                                                </th>
+                                                <th>
+                                                    <b>End Address</b>
+                                                </th>
+                                                <th>
+                                                    <b>Distance</b>
+                                                </th>
+                                                <th>
+                                                    <b>Cost</b>
+                                                </th>
+                                                <th></th>
                                             </tr>
-
                                         </tbody>
                                     </table>
 
