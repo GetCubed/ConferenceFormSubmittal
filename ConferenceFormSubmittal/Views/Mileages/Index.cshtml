@@ -85,10 +85,11 @@
                 @foreach (var item in Model)
     {
             <tr class="
-                @(item.StatusID == 1 ? "rgba-green-light" : "")
-                @(item.StatusID == 2 ? "rgba-black-light" : "")
-                @(item.StatusID == 3 ? "" : "")
-                @(item.StatusID == 4 ? "gba-yellow-light" : "")">
+                @(item.StatusID == 1 ? "" : "")
+                @(item.StatusID == 2 ? "rgba-green-light" : "")
+                @(item.StatusID == 3 ? "rgba-black-light" : "")
+                @(item.StatusID == 4 ? "gba-yellow-light" : "")"
+                >
 
                 <td>
                     @Html.DisplayFor(modelItem => item.StartAddress)
