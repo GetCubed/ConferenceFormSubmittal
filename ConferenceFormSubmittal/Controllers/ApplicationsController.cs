@@ -53,21 +53,49 @@ namespace ConferenceFormSubmittal.Controllers
             }
 
             ViewBag.Conference = db.Conferences.Find(ConferenceID);
+
             PopulateDropDownLists();
             return View();
+        }
+
+        private static List<Expense> expenseBatch = new List<Expense>();
+        public JsonResult AddExpenses(List<Expense> expenses)
+        {
+            if (expenses == null)
+            {
+                expenses = new List<Expense>();
+            }
+
+            foreach (Expense expense in expenses)
+            {
+                expenseBatch.Add(expense);
+            }
+
+            return Json(expenseBatch.Count);
         }
 
         // POST: Applications/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,EmployeeID,ConferenceID,StatusID")] Application application)
+        public ActionResult CreatePost([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,EmployeeID,ConferenceID,StatusID")] Application application)
         {
             if (ModelState.IsValid)
             {
+                // add the expenses to the application
+                foreach (Expense expense in expenseBatch)
+                {
+                    application.Expenses.Add(expense);
+                }
+
+                // insert the application
                 db.Applications.Add(application);
                 db.SaveChanges();
+
+                // clear the expense batch
+                expenseBatch.Clear();
+
                 return RedirectToAction("Index");
             }
 

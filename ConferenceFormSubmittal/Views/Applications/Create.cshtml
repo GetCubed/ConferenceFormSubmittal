@@ -14,17 +14,17 @@
     </div>
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmCreateApplication" }))
 {
-    @Html.AntiForgeryToken()
+                @Html.AntiForgeryToken()
 
-    <div class="row mt-3">
+                <div class="row mt-3">
 
         <div class="col-3">
             <div class="card card-body bg-NCDSB-Grey">
                 <div class="col-12">
                     <input type="button" value="Save As Draft" class="btn btn-primary btn-block mb-3" />
-                    <input type="submit" value="Submit" class="btn btn-primary btn-block mb-3" />
+                    <input id="btnSubmit" type="button" value="Submit" class="btn btn-primary btn-block mb-3" />
 
                     @Html.ActionLink("Back to List", "Index", "Conferences", null, new { @class = "btn btn-primary btn-block mb-3" })
                 </div>
@@ -40,6 +40,7 @@
                             <div class="col-6">
                                 @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @ViewBag.Conference.Name
+                                @Html.Hidden("ConferenceID", new { @value = ViewBag.ConferenceID })
 
                                 @Html.LabelFor(model => model.Conference.StartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @ViewBag.Conference.StartDate
@@ -169,9 +170,9 @@
             {
                 // add the expense to the table
                 $("#trAddExpense").before(
-                    "<tr class='trExpense' data-expenseType='" + typeID + "'>" +
-                    "<td class='expenseType'>" + type + "</td>" +
-                    "<td class='estimatedCost'>$" + parseFloat(cost).toFixed(2) + "</td>" +
+                    "<tr class='trExpense'>" +
+                    "<td class='expenseType' data-id='" + typeID + "'>" + type + "</td>" +
+                    "<td>$<span class='estimatedCost'>" + parseFloat(cost).toFixed(2) + "</span></td>" +
                     "<td class='rationale'>" + rationale + "</td>" +
                     "<td><a onclick='removeExpense($(this))' class='removeExpense btn btn-danger'><i class='fa fa-minus'></i></a></td>" +
                     "</tr>");
@@ -186,5 +187,37 @@
         function removeExpense($row) {
             $row.closest(".trExpense").remove();
         }
+
+        $("#btnSubmit").click(function ()
+        {
+            var expenseBatch = [];
+
+            $(".trExpense").each(function ()
+            {
+                var row = $(this);
+
+                var expense = {
+                    ExpenseTypeID: row.find(".expenseType").data("id"),
+                    EstimatedCost: row.find(".estimatedCost").html(),
+                    Rationale: row.children(".rationale").html()
+                };
+
+                expenseBatch.push(expense);
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/Applications/AddExpenses",
+                data: JSON.stringify(expenseBatch),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response)
+                {
+                    alert(response + " expenses(s) added.");
+
+                    $("#frmCreateApplication").submit();
+                }
+            });
+        });
     </script>
 }
