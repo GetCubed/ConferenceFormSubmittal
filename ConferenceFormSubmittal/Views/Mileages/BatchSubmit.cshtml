@@ -32,10 +32,10 @@
                 <td><input type="date" id="datTravelDate" /></td>
                 <td><input type="text" id="txtStartAddress" /></td>
                 <td><input type="text" id="txtEndAddress" /></td>
-                <td><input type="number" id="txtKilometers" /></td>
-                @*<td><input type="text" id="txtRemeburstment" /></td>*@
-                <td><input type="number" id="txtStatusID" value="2" hidden="hidden"/></td>
-                <td><input type="number" id="txtEmployeeID" value="1" hidden="hidden"/></td>
+                <td><input type="number" id="numKilometers" /></td>
+                @*<td><input type="number" id="numRemeburstment" /></td>*@
+                <td><input type="number" id="numStatusID" value="2" hidden="hidden"/></td>
+                <td><input type="number" id="numEmployeeID" value="1" hidden="hidden"/></td>
                 @*Should be DDL*@
                 <td>
                     @* Not Sure about this yet, going to do manual for now
@@ -43,7 +43,7 @@
                     {
                         @Html.DropDownListFor(m => i.ApplicationID, null, "Select An Application To Attach", htmlAttributes: new { @class = "form-control" })
                     }*@
-                    <input type="number" id="txtApplicationID" />
+                    <input type="number" id="numApplicationID" />
                 </td>
                 @*<td><input type="checkbox" id="chkRoundTrip" /></td>*@
                 <td><input type="button" id="btnAdd" value="Add" /></td>
@@ -104,10 +104,10 @@
             var datTravelDate = $("#datTravelDate");
             var txtStartAddress = $("#txtStartAddress");
             var txtEndAddress = $("#txtEndAddress");
-            var txtKilometers = $("#txtKilometers");
-            var txtStatusID = $("#txtStatusID");
-            var txtEmployeeID = $("#txtEmployeeID");
-            var txtApplicationID = $("#txtApplicationID");
+            var numKilometers = $("#numKilometers");
+            var numStatusID = $("#numStatusID");
+            var numEmployeeID = $("#numEmployeeID");
+            var numApplicationID = $("#numApplicationID");
             //var chkRoundTrip = $("#chkRoundTrip").is(':checked');
             //alert(chkRoundTrip)
             alert(txtEmployeeID.val());
@@ -163,23 +163,22 @@
 
                 //Add txtKilometers cell.
                 cell = $(row.insertCell(-1));
-                cell.html(txtKilometers.val());
+                cell.html(numKilometers.val());
 
                 //Add txtStatusID cell.
                 cell = $(row.insertCell(-1));
-                cell.html(txtStatusID.val());
+                cell.html(numStatusID.val());
 
                 //Add txtEmployeeID cell.
                 cell = $(row.insertCell(-1));
-                cell.html(txtEmployeeID.val());
+                cell.html(numEmployeeID.val());
 
                 //Add txtApplicationID cell.
                 cell = $(row.insertCell(-1));
-                cell.html(txtApplicationID.val());
+                cell.html(numApplicationID.val());
 
                 //Add chkRoundTrip cell.
                 //cell = $(row.insertCell(-1));
-                ////somethings probally wrong here
                 //cell.html(chkRoundTrip);
 
                 //Add Button cell.
