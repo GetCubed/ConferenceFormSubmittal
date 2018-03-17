@@ -29,7 +29,7 @@
                     @Html.LabelFor(model => model.Kilometres, htmlAttributes: new { @class = "control-label font-bold" })
                 </th>
                 <th>
-                    @Html.LabelFor(model => model.ApplicationID, htmlAttributes: new { @class = "control-label font-bold" })
+                    @*@Html.LabelFor(model => model.*@<b>Application</b>@*ID, htmlAttributes: new { @class = "control-label font-bold" })*@
                 </th>
                 <th>
                     @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-bold" })
@@ -39,7 +39,7 @@
                 </th>
                 <th></th>
             </tr>
-            <tr id="trAddMileage" class="rgba-grey-light">
+            <tr @*id="trAddMileage"*@ class="rgba-grey-light">
                 <td>
                     @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
                     @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
@@ -69,12 +69,14 @@
                 <td>
                     <a onclick="GetRoute()" class="btn btn-success mt-3">Get Route</a>
                     <a onclick="addMileage()" class="btn btn-success mt-3">
-                        <i class="fa fa-plus"></i>
+                        @*<i class="fa fa-plus"></i>*@Add to List
                     </a>
                     @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
                     @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @Value = "1", @hidden = "hidden" } })
                 </td>
             </tr>
+            <tr><td colspan="7"><label id="txtValid"></label></td></tr>
+            <tr id="trAddMileage"><td></td></tr>
         </tbody>
     </table>
     <div class="col-6" id="dvMap" style="min-height:500px">
@@ -86,10 +88,34 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
 
+        function validMileage(travelDate, startAddress, endAddress, kilometres) {
+            
+            var result = true;
+            var valid = $("#txtValid");
+            valid.empty();
+
+            if (travelDate == "") {
+                result = false;
+                valid.append("There must be a Travel Date.");
+            }
+            if (startAddress == "") {
+                result = false;
+                valid.append("There must be a Start Address.");
+            }
+            if (endAddress == "") {
+                result = false;
+                valid.append("There must be a End Address.");
+            }
+            if (typeof kilometres == 'number' || kilometres == "") {
+                result = false;
+                valid.append("There must be a Kilometre amount.");
+            }
+
+            return result;
+        }
+
         // adds the mileage to the table if valid
         function addMileage() {
-
-            //add a confirmation for add
 
             // get values
             var $txtTravelDate = $("#txtTravelDate"),
@@ -99,79 +125,87 @@
                 $ddlAppID = $("#ddlApplicationID"),
                 $chkRoundTrip = $("#chkRoundTrip"),
                 $txtreimbursement = $("#txtReimbursement"),
-                txtTravelDate = $txtTravelDate.val(),
-                txtStartAddress = $txtStartAddress.val(),
-                txtEndAddress = $txtEndAddress.val(),
-                txtKilometres = $txtKilometres.val(),
+                travelDate = $txtTravelDate.val(),
+                startAddress = $txtStartAddress.val(),
+                endAddress = $txtEndAddress.val(),
+                kilometres = $txtKilometres.val(),
                 app = $ddlAppID.find(":selected").val(),
                 appID = $ddlAppID.val(),
                 roundTrip = $chkRoundTrip.is(':checked'),
                 reimbursement = $txtreimbursement.val();
+            
 
-            // add the expense to the table
-            //so maybe change the trAddMileage above so that while it get the data here it submits it the the row below
-            $("#trAddMileage").after(
-                "<tr class='trMileage'>" +
-                "<td class='travelDate'>" + txtTravelDate + "</td>" +
-                "<td class='startAddress'>" + txtStartAddress + "</td>" +
-                "<td class='endAddress'>" + txtEndAddress + "</td>" +
-                "<td class='kilometres'>" + txtKilometres + "</td>" +
-                "<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
-                "<td class='roundTrip'>" + roundTrip + "</td>" +
-                "<td class='reimbursement'>" + reimbursement + "</td>" +
-                //"<td class='startDate'>" + parseFloat(cost).toFixed(2) + "</span></td>" +
-                //"<td class='rationale'>" + rationale + "</td>" +
-                "<td><a onclick='removeMileage($(this))' class='removeMileage btn btn-danger'><i class='fa fa-minus'></i></a></td>" +
-                "</tr>");
+            if (validMileage(travelDate, startAddress, endAddress, kilometres)) {
+                // add the expense to the table
+                $("#trAddMileage").before(
+                    "<tr class='trMileage'>" +
+                    "<td class='travelDate'>" + travelDate + "</td>" +
+                    "<td class='startAddress'>" + startAddress + "</td>" +
+                    "<td class='endAddress'>" + endAddress + "</td>" +
+                    "<td class='kilometres'>" + kilometres + "</td>" +
+                    "<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
+                    "<td class='roundTrip'>" + roundTrip + "</td>" +
+                    "<td class='reimbursement'>" + reimbursement + "</td>" +
+                    "<td><a onclick='removeMileage($(this))' class='removeMileage btn btn-danger'><i class='fa fa-minus'></i></a></td>" +
+                    "</tr>");
 
-            // clear the input fields
-            //$txtTravelDate.val("");
-            $txtStartAddress.val("");
-            $txtEndAddress.val("");
-            $txtKilometres.val("");
-            $chkRoundTrip.val("");
-            $txtreimbursement.val("");
+                // clear the input fields
+                //$txtTravelDate.val("");
+                $txtStartAddress.val("");
+                $txtEndAddress.val("");
+                $txtKilometres.val("");
+                $chkRoundTrip.val("");
+                $txtreimbursement.val("");
+            }
+            
+            //if (confirm("Do you want to add this Mileage Entry?")) {
+            //    //once validation is good add the block of code here
+            //}
         }
 
         // removes an expense from the table
         function removeMileage($row) {
-            $row.closest(".trMileage").remove();
+            if (confirm("Do you want to delete this Mileage Entry?")) {
+                $row.closest(".trMileage").remove();
+            }
         }
 
         $("#btnSubmit").click(function () {
 
             var mileageBatch = [];
 
-            $(".trMileage").each(function () {
-                var row = $(this);
+            if (confirm("Do you want to submit?")) {
 
-                var mileage = {
-                    TravelDate: row.find(".travelDate").html(),
-                    StartAddress: row.find(".startAddress").html(),
-                    EndAddress: row.find(".endAddress").html(),
-                    Kilometres: row.find(".kilometres").html(),
-                    ApplicationID: row.find(".applicationID").data("id"),
-                    RoundTrip: row.find(".roundTrip").html,
-                    StatusID: 1,
-                    EmployeeID: 1
-                    //so like this is how the statusID and empID could be not avaible to user if its entered here?
-                };
+                $(".trMileage").each(function () {
+                    var row = $(this);
 
-                mileageBatch.push(mileage);
-            });
+                    var mileage = {
+                        TravelDate: row.find(".travelDate").html(),
+                        StartAddress: row.find(".startAddress").html(),
+                        EndAddress: row.find(".endAddress").html(),
+                        Kilometres: row.find(".kilometres").html(),
+                        ApplicationID: row.find(".applicationID").data("id"),
+                        RoundTrip: row.find(".roundTrip").html,
+                        StatusID: 1,
+                        EmployeeID: 1 //needs to reference the logged in user
+                    };
 
-            $.ajax({
-                type: "POST",
-                url: "/Mileages/AddMileages",
-                data: JSON.stringify(mileageBatch),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    alert((response + 1) + " mileage(s) added.");
+                    mileageBatch.push(mileage);
+                });
 
-                    $("#frmCreateMileage").submit();
-                }
-            });
+                $.ajax({
+                    type: "POST",
+                    url: "/Mileages/AddMileages",
+                    data: JSON.stringify(mileageBatch),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        //alert((response + 1) + " mileage(s) added.");
+
+                        $("#frmCreateMileage").submit();
+                    }
+                });
+            }
         });
     </script>
 
