@@ -1,7 +1,7 @@
 ﻿@model ConferenceFormSubmittal.Models.Application
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "New Application";
     ViewBag.ConferenceID = Request.QueryString["Conference"];
 }
 
@@ -9,7 +9,7 @@
 <div class="row pt-3">
     <div class="col-12">
         <div class="card card-header bg-NCDSB-Grey">
-            <h3 class="text-center font-weight-bold">Create Application</h3>
+            <h3 class="text-center font-weight-bold">New Application</h3>
         </div>
     </div>
 </div>
@@ -37,16 +37,21 @@
                 <div class="col-12">
                     <div class="card card-body bg-NCDSB-Grey">
                         <div class="row">
+                            <div class="col-12">
+                                <h4>Conference Details</h4> @*Each panel needs a header of some kind*@
+                            </div>
+                            <br />
+                            <br />
                             <div class="col-6">
                                 @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @ViewBag.Conference.Name
                                 @Html.Hidden("ConferenceID", new { @value = ViewBag.ConferenceID })
 
                                 @Html.LabelFor(model => model.Conference.StartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @ViewBag.Conference.StartDate
+                                @ViewBag.Conference.StartDate.ToShortDateString()
 
                                 @Html.LabelFor(model => model.Conference.EndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @ViewBag.Conference.EndDate
+                                @ViewBag.Conference.EndDate.ToShortDateString()
                             </div>
 
                             <div class="col-6">
@@ -54,7 +59,7 @@
                                 @ViewBag.Conference.Location
 
                                 @Html.LabelFor(model => model.Conference.RegistrationCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @ViewBag.Conference.RegistrationCost
+                                @ViewBag.Conference.RegistrationCost.ToString("C")
                             </div>
                         </div>
                     </div>
@@ -65,6 +70,11 @@
                 <div class="col-12">
                     <div class="card card-body bg-NCDSB-Grey">
                         <div class="row">
+                            <div class="col-12">
+                                <h4 class="d-block mt-2">Application Details</h4> @*Each panel needs a header of some kind*@
+                            </div>
+                            <br />
+                            <br />
                             <div class="col-12">
                                 @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @Html.EditorFor(model => model.Rationale, new { htmlAttributes = new { @class = "form-control" } })
