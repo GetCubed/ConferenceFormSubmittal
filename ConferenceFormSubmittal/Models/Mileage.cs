@@ -29,6 +29,7 @@ namespace ConferenceFormSubmittal.Models
         public bool RoundTrip { get; set; }
 
         // to be calculated
+        [Display(Name = "Distance")]
         public decimal Kilometres { get; set; }
 
         [StringLength(500, ErrorMessage = "Feedback may include no more than 500 characters.")]
@@ -44,6 +45,7 @@ namespace ConferenceFormSubmittal.Models
 
         public virtual Employee Employee { get; set; }
 
+        [Display(Name = "Conference")]
         public virtual Application Application { get; set; }
     }
 }
