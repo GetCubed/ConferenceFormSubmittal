@@ -46,14 +46,28 @@ namespace ConferenceFormSubmittal.Controllers
             return View();
         }
 
-        public ActionResult BatchSubmit()
+        public JsonResult AddMileages(List<Mileage> mileages)
         {
-            List<Mileage> mileageList = new List<Mileage> { };
-            //CEntities entities = new CEntities();
-            ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale");
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName");
-            ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description");
-            return View(mileageList/*entities.Customers*/);
+            using (CFSEntities entities = new CFSEntities())
+            {
+                //Check for NULL.
+                if (mileages == null)
+                {
+                    mileages = new List<Mileage>();
+                }
+
+                //ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale");
+                //ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName");
+                //ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description");
+
+                //Loop and insert records.
+                foreach (Mileage mileage in mileages)
+                {
+                    entities.Mileages.Add(mileage);
+                }
+                int insertedRecords = entities.SaveChanges();
+                return Json(insertedRecords);
+            }
         }
 
         public JsonResult InsertMileages(List<Mileage> mileages)
@@ -85,7 +99,7 @@ namespace ConferenceFormSubmittal.Controllers
         // POST: Mileages/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,TravelDate,StartAddress,EndAddress,Kilometres,Feedback,StatusID,EmployeeID,ApplicationID")] Mileage mileage)
         {
