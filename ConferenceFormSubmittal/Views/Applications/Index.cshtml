@@ -9,55 +9,74 @@
 <div class="row pt-3">
     <div class="col-12">
         <div class="card card-header bg-NCDSB-Grey">
-            <h3 class="text-center">My Applications</h3>
+            <h3 class="text-center font-weight-bold">My Applications</h3>
         </div>
     </div>
 </div>
 
 
+<!-- Filter CARD----------------->
 <div class="row pt-3">
-    <div class="col-3">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey">
 
-        <div class="card card-body bg-NCDSB-Grey pb-2">
-            @Html.ActionLink("Create New", "Index", "Conferences", null, new { @class = "btn btn-primary btn-block mb-3" })
-        </div>
-
-        <div class="card mt-3">
-            <div class="card-body bg-NCDSB-Grey">
-
-
-                <b>Start Date</b>
-                <input type="date" class="form-control">
-
-                <b>End Date</b>
-                <input type="date" class="form-control">
-
-                <b>Conference</b>
-                <input type="text" class="form-control">
-
-                <b>Status</b>
-                <select name="status" class="d-block">
-                    <option selected>Submitted  </option>
-                    <option>Denied </option>
-                    <option>Approved</option>
-                    <option>Draft</option>
-                </select>
+            <div class="card-header d-flex justify-content-between ">
+                <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
+                    <i class="fa fa-file-text fa-2x"></i>
+                    Create New
+                </a>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="collapseExample,collapseExamples">
+                    <i class="fa fa-filter fa-2x"></i> Filter Applications
+                </button>
             </div>
 
-            <div class="card-footer bg-NCDSB-Grey">
-                <button type="button" class="btn btn-primary btn-block">Search</button>
+            <div class="collapse filter">
+                <div class="card-body">
+
+
+                    <div class="row">
+                        <div class="col-6">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendStartDate)</b>
+                            <input type="date" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendEndDate)</b>
+                            <input type="date" class="form-control">
+
+                        </div>
+                        <div class="col-6">
+                            <b>@Html.DisplayNameFor(model => model.Conference)</b>
+                            <input type="text" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.Status)</b>
+                            <select name="status" class="d-block">
+                                <option selected>Submitted  </option>
+                                <option>Denied </option>
+                                <option>Approved</option>
+                                <option>Draft</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary btn-block"> <i class="fa fa-filter fa-2x"></i> Filter</button>
+                </div>
+
             </div>
+
         </div>
-
-        
-
-
     </div>
+</div>
+<!-- Filter CARD----------------->
 
-    <div class="col-9">
+<div class="row pt-3">
+
+
+    <div class="col-12">
         <!--Panel-->
         <div class="card card-body bg-NCDSB-Grey ">
-            
+
             <table class="table">
                 <tr>
                     <th>
@@ -67,7 +86,7 @@
                         <b>@Html.DisplayNameFor(model => model.DateSubmitted)</b>
                     </th>
                     <th>
-                        <b>Status @*@Html.DisplayNameFor(model => model.Status.Description)*@</b>
+                        <b>@Html.DisplayNameFor(model => model.Status)</b>
                     </th>
                     <th></th>
                 </tr>
@@ -75,66 +94,59 @@
                 @{ int i = 0;}
 
                 @for (int c = 0; c < 5; c++)
-        {
+                {
 
-            foreach (var item in Model)
-            {
-                i++;
+                    foreach (var item in Model)
+                    {
+                        i++;
 
-                <tr class="
-                @(item.StatusID == 1 ? "rgba-green-light" : "")
-                @(item.StatusID == 2 ? "rgba-black-light" : "")
-                @(item.StatusID == 3 ? "" : "")
+                        <tr class="
+                @(item.StatusID == 1 ? "" : "")
+                @(item.StatusID == 2 ? "rgba-green-light" : "")
+                @(item.StatusID == 3 ? "rgba-black-light" : "")
                 @(item.StatusID == 4 ? "gba-yellow-light" : "")
                 ">
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Conference.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateSubmitted)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status.Description)
-                    </td>
-                    <td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Conference.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DateSubmitted)
+                            </td>
+                            <td>
+                                <i class="
+                                   @(item.StatusID == 1 ? "fa fa-paper-plane fa-2x" : "")
+                                   @(item.StatusID == 2 ? "fa fa-thumbs-up fa-2x" : "")
+                                   @(item.StatusID == 3 ? "fa fa-thumbs-down fa-2x" : "")
+                                   @(item.StatusID == 4 ? "fa fa-paperclip fa-2x" : "")
+                                   "></i>
+                                @Html.DisplayFor(modelItem => item.Status.Description)
+                            </td>
+
+                            <td style="width:20%">
+
+                                <a href='@Url.Action("Details", "Applications", new { id = item.ID })' class="badge badge-primary bg-NCDSB-Blue text-white">
+                                    <i class="text-white fa fa-eye fa-3x"></i>
+                                    <br />
+                                    View
+                                </a>
+                                <a href='@Url.Action("Edit", "Applications", new { id = item.ID })' class="badge badge-primary">
+                                    <i class="fa fa-pencil fa-3x"></i>
+                                    <br />
+                                    Edit
+                                </a>
+                                <a href='@Url.Action("Delete", "Applications",new { id = item.ID })' class="badge badge-danger">
+                                    <i class="fa fa-flag fa-3x"></i>
+                                    <br />
+                                    Flag
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
 
 
-
-                        @if (item.StatusID == 1)
-    {
-                    @Html.ActionLink("View", "Details", new { id = item.ID }, new { @class = "badge badge-primary bg-NCDSB-Blue text-white" })
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "badge badge-primary invisible mx-1" })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "badge badge-danger mx-1 invisible" })
-}
-
-                        @if (item.StatusID == 2)
-    {
-                    @Html.ActionLink("View", "Details", new { id = item.ID }, new { @class = "badge badge-primary bg-NCDSB-Blue text-white" })
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "badge badge-primary invisible mx-1" })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "badge badge-danger mx-1" })
-}
-                        @if (item.StatusID == 3)
-    {
-                    @Html.ActionLink("View", "Details", new { id = item.ID }, new { @class = "badge badge-primary bg-NCDSB-Blue text-white invisible" })
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "badge badge-primary mx-1" })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "badge badge-danger mx-1" })
-}
-                        @if (item.StatusID == 4)
-    {
-                    @Html.ActionLink("View", "Details", new { id = item.ID }, new { @class = "badge badge-primary bg-NCDSB-Blue text-white" })
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "badge badge-primary invisible mx-1" })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "badge badge-danger mx-1" })
-}
-
-
-                    </td>
-                </tr>
-
-    }
-
-
-}
+                }
 
 
 
@@ -146,6 +158,63 @@
 
 
 
+
+
     </div>
 </div>
 
+
+<!-- Filter CARD----------------->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey">
+
+            <div class="card-header d-flex justify-content-between ">
+                <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
+                    <i class="fa fa-file-text fa-2x"></i>
+                    Create New
+                </a>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="collapseExample,collapseExamples">
+                    <i class="fa fa-filter fa-2x"></i> Filter Applications
+                </button>
+            </div>
+
+            <div class="collapse filter">
+                <div class="card-body">
+
+
+                    <div class="row">
+                        <div class="col-6">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendStartDate)</b>
+                            <input type="date" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.AttendEndDate)</b>
+                            <input type="date" class="form-control">
+
+                        </div>
+                        <div class="col-6">
+                            <b>@Html.DisplayNameFor(model => model.Conference)</b>
+                            <input type="text" class="form-control">
+
+                            <b>@Html.DisplayNameFor(model => model.Status)</b>
+                            <select name="status" class="d-block">
+                                <option selected>Submitted  </option>
+                                <option>Denied </option>
+                                <option>Approved</option>
+                                <option>Draft</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary btn-block"> <i class="fa fa-filter fa-2x"></i> Filter</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Filter CARD----------------->

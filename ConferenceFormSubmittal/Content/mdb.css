@@ -1423,10 +1423,12 @@
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
 
 a {
-  color: #0275d8;
-  text-decoration: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent; }
+    color: #000;
+    /*color: #0275d8;*/
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
   a:hover, a:focus {
     text-decoration: none; }
 
@@ -5265,7 +5267,7 @@ button:focus {
   .btn:hover, .btn:active, .btn:focus, .btn:active:focus {
     outline: 0; }
   .btn .fa {
-    font-size: 1rem;
+    /*font-size: 1rem;*/
     position: relative;
     vertical-align: middle;
     margin-top: -2px; }
@@ -5364,7 +5366,7 @@ button:focus {
 
 .btn-danger {
   background-color: #ff3547 !important;
-  color: #fff !important; }
+  color: #000 !important; }
   .btn-danger:hover {
     background-color: #ff4f5e; }
   .btn-danger:focus, .btn-danger:active, .btn-danger.active {
@@ -6331,8 +6333,10 @@ button:focus {
   background-color: #f7f7f9; }
 
 .navbar {
-  font-weight: 300;
-  padding-right: 1rem !important; }
+    font-size: 18px;
+    font-weight: 300;
+    padding-right: 1rem !important;
+}
   .navbar form input {
     margin: 0 5px 1px 8px;
     height: 1rem; }
@@ -8026,12 +8030,12 @@ ul.instagram-photos {
   transition: 0.5s; }
 
 table th {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400; }
 
 table td {
-  font-size: 0.9rem;
-  font-weight: 300; }
+  font-size: 1rem;
+  font-weight: 400; }
 
 table.table thead th {
   border-top: none; }

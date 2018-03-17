@@ -11,7 +11,7 @@
 <div class="row pt-3">
     <div class="col-12">
         <div class="card card-header bg-NCDSB-Grey">
-            <h3 class="text-center">My Mileage</h3>
+            <h3 class="text-center font-weight-bold">My Mileage</h3>
         </div>
     </div>
 </div>
@@ -85,10 +85,11 @@
                 @foreach (var item in Model)
     {
             <tr class="
-                @(item.StatusID == 1 ? "rgba-green-light" : "")
-                @(item.StatusID == 2 ? "rgba-black-light" : "")
-                @(item.StatusID == 3 ? "" : "")
-                @(item.StatusID == 4 ? "gba-yellow-light" : "")">
+                @(item.StatusID == 1 ? "" : "")
+                @(item.StatusID == 2 ? "rgba-green-light" : "")
+                @(item.StatusID == 3 ? "rgba-black-light" : "")
+                @(item.StatusID == 4 ? "gba-yellow-light" : "")"
+                >
 
                 <td>
                     @Html.DisplayFor(modelItem => item.StartAddress)

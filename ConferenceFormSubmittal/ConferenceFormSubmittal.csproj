@@ -211,6 +211,10 @@
     <Compile Include="DAL\CFSMigrations\201803032210225_PaymentTypes.Designer.cs">
       <DependentUpon>201803032210225_PaymentTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\CFSMigrations\201803071507269_whatever.cs" />
+    <Compile Include="DAL\CFSMigrations\201803071507269_whatever.Designer.cs">
+      <DependentUpon>201803071507269_whatever.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -229,6 +233,7 @@
     <Compile Include="Models\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\Helper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -237,24 +242,38 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\mdb.css" />
+    <Content Include="DAL\scrapsfornow.txt" />
     <Content Include="DAL\Zcommands.txt" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\App_Background.jpg" />
+    <Content Include="Images\App_Background3.jpg" />
     <Content Include="Images\background - Copy - Copy.jpg" />
     <Content Include="Images\background.jpg" />
     <Content Include="Images\bookconference.jpeg" />
+    <Content Include="Images\check1.png" />
+    <Content Include="Images\check_Black.png" />
+    <Content Include="Images\check_stroke.png" />
     <Content Include="Images\logo-header.png" />
+    <Content Include="Images\logo-headerdark.png" />
+    <Content Include="Images\logo-headerlite.png" />
     <Content Include="Images\myconferences.jpeg" />
     <Content Include="Images\NCDSBColours.txt" />
     <Content Include="Images\NCDSB_LOGO_LARGE.jpg" />
     <Content Include="Images\NCDSB_LOGO_TEXT_LARGE.jpg" />
     <Content Include="Images\NCDSB_LOGO_TEXT_TRANSPARENT_SMALL.png" />
     <Content Include="Images\trackmileage.jpeg" />
+    <Content Include="Images\X-Icon3.png" />
+    <Content Include="Images\X-IconBlack.png" />
+    <Content Include="Images\X-Icon_NoBack.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -277,6 +296,31 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="font\roboto\Roboto-Bold.eot" />
+    <Content Include="font\roboto\Roboto-Bold.ttf" />
+    <Content Include="font\roboto\Roboto-Bold.woff" />
+    <Content Include="font\roboto\Roboto-Bold.woff2" />
+    <Content Include="font\roboto\Roboto-Light.eot" />
+    <Content Include="font\roboto\Roboto-Light.ttf" />
+    <Content Include="font\roboto\Roboto-Light.woff" />
+    <Content Include="font\roboto\Roboto-Light.woff2" />
+    <Content Include="font\roboto\Roboto-Medium.eot" />
+    <Content Include="font\roboto\Roboto-Medium.ttf" />
+    <Content Include="font\roboto\Roboto-Medium.woff" />
+    <Content Include="font\roboto\Roboto-Medium.woff2" />
+    <Content Include="font\roboto\Roboto-Regular.eot" />
+    <Content Include="font\roboto\Roboto-Regular.ttf" />
+    <Content Include="font\roboto\Roboto-Regular.woff" />
+    <Content Include="font\roboto\Roboto-Regular.woff2" />
+    <Content Include="font\roboto\Roboto-Thin.eot" />
+    <Content Include="font\roboto\Roboto-Thin.ttf" />
+    <Content Include="font\roboto\Roboto-Thin.woff" />
+    <Content Include="font\roboto\Roboto-Thin.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -300,7 +344,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Views\Applications\scraps.txt" />
+    <Content Include="Views\Applications\temp.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -366,6 +410,7 @@
     <Content Include="Views\Mileages\Details.cshtml" />
     <Content Include="Views\Mileages\Edit.cshtml" />
     <Content Include="Views\Mileages\Index.cshtml" />
+    <Content Include="Views\Applications\ApplicationExpensePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -382,6 +427,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\CFSMigrations\201803032210225_PaymentTypes.resx">
       <DependentUpon>201803032210225_PaymentTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201803071507269_whatever.resx">
+      <DependentUpon>201803071507269_whatever.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -405,7 +453,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5824</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
