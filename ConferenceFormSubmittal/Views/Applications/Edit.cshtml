@@ -143,31 +143,49 @@
 
                             @foreach (var item in Model.Expenses)
                             {
+                                @* cannot input actual cost until application is approved *@
+                                var estCostEditor = Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost" } });
+                                var actCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost", @disabled = "disabled", @title = "Actual Cost cannot be entered before the application is approved." } });
+                                
+                                if (Model.Status.Description == "Approved")
+                                {
+                                    @* cannot edit estimated cost after application has been approved *@
+                                    estCostEditor = Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost", @disabled = "disabled", @title = "Estimated Cost cannot be changed once the application has been approved." } });
+                                    actCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost" } });
+                                }
+
                             <tr>
                                 <td>
                                     @Html.DropDownList("ExpenseTypeID", null, htmlAttributes: new { @class = "form-control ddlExpenseType" })
                                 </td>
                                 <td>
-                                    @Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost" } })
+                                    @estCostEditor
+                                </td>
+                                <td>
+                                    @actCostEditor
+                                </td>
+                                <td>
+                                    @Html.EditorFor(e => item.Rationale, new { htmlAttributes = new { @class = "form-control txtRationale" } })
                                 </td>
                             </tr>
                             }
+
+                            @*Needs an "Add Expense" heading*@
                             <tr id="trAddExpense" class="rgba-grey-light">
                                 <td>
                                     @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control", @id = "ddlExpenseType" })
                                     <label id="lblInvalidType" class="text-danger d-none">You must choose an expense type.</label>
                                 </td>
                                 <td>
-                                    @Html.EditorFor(model => model.Expenses.FirstOrDefault().EstimatedCost, new { htmlAttributes = new { @class = "form-control", @id = "txtEstimatedCost" } })
+                                    <input type="text" class="form-control" id="txtEstimatedCost" />
                                     <label id="lblInvalidCost" class="text-danger d-none">You must provide a valid cost estimate.</label>
                                 </td>
                                 <td>
-                                    @Html.EditorFor(model => model.Expenses.FirstOrDefault().ActualCost, new { htmlAttributes = new { @class = "form-control", @id = "txtActualdCost" } })
+                                    <input type="text" class="form-control" id="txtActualCost" />
                                     <label id="lblInvalidCost" class="text-danger d-none">You must provide a valid cost estimate.</label>
                                 </td>
                                 <td>
-                                    @Html.EditorFor(model => model.Expenses.FirstOrDefault().Rationale, new { htmlAttributes = new { @class = "form-control", @id = "txtRationale" } })
-                                    @Html.ValidationMessageFor(model => model.Rationale, "", new { @class = "text-danger" })
+                                    <textarea class="form-control md-textarea" id="txtRationale"></textarea>
                                 </td>
                                 <td>
                                     <a onclick="addExpense()" class="btn btn-success mt-3">
@@ -180,17 +198,6 @@
                 </div>
             </div>
         </div>
-    </div>
-}
-@*
-@using (Ajax.BeginForm("AddExpense", new AjaxOptions()
-{
-    HttpMethod = "Post",
-    InsertionMode = InsertionMode.Replace
-}))
-{
-    <div id="form-content">
-        @Html.Partial("ApplicationExpensePartial", Model)
     </div>
 }
 
@@ -229,11 +236,13 @@
 
             // get values
             var $ddlType = $("#ddlExpenseType"),
-                $txtCost = $("#txtEstimatedCost"),
+                $txtEstCost = $("#txtEstimatedCost"),
+                $txtActCost = $("#txtActualCost"),
                 $txtRationale = $("#txtRationale"),
                 type = $ddlType.find(":selected").text(),
                 typeID = $ddlType.val(),
-                cost = $txtCost.val(),
+                estCost = $txtEstCost.val(),
+                actCost = $txtActCost.val(),
                 rationale = $txtRationale.val();
 
             if (validExpense(typeID, cost)) {
@@ -241,13 +250,15 @@
                 $("#trAddExpense").before(
                     "<tr class='trExpense'>" +
                     "<td class='expenseType' data-id='" + typeID + "'>" + type + "</td>" +
-                    "<td>$<span class='estimatedCost'>" + parseFloat(cost).toFixed(2) + "</span></td>" +
+                    "<td>$<span class='estimatedCost'>" + parseFloat(estCost).toFixed(2) + "</span></td>" +
+                    "<td>$<span class='actualCost'>" + parseFloat(actCost).toFixed(2) + "</span></td>" +
                     "<td class='rationale'>" + rationale + "</td>" +
                     "<td><a onclick='removeExpense($(this))' class='removeExpense btn btn-danger'><i class='fa fa-minus'></i></a></td>" +
                     "</tr>");
                 // clear the input fields
                 $ddlType.prop("selectedIndex", 0);
-                $txtCost.val("");
+                $txtEstCost.val("");
+                $txtActCost.val("");
                 $txtRationale.val("");
             }
         }
@@ -284,4 +295,4 @@
             });
         });
     </script>
-}*@
+}
