@@ -71,10 +71,13 @@
                         <b> @Html.DisplayNameFor(model => model.EndAddress)</b>
                     </th>
                     <th>
-                        <b> @Html.DisplayNameFor(model => model.Kilometres)</b>
+                        <b> Kilometres</b>
                     </th>
                     <th>
                         <b> @Html.DisplayNameFor(model => model.TravelDate)</b>
+                    </th>
+                    <th>
+                        <b> @Html.DisplayNameFor(model => model.RoundTrip)</b>
                     </th>
                     <th>
                         <b> @Html.DisplayNameFor(model => model.Status.Description)</b>
@@ -98,17 +101,19 @@
                     @Html.DisplayFor(modelItem => item.EndAddress)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Kilometres)
+                    @Html.DisplayFor(modelItem => item.Kilometres) Km
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TravelDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoundTrip)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Status.Description)
                 </td>
                 <td>
                     @Html.ActionLink("View", "Details", new { id = item.ID }, new { @class = "badge badge-primary bg-NCDSB-Blue text-white" })
-
                 </td>
             </tr>
 }
@@ -117,8 +122,6 @@
 
         </div>
         <!--/.Panel-->
-
-
 
 
     </div>
