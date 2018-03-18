@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using ConferenceFormSubmittal.DAL;
 using ConferenceFormSubmittal.Models;
+using System.Data.Entity.Infrastructure;
+using PagedList;
 
 namespace ConferenceFormSubmittal.Controllers
 {
@@ -16,9 +18,131 @@ namespace ConferenceFormSubmittal.Controllers
         private CFSEntities db = new CFSEntities();
 
         // GET: Conferences
-        public ActionResult Index()
+        public ActionResult Index(string sortDirection, string sortField, string actionButton, 
+            int? conferenceID,string location, DateTime? startDate, DateTime? endDate, int? page)
         {
-            return View(db.Conferences.ToList());
+            IQueryable<Conference> conferences = db.Conferences;
+            ViewBag.Filtering = "";
+
+            ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name");
+            ViewBag.Location = new SelectList(db.Conferences, "Location", "Location");
+
+            if (conferenceID.HasValue)
+            {
+                conferences = conferences.Where(p => p.ID == conferenceID);
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastConferenceID = conferenceID;
+            }
+
+            if (!String.IsNullOrEmpty(location))
+            {
+                conferences = conferences.Where(p => p.Location == location);
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastLocation = location;
+            }
+
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                conferences = conferences.Where(p => p.StartDate > startDate && p.EndDate < endDate);
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastStartDate = startDate;
+                ViewBag.LastEndDate = endDate;
+            }
+            else if (startDate.HasValue && !endDate.HasValue)
+            {
+                conferences = conferences.Where(p => p.StartDate > startDate);
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastStartDate = startDate;
+            }
+            else if (!startDate.HasValue && endDate.HasValue)
+            {
+                conferences = conferences.Where(p => p.EndDate < endDate);
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastEndDate = endDate;
+            }
+
+            if (!String.IsNullOrEmpty(actionButton))
+            {
+                //Reset paging if ANY button was pushed
+                page = 1;
+
+                if (actionButton != "Filter")//Change of sort is requested
+                {
+                    if (actionButton == sortField) //Reverse order on same field
+                    {
+                        sortDirection = String.IsNullOrEmpty(sortDirection) ? "desc" : "";
+                    }
+                    sortField = actionButton;//Sort by the button clicked
+                }
+            }
+            if (sortField == "Location")//Sorting by Location
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    conferences = conferences
+                        .OrderBy(c => c.Location);
+                }
+                else
+                {
+                    conferences = conferences.OrderByDescending(c => c.Location);
+                }
+            }
+            else if (sortField == "Registration Cost")//Sorting by Registration Cost
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    conferences = conferences
+                        .OrderBy(c => c.RegistrationCost);
+                }
+                else
+                {
+                    conferences = conferences.OrderByDescending(c => c.RegistrationCost);
+                }
+            }
+            else if (sortField == "Start Date")//Sorting by Start Date
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    conferences = conferences
+                        .OrderBy(c => c.StartDate);
+                }
+                else
+                {
+                    conferences = conferences.OrderByDescending(c => c.StartDate);
+                }
+            }
+            else if (sortField == "End Date")//Sorting by End Date
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    conferences = conferences
+                        .OrderBy(c => c.EndDate);
+                }
+                else
+                {
+                    conferences = conferences.OrderByDescending(c => c.EndDate);
+                }
+            }
+            else //By default sort by Conference
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    conferences = conferences
+                        .OrderBy(c => c.Name);
+                }
+                else
+                {
+                    conferences = conferences.OrderByDescending(c => c.Name);
+                }
+            }
+            
+            ViewBag.sortField = sortField;
+            ViewBag.sortDirection = sortDirection;
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            return View(conferences.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Conferences/Details/5
