@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ConferenceFormSubmittal.Models.Conference>
+﻿@model PagedList.IPagedList<ConferenceFormSubmittal.Models.Conference>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -14,85 +15,97 @@
     </div>
 </div>
 
+@using (Html.BeginForm("Index", "Conferences", FormMethod.Get))
+{
+    <div class="row pt-3">
+        <div class="col-3">
 
-<div class="row pt-3">
-    <div class="col-3">
+            <div class="card card-body bg-NCDSB-Grey pb-2">
+                @Html.ActionLink("Create New", "Create", "Conferences", null, new { @class = "btn btn-primary btn-block mb-3" })
+            </div>
 
-        <div class="card card-body bg-NCDSB-Grey pb-2">
-            @Html.ActionLink("Create New", "Create", "Conferences", null, new { @class = "btn btn-primary btn-block mb-3" })
+            <div class="card mt-3">
+                <div class="card-body bg-NCDSB-Grey">
+
+                    <b>Sort by Conference</b>
+                    @Html.TextBox("ConferenceName", null, new { @class = "form-control" })
+
+                    <b>Sort by Location</b>
+                    @Html.TextBox("LocationName", null, new { @class = "form-control" })
+
+                    <b>Start Date</b>
+                    @Html.TextBox("startDate", null, new { @class = "form-control datepicker", @type = "date" })
+
+                    <b>End Date</b>
+                    @Html.TextBox("endDate", null, new { @class = "form-control datepicker", @type = "date" })
+
+                </div>
+                <div class="card-footer bg-NCDSB-Grey">
+                    <input type="submit" name="actionButton" value="Filter" class="btn btn-default" /> @Html.ActionLink("Clear", "Index")
+                </div>
+            </div>
+
         </div>
 
-        <div class="card mt-3">
-            <div class="card-body bg-NCDSB-Grey">
-                <b>Start Date</b>
-                <input type="date" class="form-control">
+        <div class="col-9">
+            <!--Panel-->
+            <div class="card card-body bg-NCDSB-Grey">
 
-                <b>End Date</b>
-                <input type="date" class="form-control">
-
-                <b>Name</b>
-                <input type="text" class="form-control">
-
-                <b>Conference</b>
-                <input type="text" class="form-control">
-
-            </div>
-            <div class="card-footer bg-NCDSB-Grey">
-                <button type="button" class="btn btn-primary btn-block">Search</button>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="col-9">
-        <!--Panel-->
-        <div class="card card-body bg-NCDSB-Grey">
-
-            <table class="table">
-                <tr>
-                    <th>
-                        <b>Conference</b>
-                    </th>
-                    <th>
-                        <b>Location</b>
-                    </th>
-                    <th>
-                        <b>Registration Cost</b>
-                    </th>
-                    <th>
-                        <b>Start Date</b>
-                    </th>
-                    <th>
-                        <b>End Date</b>
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model)
-                {
+                <table class="table">
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Location)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.RegistrationCost)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StartDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EndDate)
-                        </td>
-                        <td>
-                            @*<a href="~/Conferences/Details/1" class="badge badge-primary bg-NCDSB-Blue white-text">View</a>*@
-                            <a href="~/Applications/Create?ConferenceID=@item.ID" class="badge badge-primary bg-NCDSB-Blue white-text">Select</a>
-                        </td>
+                        <th>
+                            <b><input type="submit" name="actionButton" value="Conference" /></b>
+                        </th>
+                        <th>
+                            <b><input type="submit" name="actionButton" value="Location" /></b>
+                        </th>
+                        <th>
+                            <b><input type="submit" name="actionButton" value="Registration Cost" /></b>
+                        </th>
+                        <th>
+                            <b><input type="submit" name="actionButton" value="Start Date" /></b>
+                        </th>
+                        <th>
+                            <b><input type="submit" name="actionButton" value="End Date" /></b>
+                        </th>
+                        <th></th>
                     </tr>
-                }
-            </table>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RegistrationCost)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EndDate)
+                            </td>
+                            <td>
+                                @*<a href="~/Conferences/Details/1" class="badge badge-primary bg-NCDSB-Blue white-text">View</a>*@
+                                <a href="~/Applications/Create?ConferenceID=@item.ID" class="badge badge-primary bg-NCDSB-Blue white-text">Select</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                    <span id="filterMessage" class="text-danger">@((Model.Count() == 0) ? "Zero applicaitons found.  No records match your criteria." : "")</span>
+                    <input type="hidden" name="sortDirection" value="@ViewBag.sortDirection" />
+                    <input type="hidden" name="sortField" value="@ViewBag.sortField" />
+            </div>
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                    new { page, sortDirection = ViewBag.sortDirection, sortField = ViewBag.sortField,
+                    conferenceID = ViewBag.LastConferenceID, location = ViewBag.LastLocation, startDate = ViewBag.LastStartDate,
+                    endDate = ViewBag.LastEndDate }))
         </div>
     </div>
-</div>
+}
