@@ -21,6 +21,7 @@ namespace ConferenceFormSubmittal.Models
         [DataType(DataType.Currency)]
         public decimal? ActualCost { get; set; }
 
+        [Display(Name = "Expense Type")]
         public int ExpenseTypeID { get; set; }
 
         public int ApplicationID { get; set; }
