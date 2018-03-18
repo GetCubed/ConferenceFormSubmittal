@@ -19,11 +19,13 @@ namespace ConferenceFormSubmittal.Controllers
 
         // GET: Mileages
         public ActionResult Index(string sortDirection, string sortField, string actionButton,
-            int? employeeID, string startAddress, string endAddress, DateTime? startDate, DateTime? endDate, int? statusID, int? page)
+            int? employeeID, string employeeFirst, string employeeLast, string startAddress, 
+            string endAddress, DateTime? startDate, DateTime? endDate, int? statusID, int? page)
         {
             PopulateDropDownLists();
             var mileages = db.Mileages.Include(m => m.Application).Include(m => m.Employee).Include(m => m.Status);
-            
+            ViewBag.Filtering = "";
+
             //this is ugly, needs alternative or to be removed
             ViewBag.StartAddress = new SelectList(db.Mileages, "StartAddress", "StartAddress");
             ViewBag.EndAddress = new SelectList(db.Mileages, "EndAddress", "EndAddress");
@@ -33,6 +35,18 @@ namespace ConferenceFormSubmittal.Controllers
                 mileages = mileages.Where(p => p.EmployeeID == employeeID);
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastEmployeeID = employeeID;
+            }
+            if (!String.IsNullOrEmpty(employeeFirst))
+            {
+                mileages = mileages.Where(p => p.Employee.FirstName.ToUpper().Contains(employeeFirst.ToUpper()));
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastEmployeeFirst = employeeFirst;
+            }
+            if (!String.IsNullOrEmpty(employeeLast))
+            {
+                mileages = mileages.Where(p => p.Employee.LastName.ToUpper().Contains(employeeLast.ToUpper()));
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastEmployeeLast = employeeLast;
             }
             if (!String.IsNullOrEmpty(startAddress))
             {
@@ -175,6 +189,7 @@ namespace ConferenceFormSubmittal.Controllers
         // GET: Mileages/Create
         public ActionResult Create()
         {
+            PopulateDropDownLists();
             //ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name");
             //so ConferenceID would need to display Conference Name       "ConferenceID"
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale");
@@ -292,10 +307,10 @@ namespace ConferenceFormSubmittal.Controllers
 
         private void PopulateDropDownLists(Mileage mileage = null)
         {
-            var eQuery = from p in db.Employees
-                         orderby p.FirstName, p.LastName
+            var aQuery = from p in db.Conferences
+                         orderby p.Name
                          select p;
-            ViewBag.EmployeeID = new SelectList(eQuery, "ID", "FullName", mileage?.EmployeeID);
+            ViewBag.ConferenceName = new SelectList(aQuery, "ID", "Name");
 
             var sQuery = from p in db.Statuses
                          orderby p.Description
