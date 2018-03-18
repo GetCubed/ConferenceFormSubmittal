@@ -96,10 +96,10 @@
                     @foreach (var item in Model)
                     {
                         <tr class="
-                    @(item.StatusID == 1 ? "" : "")
-                    @(item.StatusID == 2 ? "rgba-green-light" : "")
-                    @(item.StatusID == 3 ? "rgba-black-light" : "")
-                    @(item.StatusID == 4 ? "gba-yellow-light" : "")">
+                        @(item.StatusID == 1 ? "" : "")
+                        @(item.StatusID == 2 ? "rgba-green-light" : "")
+                        @(item.StatusID == 3 ? "rgba-black-light" : "")
+                        @(item.StatusID == 4 ? "gba-yellow-light" : "")">
 
                             <td>
                                 @Html.DisplayFor(modelItem => item.StartAddress)
@@ -135,8 +135,9 @@
 
             @Html.PagedListPager(Model, page => Url.Action("Index",
               new { page, sortDirection = ViewBag.sortDirection, sortField = ViewBag.sortField,
-                  employeeID = ViewBag.LastEmployeeID, startAddress = ViewBag.LastStartAddress, endAddress = ViewBag.LastEndAddress,
-                  startDate = ViewBag.LastStartDate, endDate = ViewBag.LastEndDate, statusID = ViewBag.LastStatusID }))
+                  employeeID = ViewBag.LastEmployeeID, employeeFirst = ViewBag.LastEmployeeFirst, employeeLast = ViewBag.LastEmployeeLast,
+                  startAddress = ViewBag.LastStartAddress,endAddress = ViewBag.LastEndAddress, startDate = ViewBag.LastStartDate,
+                  endDate = ViewBag.LastEndDate, statusID = ViewBag.LastStatusID }))
             <!--/.Panel-->
 
 
