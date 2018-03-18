@@ -40,6 +40,8 @@ namespace ConferenceFormSubmittal.Controllers
         // GET: Mileages/Create
         public ActionResult Create()
         {
+            //ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name");
+            //so ConferenceID would need to display Conference Name       "ConferenceID"
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale");
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName");
             ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description");
