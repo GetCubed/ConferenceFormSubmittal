@@ -22,7 +22,8 @@ namespace ConferenceFormSubmittal.Controllers
             int? conferenceID,string location, DateTime? startDate, DateTime? endDate, int? page)
         {
             IQueryable<Conference> conferences = db.Conferences;
-            
+            ViewBag.Filtering = "";
+
             ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name");
             ViewBag.Location = new SelectList(db.Conferences, "Location", "Location");
 
@@ -44,20 +45,20 @@ namespace ConferenceFormSubmittal.Controllers
             {
                 conferences = conferences.Where(p => p.StartDate > startDate && p.EndDate < endDate);
                 ViewBag.Filtering = " in";//Flag filtering
-                ViewBag.startDate = startDate;
-                ViewBag.endDate = endDate;
+                ViewBag.LastStartDate = startDate;
+                ViewBag.LastEndDate = endDate;
             }
             else if (startDate.HasValue && !endDate.HasValue)
             {
                 conferences = conferences.Where(p => p.StartDate > startDate);
                 ViewBag.Filtering = " in";//Flag filtering
-                ViewBag.startDate = startDate;
+                ViewBag.LastStartDate = startDate;
             }
             else if (!startDate.HasValue && endDate.HasValue)
             {
                 conferences = conferences.Where(p => p.EndDate < endDate);
                 ViewBag.Filtering = " in";//Flag filtering
-                ViewBag.endDate = endDate;
+                ViewBag.LastEndDate = endDate;
             }
 
             if (!String.IsNullOrEmpty(actionButton))
@@ -138,7 +139,7 @@ namespace ConferenceFormSubmittal.Controllers
             ViewBag.sortField = sortField;
             ViewBag.sortDirection = sortDirection;
 
-            int pageSize = 4;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             return View(conferences.ToPagedList(pageNumber, pageSize));
