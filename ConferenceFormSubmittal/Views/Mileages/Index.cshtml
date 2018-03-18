@@ -1,6 +1,4 @@
-﻿@*@model IEnumerable<ConferenceFormSubmittal.Models.Mileage>*@
-
-@model PagedList.IPagedList<ConferenceFormSubmittal.Models.Mileage>
+﻿@model PagedList.IPagedList<ConferenceFormSubmittal.Models.Mileage>
 @using PagedList.Mvc;
 
 @{
@@ -32,8 +30,14 @@
                 <div class="card-body bg-NCDSB-Grey">
 
 
-                    <b>Sort by Employee</b>
-                    @Html.DropDownList("EmployeeID", null, "All Employees", htmlAttributes: new { @class = "form-control" })
+                    <b>Employee Number</b>
+                    @Html.TextBox("EmployeeID", null, "Employee Number", htmlAttributes: new { @class = "form-control" })
+
+                    <b>Employee First Name</b>
+                    @Html.TextBox("employeeFirst", null, new { @class = "form-control" })
+
+                    <b>Employee Last Name</b>
+                    @Html.TextBox("employeeLast", null, new { @class = "form-control" })
 
                     <b>Sort by Start Address</b>
                     @Html.DropDownList("StartAddress", null, "All Locations", htmlAttributes: new { @class = "form-control" })
@@ -41,11 +45,9 @@
                     <b>Sort by End Address</b>
                     @Html.DropDownList("EndAddress", null, "All Locations", htmlAttributes: new { @class = "form-control" })
 
-                    <b>Start Date</b>
-                    @Html.TextBox("startDate", null, new { @class = "form-control datepicker", @type = "date" })
-
-                    <b>End Date</b>
-                    @Html.TextBox("endDate", null, new { @class = "form-control datepicker", @type = "date" })
+                    <b>Date:</b>
+                    After: @Html.TextBox("startDate", null, new { @class = "form-control datepicker", @type = "date" })
+                    Before: @Html.TextBox("endDate", null, new { @class = "form-control datepicker", @type = "date" })
 
                     <b>Sort by Status</b>
                     @Html.DropDownList("StatusID", null, "All Statuses", htmlAttributes: new { @class = "form-control" })

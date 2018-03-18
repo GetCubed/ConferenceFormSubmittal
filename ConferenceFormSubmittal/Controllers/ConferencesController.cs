@@ -19,7 +19,7 @@ namespace ConferenceFormSubmittal.Controllers
 
         // GET: Conferences
         public ActionResult Index(string sortDirection, string sortField, string actionButton, 
-            int? conferenceID,string location, DateTime? startDate, DateTime? endDate, int? page)
+            int? conferenceID, string conferenceName, string locationName, DateTime? startDate, DateTime? endDate, int? page)
         {
             IQueryable<Conference> conferences = db.Conferences;
             ViewBag.Filtering = "";
@@ -27,18 +27,18 @@ namespace ConferenceFormSubmittal.Controllers
             ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name");
             ViewBag.Location = new SelectList(db.Conferences, "Location", "Location");
 
-            if (conferenceID.HasValue)
+            if (!String.IsNullOrEmpty(conferenceName))
             {
-                conferences = conferences.Where(p => p.ID == conferenceID);
+                conferences = conferences.Where(p => p.Name.ToUpper().Contains(conferenceName.ToUpper()));
                 ViewBag.Filtering = " in";//Flag filtering
-                ViewBag.LastConferenceID = conferenceID;
+                ViewBag.LastConferenceID = conferenceName;
             }
 
-            if (!String.IsNullOrEmpty(location))
+            if (!String.IsNullOrEmpty(locationName))
             {
-                conferences = conferences.Where(p => p.Location == location);
+                conferences = conferences.Where(p => p.Location.ToUpper().Contains(locationName.ToUpper()));
                 ViewBag.Filtering = " in";//Flag filtering
-                ViewBag.LastLocation = location;
+                ViewBag.LastLocation = locationName;
             }
 
             if (startDate.HasValue && endDate.HasValue)

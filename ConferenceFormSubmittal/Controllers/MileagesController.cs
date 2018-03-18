@@ -19,7 +19,7 @@ namespace ConferenceFormSubmittal.Controllers
 
         // GET: Mileages
         public ActionResult Index(string sortDirection, string sortField, string actionButton,
-            int? employeeID, string startAddress, string endAddress, DateTime? startDate, DateTime? endDate, int? statusID, int? page)
+            int? employeeID, string employeeFirst, string employeeLast, string startAddress, string endAddress, DateTime? startDate, DateTime? endDate, int? statusID, int? page)
         {
             PopulateDropDownLists();
             var mileages = db.Mileages.Include(m => m.Application).Include(m => m.Employee).Include(m => m.Status);
@@ -33,6 +33,18 @@ namespace ConferenceFormSubmittal.Controllers
                 mileages = mileages.Where(p => p.EmployeeID == employeeID);
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastEmployeeID = employeeID;
+            }
+            if (!String.IsNullOrEmpty(employeeFirst))
+            {
+                mileages = mileages.Where(p => p.Employee.FirstName.ToUpper().Contains(employeeFirst.ToUpper()));
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastEmployeeName = employeeFirst;
+            }
+            if (!String.IsNullOrEmpty(employeeLast))
+            {
+                mileages = mileages.Where(p => p.Employee.LastName.ToUpper().Contains(employeeLast.ToUpper()));
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastEmployeeName = employeeLast;
             }
             if (!String.IsNullOrEmpty(startAddress))
             {
@@ -292,10 +304,10 @@ namespace ConferenceFormSubmittal.Controllers
 
         private void PopulateDropDownLists(Mileage mileage = null)
         {
-            var eQuery = from p in db.Employees
-                         orderby p.FirstName, p.LastName
-                         select p;
-            ViewBag.EmployeeID = new SelectList(eQuery, "ID", "FullName", mileage?.EmployeeID);
+            //var eQuery = from p in db.Employees
+            //             orderby p.FirstName, p.LastName
+            //             select p;
+            //ViewBag.EmployeeName = new SelectList(eQuery, "ID", "FullName", mileage?.EmployeeID);
 
             var sQuery = from p in db.Statuses
                          orderby p.Description
