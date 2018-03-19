@@ -17,50 +17,72 @@
     </div>
 </div>
 
+
 @using (Html.BeginForm("Index", "Mileages", FormMethod.Get))
 {
     <div class="row pt-3">
-        <div class="col-3">
 
+
+        <div class="col-12">
+            <div class="row">
+                @*---------------FILTER CARD -------------------*@
+                <div class="card mt-3">
+                    <div class="card-header">
+
+                    </div>
+                    <div class="card-body bg-NCDSB-Grey">
+
+
+                        <b>Employee Number</b>
+                        @Html.TextBox("EmployeeID", null, "Employee Number", htmlAttributes: new { @class = "form-control" })
+
+                        <b>Employee First Name</b>
+                        @Html.TextBox("employeeFirst", null, new { @class = "form-control" })
+
+                        <b>Employee Last Name</b>
+                        @Html.TextBox("employeeLast", null, new { @class = "form-control" })
+
+                        <b>Sort by Start Address</b>
+                        @Html.DropDownList("StartAddress", null, "All Locations", htmlAttributes: new { @class = "form-control" })
+
+                        <b>Sort by End Address</b>
+                        @Html.DropDownList("EndAddress", null, "All Locations", htmlAttributes: new { @class = "form-control" })
+
+                        <b>Date:</b>
+                        After: @Html.TextBox("startDate", null, new { @class = "form-control datepicker", @type = "date" })
+                        Before: @Html.TextBox("endDate", null, new { @class = "form-control datepicker", @type = "date" })
+
+                        <b>Sort by Status</b>
+                        @Html.DropDownList("StatusID", null, "All Statuses", htmlAttributes: new { @class = "form-control" })
+
+
+                    </div>
+
+                    <div class="card-footer bg-NCDSB-Grey">
+                        <input type="submit" name="actionButton" value="Filter" class="btn btn-default" /> @Html.ActionLink("Clear", "Index")
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+
+        
+
+
+
+
+
+
+
+        <div class="col-3">
+           
             <div class="card card-body bg-NCDSB-Grey pb-2">
                 @Html.ActionLink("Create New", "Create", "Mileages", null, new { @class = "btn btn-primary btn-block mb-3" })
             </div>
 
-            <div class="card mt-3">
-                <div class="card-body bg-NCDSB-Grey">
 
 
-                    <b>Employee Number</b>
-                    @Html.TextBox("EmployeeID", null, "Employee Number", htmlAttributes: new { @class = "form-control" })
-
-                    <b>Employee First Name</b>
-                    @Html.TextBox("employeeFirst", null, new { @class = "form-control" })
-
-                    <b>Employee Last Name</b>
-                    @Html.TextBox("employeeLast", null, new { @class = "form-control" })
-
-                    <b>Sort by Start Address</b>
-                    @Html.DropDownList("StartAddress", null, "All Locations", htmlAttributes: new { @class = "form-control" })
-
-                    <b>Sort by End Address</b>
-                    @Html.DropDownList("EndAddress", null, "All Locations", htmlAttributes: new { @class = "form-control" })
-
-                    <b>Date:</b>
-                    After: @Html.TextBox("startDate", null, new { @class = "form-control datepicker", @type = "date" })
-                    Before: @Html.TextBox("endDate", null, new { @class = "form-control datepicker", @type = "date" })
-
-                    <b>Sort by Status</b>
-                    @Html.DropDownList("StatusID", null, "All Statuses", htmlAttributes: new { @class = "form-control" })
-
-
-                </div>
-
-                <div class="card-footer bg-NCDSB-Grey">
-                    <input type="submit" name="actionButton" value="Filter" class="btn btn-default" /> @Html.ActionLink("Clear", "Index")
-                </div>
-            </div>
-
-
+           
 
 
         </div>
