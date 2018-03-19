@@ -65,11 +65,11 @@
                         @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-2">
-                        <label class="font-weight-bold">Attach Application?@*Should be conference?*@ </label>
+                        <label class="font-weight-bold">Attached Conference</label>
                     </div>
                     <div class="col-3">
                         @*this should actually display the conference name not the application rationale*@
-                        @Html.DropDownList("ApplicationID", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                        @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
                     </div>
                     <div class="col-2">
                         @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })

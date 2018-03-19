@@ -36,8 +36,9 @@
                     <div class="col-3">
                         @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
                         Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
-                        @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
-                        @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
+                        <input type="text" class = "form-control d-block" id = "txtStartAddress" placeholder = "Enter an Address" ><input>
+                        @*@Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
+                        @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })*@
                     </div>
                     <div class="col-2">
                         @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
@@ -45,8 +46,9 @@
                     <div class="col-3">
                         @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
                         Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
-                        @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
-                        @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
+                        <input type="text" class = "form-control d-block" id = "txtEndAddress" placeholder = "Enter an Address" ><input>
+                        @*@Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
+                        @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })*@
                     </div>
                     <div class="col-3">
                         <a onclick="GetRoute()" class="btn btn-primary d-block">
@@ -62,15 +64,17 @@
                         @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
                     </div>
                     <div class="col-3">
-                        @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
-                        @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
+                        <input type="date" class = "form-control d-block" id = "txtTravelDate"><input>
+                        @*@Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
+                        @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })*@
                     </div>
                     <div class="col-2">
-                        <label class="font-weight-bold">Attach Application?@*Should be conference?*@ </label>
+                        <label class="font-weight-bold">Attach to Conference? </label>
                     </div>
                     <div class="col-3">
                         @*this should actually display the conference name not the application rationale*@
-                        @Html.DropDownList("ApplicationID", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                        @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                        @*@Html.DropDownList("ApplicationID", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })*@
                     </div>
                     <div class="col-2">
                         @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
@@ -177,7 +181,7 @@
                                     <b>Kilometres</b>
                                 </th>
                                 <th>
-                                    <b>Attach Application?@*Should be conference?*@</b>
+                                    <b>Attached Conference</b>
                                 </th>
                                 <th>
                                     @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-bold" })
@@ -261,6 +265,8 @@
                 roundTrip = $chkRoundTrip.is(':checked'),
                 roundTriptxt = roundTrip ? "Yes" : "No";
                 reimbursement = $txtreimbursement.val();
+
+                alert(appID);
             
             var $txtStartAddress = $("#txtStartAddress"),
                 $ddlStartAddress = $("#ddlStartSite"),
