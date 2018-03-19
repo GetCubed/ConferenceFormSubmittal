@@ -36,17 +36,17 @@
                     <div class="col-3">
                         @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
                         Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
-                        <input type="text" class = "form-control d-block" id = "txtStartAddress" placeholder = "Enter an Address" ><input>
-                        @*@Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
-                        @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })*@
+                        <input type="text" class = "form-control d-block" id = "txtStartAddress" placeholder = "Enter an Address" />
                     </div>
                     <div class="col-2">
+                        @*@Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
+                        @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })*@
                         @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
                     </div>
                     <div class="col-3">
                         @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
                         Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
-                        <input type="text" class = "form-control d-block" id = "txtEndAddress" placeholder = "Enter an Address" ><input>
+                        <input type="text" class = "form-control d-block" id = "txtEndAddress" placeholder = "Enter an Address" />
                         @*@Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
                         @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })*@
                     </div>
@@ -64,7 +64,7 @@
                         @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
                     </div>
                     <div class="col-3">
-                        <input type="date" class = "form-control d-block" id = "txtTravelDate"><input>
+                        <input type="date" class = "form-control d-block" id = "txtTravelDate"/>
                         @*@Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
                         @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })*@
                     </div>
@@ -101,16 +101,17 @@
                         <label" class="font-weight-bold">Kilometers</label">
                     </div>
                     <div class="col-3">
-                        @Html.EditorFor(model => model.Kilometres, new
+                        <input type="text" class = "form-control text-dark" id = "txtKilometres" disabled = "disabled"/>
+                        @*@Html.EditorFor(model => model.Kilometres, new
                         {
                             htmlAttributes = new
                             {
                                 @class = "form-control text-dark",
-                                @id = "txtKilometres"//,
-                                //@disabled = "disabled"
+                                @id = "txtKilometres",
+                                @disabled = "disabled"
                             }
                         })
-                        @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })*@
                     </div>
                     <div class="col-2">
                         <label class="font-weight-bold">Mileage Claim</label>
@@ -128,8 +129,8 @@
                             <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
                             Add to List
                         </a>
-                        @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
-                        @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @Value = "1", @hidden = "hidden" } })
+                        @*@Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
+                        @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @Value = "1", @hidden = "hidden" } })*@
                     </div>
                 </div>
             </div>
@@ -302,9 +303,9 @@
                     $("#trAddMileage").before(
                         "<tr class='trMileage'>" +
                         "<td class='travelDate'>" + travelDate + "</td>" +
-                        "<td class='startAddress' data-startAddress='" + startAddress + "'>" + startAddressName + "</td>" +
-                        "<td class='endAddress' data-endAddress='" + endAddress + "'>" + endAddressName + "</td>" +
-                        "<td class='kilometres' data-kilometres='" + kilometres + "' > " + kilometres + " km</td > " +
+                        "<td class='startAddress' data-startAddressName='" + startAddress + "'>" + startAddressName + "</td>" +
+                        "<td class='endAddress' data-endAddressName='" + endAddress + "'>" + endAddressName + "</td>" +
+                        "<td class='kilometres' data-kilometresValue='" + kilometres + "' > " + kilometres + " km</td > " +
                         "<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
                         "<td class='roundTrip' data-roundTrip='" + roundTrip + "' > " + roundTriptxt + "</td > " +
                         "<td class='reimbursement'>" + reimbursement + "</td>" +
@@ -359,9 +360,9 @@
 
                     var mileage = {
                         TravelDate: row.find(".travelDate").html(),
-                        StartAddress: row.find(".startAddress").data("startAddress"),
-                        EndAddress: row.find(".endAddress").data("endAddress"),
-                        Kilometres: row.find(".kilometres").data("kilometres"),
+                        StartAddress: row.find(".startAddress").data("startAddressName"),
+                        EndAddress: row.find(".endAddress").data("endAddressName"),
+                        Kilometres: row.find(".kilometres").data("kilometresValue"),
                         ApplicationID: row.find(".applicationID").data("id"),
                         RoundTrip: row.find(".roundTrip").data("roundTrip"),
                         StatusID: 1,
@@ -466,7 +467,7 @@
                     var distancecost = response.rows[0].elements[0].distance.value / 1000;
                     var cost = distancecost * rate;
 
-                    dvDistance.value = distancecost.toFixed(2);
+                    dvDistance.value = distancecost.toFixed(2) + "km";
                     dvCost.value = "$" + cost.toFixed(2)
 
                 } else {
