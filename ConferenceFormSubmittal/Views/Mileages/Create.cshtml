@@ -335,8 +335,8 @@
 
                     var mileage = {
                         TravelDate: row.find(".travelDate").html(),
-                        StartAddress: row.find(".startAddress").html(),
-                        EndAddress: row.find(".endAddress").html(),
+                        StartAddress: row.find(".startAddress").data("startAddress"),
+                        EndAddress: row.find(".endAddress").data("endAddress"),
                         Kilometres: row.find(".kilometres").data("kilometres"),
                         ApplicationID: row.find(".applicationID").data("id"),
                         RoundTrip: row.find(".roundTrip").data("roundTrip"),
