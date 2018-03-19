@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -82,22 +83,72 @@ namespace ConferenceFormSubmittal.Controllers
             return View(expense);
         }
 
+        public JsonResult EditExpenses(List<Expense> expenses)
+        {
+            if (expenses == null)
+            {
+                expenses = new List<Expense>();
+            }
+
+            string result = "success";
+
+            if (expenses.Count > 0)
+            {
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (Expense e in expenses)
+                        {
+                            //db.Database.ExecuteSqlCommand(
+                            //@"UPDATE Expense SET Rationale = " + e.Rationale +
+                            //    ", EstimatedCost = " + e.EstimatedCost +
+                            //    ", ActualCost = " + e.ActualCost +
+                            //    ", ExpenseTypeID = " + e.ExpenseTypeID +
+                            //" WHERE ID = " + e.ID
+                            //);
+
+                            var expenseToUpdate = db.Expenses.Find(e.ID);
+                            expenseToUpdate.Rationale = e.Rationale;
+                            expenseToUpdate.EstimatedCost = e.EstimatedCost;
+                            expenseToUpdate.ActualCost = e.ActualCost;
+                            expenseToUpdate.ExpenseTypeID = e.ExpenseTypeID;
+                        }
+
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+
+                        result = ex.Message;
+                    }
+                    
+                }
+            }
+            
+            return Json(result);
+        }
+
         // POST: Expenses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Rationale,EstimatedCost,ActualCost,Feedback,ExpenseTypeID,StatusID,ApplicationID")] Expense expense)
+        public bool EditPost(Expense expense)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(expense).State = EntityState.Modified;
+                var expenseToUpdate = db.Expenses.Find(expense.ID);
+
+                expenseToUpdate = expense;
+
+                db.Entry(expenseToUpdate).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return true;
             }
-            ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", expense.ApplicationID);
-            ViewBag.ExpenseTypeID = new SelectList(db.ExpenseTypes, "ID", "Description", expense.ExpenseTypeID);
-            return View(expense);
+            return false;
         }
 
         // GET: Expenses/Delete/5

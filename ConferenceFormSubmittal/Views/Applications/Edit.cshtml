@@ -23,7 +23,7 @@
             <div class="card card-body bg-NCDSB-Grey">
                 <div class="col-12">
                     <input type="button" value="Save As Draft" class="btn btn-primary btn-block mb-3" />
-                    <input id="btnSubmit" type="button" value="Submit" class="btn btn-primary btn-block mb-3" />
+                    <input id="btnSubmit" type="button" value="Save Changes" class="btn btn-primary btn-block mb-3" />
 
                     @Html.ActionLink("Back to List", "Index", "Conferences", null, new { @class = "btn btn-primary btn-block mb-3" })
                 </div>
@@ -154,7 +154,7 @@
                                     actCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost" } });
                                 }
 
-                            <tr>
+                            <tr class="trExpense">
                                 <td>
                                     @Html.DropDownList("ExpenseTypeID", null, htmlAttributes: new { @class = "form-control ddlExpenseType" })
                                 </td>
@@ -166,6 +166,7 @@
                                 </td>
                                 <td>
                                     @Html.EditorFor(e => item.Rationale, new { htmlAttributes = new { @class = "form-control txtRationale" } })
+                                    <input type="hidden" value="@item.ID" class="txtExpenseID" />
                                 </td>
                             </tr>
                             }
@@ -185,7 +186,7 @@
                                     <label id="lblInvalidCost" class="text-danger d-none">You must provide a valid cost estimate.</label>
                                 </td>
                                 <td>
-                                    <textarea class="form-control md-textarea" id="txtRationale"></textarea>
+                                    <input type="text" class="form-control" id="txtRationale" />
                                 </td>
                                 <td>
                                     <a onclick="addExpense()" class="btn btn-success mt-3">
@@ -273,11 +274,13 @@
 
             $(".trExpense").each(function () {
                 var row = $(this);
-
+                alert(row.find(".txtRationale").val());
                 var expense = {
-                    ExpenseTypeID: row.find(".expenseType").data("id"),
-                    EstimatedCost: row.find(".estimatedCost").html(),
-                    Rationale: row.children(".rationale").html()
+                    ID: row.find(".txtExpenseID").val(),
+                    ExpenseTypeID: row.find(".ddlExpenseType").val(),
+                    EstimatedCost: row.find(".txtEstimatedCost").val(),
+                    ActualCost: row.find(".txtActualCost").val(),
+                    Rationale: row.find(".txtRationale").val()
                 };
 
                 expenseBatch.push(expense);
@@ -285,12 +288,13 @@
 
             $.ajax({
                 type: "POST",
-                url: "/Applications/AddExpenses",
+                url: "/Expenses/EditExpenses",
                 data: JSON.stringify(expenseBatch),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function () {
-                    $("#frmEditApplication").submit();
+                success: function (response) {
+                    //$("#frmEditApplication").submit();
+                    alert(response);
                 }
             });
         });
