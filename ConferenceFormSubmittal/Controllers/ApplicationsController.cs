@@ -152,7 +152,7 @@ namespace ConferenceFormSubmittal.Controllers
                 return HttpNotFound();
             }
 
-            PopulateDropDownLists(application);
+            PopulateDropDownLists(application, application.Expenses.ToList());
             return View(application);
         }
 
@@ -199,7 +199,7 @@ namespace ConferenceFormSubmittal.Controllers
             return RedirectToAction("Index");
         }
 
-        private void PopulateDropDownLists(Application application = null)
+        private void PopulateDropDownLists(Application application = null, List<Expense> expenses = null)
         {
             var pQuery = from p in db.PaymentTypes
                          orderby p.Description
@@ -207,9 +207,20 @@ namespace ConferenceFormSubmittal.Controllers
             ViewBag.PaymentTypeID = new SelectList(pQuery, "ID", "Description", application?.PaymentTypeID);
 
             var eQuery = from e in db.ExpenseTypes
-                         orderby e.Description
-                         select e;
+                            orderby e.Description
+                            select e;
             ViewBag.ExpenseTypeID = new SelectList(eQuery, "ID", "Description");
+            
+            // how to have the current ExpenseType selected in each Expense's ddl?
+            if (expenses != null)
+            {
+                // each Expense needs its own SelectList in the ViewBag
+                foreach (Expense e in expenses)
+                {
+                    ViewData.Add("ExpenseTypes" + e.ID.ToString(), new SelectList(eQuery, "ID", "Description", e.ExpenseTypeID));
+                }
+            }
+            
         }
 
         protected override void Dispose(bool disposing)

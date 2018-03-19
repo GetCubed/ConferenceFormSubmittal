@@ -1,4 +1,5 @@
 ﻿@model ConferenceFormSubmittal.Models.Application
+@using ConferenceFormSubmittal.Utilities;
 
 @{
     ViewBag.Title = "Edit Application";
@@ -73,12 +74,11 @@
                             </div>
                             <br />
                             <br />
-                            <div class="col-12">
-                                @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.EditorFor(model => model.Rationale, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Rationale, "", new { @class = "text-danger" })
-                            </div>
                             <div class="col-6">
+                                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.Raw(Helper.StatusIcon(Model.Status.Description))
+                                @Html.DisplayFor(model => model.Status.Description)
+
                                 @Html.LabelFor(model => model.AttendStartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @Html.EditorFor(model => model.AttendStartDate, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.AttendStartDate, "", new { @class = "text-danger" })
@@ -90,8 +90,19 @@
                                 @Html.LabelFor(model => model.PaymentTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @Html.DropDownList("PaymentTypeID", null, "Select a Payment Type...", htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.PaymentTypeID, "", new { @class = "text-danger" })
+
+                                @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.EditorFor(model => model.BudgetCode, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BudgetCode, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-6">
+                                @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.EditorFor(model => model.Rationale, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Rationale, "", new { @class = "text-danger" })
+
+                                @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @Html.DisplayFor(model => model.Feedback)
+
                                 @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.DepartureDate, "", new { @class = "text-danger" })
@@ -100,11 +111,6 @@
                                 @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
 
-                                @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.EditorFor(model => model.BudgetCode, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.BudgetCode, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-12">
                                 @Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label font-weight-bold" })
                                 <div class="checkbox">
                                     @Html.EditorFor(model => model.ReplStaffReq)
@@ -141,28 +147,29 @@
                                 <th></th>
                             </tr>
 
+                            
                             @foreach (var item in Model.Expenses)
                             {
                                 @* cannot input actual cost until application is approved *@
-                                var estCostEditor = Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost" } });
-                                var actCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost", @disabled = "disabled", @title = "Actual Cost cannot be entered before the application is approved." } });
+                                var estimatedCostEditor = Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost" } });
+                                var actualCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost", @disabled = "disabled", @title = "Actual Cost cannot be entered before the application is approved." } });
                                 
                                 if (Model.Status.Description == "Approved")
                                 {
                                     @* cannot edit estimated cost after application has been approved *@
-                                    estCostEditor = Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost", @disabled = "disabled", @title = "Estimated Cost cannot be changed once the application has been approved." } });
-                                    actCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost" } });
+                                    estimatedCostEditor = Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost", @disabled = "disabled", @title = "Estimated Cost cannot be changed after the application has been approved." } });
+                                    actualCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost" } });
                                 }
 
                             <tr class="trExpense">
                                 <td>
-                                    @Html.DropDownList("ExpenseTypeID", null, htmlAttributes: new { @class = "form-control ddlExpenseType" })
+                                    @Html.DropDownList("ExpenseTypes" + item.ID.ToString(), null, htmlAttributes: new { @class = "form-control ddlExpenseType"})
                                 </td>
                                 <td>
-                                    @estCostEditor
+                                    @estimatedCostEditor
                                 </td>
                                 <td>
-                                    @actCostEditor
+                                    @actualCostEditor
                                 </td>
                                 <td>
                                     @Html.EditorFor(e => item.Rationale, new { htmlAttributes = new { @class = "form-control txtRationale" } })
@@ -274,7 +281,7 @@
 
             $(".trExpense").each(function () {
                 var row = $(this);
-                alert(row.find(".txtRationale").val());
+
                 var expense = {
                     ID: row.find(".txtExpenseID").val(),
                     ExpenseTypeID: row.find(".ddlExpenseType").val(),
