@@ -4,84 +4,212 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">Create Mileages</h3>
+        </div>
+    </div>
+</div>
+
+
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmCreateMileage" }))
 {
     @Html.AntiForgeryToken()
 
-    //change type to back to button, use submit for testing?
-    <input id="btnSubmit" type="button" value="Submit" class="btn btn-primary btn-block mb-3" />
 
-    <table id="tblMileages" class="table">
-        <tbody>
-            <tr>
-                <th>
-                    @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-bold" })
-                </th>
-                <th>
-                    @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-bold" })
-                </th>
-                <th>
-                    @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-bold" })
-                </th>
-                <th>
-                    <b>Kilometres</b>
-                </th>
-                <th>
-                    <b>Attach Application?@*Should be conference?*@</b>
-                </th>
-                <th>
-                    @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-bold" })
-                </th>
-                <th>
-                    <b class="d-block">Mileage Claim</b>
-                </th>
-                <th></th>
-            </tr>
-            <tr @*id="trAddMileage"*@ class="rgba-grey-light">
-                <td>
-                    @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
-                    @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
-                    @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
-                    @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.Kilometres, new { htmlAttributes = new { @class = "form-control", @id = "txtKilometres"@*, @disabled = "disabled"*@ } })
-                    @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    @*this should actually display the conference name not the application rationale*@
-                    @Html.DropDownList("ApplicationID", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control", @id = "chkRoundTrip" } })
-                </td>
-                <td>
-                    <input type="text" id="txtReimbursement" @*disabled="disabled"*@ />
-                </td>
-                <td>
-                    <a onclick="GetRoute()" class="btn btn-success mt-3">Get Route</a>
-                    <a onclick="addMileage()" class="btn btn-success mt-3">
-                        @*<i class="fa fa-plus"></i>*@Add to List
-                    </a>
-                    @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
-                    @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @Value = "1", @hidden = "hidden" } })
-                </td>
-            </tr>
-            <tr><td colspan="7"><label id="txtValid"></label></td></tr>
-            <tr id="trAddMileage"><td></td></tr>
-        </tbody>
-    </table>
-    <div class="col-6" id="dvMap" style="min-height:500px">
+ <div class="row pt-3">
+
+        @*---------------- MILEAGE FORM ----------------------*@
+     <div class="col-8">
+         <div class="card bg-NCDSB-Grey">
+             <div class="card-body ">
+
+
+                 @*---------------------ROW------------------------------------------------------------------------------------*@
+                 <div class="row pt-3">
+                     <div class="col-1">
+                         @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                     </div>
+                     <div class="col-3">
+                         @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
+                         @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
+                     </div>
+                     <div class="col-2">
+                         @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                     </div>
+                     <div class="col-3">
+                         @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
+                         @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
+                     </div>
+                     <div class="col-3">
+                         <a onclick="GetRoute()" class="btn btn-primary d-block">
+                             <i class="fa fa-map-marker fa-2x"></i>
+                             Get Route
+                         </a>
+                     </div>
+                 </div>
+
+                 @*---------------------ROW------------------------------------------------------------------------------------*@
+                 <div class="row pt-3">
+                     <div class="col-1">
+                         @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                     </div>
+                     <div class="col-3">
+                         @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
+                         @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
+                     </div>
+                     <div class="col-2">
+                         <label class="font-weight-bold">Attach Application?@*Should be conference?*@ </label>
+                     </div>
+                     <div class="col-3">
+                         @*this should actually display the conference name not the application rationale*@
+                         @Html.DropDownList("ApplicationID", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                     </div>
+                     <div class="col-2">
+                         @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                     </div>
+                     <div class="col-1">
+                         @Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control", @id = "chkRoundTrip" } })
+                     </div>
+                 </div>
+
+                 @*---------------------ERROR MESSAGES ---------------------*@
+                 <div class="row pt-3">
+                     <div class="col-12">
+                         <label id="txtValid" class="text-danger "> </label>
+                     </div>
+                 </div>
+                 @*---------------------ERROR MESSAGES ---------------------*@
+
+             </div>
+
+             <div class="card-footer rgba-grey-light">
+                 @*---------------------ROW------------------------------------------------------------------------------------*@
+                 <div class="row pt-3 ">
+                     <div class="col-2">
+                         <label" class="font-weight-bold">Kilometers</label">
+                     </div>
+                     <div class="col-3">
+                         @Html.EditorFor(model => model.Kilometres, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control text-dark",
+                            @id = "txtKilometres",
+                            @disabled = "disabled"
+                        }
+                    })
+                         @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
+                     </div>
+                     <div class="col-2">
+                         <label class="font-weight-bold">Mileage Claim</label>
+                     </div>
+                     <div class="col-3">
+                         <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
+                     </div>
+                 </div>
+
+
+                 <div class="row">
+                     <div class="col-12">
+                         <a onclick="addMileage()" class="btn btn-success mt-3 d-block">
+                             @*<i class="fa fa-plus"></i>*@
+                             <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                             Add to List
+                         </a>
+                         @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
+                         @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @Value = "1", @hidden = "hidden" } })
+                     </div>
+                 </div>
+             </div>
+
+         </div>
+     </div>
+        @*---------------- MILEAGE FORM ----------------------*@
+
+        @*-------------------------  GOOGLE MAP Column ---------------*@
+     <div class="col-4">
+         <div class="card bg-NCDSB-Grey">
+             <div class="card-body">
+                 <div class="row">
+                     <div class="col-12">
+                         <div class="col-12" id="dvMap" style="min-height:400px"></div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+    
+</div>
+
+
+    //-----Show items basket ----
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-header">
+                    <button id="btnSubmit" type="button" value="Submit" class="btn btn-primary float-right">
+                        <i class="fa fa-paper-plane fa-2x"></i> Submit
+                    </button>
+                </div>
+                <div class="card-body">
+                    <table id="tblMileages" class="table">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-bold" })
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-bold" })
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-bold" })
+                                </th>
+                                <th>
+                                    <b>Kilometres</b>
+                                </th>
+                                <th>
+                                    <b>Attach Application?@*Should be conference?*@</b>
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-bold" })
+                                </th>
+                                <th>
+                                    <b class="d-block">Mileage Claim</b>
+                                </th>
+                                <th></th>
+                            </tr>
+                            <tr id="trAddMileage" class="flex-wrap">
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <button id="btnSubmit2" type="button" value="Submit" class="btn btn-primary float-right">
+                        <i class="fa  fa-paper-plane fa-2x"></i> Submit
+                    </button>
+                </div>
+
+            </div>
+
+
+        </div>
+
+   
     </div>
-}
+
+
+    
+} @*-----------end of form ---------------*@
+
+
+
 
 
 @section Scripts {
@@ -89,7 +217,7 @@
     <script type="text/javascript">
 
         function validMileage(travelDate, startAddress, endAddress, kilometres) {
-            
+
             var result = true;
             var valid = $("#txtValid");
             valid.empty();
@@ -133,8 +261,8 @@
                 appID = $ddlAppID.val(),
                 roundTrip = $chkRoundTrip.is(':checked'),
                 roundTriptxt = roundTrip ? "Yes" : "No";
-                reimbursement = $txtreimbursement.val();
-            
+            reimbursement = $txtreimbursement.val();
+
             if (confirm("Do you want to add this Mileage Entry?")) {
                 if (validMileage(travelDate, startAddress, endAddress, kilometres)) {
                     // add the expense to the table
@@ -147,7 +275,7 @@
                         "<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
                         "<td class='roundTrip' data-roundTrip='" + roundTrip + "' > " + roundTriptxt + "</td > " +
                         "<td class='reimbursement'>" + reimbursement + "</td>" +
-                        "<td><a onclick='removeMileage($(this))' class='removeMileage btn btn-danger'><i class='fa fa-minus'></i></a></td>" +
+                        "<td><a onclick='removeMileage($(this))' class='removeMileage btn btn-danger'><i class='fa fa-minus fa2x'></i> Remove </a></td> " +
                         "</tr>");
 
                     // clear the input fields
@@ -266,7 +394,7 @@
                     //Converts the Distance from meters to kilometers
                     var distancecost = response.rows[0].elements[0].distance.value / 1000;
                     var cost = distancecost * rate;
-                    
+
                     dvDistance.value = distancecost.toFixed(2) + " km";
                     dvCost.value = "$" + cost.toFixed(2)
 
