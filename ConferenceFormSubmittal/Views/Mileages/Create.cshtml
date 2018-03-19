@@ -367,7 +367,7 @@
     @*This script is the actual google api calculatin the distance and cost(with dummy rate) between two locations*@
     <script>
 
-        var source, destination;
+        var source, destination, $chkCustomStartLocation, $chkCustomEndLocation;
         var directionsDisplay;
         var directionsService = new google.maps.DirectionsService();
 
@@ -387,8 +387,27 @@
 
             directionsDisplay.setMap(map);
 
-            source = document.getElementById("txtStartAddress").value;
-            destination = document.getElementById("txtEndAddress").value;
+            $chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
+            $chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+
+            var ddlStartSite = document.getElementById("ddlStartSite");
+            var ddlStartSiteValue = ddlStartSite[ddlStartSite.selectedIndex].value;
+            var ddlEndSite = document.getElementById("ddlEndSite");
+            var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
+
+            if (!$chkCustomStartLocation.checked) {
+                source = ddlStartSiteValue;
+            }
+            else {
+                source = document.getElementById("txtStartAddress").value;
+            }
+
+            if (!$chkCustomEndLocation.checked) {
+                destination = ddlEndLocationValue;
+            }
+            else {
+                destination = document.getElementById("txtEndAddress").value;
+            }
 
             var request = {
                 origin: source,
