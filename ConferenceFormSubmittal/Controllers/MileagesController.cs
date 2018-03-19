@@ -307,11 +307,16 @@ namespace ConferenceFormSubmittal.Controllers
 
         private void PopulateDropDownLists(Mileage mileage = null)
         {
-            var aQuery = from p in db.Conferences
-                         orderby p.Name
-                         select p;
-            ViewBag.ConferenceName = new SelectList(aQuery, "ID", "Name");
+            //var aQuery = from p in db.Applications
+            //             orderby p.ConferenceID
+            //             select p;
+            //ViewBag.ConferenceName = new SelectList(aQuery, "ID", "Name");
 
+            var lQuery = from l in db.Sites
+                         orderby l.Name
+                         select l;
+            ViewBag.Sites = new SelectList(lQuery, "Address", "Name");
+            
             var sQuery = from p in db.Statuses
                          orderby p.Description
                          select p;

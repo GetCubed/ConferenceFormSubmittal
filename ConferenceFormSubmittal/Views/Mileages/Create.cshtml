@@ -45,10 +45,14 @@
                     @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
                 </td>
                 <td>
+                    @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
+                    Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
                     @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
                     @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
                 </td>
                 <td>
+                    @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+                    Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation"/>
                     @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
                     @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
                 </td>
@@ -119,15 +123,11 @@
 
             // get values
             var $txtTravelDate = $("#txtTravelDate"),
-                $txtStartAddress = $("#txtStartAddress"),
-                $txtEndAddress = $("#txtEndAddress"),
                 $txtKilometres = $("#txtKilometres"),
                 $ddlAppID = $("#ddlApplicationID"),
                 $chkRoundTrip = $("#chkRoundTrip"),
                 $txtreimbursement = $("#txtReimbursement"),
                 travelDate = $txtTravelDate.val(),
-                startAddress = $txtStartAddress.val(),
-                endAddress = $txtEndAddress.val(),
                 kilometres = $txtKilometres.val(),
                 app = $ddlAppID.find(":selected").val(),
                 appID = $ddlAppID.val(),
@@ -135,14 +135,41 @@
                 roundTriptxt = roundTrip ? "Yes" : "No";
                 reimbursement = $txtreimbursement.val();
             
+            var $txtStartAddress = $("#txtStartAddress"),
+                $ddlStartAddress = $("#ddlStartSite"),
+                $txtEndAddress = $("#txtEndAddress"),
+                $ddlEndAddress = $("#ddlEndSite"),
+                $chkCustomStartLocation = $("#chkCustomStartLocation"),
+                $chkCustomEndLocation = $("#chkCustomEndLocation"),
+                customStartLocation = $chkCustomStartLocation.is(":checked"),
+                customEndLocation = $chkCustomEndLocation.is(":checked");
+
+            if (!customStartLocation) {
+                var startAddressName = $ddlStartAddress.find(":selected").val(),
+                    startAddress = $ddlStartAddress.val();
+            }
+            else {
+                var startAddressName = $txtStartAddress.val(),
+                    startAddress = $txtStartAddress.val();
+            }
+
+            if (!customEndLocation) {
+                var endAddressName = $ddlEndAddress.find(":selected").val(),
+                    endAddress = $ddlEndAddress.val();
+            }
+            else {
+                var endAddressName = $txtEndAddress.val(),
+                    endAddress = $txtEndAddress.val();
+            }
+            
             if (confirm("Do you want to add this Mileage Entry?")) {
                 if (validMileage(travelDate, startAddress, endAddress, kilometres)) {
                     // add the expense to the table
                     $("#trAddMileage").before(
                         "<tr class='trMileage'>" +
                         "<td class='travelDate'>" + travelDate + "</td>" +
-                        "<td class='startAddress'>" + startAddress + "</td>" +
-                        "<td class='endAddress'>" + endAddress + "</td>" +
+                        "<td class='startAddress' data-startAddress='" + startAddress + "'>" + startAddressName + "</td>" +
+                        "<td class='endAddress' data-endAddress='" + endAddress + "'>" + endAddressName + "</td>" +
                         "<td class='kilometres' data-kilometres='" + kilometres + "' > " + kilometres + " km</td > " +
                         "<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
                         "<td class='roundTrip' data-roundTrip='" + roundTrip + "' > " + roundTriptxt + "</td > " +
@@ -154,6 +181,8 @@
                     //$txtTravelDate.val("");
                     $txtStartAddress.val("");
                     $txtEndAddress.val("");
+                    $ddlStartAddress.val("");
+                    $ddlEndAddress.val("");
                     $txtKilometres.val("");
                     $chkRoundTrip.val("");
                     $txtreimbursement.val("");
@@ -179,8 +208,8 @@
 
                     var mileage = {
                         TravelDate: row.find(".travelDate").html(),
-                        StartAddress: row.find(".startAddress").html(),
-                        EndAddress: row.find(".endAddress").html(),
+                        StartAddress: row.find(".startAddress").data("startAddress"),
+                        EndAddress: row.find(".endAddress").data("endAddress"),
                         Kilometres: row.find(".kilometres").data("kilometres"),
                         ApplicationID: row.find(".applicationID").data("id"),
                         RoundTrip: row.find(".roundTrip").data("roundTrip"),
@@ -211,7 +240,7 @@
     @*This script is the actual google api calculatin the distance and cost(with dummy rate) between two locations*@
     <script>
 
-        var source, destination;
+        var source, destination, $chkCustomStartLocation,$chkCustomEndLocation;
         var directionsDisplay;
         var directionsService = new google.maps.DirectionsService();
 
@@ -231,8 +260,27 @@
 
             directionsDisplay.setMap(map);
 
-            source = document.getElementById("txtStartAddress").value;
-            destination = document.getElementById("txtEndAddress").value;
+            $chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
+            $chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+            
+            var ddlStartSite = document.getElementById("ddlStartSite");
+            var ddlStartSiteValue = ddlStartSite[ddlStartSite.selectedIndex].value;
+            var ddlEndSite = document.getElementById("ddlEndSite");
+            var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
+            
+            if (!$chkCustomStartLocation.checked) {
+                source = ddlStartSiteValue;
+            }
+            else {
+                source = document.getElementById("txtStartAddress").value;
+            }
+
+            if (!$chkCustomEndLocation.checked) {
+                destination = ddlEndLocationValue;
+            }
+            else {
+                destination = document.getElementById("txtEndAddress").value;
+            }
 
             var request = {
                 origin: source,
