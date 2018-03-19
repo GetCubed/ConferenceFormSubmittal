@@ -57,7 +57,7 @@
                     @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
                 </td>
                 <td>
-                    @Html.EditorFor(model => model.Kilometres, new { htmlAttributes = new { @class = "form-control", @id = "txtKilometres", @disabled = "disabled" } })
+                    @Html.EditorFor(model => model.Kilometres, new { htmlAttributes = new { @class = "form-control", @id = "txtKilometres"@*, @disabled = "disabled"*@ } })
                     @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
                 </td>
                 <td>
@@ -315,7 +315,7 @@
                     var distancecost = response.rows[0].elements[0].distance.value / 1000;
                     var cost = distancecost * rate;
                     
-                    dvDistance.value = distancecost.toFixed(2) + " km";
+                    dvDistance.value = distancecost.toFixed(2);
                     dvCost.value = "$" + cost.toFixed(2)
 
                 } else {

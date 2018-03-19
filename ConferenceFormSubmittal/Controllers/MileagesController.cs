@@ -165,7 +165,7 @@ namespace ConferenceFormSubmittal.Controllers
             ViewBag.sortField = sortField;
             ViewBag.sortDirection = sortDirection;
 
-            int pageSize = 5;//Temp value, good value is like 10
+            int pageSize = 10;//Temp value, good value is like 10
             int pageNumber = (page ?? 1);
 
             return View(mileages.ToPagedList(pageNumber, pageSize));
