@@ -250,41 +250,66 @@
 
             // get values
             var $txtTravelDate = $("#txtTravelDate"),
-                $txtStartAddress = $("#txtStartAddress"),
-                $txtEndAddress = $("#txtEndAddress"),
                 $txtKilometres = $("#txtKilometres"),
                 $ddlAppID = $("#ddlApplicationID"),
                 $chkRoundTrip = $("#chkRoundTrip"),
                 $txtreimbursement = $("#txtReimbursement"),
                 travelDate = $txtTravelDate.val(),
-                startAddress = $txtStartAddress.val(),
-                endAddress = $txtEndAddress.val(),
                 kilometres = $txtKilometres.val(),
                 app = $ddlAppID.find(":selected").val(),
                 appID = $ddlAppID.val(),
                 roundTrip = $chkRoundTrip.is(':checked'),
                 roundTriptxt = roundTrip ? "Yes" : "No";
-            reimbursement = $txtreimbursement.val();
+                reimbursement = $txtreimbursement.val();
+            
+            var $txtStartAddress = $("#txtStartAddress"),
+                $ddlStartAddress = $("#ddlStartSite"),
+                $txtEndAddress = $("#txtEndAddress"),
+                $ddlEndAddress = $("#ddlEndSite"),
+                $chkCustomStartLocation = $("#chkCustomStartLocation"),
+                $chkCustomEndLocation = $("#chkCustomEndLocation"),
+                customStartLocation = $chkCustomStartLocation.is(":checked"),
+                customEndLocation = $chkCustomEndLocation.is(":checked");
 
+            if (!customStartLocation) {
+                var startAddressName = $ddlStartAddress.find(":selected").val(),
+                    startAddress = $ddlStartAddress.val();
+            }
+            else {
+                var startAddressName = $txtStartAddress.val(),
+                    startAddress = $txtStartAddress.val();
+            }
+
+            if (!customEndLocation) {
+                var endAddressName = $ddlEndAddress.find(":selected").val(),
+                    endAddress = $ddlEndAddress.val();
+            }
+            else {
+                var endAddressName = $txtEndAddress.val(),
+                    endAddress = $txtEndAddress.val();
+            }
+            
             if (confirm("Do you want to add this Mileage Entry?")) {
                 if (validMileage(travelDate, startAddress, endAddress, kilometres)) {
                     // add the expense to the table
                     $("#trAddMileage").before(
                         "<tr class='trMileage'>" +
                         "<td class='travelDate'>" + travelDate + "</td>" +
-                        "<td class='startAddress'>" + startAddress + "</td>" +
-                        "<td class='endAddress'>" + endAddress + "</td>" +
+                        "<td class='startAddress' data-startAddress='" + startAddress + "'>" + startAddressName + "</td>" +
+                        "<td class='endAddress' data-endAddress='" + endAddress + "'>" + endAddressName + "</td>" +
                         "<td class='kilometres' data-kilometres='" + kilometres + "' > " + kilometres + " km</td > " +
                         "<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
                         "<td class='roundTrip' data-roundTrip='" + roundTrip + "' > " + roundTriptxt + "</td > " +
                         "<td class='reimbursement'>" + reimbursement + "</td>" +
-                        "<td><a onclick='removeMileage($(this))' class='removeMileage btn btn-danger'><i class='fa fa-minus fa2x'></i> Remove </a></td> " +
+                        "<td><a onclick='removeMileage($(this))' class='removeMileage btn btn-danger'><i class='fa fa-minus'></i></a></td>" +
                         "</tr>");
 
                     // clear the input fields
                     //$txtTravelDate.val("");
                     $txtStartAddress.val("");
                     $txtEndAddress.val("");
+                    $ddlStartAddress.val("");
+                    $ddlEndAddress.val("");
                     $txtKilometres.val("");
                     $chkRoundTrip.val("");
                     $txtreimbursement.val("");
