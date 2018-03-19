@@ -43,6 +43,8 @@
                         @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
                     </div>
                     <div class="col-3">
+                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+                        Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
                         @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
                         @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
                     </div>
