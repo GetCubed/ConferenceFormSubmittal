@@ -28,6 +28,8 @@
     <div class="form-group">
         @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
+            @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
+            Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
             @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtStartAddress" } })
             @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
         </div>
@@ -36,6 +38,8 @@
     <div class="form-group">
         @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
+            @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+            Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
             @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress" } })
             @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
         </div>
@@ -44,7 +48,7 @@
     <div class="form-group">
             <p  class = "control-label col-md-2" >Kilometres</p>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Kilometres, new { htmlAttributes = new { @class = "form-control", @id = "txtKilometres" } })
+            @Html.EditorFor(model => model.Kilometres, new { htmlAttributes = new { @class = "form-control", @id = "txtKilometres", @disabled = "disabled" } })
             @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -124,8 +128,27 @@
 
             directionsDisplay.setMap(map);
 
-            source = document.getElementById("txtStartAddress").value;
-            destination = document.getElementById("txtEndAddress").value;
+            $chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
+            $chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+
+            var ddlStartSite = document.getElementById("ddlStartSite");
+            var ddlStartSiteValue = ddlStartSite[ddlStartSite.selectedIndex].value;
+            var ddlEndSite = document.getElementById("ddlEndSite");
+            var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
+
+            if (!$chkCustomStartLocation.checked) {
+                source = ddlStartSiteValue;
+            }
+            else {
+                source = document.getElementById("txtStartAddress").value;
+            }
+
+            if (!$chkCustomEndLocation.checked) {
+                destination = ddlEndLocationValue;
+            }
+            else {
+                destination = document.getElementById("txtEndAddress").value;
+            }
 
             var request = {
                 origin: source,

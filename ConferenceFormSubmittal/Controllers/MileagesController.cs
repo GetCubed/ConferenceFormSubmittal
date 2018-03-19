@@ -254,6 +254,7 @@ namespace ConferenceFormSubmittal.Controllers
             {
                 return HttpNotFound();
             }
+            PopulateDropDownLists();
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", mileage.ApplicationID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName", mileage.EmployeeID);
             ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", mileage.StatusID);
