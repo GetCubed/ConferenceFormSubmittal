@@ -52,7 +52,7 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Rationale,EstimatedCost,ActualCost,Feedback,ExpenseTypeID,StatusID,ApplicationID")] Expense expense)
+        public ActionResult Create([Bind(Include = "ID,Rationale,EstimatedCost,ActualCost,ExpenseTypeID,ApplicationID")] Expense expense)
         {
             if (ModelState.IsValid)
             {
@@ -83,14 +83,15 @@ namespace ConferenceFormSubmittal.Controllers
             return View(expense);
         }
 
-        public JsonResult EditExpenses(List<Expense> expenses)
+        // inserts or updates Expenses from the Application Edit view
+        public JsonResult AddOrUpdateExpenses(List<Expense> expenses)
         {
             if (expenses == null)
             {
                 expenses = new List<Expense>();
             }
 
-            string result = "success";
+            string result = "Success";
 
             if (expenses.Count > 0)
             {
@@ -100,19 +101,18 @@ namespace ConferenceFormSubmittal.Controllers
                     {
                         foreach (Expense e in expenses)
                         {
-                            //db.Database.ExecuteSqlCommand(
-                            //@"UPDATE Expense SET Rationale = " + e.Rationale +
-                            //    ", EstimatedCost = " + e.EstimatedCost +
-                            //    ", ActualCost = " + e.ActualCost +
-                            //    ", ExpenseTypeID = " + e.ExpenseTypeID +
-                            //" WHERE ID = " + e.ID
-                            //);
-
-                            var expenseToUpdate = db.Expenses.Find(e.ID);
-                            expenseToUpdate.Rationale = e.Rationale;
-                            expenseToUpdate.EstimatedCost = e.EstimatedCost;
-                            expenseToUpdate.ActualCost = e.ActualCost;
-                            expenseToUpdate.ExpenseTypeID = e.ExpenseTypeID;
+                            if (db.Expenses.Any(a => a.ID == e.ID)) // if the Expense exists in the db, update it
+                            {
+                                var expenseToUpdate = db.Expenses.Find(e.ID);
+                                expenseToUpdate.Rationale = e.Rationale;
+                                expenseToUpdate.EstimatedCost = e.EstimatedCost;
+                                expenseToUpdate.ActualCost = e.ActualCost;
+                                expenseToUpdate.ExpenseTypeID = e.ExpenseTypeID;
+                            }
+                            else // insert it
+                            {
+                                db.Expenses.Add(e);
+                            }
                         }
 
                         db.SaveChanges();
@@ -122,9 +122,8 @@ namespace ConferenceFormSubmittal.Controllers
                     {
                         dbContextTransaction.Rollback();
 
-                        result = ex.Message;
+                        result = "Failed to save changes: " + ex.Message;
                     }
-                    
                 }
             }
             
@@ -134,22 +133,22 @@ namespace ConferenceFormSubmittal.Controllers
         // POST: Expenses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost, ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public bool EditPost(Expense expense)
-        {
-            if (ModelState.IsValid)
-            {
-                var expenseToUpdate = db.Expenses.Find(expense.ID);
+        //[HttpPost, ActionName("Edit")]
+        //[ValidateAntiForgeryToken]
+        //public bool EditPost(Expense expense)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var expenseToUpdate = db.Expenses.Find(expense.ID);
 
-                expenseToUpdate = expense;
+        //        expenseToUpdate = expense;
 
-                db.Entry(expenseToUpdate).State = EntityState.Modified;
-                db.SaveChanges();
-                return true;
-            }
-            return false;
-        }
+        //        db.Entry(expenseToUpdate).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         // GET: Expenses/Delete/5
         public ActionResult Delete(int? id)
