@@ -43,10 +43,10 @@
 
                                 <div class="col-4">
                                     <label class="font-weight-bold">Start Address</label>
-                                    @Html.DropDownList("StartAddress", null, "All Locations", htmlAttributes: new { @class = "form-control" })
+                                    @Html.TextBox("startAddress", null, new { @class = "form-control" })
 
                                     <label class="font-weight-bold">End Address</label>
-                                    @Html.DropDownList("EndAddress", null, "All Locations", htmlAttributes: new { @class = "form-control" })
+                                    @Html.TextBox("endAddress", null, new { @class = "form-control" })
                                 </div>
 
                                 <div class="col-4">
