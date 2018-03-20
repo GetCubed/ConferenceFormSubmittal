@@ -33,8 +33,6 @@
                         @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
                     </div>
                     <div class="col-3">
-                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
-                        Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
                         @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
                         @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
                     </div>
@@ -42,8 +40,6 @@
                         @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
                     </div>
                     <div class="col-3">
-                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
-                        Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
                         @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
                         @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
                     </div>
@@ -68,7 +64,6 @@
                         <label class="font-weight-bold">Attached Conference</label>
                     </div>
                     <div class="col-3">
-                        @*this should actually display the conference name not the application rationale*@
                         @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
                     </div>
                     <div class="col-2">

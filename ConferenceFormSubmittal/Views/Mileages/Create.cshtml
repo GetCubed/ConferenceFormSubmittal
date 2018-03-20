@@ -39,16 +39,12 @@
                         <input type="text" class = "form-control d-block" id = "txtStartAddress" placeholder = "Enter an Address" />
                     </div>
                     <div class="col-2">
-                        @*@Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
-                        @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })*@
                         @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
                     </div>
                     <div class="col-3">
                         @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
                         Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
                         <input type="text" class = "form-control d-block" id = "txtEndAddress" placeholder = "Enter an Address" />
-                        @*@Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
-                        @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })*@
                     </div>
                     <div class="col-3">
                         <a onclick="GetRoute()" class="btn btn-primary d-block">
@@ -65,22 +61,18 @@
                     </div>
                     <div class="col-3">
                         <input type="date" class = "form-control d-block" id = "txtTravelDate"/>
-                        @*@Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
-                        @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })*@
                     </div>
                     <div class="col-2">
                         <label class="font-weight-bold">Attach to Conference? </label>
                     </div>
                     <div class="col-3">
-                        @*this should actually display the conference name not the application rationale*@
                         @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                        @*@Html.DropDownList("ApplicationID", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })*@
                     </div>
                     <div class="col-2">
                         @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
                     </div>
                     <div class="col-1">
-                        @Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control", @id = "chkRoundTrip" } })
+                        <input type="checkbox" class = "form-control" id = "chkRoundTrip"/>
                     </div>
                 </div>
 
@@ -102,16 +94,6 @@
                     </div>
                     <div class="col-3">
                         <input type="text" class = "form-control text-dark" id = "txtKilometres" disabled = "disabled"/>
-                        @*@Html.EditorFor(model => model.Kilometres, new
-                        {
-                            htmlAttributes = new
-                            {
-                                @class = "form-control text-dark",
-                                @id = "txtKilometres",
-                                @disabled = "disabled"
-                            }
-                        })
-                        @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })*@
                     </div>
                     <div class="col-2">
                         <label class="font-weight-bold">Mileage Claim</label>
@@ -266,8 +248,6 @@
                 roundTrip = $chkRoundTrip.is(':checked'),
                 roundTriptxt = roundTrip ? "Yes" : "No";
                 reimbursement = $txtreimbursement.val();
-
-                alert(appID);
             
             var $txtStartAddress = $("#txtStartAddress"),
                 $ddlStartAddress = $("#ddlStartSite"),
@@ -279,33 +259,28 @@
                 customEndLocation = $chkCustomEndLocation.is(":checked");
 
             if (!customStartLocation) {
-                var startAddressName = $ddlStartAddress.find(":selected").val(),
-                    startAddress = $ddlStartAddress.val();
+                var startAddress = $ddlStartAddress.val();
             }
             else {
-                var startAddressName = $txtStartAddress.val(),
-                    startAddress = $txtStartAddress.val();
+                var startAddress = $txtStartAddress.val();
             }
 
             if (!customEndLocation) {
-                var endAddressName = $ddlEndAddress.find(":selected").val(),
-                    endAddress = $ddlEndAddress.val();
+                var endAddress = $ddlEndAddress.val();
             }
             else {
-                var endAddressName = $txtEndAddress.val(),
-                    endAddress = $txtEndAddress.val();
+                var endAddress = $txtEndAddress.val();
             }
             
             if (confirm("Do you want to add this Mileage Entry?")) {
                 if (validMileage(travelDate, startAddress, endAddress, kilometres)) {
                     // add the expense to the table
-                    //curently there are validation error in either addresses or the kilo, probs kilos
                     $("#trAddMileage").before(
                         "<tr class='trMileage'>" +
                         "<td class='travelDate'>" + travelDate + "</td>" +
-                        "<td class='startAddress' data-startAddressName='" + startAddress + "'>" + startAddressName + "</td>" +
-                        "<td class='endAddress' data-endAddressName='" + endAddress + "'>" + endAddressName + "</td>" +
-                        "<td class='kilometres' data-kilometresValue='" + kilometres + "' > " + kilometres + " km</td > " +
+                        "<td class='startAddress'>" + startAddress + "</td>" +
+                        "<td class='endAddress'>" + endAddress + "</td>" +
+                        "<td class='kilometres'>" + kilometres + "</td > " +
                         "<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
                         "<td class='roundTrip' data-roundTrip='" + roundTrip + "' > " + roundTriptxt + "</td > " +
                         "<td class='reimbursement'>" + reimbursement + "</td>" +
@@ -334,23 +309,6 @@
 
         $("#btnSubmit").click(function () {
 
-            var $txtStartAddress = $("#txtStartAddress"),
-                $ddlStartAddress = $("#ddlStartSite"),
-                $txtEndAddress = $("#txtEndAddress"),
-                $ddlEndAddress = $("#ddlEndSite"),
-                $chkCustomStartLocation = $("#chkCustomStartLocation"),
-                $chkCustomEndLocation = $("#chkCustomEndLocation"),
-                customStartLocation = $chkCustomStartLocation.is(":checked"),
-                customEndLocation = $chkCustomEndLocation.is(":checked");
-
-            if (!customStartLocation) {
-                $txtStartAddress.val($ddlStartAddress.val());
-            }
-
-            if (!customEndLocation) {
-                $txtEndAddress.val($ddlEndAddress.val());
-            }
-
             var mileageBatch = [];
 
             if (confirm("Do you want to submit?")) {
@@ -360,9 +318,9 @@
 
                     var mileage = {
                         TravelDate: row.find(".travelDate").html(),
-                        StartAddress: row.find(".startAddress").data("startAddressName"),
-                        EndAddress: row.find(".endAddress").data("endAddressName"),
-                        Kilometres: row.find(".kilometres").data("kilometresValue"),
+                        StartAddress: row.find(".startAddress").html(),
+                        EndAddress: row.find(".endAddress").html(),
+                        Kilometres: row.find(".kilometres").html(),
                         ApplicationID: row.find(".applicationID").data("id"),
                         RoundTrip: row.find(".roundTrip").data("roundTrip"),
                         StatusID: 1,
@@ -381,6 +339,7 @@
                     success: function (response) {
                         //alert((response + 1) + " mileage(s) added.");
                         $("#frmCreateMileage").submit();
+                        window.location = "/Mileages"
                     }
                 });
             }
@@ -434,6 +393,9 @@
                 destination = document.getElementById("txtEndAddress").value;
             }
 
+            source = document.getElementById("txtStartAddress").value;
+            destination = document.getElementById("txtEndAddress").value;
+
             var request = {
                 origin: source,
                 destination: destination,
@@ -467,7 +429,7 @@
                     var distancecost = response.rows[0].elements[0].distance.value / 1000;
                     var cost = distancecost * rate;
 
-                    dvDistance.value = distancecost.toFixed(2) + "km";
+                    dvDistance.value = distancecost.toFixed(2);
                     dvCost.value = "$" + cost.toFixed(2)
 
                 } else {

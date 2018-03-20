@@ -25,10 +25,6 @@ namespace ConferenceFormSubmittal.Controllers
             PopulateDropDownLists();
             var mileages = db.Mileages.Include(m => m.Application).Include(m => m.Employee).Include(m => m.Status);
             ViewBag.Filtering = "";
-
-            //this is ugly, needs alternative or to be removed
-            ViewBag.StartAddress = new SelectList(db.Mileages, "StartAddress", "StartAddress");
-            ViewBag.EndAddress = new SelectList(db.Mileages, "EndAddress", "EndAddress");
             
             if (employeeID.HasValue)
             {
@@ -50,13 +46,13 @@ namespace ConferenceFormSubmittal.Controllers
             }
             if (!String.IsNullOrEmpty(startAddress))
             {
-                mileages = mileages.Where(p => p.StartAddress == startAddress);
+                mileages = mileages.Where(p => p.StartAddress.ToUpper().Contains(startAddress.ToUpper()));
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastStartAddress = startAddress;
             }
             if (!String.IsNullOrEmpty(endAddress))
             {
-                mileages = mileages.Where(p => p.EndAddress == endAddress);
+                mileages = mileages.Where(p => p.EndAddress.ToUpper().Contains(endAddress.ToUpper()));
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastEndAddress = endAddress;
             }
@@ -235,7 +231,7 @@ namespace ConferenceFormSubmittal.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            PopulateDropDownLists();
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", mileage.ApplicationID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName", mileage.EmployeeID);
             ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", mileage.StatusID);
@@ -274,6 +270,7 @@ namespace ConferenceFormSubmittal.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            PopulateDropDownLists();
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", mileage.ApplicationID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName", mileage.EmployeeID);
             ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description", mileage.StatusID);
