@@ -18,106 +18,156 @@
 {
     @Html.AntiForgeryToken()
 
+    @*//------------------------------------------------ Header buttons ---------------------------------*@
     <div class="row mt-3">
+        <div class="col-12">
 
-        <div class="col-3">
-            <div class="card card-body bg-NCDSB-Grey">
-                <div class="col-12">
-                    <input type="button" value="Save As Draft" class="btn btn-primary btn-block mb-3" />
-                    <input id="btnSubmit" type="button" value="Save Changes" class="btn btn-primary btn-block mb-3" />
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+                    <div class="row ">
+                        <div class="col-12 d-flex justify-content-between">
+                            <a href='@Url.Action("Index", "Applications")' class="btn btn-primary">
+                                @Helper.GetIcon(Helper.Icons.Back)
+                                Go Back
+                            </a>
 
-                    @Html.ActionLink("Back to List", "Index", "Conferences", null, new { @class = "btn btn-primary btn-block mb-3" })
-                </div>
-            </div>
-        </div> <!--col-->
+                            <button class="btn btn-primary">
+                                @Helper.GetIcon(Helper.Icons.Draft)
+                                Save Draft
+                            </button>
 
-
-        <div class="col-9">
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="card card-body bg-NCDSB-Grey">
-                        <div class="row">
-                            <div class="col-12">
-                                <h4>Conference Details</h4> @*Each panel needs a header of some kind*@
-                            </div>
-                            <br />
-                            <br />
-                            <div class="col-6">
-                                @Html.HiddenFor(model => model.ConferenceID)
-
-                                @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.DisplayFor(model => model.Conference.Name)
-
-                                @Html.LabelFor(model => model.Conference.StartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.DisplayFor(model => model.Conference.StartDate)
-
-                                @Html.LabelFor(model => model.Conference.EndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.DisplayFor(model => model.Conference.EndDate)
-                            </div>
-
-                            <div class="col-6">
-                                @Html.LabelFor(model => model.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.DisplayFor(model => model.Conference.Location)
-
-                                @Html.LabelFor(model => model.Conference.RegistrationCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.DisplayFor(model => model.Conference.RegistrationCost)
-                            </div>
+                            <button class="btn btn-primary">
+                                @Helper.GetIcon(Helper.Icons.Save)
+                                Create
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-body bg-NCDSB-Grey">
-                        <div class="row">
-                            <div class="col-12">
-                                <h4 class="d-block mt-2">Application Details</h4> @*Each panel needs a header of some kind*@
-                                @Html.HiddenFor(Model => Model.ID, htmlAttributes: new { @id = "applicationID" })
-                            </div>
-                            <br />
-                            <br />
-                            <div class="col-6">
-                                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Helper.GetIcon(Model.Status.Description, 2)
-                                <label id="lblStatus">@Model.Status.Description</label>
+    </div>
 
-                                @Html.LabelFor(model => model.AttendStartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.EditorFor(model => model.AttendStartDate, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.AttendStartDate, "", new { @class = "text-danger" })
 
-                                @Html.LabelFor(model => model.AttendEndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.EditorFor(model => model.AttendEndDate, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.AttendEndDate, "", new { @class = "text-danger" })
+    //-----------------------------------------Conference Details ------------------------------------
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-header ">
+                    <h4>Conference Details</h4> @*Each panel needs a header of some kind*@
+                </div>
 
-                                @Html.LabelFor(model => model.PaymentTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.DropDownList("PaymentTypeID", null, "Select a Payment Type...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.PaymentTypeID, "", new { @class = "text-danger" })
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            @Html.HiddenFor(model => model.ConferenceID)
 
-                                @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.EditorFor(model => model.BudgetCode, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.BudgetCode, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-6">
-                                @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.EditorFor(model => model.Rationale, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Rationale, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Conference.Name)
+                        </div>
 
-                                @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.DisplayFor(model => model.Feedback)
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Conference.Location)
 
-                                @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.DepartureDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Conference.StartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Conference.StartDate)
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Conference.EndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Conference.EndDate)
+                        </div>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Conference.RegistrationCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Conference.RegistrationCost)
+                        </div>
+                        <div class="col-6">
 
-                                @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
 
-                                @Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                <div class="checkbox">
-                                    @Html.EditorFor(model => model.ReplStaffReq)
-                                </div>
+            </div>
+        </div>
+    </div>
+
+    //--------------------------------------------------- Application Details -----------------------------
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-header">
+                    <h4 class="d-block mt-2">Application Details</h4> @*Each panel needs a header of some kind*@
+                    @Html.HiddenFor(Model => Model.ID, htmlAttributes: new { @id = "applicationID" })
+                </div>
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Helper.GetIcon(Model.Status.Description, 2)
+                            <label id="lblStatus">@Model.Status.Description</label>
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Feedback)
+                        </div>
+                    </div>
+
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.AttendStartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.AttendStartDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AttendStartDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.AttendEndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.AttendEndDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AttendEndDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DepartureDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.BudgetCode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.BudgetCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.PaymentTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DropDownList("PaymentTypeID", null, "Select a Payment Type...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PaymentTypeID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.Rationale, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Rationale, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.ReplStaffReq)
                             </div>
                         </div>
                     </div>
@@ -126,163 +176,170 @@
         </div>
     </div>
 
-    <div class="row">
+    //---------------------------------------------------Expenses -=------------------------------------------------------------
+    <div class="row pt-3">
         <div class="col-12">
-            <div class="card card-body bg-NCDSB-Grey mt-3">
-                <div class="col-12">
+            <div class="card bg-NCDSB-Grey mt-3">
+                <div class="card-header">
                     <h4>Expenses</h4>
-
-                    <table id="tblExpenses" class="table">
-                        <tbody>
-                            <tr>
-                                <th>
-                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().ExpenseTypeID, htmlAttributes: new { @class = "control-label font-bold" })
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().EstimatedCost, htmlAttributes: new { @class = "control-label font-bold" })
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().ActualCost, htmlAttributes: new { @class = "control-label font-bold" })
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().Rationale, htmlAttributes: new { @class = "control-label font-bold" })
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().Files, htmlAttributes: new { @class = "control-label font-bold" })
-                                </th>
-                                <th></th>
-                            </tr>
-
-                            
-                            @foreach (var item in Model.Expenses)
-                            {
-                            var estimatedCostEditor = Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost d-none" } });
-                            var estimatedCost = new MvcHtmlString("$<span>" + item.EstimatedCost + "</span>");
-                                @* cannot input actual cost until application is approved *@
-                            var actualCostEditor = new MvcHtmlString("<input type='text' class='form-control txtActualCost cost d-none' title='Actual Cost cannot be entered until the application has been approved.' value = 'TBD' disabled />");
-                            var actualCost = new MvcHtmlString("TBD");
-
-                            if (Model.Status.Description == "Approved")
-                            {
-                                if (item.EstimatedCost == null)
-                                {
-                                    @* cannot edit estimated cost after application has been approved *@
-                                    estimatedCostEditor = new MvcHtmlString("<input type='text' class='form-control txtEstimatedCost cost d-none' title='Estimated Cost cannot be changed after the application has been approved.' value = 'N/A' disabled />");
-                                    estimatedCost = new MvcHtmlString("N/A");
-                                }
-                                else
-                                {
-                                    estimatedCostEditor = new MvcHtmlString("<input type='text' class='form-control txtEstimatedCost cost d-none' title='Estimated Cost cannot be changed after the application has been approved.' value = '" + item.EstimatedCost + "' disabled />");
-                                }
-
-                                actualCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost cost d-none" } });
-
-                                if (item.ActualCost != null)
-                                {
-                                    actualCost = new MvcHtmlString("$<span>" + item.ActualCost + "</span>");
-                                }
-                            }
-
-                            <tr class="trExpense">
-                                <td>
-                                    <label>@item.ExpenseType.Description</label>
-                                    @Html.DropDownList("ExpenseTypes" + item.ID.ToString(), null, htmlAttributes: new { @class = "form-control ddlExpenseType d-none" })
-                                </td>
-                                <td>
-                                    <label>@estimatedCost</label>
-                                    @estimatedCostEditor
-                                    <label class="lblInvalidEstCost text-danger d-none">You must provide a valid cost estimate.</label>
-                                </td>
-                                <td>
-                                    <label>@actualCost</label>
-                                    @actualCostEditor
-                                    <label class="lblInvalidActCost text-danger d-none">You must provide a valid cost estimate.</label>
-                                </td>
-                                <td>
-                                    <label>@item.Rationale</label>
-                                    @Html.EditorFor(e => item.Rationale, new { htmlAttributes = new { @class = "form-control txtRationale d-none" } })
-                                    <input type="hidden" value="@item.ID" class="txtExpenseID" />
-                                </td>
-                                <td>
-                                    <div class="form-group">
-                                        <div class="col-md-10">
-                                            @foreach (var doc in item.Files)
-                                            {
-                                                @doc.fileName <br />
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group fileUpload">
-                                        <label class="control-label">
-                                            Additional Uploads:
-                                        </label>
-                                        <div class="col-md-10"> @*This doesn't work yet*@
-                                            <input type="file" class="" name="theFiles" multiple="multiple" /><br />
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a onclick="editExpense($(this))" class="edit badge badge-primary text-white">
-                                        @Helper.GetIcon(Helper.Icons.Edit, 3, "white")
-                                        <br />
-                                        Edit
-                                    </a>
-                                    <a onclick="acceptExpense($(this))" class="accept badge badge-success text-white d-none">
-                                        @Helper.GetIcon(Helper.Icons.Check, 3, "white")
-                                        <br />
-                                        Done
-                                    </a>
-                                    <a onclick="cancelExpense($(this))" class="accept badge badge-danger text-white d-none">
-                                        @Helper.GetIcon(Helper.Icons.Cancel, 3, "white")
-                                        <br />
-                                        Cancel
-                                    </a>
-                                </td>
-                            </tr>
-                            }
-                            @{
-                                var estCostPlaceholder = "";
-                                var estCostDisabled = "";
-                                var actCostPlaceholder = "";
-                                var actCostDisabled = "";
-                                if (Model.Status.Description != "Approved")
-                                {
-                                    actCostPlaceholder = "TBD";
-                                    actCostDisabled = "disabled";
-                                }
-                                else
-                                {
-                                    estCostPlaceholder = "N/A";
-                                    estCostDisabled = "disabled";
-                                }
-                            }
-                            @*Needs an "Add Expense" heading*@
-                            <tr id="trAddExpense" class="rgba-grey-light">
-                                <td>
-                                    @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control ddlExpenseType", @id = "ddlExpenseType" })
-                                    <label class="lblInvalidType text-danger d-none">You must select an expense type.</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control txtEstimatedCost cost" value="@estCostPlaceholder" @estCostDisabled />
-                                    <label class="lblInvalidEstCost text-danger d-none">You must provide a valid cost estimate.</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control txtActualCost cost" value="@actCostPlaceholder" @actCostDisabled />
-                                    <label class="lblInvalidActCost text-danger d-none">You must provide the actual cost.</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control txtRationale" />
-                                </td>
-                                <td>
-                                    <a onclick="addExpense()" class="btn btn-success mt-3">
-                                        @Helper.GetIcon(Helper.Icons.Plus, 1, "white")
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
+                <div class="card-body">
+                    <div class="col-12">
+
+                        <table id="tblExpenses" class="table">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().ExpenseTypeID, htmlAttributes: new { @class = "control-label font-bold" })
+                                    </th>
+                                    <th>
+                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().EstimatedCost, htmlAttributes: new { @class = "control-label font-bold" })
+                                    </th>
+                                    <th>
+                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().ActualCost, htmlAttributes: new { @class = "control-label font-bold" })
+                                    </th>
+                                    <th>
+                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().Rationale, htmlAttributes: new { @class = "control-label font-bold" })
+                                    </th>
+                                    <th>
+                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().Files, htmlAttributes: new { @class = "control-label font-bold" })
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+
+                                @foreach (var item in Model.Expenses)
+                                {
+                                    var estimatedCostEditor = Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost d-none" } });
+                                    var estimatedCost = new MvcHtmlString("$<span>" + item.EstimatedCost + "</span>");
+                                    @* cannot input actual cost until application is approved *@
+                                    var actualCostEditor = new MvcHtmlString("<input type='text' class='form-control txtActualCost cost d-none' title='Actual Cost cannot be entered until the application has been approved.' value = 'TBD' disabled />");
+                                    var actualCost = new MvcHtmlString("TBD");
+
+                                    if (Model.Status.Description == "Approved")
+                                    {
+                                        if (item.EstimatedCost == null)
+                                        {
+                                            @* cannot edit estimated cost after application has been approved *@
+                                            estimatedCostEditor = new MvcHtmlString("<input type='text' class='form-control txtEstimatedCost cost d-none' title='Estimated Cost cannot be changed after the application has been approved.' value = 'N/A' disabled />");
+                                            estimatedCost = new MvcHtmlString("N/A");
+                                        }
+                                        else
+                                        {
+                                            estimatedCostEditor = new MvcHtmlString("<input type='text' class='form-control txtEstimatedCost cost d-none' title='Estimated Cost cannot be changed after the application has been approved.' value = '" + item.EstimatedCost + "' disabled />");
+                                        }
+
+                                        actualCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost cost d-none" } });
+
+                                        if (item.ActualCost != null)
+                                        {
+                                            actualCost = new MvcHtmlString("$<span>" + item.ActualCost + "</span>");
+                                        }
+                                    }
+
+                                    <tr class="trExpense">
+                                        <td>
+                                            <label>@item.ExpenseType.Description</label>
+                                            @Html.DropDownList("ExpenseTypes" + item.ID.ToString(), null, htmlAttributes: new { @class = "form-control ddlExpenseType d-none" })
+                                        </td>
+                                        <td>
+                                            <label>@estimatedCost</label>
+                                            @estimatedCostEditor
+                                            <label class="lblInvalidEstCost text-danger d-none">You must provide a valid cost estimate.</label>
+                                        </td>
+                                        <td>
+                                            <label>@actualCost</label>
+                                            @actualCostEditor
+                                            <label class="lblInvalidActCost text-danger d-none">You must provide a valid cost estimate.</label>
+                                        </td>
+                                        <td>
+                                            <label>@item.Rationale</label>
+                                            @Html.EditorFor(e => item.Rationale, new { htmlAttributes = new { @class = "form-control txtRationale d-none" } })
+                                            <input type="hidden" value="@item.ID" class="txtExpenseID" />
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="col-md-10">
+                                                    @foreach (var doc in item.Files)
+                                                    {
+                                                        @doc.fileName <br />
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group fileUpload">
+                                                <label class="control-label">
+                                                    Additional Uploads:
+                                                </label>
+                                                <div class="col-md-10">
+                                                    @*This doesn't work yet*@
+                                                    <input type="file" class="" name="theFiles" multiple="multiple" /><br />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a onclick="editExpense($(this))" class="edit badge badge-primary text-white">
+                                                @Helper.GetIcon(Helper.Icons.Edit, 3, "white")
+                                                <br />
+                                                Edit
+                                            </a>
+                                            <a onclick="acceptExpense($(this))" class="accept badge badge-success text-white d-none">
+                                                @Helper.GetIcon(Helper.Icons.Check, 3, "white")
+                                                <br />
+                                                Save
+                                            </a>
+                                            <a onclick="cancelExpense($(this))" class="accept badge badge-danger text-white d-none">
+                                                @Helper.GetIcon(Helper.Icons.Cancel, 3, "white")
+                                                <br />
+                                                Cancel
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                                @{
+                                    var estCostPlaceholder = "";
+                                    var estCostDisabled = "";
+                                    var actCostPlaceholder = "";
+                                    var actCostDisabled = "";
+                                    if (Model.Status.Description != "Approved")
+                                    {
+                                        actCostPlaceholder = "TBD";
+                                        actCostDisabled = "disabled";
+                                    }
+                                    else
+                                    {
+                                        estCostPlaceholder = "N/A";
+                                        estCostDisabled = "disabled";
+                                    }
+                                }
+                                @*Needs an "Add Expense" heading*@
+                                <tr id="trAddExpense" class="rgba-grey-light">
+                                    <td>
+                                        @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control ddlExpenseType", @id = "ddlExpenseType" })
+                                        <label class="lblInvalidType text-danger d-none">You must select an expense type.</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control txtEstimatedCost cost" value="@estCostPlaceholder" @estCostDisabled />
+                                        <label class="lblInvalidEstCost text-danger d-none">You must provide a valid cost estimate.</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control txtActualCost cost" value="@actCostPlaceholder" @actCostDisabled />
+                                        <label class="lblInvalidActCost text-danger d-none">You must provide the actual cost.</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control txtRationale" />
+                                    </td>
+                                    <td>
+                                        <a onclick="addExpense()" class="btn btn-success mt-3">
+                                            @Helper.GetIcon(Helper.Icons.Plus, 1, "white")
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
