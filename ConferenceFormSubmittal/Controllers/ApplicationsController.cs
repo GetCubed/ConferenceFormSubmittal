@@ -223,6 +223,10 @@ namespace ConferenceFormSubmittal.Controllers
                 }
             }
             
+            var sQuery = from s in db.Statuses
+                         orderby s.Description
+                         select s;
+            ViewBag.StatusID = new SelectList(sQuery, "ID", "Description");
         }
 
         protected override void Dispose(bool disposing)
