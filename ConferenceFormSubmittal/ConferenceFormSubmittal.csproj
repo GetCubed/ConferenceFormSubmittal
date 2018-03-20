@@ -204,6 +204,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MileagesController.cs" />
+    <Compile Include="Controllers\SitesController.cs" />
     <Compile Include="DAL\CFSEntities.cs" />
     <Compile Include="DAL\CFSMigrations\201802112120261_InitialCreate.cs" />
     <Compile Include="DAL\CFSMigrations\201802112120261_InitialCreate.Designer.cs">
@@ -418,6 +419,11 @@
     <Content Include="Views\Mileages\Edit.cshtml" />
     <Content Include="Views\Mileages\Index.cshtml" />
     <Content Include="Views\Applications\ApplicationExpensePartial.cshtml" />
+    <Content Include="Views\Sites\Create.cshtml" />
+    <Content Include="Views\Sites\Delete.cshtml" />
+    <Content Include="Views\Sites\Details.cshtml" />
+    <Content Include="Views\Sites\Edit.cshtml" />
+    <Content Include="Views\Sites\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

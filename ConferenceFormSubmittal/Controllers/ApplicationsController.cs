@@ -25,6 +25,7 @@ namespace ConferenceFormSubmittal.Controllers
             var applications = db.Applications.Include(a => a.Conference).Include(a => a.Employee).Include(a => a.Status);
             ViewBag.Filtering = "";
 
+
             if (startDate.HasValue && endDate.HasValue)
             {
                 applications = applications.Where(p => p.DateSubmitted > startDate && p.DateSubmitted < endDate);
@@ -55,6 +56,15 @@ namespace ConferenceFormSubmittal.Controllers
                 applications = applications.Where(p => p.StatusID == statusID);
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastStatusID = statusID;
+            }
+            if (ViewBag.Filtering == "")
+            {
+                string url = Request.Url.AbsoluteUri;
+                if (url == "http://localhost:5824/Applications")
+                {
+                    statusID = 1;
+                    applications = applications.Where(p => p.StatusID == statusID);
+                }
             }
 
             if (!String.IsNullOrEmpty(actionButton))
@@ -126,6 +136,7 @@ namespace ConferenceFormSubmittal.Controllers
         {
             PopulateDropDownLists();
             var applications = db.Applications.Include(a => a.Conference).Include(a => a.Employee).Include(a => a.Status);
+            ViewBag.Filtering = "";
 
             if (employeeID.HasValue)
             {
@@ -175,6 +186,15 @@ namespace ConferenceFormSubmittal.Controllers
                 applications = applications.Where(p => p.StatusID == statusID);
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastStatusID = statusID;
+            }
+            if (ViewBag.Filtering == "")
+            {
+                string url = Request.Url.AbsoluteUri;
+                if (url == "http://localhost:5824/Applications/IndexAdmin")
+                {
+                    statusID = 1;
+                    applications = applications.Where(p => p.StatusID == statusID);
+                }
             }
 
             if (!String.IsNullOrEmpty(actionButton))
