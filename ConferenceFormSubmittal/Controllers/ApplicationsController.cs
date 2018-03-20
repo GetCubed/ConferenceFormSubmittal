@@ -89,6 +89,8 @@ namespace ConferenceFormSubmittal.Controllers
                     application.Expenses.Add(expense);
                 }
 
+                application.DateSubmitted = DateTime.Today;
+                
                 // insert the application
                 db.Applications.Add(application);
                 db.SaveChanges();

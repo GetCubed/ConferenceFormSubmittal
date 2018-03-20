@@ -8,7 +8,6 @@ using System.Web;
 
 namespace ConferenceFormSubmittal.DAL
 {
-
     public class CFSEntities : DbContext
     {
         public CFSEntities() : base("name=CFSEntities")
@@ -26,12 +25,24 @@ namespace ConferenceFormSubmittal.DAL
         public DbSet<Site> Sites { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<Documentation> Files { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            ////Added for cascade delete for all Files with Expense
+            //modelBuilder.Entity<Expense>()
+            //    .HasMany(a => a.Files)
+            //    .WithRequired(p => p.Expense)
+            //    .WillCascadeOnDelete(true);
+
+            ////Added for cascade delete for FileContent with Documentation
+            //modelBuilder.Entity<Documentation>()
+            //    .HasOptional(w => w.FileContent)
+            //    .WithRequired(p => p.Documentation)
+            //    .WillCascadeOnDelete(true);
         }
     }
-
 }

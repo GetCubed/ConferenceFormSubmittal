@@ -215,6 +215,10 @@
     <Compile Include="DAL\CFSMigrations\201803071507269_whatever.Designer.cs">
       <DependentUpon>201803071507269_whatever.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\CFSMigrations\201803201059446_FileUploads.cs" />
+    <Compile Include="DAL\CFSMigrations\201803201059446_FileUploads.Designer.cs">
+      <DependentUpon>201803201059446_FileUploads.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -222,9 +226,11 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
     <Compile Include="Models\Conference.cs" />
+    <Compile Include="Models\Documentation.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Expense.cs" />
     <Compile Include="Models\ExpenseType.cs" />
+    <Compile Include="Models\FileContent.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Mileage.cs" />
@@ -430,6 +436,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\CFSMigrations\201803071507269_whatever.resx">
       <DependentUpon>201803071507269_whatever.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201803201059446_FileUploads.resx">
+      <DependentUpon>201803201059446_FileUploads.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
