@@ -20,13 +20,15 @@ namespace ConferenceFormSubmittal.Utilities
             Approved,
             Denied,
             Check,
-            Cancel
+            Cancel,
+            Back,
+            Save
         }
 
         // returns an <i> element.
         // Need to pass a string instead of an enum for the first parameter?
         // No problem! Use the overload defined below.
-        public static HtmlString GetIcon(Icons icon, int size = 3, string textColor = "black")
+        public static HtmlString GetIcon(Icons icon, int size = 2, string textColor = "black")
         {
             string element = "<i class='fa fa-";
 
@@ -65,6 +67,12 @@ namespace ConferenceFormSubmittal.Utilities
                 case 10:
                     element += "ban";
                     break;
+                case 11:
+                    element += "arrow-left";
+                    break;
+                case 12:
+                    element += "floppy-o";
+                    break;
                 default:
                     element += "question";
                     break;
@@ -76,7 +84,7 @@ namespace ConferenceFormSubmittal.Utilities
         }
 
         // pass a string instead of an enum
-        public static HtmlString GetIcon(string icon, int size = 3, string textColor = "black")
+        public static HtmlString GetIcon(string icon, int size = 2, string textColor = "black")
         {
             return GetIcon((Icons)Enum.Parse(typeof(Icons), icon), size, textColor);
         }
