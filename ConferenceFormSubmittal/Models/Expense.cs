@@ -35,6 +35,7 @@ namespace ConferenceFormSubmittal.Models
 
         public virtual Application Application { get; set; }
 
+        [Display(Name = "Documentation")]
         public ICollection<Documentation> Files { get; set; }
     }
 }

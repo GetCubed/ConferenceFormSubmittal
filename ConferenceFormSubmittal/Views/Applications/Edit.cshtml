@@ -43,6 +43,8 @@
                             <br />
                             <br />
                             <div class="col-6">
+                                @Html.HiddenFor(model => model.ConferenceID)
+
                                 @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                 @Html.DisplayFor(model => model.Conference.Name)
 
@@ -145,6 +147,9 @@
                                 <th>
                                     @Html.LabelFor(model => model.Expenses.SingleOrDefault().Rationale, htmlAttributes: new { @class = "control-label font-bold" })
                                 </th>
+                                <th>
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().Files, htmlAttributes: new { @class = "control-label font-bold" })
+                                </th>
                                 <th></th>
                             </tr>
 
@@ -197,6 +202,25 @@
                                     <label>@item.Rationale</label>
                                     @Html.EditorFor(e => item.Rationale, new { htmlAttributes = new { @class = "form-control txtRationale d-none" } })
                                     <input type="hidden" value="@item.ID" class="txtExpenseID" />
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            @foreach (var doc in item.Files)
+                                            {
+                                                @doc.fileName <br />
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group fileUpload">
+                                        <label class="control-label">
+                                            Additional Uploads:
+                                        </label>
+                                        <div class="col-md-10"> @*This doesn't work yet*@
+                                            <input type="file" class="" name="theFiles" multiple="multiple" /><br />
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
                                     <a onclick="editExpense($(this))" class="edit badge badge-primary text-white">
@@ -277,37 +301,6 @@
         $(".ddlExpenseType").change(function () {
             $(this).siblings("label.text-danger").addClass("d-none");
         });
-
-        @*function validExpenseForm()
-        {
-            // innocent until proven guilty
-            $(".lblInvalidEstCost").addClass("d-none");
-            $(".lblInvalidActCost").addClass("d-none");
-
-            var result = true,
-                costPattern = /^\d+(\.\d{0,2})?$/, // matches a number with up to two decimals
-                approved = @Model.Status.Description == "Approved",
-                $this;
-
-            $(".trExpense").each(function ()
-            {
-                $this = $(this);
-
-                if (approved) {
-                    if (!costPattern.test($this.find("txtActualCost").val())) {
-                        result = false
-                        $this.find("lblInvalidActCost").removeClass("d-none");
-                    }
-                }
-                else if (!costPattern.test($this.find("txtEstimatedCost").val())) {
-                    result = false
-                    $this.find("lblInvalidEstCost").removeClass("d-none");
-                }
-
-                return result;
-            });
-
-        }*@
 
         function applicationIsApproved() {
             return $("#lblStatus").html() == "Approved";
@@ -398,7 +391,7 @@
 
         // converts a labels to input controls
         function editExpense($btnEdit) {
-            var $row = $btnEdit.closest(".trExpense");
+            var $row = $btnEdit.closest(".trExpense").addClass("editing");
 
             $row.find("label, a").addClass("d-none").siblings("select, input, a.accept, a.cancel").removeClass("d-none");
             $("a.edit, a.remove").addClass("d-none");
@@ -406,7 +399,7 @@
 
         // converts input controls into labels, hides the done/cancel buttons, and shows the edit button
         function doneEditingExpense($row) {
-            $row.find("label:not(.text-danger), a").removeClass("d-none").siblings("select, input, a.accept, a.cancel, label.text-danger").addClass("d-none");
+            $row.removeClass("editing").find("label:not(.text-danger), a").removeClass("d-none").siblings("select, input, a.accept, a.cancel, label.text-danger").addClass("d-none");
 
             $("a.edit, a.remove").removeClass("d-none");
         }
@@ -458,36 +451,42 @@
         }
 
         $("#btnSubmit").click(function () {
+            // make sure they aren't still editing an Expense
+            if ($(".trExpense.editing").length) {
+                alert("Please finish or cancel editing before saving changes.");
+                // move the scroll position to the editing row
+                $(window).scrollTop($(".trExpense.editing").offset().top);
+            }
+            else {
+                var expenseBatch = [],
+                    applicationID = $("#applicationID").val();
 
-            var expenseBatch = [],
-                applicationID = $("#applicationID").val();
+                $(".trExpense").each(function () {
+                    var row = $(this);
 
-            $(".trExpense").each(function () {
-                var row = $(this);
+                    var expense = {
+                        ID: row.find(".txtExpenseID").val(),
+                        ExpenseTypeID: row.find(".ddlExpenseType").val(),
+                        EstimatedCost: row.find(".txtEstimatedCost").val(),
+                        ActualCost: row.find(".txtActualCost").val(),
+                        Rationale: row.find(".txtRationale").val(),
+                        ApplicationID: applicationID
+                    };
 
-                var expense = {
-                    ID: row.find(".txtExpenseID").val(),
-                    ExpenseTypeID: row.find(".ddlExpenseType").val(),
-                    EstimatedCost: row.find(".txtEstimatedCost").val(),
-                    ActualCost: row.find(".txtActualCost").val(),
-                    Rationale: row.find(".txtRationale").val(),
-                    ApplicationID: applicationID
-                };
+                    expenseBatch.push(expense);
+                });
 
-                expenseBatch.push(expense);
-            });
-
-            $.ajax({
-                type: "POST",
-                url: "/Expenses/AddOrUpdateExpenses",
-                data: JSON.stringify(expenseBatch),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    //$("#frmEditApplication").submit();
-                    alert(response);
-                }
-            });
+                $.ajax({
+                    type: "POST",
+                    url: "/Expenses/AddOrUpdateExpenses",
+                    data: JSON.stringify(expenseBatch),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        $("#frmEditApplication").submit();
+                    }
+                });
+            }
         });
     </script>
 }

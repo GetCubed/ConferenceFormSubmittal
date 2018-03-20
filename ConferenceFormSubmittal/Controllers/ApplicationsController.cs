@@ -161,9 +161,9 @@ namespace ConferenceFormSubmittal.Controllers
         // POST: Applications/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,Feedback,EmployeeID,ConferenceID,StatusID")] Application application)
+        public ActionResult EditPost([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,ConferenceID")] Application application)
         {
             if (ModelState.IsValid)
             {
