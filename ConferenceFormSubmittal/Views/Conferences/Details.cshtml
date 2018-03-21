@@ -1,4 +1,5 @@
 ﻿@model ConferenceFormSubmittal.Models.Conference
+@using ConferenceFormSubmittal.Utilities;
 
 @{
     ViewBag.Title = "Details";
@@ -12,9 +13,44 @@
     </div>
 </div>
 
+@*//------------------------------------------------ Header buttons ---------------------------------*@
+<div class="row mt-3">
+    <div class="col-12">
+
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-body">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
+                            @Helper.GetIcon(Helper.Icons.Back)
+                            Go Back
+                        </a>
+
+                        <a href='@Url.Action("Edit", "Conferences", new { id = Model.ID })' class="btn btn-primary">
+                            @Helper.GetIcon(Helper.Icons.Edit)
+                            Edit
+                        </a>
+
+                        <a href='@Url.Action("Delete", "Conferences", new { id = Model.ID })' class="btn btn-danger">
+                            @Helper.GetIcon(Helper.Icons.Flag)
+                            Flag
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
 <div class="row pt-3">
     <div class="col-12">
         <div class="card bg-NCDSB-Grey">
+            <div class="card-header">
+                <h4>Conference Details</h4>
+            </div>
 
             <div class="card-body">
 
@@ -67,19 +103,6 @@
                         @Html.DisplayFor(model => model.EndDate)
                     </div>
 
-
-                    <div class="col-2">
-                        <a href='@Url.Action("Edit", "Conferences", new { id = Model.ID })' class="btn btn-success btn-block">
-                            <i class="fa fa-pencil"></i> Edit
-                        </a>
-                    </div>
-
-
-                    <div class="col-2">
-                        <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary btn-block">
-                            <i class="fa fa-long-arrow-left"></i> Go Back
-                        </a>
-                    </div>
 
                 </div>
 
