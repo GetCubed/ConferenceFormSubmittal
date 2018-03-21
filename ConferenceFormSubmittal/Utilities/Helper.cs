@@ -61,7 +61,7 @@ namespace ConferenceFormSubmittal.Utilities
                     element += "thumbs-up";
                     break;
                 case 8:
-                    element += "thunbs-up";
+                    element += "thumbs-down";
                     break;
                 case 9:
                     element += "check";
@@ -95,6 +95,34 @@ namespace ConferenceFormSubmittal.Utilities
         public static HtmlString GetIcon(string icon, int size = 2, string textColor = "black")
         {
             return GetIcon((Icons)Enum.Parse(typeof(Icons), icon), size, textColor);
+        }
+
+
+        //// given a status, returns a background element
+        public static HtmlString GetBackGround(string status)
+        {
+            string element = "";
+
+            switch (status)
+            {
+                case "Submitted":
+                    element += "";
+                    break;
+                case "Approved":
+                    element += "rgba-green-light";
+                    break;
+                case "Denied":
+                    element += "rgba-black-light";
+                    break;
+                case "Draft":
+                    element += "gba-yellow-light";
+                    break;
+                default:
+                    element += "";
+                    break;
+            }
+
+           return new HtmlString(element);
         }
 
         public static string YesNoFromBool(bool b)
