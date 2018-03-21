@@ -9,7 +9,7 @@
 <div class="row pt-3">
     <div class="col-12">
         <div class="card card-header bg-NCDSB-Grey">
-            <h3 class="text-center font-weight-bold">Conferences</h3>
+            <h3 class="text-center font-weight-bold">Sites</h3>
         </div>
     </div>
 </div>
@@ -74,11 +74,11 @@
                             @Html.DisplayFor(modelItem => item.Address)
                         </td>
                         <td class="float-right">
-                            <a href='@Url.Action("Details", "Sites", new { id = item.ID })' class="badge badge-success bg-NCDSB-myGreen hoverable text-white">
+                            @*<a href='@Url.Action("Details", "Sites", new { id = item.ID })' class="badge badge-success bg-NCDSB-myGreen hoverable text-white">
                                 @Helper.GetIcon(Helper.Icons.View, 3)
                                 <br />
                                 Details
-                            </a>
+                            </a>*@
 
                             <a href='@Url.Action("Edit", "Sites", new { id = item.ID })' class="badge badge-primary bg-NCDSB-myGreen hoverable text-white">
                                 @Helper.GetIcon(Helper.Icons.Edit, 3)
