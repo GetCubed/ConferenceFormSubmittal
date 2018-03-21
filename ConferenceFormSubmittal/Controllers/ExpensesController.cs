@@ -177,7 +177,15 @@ namespace ConferenceFormSubmittal.Controllers
 
             db.SaveChanges();
 
-            return Json("Uploaded " + Request.Files.Count + " files");
+            //string result = "";
+            //foreach (Documentation d in expense.Files)
+            //{
+            //    result += d.ID + "," + d.fileName + ";";
+            //}
+
+            //return Json(result.TrimEnd(';'));
+
+            return Json(Request.Files.Count + " files uploaded");
         }
 
         // POST: Expenses/Edit/5
@@ -220,6 +228,12 @@ namespace ConferenceFormSubmittal.Controllers
             db.Expenses.Remove(expense);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public FileContentResult Download(int id)
+        {
+            var theFile = db.Files.Include(f => f.FileContent).Where(f => f.ID == id).SingleOrDefault();
+            return File(theFile.FileContent.Content, theFile.FileContent.MimeType, theFile.fileName);
         }
 
         protected override void Dispose(bool disposing)

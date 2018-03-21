@@ -261,8 +261,7 @@
                                                 <div class="col-md-10">
                                                     @foreach (var doc in item.Files)
                                                     {
-                                                        //@: @Html.ActionLink(doc.fileName, "Download", new { id = doc.ID }) <br />
-                                                        @doc.fileName <br />;
+                                                        @: @Html.ActionLink(doc.fileName, "Download", "Expenses", new { id = doc.ID }, null) <br />
                                                     }
                                                 </div>
                                             </div>
@@ -588,10 +587,9 @@
                 var fileName;
                 for (i = 0; i < ($fileInput)[0].files.length; i++) {
                     fileName = ($fileInput)[0].files[i].name;
+                    $currentFiles.append(fileName + "<br />");
 
                     formdata.append(fileName, ($fileInput)[0].files[i]);
-
-                    $currentFiles.append(fileName + "<br />");
                 }
 
                 var xhr = new XMLHttpRequest();
@@ -599,8 +597,27 @@
                 xhr.send(formdata);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
-                        alert(xhr.responseText);
+                        //alert(xhr.responseText);
+                        //// show the new files as download links
+                        //var newItems = xhr.responseText.split(";"),
+                        //    item;
+
+                        //addLinks:
+                        //for (i = 0; i < newItems.length; i++) {
+                        //    item = newItems[i].split(",");
+
+                        //    $currentFiles.children("a").each(function () {
+                        //        if ($(this).html() == item[1]) {
+                        //            continue addLinks;
+                        //        }
+                        //    });
+
+                        //    $currentFiles.append("<a href='/Expenses/Download/" + item[0] + "'>" + item[1] + "</a><br />");
+                        //}
+
                         // clear the file input control
+
+
                         ($fileInput)[0].value = "";
                     }
                 }
