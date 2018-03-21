@@ -117,7 +117,7 @@
                                 @Html.DisplayFor(modelItem => item.EndDate)
                             </td>
                             <td>
-                                @*<a href="~/Conferences/Details/1" class="badge badge-primary bg-NCDSB-Blue white-text">View</a>*@
+                              
                                 <a href='@Url.Action("Details", "Conferences", new { id = item.ID })' class="badge badge-success bg-NCDSB-myGreen hoverable text-white">
                                     <i class="fa fa-eye fa-3x text-white" aria-hidden="true"></i>
                                     <br />

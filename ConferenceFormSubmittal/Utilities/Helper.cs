@@ -22,7 +22,9 @@ namespace ConferenceFormSubmittal.Utilities
             Check,
             Cancel,
             Back,
-            Save
+            Save,
+            Filter,
+            Create
         }
 
         // returns an <i> element.
@@ -71,7 +73,13 @@ namespace ConferenceFormSubmittal.Utilities
                     element += "arrow-left";
                     break;
                 case 12:
-                    element += "floppy-o";
+                    element += "floppy-o"; 
+                    break;
+                case 13:
+                    element += "filter"; 
+                    break;
+                case 14:
+                    element += "file-text";
                     break;
                 default:
                     element += "question";
