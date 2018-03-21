@@ -177,14 +177,6 @@ namespace ConferenceFormSubmittal.Controllers
 
             db.SaveChanges();
 
-            //string result = "";
-            //foreach (Documentation d in expense.Files)
-            //{
-            //    result += d.ID + "," + d.fileName + ";";
-            //}
-
-            //return Json(result.TrimEnd(';'));
-
             return Json(Request.Files.Count + " files uploaded");
         }
 

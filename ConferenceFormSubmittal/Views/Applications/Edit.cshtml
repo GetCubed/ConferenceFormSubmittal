@@ -270,13 +270,13 @@
                                                     @foreach (var doc in item.Files)
                                                     {
                                                         <i class="fa fa-download"></i>
-                                                        @: <u>@Html.ActionLink(doc.fileName, "Download", "Expenses", new { id = doc.ID }, null) </u><br />
+                                                        @: <u>@Html.ActionLink(doc.fileName, "Download", "Expenses", new { id = doc.ID }, new { @class = "fileLink" }) </u><br />
                                                     }
                                                 </div>
                                             </div>
 
                                             <div class="form-group fileUpload d-none">
-                                                <label class="control-label">
+                                                <label class="control-label doc">
                                                     Add Documentation:
                                                 </label>
                                                 <div class="col-md-10">
@@ -449,8 +449,9 @@
             );
 
             // add the file upload button
-            newRow.children("td").last().before("<td><div class='form-group'><div class='col-md-10'></div></div>" +
-                "<div class='form-group fileUpload'><label class='control-label'>Add Documentation:</label>" +
+            newRow.children("td").last().before("<td><div class='form-group currentFiles'><div class='col-md-10'>" +
+                "<div class='form-group'><div class='col-md-10'></div></div>" +
+                "<div class='form-group fileUpload d-none'><label class='control-label doc'>Add Documentation:</label>" +
                 "<div class='col-md-10'><input type='file' class='' name='theFiles' multiple='multiple' />" +
                 "<br /></div ></div ></td>");
 
@@ -474,7 +475,7 @@
         function editExpense($btnEdit) {
             var $row = $btnEdit.closest(".trExpense").addClass("editing");
 
-            $row.find("label, a").addClass("d-none").siblings("select, input, a.accept, a.cancel").removeClass("d-none");
+            $row.find("label:not(.doc), a:not(.fileLink)").addClass("d-none").siblings("select, input, a.accept, a.cancel").removeClass("d-none");
             $row.find(".fileUpload").removeClass("d-none");
             $("a.edit, a.remove").addClass("d-none");
         }
@@ -482,6 +483,9 @@
         // converts input controls into labels, hides the done/cancel buttons, and shows the edit button
         function doneEditingExpense($row) {
             $row.removeClass("editing").find("label:not(.text-danger), a, .currentFiles").removeClass("d-none").siblings("select, input, a.accept, a.cancel, label.text-danger, .fileUpload").addClass("d-none");
+
+            // empty the file upload control
+            ($row.find("input[type='file']"))[0].value = "";
 
             $("a.edit, a.remove").removeClass("d-none");
         }
@@ -606,28 +610,8 @@
                 xhr.send(formdata);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
-                        //alert(xhr.responseText);
-                        //// show the new files as download links
-                        //var newItems = xhr.responseText.split(";"),
-                        //    item;
-
-                        //addLinks:
-                        //for (i = 0; i < newItems.length; i++) {
-                        //    item = newItems[i].split(",");
-
-                        //    $currentFiles.children("a").each(function () {
-                        //        if ($(this).html() == item[1]) {
-                        //            continue addLinks;
-                        //        }
-                        //    });
-
-                        //    $currentFiles.append("<a href='/Expenses/Download/" + item[0] + "'>" + item[1] + "</a><br />");
-                        //}
-
-                        // clear the file input control
-
-
-                        ($fileInput)[0].value = "";
+                        location.reload();
+                        //($fileInput)[0].value = "";
                     }
                 }
             }
