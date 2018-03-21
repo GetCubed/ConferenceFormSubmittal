@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -98,25 +99,32 @@ namespace ConferenceFormSubmittal.Controllers
                 {
                     try
                     {
-                        Expense e = expenses[0];
+                        foreach (Expense e in expenses)
+                        {
+                            if (db.Expenses.Any(a => a.ID == e.ID)) // if the Expense exists in the db, update it
+                            {
+                                var expenseToUpdate = db.Expenses.Find(e.ID);
+                                expenseToUpdate.Rationale = e.Rationale;
+                                expenseToUpdate.EstimatedCost = e.EstimatedCost;
+                                expenseToUpdate.ActualCost = e.ActualCost;
+                                expenseToUpdate.ExpenseTypeID = e.ExpenseTypeID;
+                            }
+                            else // insert it
+                            {
+                                db.Expenses.Add(e);
 
-                        if (db.Expenses.Any(a => a.ID == e.ID)) // if the Expense exists in the db, update it
-                        {
-                            var expenseToUpdate = db.Expenses.Find(e.ID);
-                            expenseToUpdate.Rationale = e.Rationale;
-                            expenseToUpdate.EstimatedCost = e.EstimatedCost;
-                            expenseToUpdate.ActualCost = e.ActualCost;
-                            expenseToUpdate.ExpenseTypeID = e.ExpenseTypeID;
-                        }
-                        else // insert it
-                        {
-                            db.Expenses.Add(e);
+                                
+                            }
                         }
 
                         db.SaveChanges();
                         dbContextTransaction.Commit();
 
-                        result += e.ID.ToString();
+                        // we need to pass back the newly generated ids of rows that are inserted through the ApplicationEdit view
+                        if (expenses.Count == 1)
+                        {
+                            result += expenses[0].ID.ToString();
+                        }
                     }
                     catch (Exception)
                     {
@@ -128,6 +136,48 @@ namespace ConferenceFormSubmittal.Controllers
             }
             
             return Json(result);
+        }
+
+        public JsonResult UploadFiles(int? id)
+        {
+            if (id == null)
+            {
+                return Json("bad request");
+            }
+            Expense expense = db.Expenses
+                .Include(e => e.Files)
+                .Where(e => e.ID == id).SingleOrDefault();
+
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                HttpPostedFileBase f = Request.Files[i];
+
+                int fileLength = f.ContentLength;
+                string fileName = f.FileName;
+                string mimeType = f.ContentType;
+
+                if (!(fileName == "" || fileLength == 0))//Looks like we have a file!!!
+                {
+                    Stream fileStream = f.InputStream;
+                    byte[] fileData = new byte[fileLength];
+                    fileStream.Read(fileData, 0, fileLength);
+
+                    Documentation newFile = new Documentation
+                    {
+                        FileContent = new FileContent
+                        {
+                            Content = fileData,
+                            MimeType = mimeType
+                        },
+                        fileName = fileName
+                    };
+                    expense.Files.Add(newFile);
+                }
+            }
+
+            db.SaveChanges();
+
+            return Json("Uploaded " + Request.Files.Count + " files");
         }
 
         // POST: Expenses/Edit/5
