@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <button class="btn btn-primary" type="submit">
+                        <button class="btn btn-primary" type="submit" name="actionButton">
                             @Helper.GetIcon(Helper.Icons.Filter) Filter
                         </button>
 
@@ -100,7 +100,7 @@
                         @foreach (var item in Model)
                         {
 
-                            <tr class=@Helper.GetBackGround(item.Status.Description)>
+                            <tr class= @Helper.GetBackGround(item.Status.Description)>
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Conference.Name)
