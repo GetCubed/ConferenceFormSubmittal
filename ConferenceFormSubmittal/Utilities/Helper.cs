@@ -24,7 +24,8 @@ namespace ConferenceFormSubmittal.Utilities
             Back,
             Save,
             Filter,
-            Create
+            Create,
+            Eraser
         }
 
         // returns an <i> element.
@@ -76,10 +77,13 @@ namespace ConferenceFormSubmittal.Utilities
                     element += "floppy-o"; 
                     break;
                 case 13:
-                    element += "filter"; 
+                    element += "filter";
                     break;
                 case 14:
                     element += "file-text";
+                    break;
+                case 15:
+                    element += "eraser";
                     break;
                 default:
                     element += "question";

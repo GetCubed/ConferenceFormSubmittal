@@ -1,6 +1,7 @@
 ﻿@model PagedList.IPagedList<ConferenceFormSubmittal.Models.Conference>
 @using PagedList.Mvc;
 
+
 @{
     ViewBag.Title = "Index";
 }
@@ -17,7 +18,6 @@
 
 @using (Html.BeginForm("Index", "Conferences", FormMethod.Get))
 {
-
     //Filter
     <div class="row pt-3">
         <div class="col-12">

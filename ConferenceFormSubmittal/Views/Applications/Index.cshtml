@@ -1,5 +1,4 @@
 ﻿@model PagedList.IPagedList<ConferenceFormSubmittal.Models.Application>
-
 @using ConferenceFormSubmittal.Utilities;
 @using PagedList.Mvc;
 
@@ -56,7 +55,16 @@
                     </div>
 
                     <div class="card-footer">
-                        <input type="submit" name="actionButton" value="Filter" class="btn btn-default" /> @Html.ActionLink("Clear", "Index")
+                        <button class="btn btn-primary" type="submit">
+                            @Helper.GetIcon(Helper.Icons.Filter) Filter
+                        </button>
+
+                        <a href='@Url.Action("Index", "Applications")' class="btn btn-danger">
+                            @Helper.GetIcon(Helper.Icons.Eraser) Clear
+                        </a>
+
+
+
                     </div>
 
                 </div>
@@ -92,7 +100,7 @@
                         @foreach (var item in Model)
                         {
 
-                            <tr class="@Helper.GetBackGround(item.Status.Description)">
+                            <tr class=@Helper.GetBackGround(item.Status.Description)>
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Conference.Name)
