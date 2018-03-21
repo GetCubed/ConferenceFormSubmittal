@@ -1,53 +1,112 @@
 ﻿@model ConferenceFormSubmittal.Models.Site
+@using ConferenceFormSubmittal.Utilities;
 
 @{
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">Create Site</h3>
+        </div>
+    </div>
+</div>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Site</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+
+
+    //------------------------------------------------------------------buttons bar--------------------------------------
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+
+                    <div class="col-12 d-flex justify-content-between">
+
+                        <a href='@Url.Action("Index", "Sites")' class="btn btn-primary">
+                            @Helper.GetIcon(Helper.Icons.Back)
+                            Go Back
+                        </a>
+
+                        <button type="submit" class="btn btn-default">
+                            @Helper.GetIcon(Helper.Icons.Save)
+                            Create
+                        </button>
+                    </div>
+
+
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "txtAddress", @placeholder = "Enter An Address"} })
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <a onclick="GetRoute()" class="btn btn-primary d-block">
-                    <i class="fa fa-map-marker fa-2x"></i>
-                    Get Route
-                </a>
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-
-        <div id="dvMap" style="min-height:400px"></div>
     </div>
+
+
+    //--------------------------------------------------------------- Create -------------------------------------------
+    <div class="row pt-3">
+        <div class="col-8">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-header">
+                    <h4>Create</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                           
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>                 
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "txtAddress", @placeholder = "Enter An Address" } })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <a onclick="GetRoute()" class="btn btn-primary d-block">
+                                <i class="fa fa-map-marker fa-2x"></i>
+                                Get Route
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*------------------------------ google map --------------------------------*@
+        <div class="col-4">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+                    <div class="col-12">
+                        <div id="dvMap" style="min-height:400px"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -104,46 +163,46 @@
             }
         }
 
-        //map.addListener('click', function () {
-        //    map.setZoom(8);
-        //    map.setCenter(marker.getPosition());
-        //});
-        
-        //var address = "San Diego, CA";
+                    //map.addListener('click', function () {
+                    //    map.setZoom(8);
+                    //    map.setCenter(marker.getPosition());
+                    //});
 
-        //function location() {
-        //    geocoder = new google.maps.Geocoder();
-        //    if (geocoder) {
-        //        geocoder.geocode({
-        //            'address': address
-        //        }, function (results, status) {
-        //            if (status == google.maps.GeocoderStatus.OK) {
-        //                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
-        //                    map.setCenter(results[0].geometry.location);
+                    //var address = "San Diego, CA";
 
-        //                    var infowindow = new google.maps.InfoWindow({
-        //                        content: '<b>' + address + '</b>',
-        //                        size: new google.maps.Size(150, 50)
-        //                    });
+                    //function location() {
+                    //    geocoder = new google.maps.Geocoder();
+                    //    if (geocoder) {
+                    //        geocoder.geocode({
+                    //            'address': address
+                    //        }, function (results, status) {
+                    //            if (status == google.maps.GeocoderStatus.OK) {
+                    //                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+                    //                    map.setCenter(results[0].geometry.location);
 
-        //                    var marker = new google.maps.Marker({
-        //                        position: results[0].geometry.location,
-        //                        map: map,
-        //                        title: address
-        //                    });
-        //                    google.maps.event.addListener(marker, 'click', function () {
-        //                        infowindow.open(map, marker);
-        //                    });
+                    //                    var infowindow = new google.maps.InfoWindow({
+                    //                        content: '<b>' + address + '</b>',
+                    //                        size: new google.maps.Size(150, 50)
+                    //                    });
 
-        //                } else {
-        //                    alert("No results found");
-        //                }
-        //            } else {
-        //                alert("Geocode was not successful for the following reason: " + status);
-        //            }
-        //        });
-        //    }
-        //}
+                    //                    var marker = new google.maps.Marker({
+                    //                        position: results[0].geometry.location,
+                    //                        map: map,
+                    //                        title: address
+                    //                    });
+                    //                    google.maps.event.addListener(marker, 'click', function () {
+                    //                        infowindow.open(map, marker);
+                    //                    });
+
+                    //                } else {
+                    //                    alert("No results found");
+                    //                }
+                    //            } else {
+                    //                alert("Geocode was not successful for the following reason: " + status);
+                    //            }
+                    //        });
+                    //    }
+                    //}
 
     </script>
 }
