@@ -17,7 +17,7 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmEditApplication" }))
 {
     @Html.AntiForgeryToken()
-
+    
     @*//------------------------------------------------ Header buttons ---------------------------------*@
     <div class="row mt-3">
         <div class="col-12">
@@ -31,14 +31,22 @@
                                 Go Back
                             </a>
 
+
+                            @*<button class="btn btn-primary">
+
                             <button class="btn btn-primary" type="submit">
+
                                 @Helper.GetIcon(Helper.Icons.Draft)
                                 Save Draft
-                            </button>
+                            </button>*@
 
                             <button class="btn btn-success" type="submit">
                                 @Helper.GetIcon(Helper.Icons.Save)
+
+                                Save Changes
+
                                 Submit
+
                             </button>
                         </div>
                     </div>
@@ -54,7 +62,7 @@
         <div class="col-12">
             <div class="card bg-NCDSB-Grey">
                 <div class="card-header ">
-                    <h4>Conference Details</h4> @*Each panel needs a header of some kind*@
+                    <h4>Conference Details</h4>
                 </div>
 
                 <div class="card-body">
@@ -255,21 +263,20 @@
                                         <td>
                                             <label>@item.Rationale</label>
                                             @Html.EditorFor(e => item.Rationale, new { htmlAttributes = new { @class = "form-control txtRationale d-none" } })
-                                            <input type="hidden" value="@item.ID" class="txtExpenseID" />
                                         </td>
                                         <td>
-                                            <div class="form-group">
+                                            <div class="form-group currentFiles">
                                                 <div class="col-md-10">
                                                     @foreach (var doc in item.Files)
                                                     {
-                                                        @doc.fileName <br />
+                                                        @: @Html.ActionLink(doc.fileName, "Download", "Expenses", new { id = doc.ID }, null) <br />
                                                     }
                                                 </div>
                                             </div>
 
-                                            <div class="form-group fileUpload">
+                                            <div class="form-group fileUpload d-none">
                                                 <label class="control-label">
-                                                    Additional Uploads:
+                                                    Add Documentation:
                                                 </label>
                                                 <div class="col-md-10">
                                                     @*This doesn't work yet*@
@@ -293,6 +300,7 @@
                                                 <br />
                                                 Cancel
                                             </a>
+                                            <input type="hidden" value="@item.ID" class="txtExpenseID" />
                                         </td>
                                     </tr>
                                 }
@@ -393,52 +401,67 @@
             return result;
         }
 
-        // adds the expense to the table if valid
+        // inserts the expense record if valid
         function addExpense() {
-            var $row = $("#trAddExpense"),
-                $ddlType = $row.find(".ddlExpenseType");
+            var $row = $("#trAddExpense");
 
+            // attempt to validate and insert row
             if (validExpense($row)) {
-                // create a clone of the input row
-                // note: cloning an existing row (rather than the input row) is not possible because there may be none
-                var newRow = $row.clone();
-
-                // set the value of the ddl, and remove the default selection (first child)
-                newRow.removeAttr("id").removeClass().addClass("trExpense").find(".ddlExpenseType").val($ddlType.val()).children().first().remove();
-
-                // hide the input controls and append a label for each value
-                var $newDdlType = newRow.find(".ddlExpenseType"),
-                    $newTxtRationale = newRow.find(".txtRationale");
-
-                $newDdlType.addClass("d-none").before("<label>" + $newDdlType.children(":selected").text() + "</label>");
-
-                newRow.find(".cost").addClass("d-none").each(function () {
-                    var $this = $(this),
-                        v = $this.val();
-
-                    if (v == "N/A" || v == "TBD")
-                        $this.before("<label><span>" + v + "</span></label>");
-                    else
-                        $this.val(parseFloat($this.val()).toFixed(2)).before("<label>$<span>" + $this.val() + "</span></label>");
-                });
-
-                $newTxtRationale.addClass("d-none").before("<label>" + $newTxtRationale.val() + "</label>");
-
-                // replace the "+" button with edit, confirm, and delete buttons
-                newRow.find(".btn-success").replaceWith(
-                    "<a onclick='editExpense($(this))' class='edit badge badge-primary text-white'>@Helper.GetIcon(Helper.Icons.Edit, 3, "white")<br />Edit</a>" +
-                    "<a onclick='acceptExpense($(this))' class='accept badge badge-success text-white d-none'>@Helper.GetIcon(Helper.Icons.Check, 3, "white")<br />Done</a>" +
-                    "<a onclick='removeExpense($(this))' class='remove btn btn-danger text-white'>@Helper.GetIcon(Helper.Icons.Minus, 1, "white")</a>" +
-                    "<a onclick='cancelExpense($(this))' class='cancel badge badge-danger text-white d-none'>@Helper.GetIcon(Helper.Icons.Cancel, 3, "white")<br />Cancel</a>"
-                );
-
-                // append the new row to the table
-                $row.before(newRow);
-
-                // clear the input fields
-                $ddlType.prop("selectedIndex", 0);
-                txtBoxesToClear = $row.find("input").not(applicationIsApproved() ? ".txtEstimatedCost" : ".txtActualCost").val("");
+                addOrUpdateExpense($row, false);
             }
+        }
+
+        // adds a row to the table
+        function addExpenseRow(newID) {
+            // create a clone of the input row
+            // note: cloning an existing row (rather than the input row) is not possible because there may be none
+            var $row = $("#trAddExpense"),
+                $ddlType = $row.find(".ddlExpenseType"),
+                newRow = $row.clone();
+
+            // set the value of the ddl, and remove the default selection (first child)
+            newRow.removeAttr("id").removeClass().addClass("trExpense").find(".ddlExpenseType").val($ddlType.val()).children().first().remove();
+
+            // hide the input controls and append a label for each value
+            var $newDdlType = newRow.find(".ddlExpenseType"),
+                $newTxtRationale = newRow.find(".txtRationale");
+
+            $newDdlType.addClass("d-none").before("<label>" + $newDdlType.children(":selected").text() + "</label>");
+
+            newRow.find(".cost").addClass("d-none").each(function () {
+                var $this = $(this),
+                    v = $this.val();
+
+                if (v == "N/A" || v == "TBD")
+                    $this.before("<label><span>" + v + "</span></label>");
+                else
+                    $this.val(parseFloat($this.val()).toFixed(2)).before("<label>$<span>" + $this.val() + "</span></label>");
+            });
+
+            $newTxtRationale.addClass("d-none").before("<label>" + $newTxtRationale.val() + "</label>");
+
+            // replace the "+" button with edit, confirm, and delete buttons
+            newRow.find(".btn-success").replaceWith(
+                "<a onclick='editExpense($(this))' class='edit badge badge-primary text-white'>@Helper.GetIcon(Helper.Icons.Edit, 3, "white")<br />Edit</a>" +
+                "<a onclick='acceptExpense($(this))' class='accept badge badge-success text-white d-none'>@Helper.GetIcon(Helper.Icons.Check, 3, "white")<br />Done</a>" +
+                "<a onclick='cancelExpense($(this))' class='cancel badge badge-danger text-white d-none'>@Helper.GetIcon(Helper.Icons.Cancel, 3, "white")<br />Cancel</a>"
+            );
+
+            // add the file upload button
+            newRow.children("td").last().before("<td><div class='form-group'><div class='col-md-10'></div></div>" +
+                "<div class='form-group fileUpload'><label class='control-label'>Add Documentation:</label>" +
+                "<div class='col-md-10'><input type='file' class='' name='theFiles' multiple='multiple' />" +
+                "<br /></div ></div ></td>");
+
+            // add a hidden field for the new id
+            newRow.children("td").last().append("<input type='hidden' class='txtExpenseID' value='" + newID + "' />");
+
+            // append the new row to the table
+            $row.before(newRow);
+
+            // clear the input fields
+            $ddlType.prop("selectedIndex", 0);
+            txtBoxesToClear = $row.find("input").not(applicationIsApproved() ? ".txtEstimatedCost" : ".txtActualCost").val("");
         }
 
         // removes an expense from the table
@@ -451,42 +474,15 @@
             var $row = $btnEdit.closest(".trExpense").addClass("editing");
 
             $row.find("label, a").addClass("d-none").siblings("select, input, a.accept, a.cancel").removeClass("d-none");
+            $row.find(".fileUpload").removeClass("d-none");
             $("a.edit, a.remove").addClass("d-none");
         }
 
         // converts input controls into labels, hides the done/cancel buttons, and shows the edit button
         function doneEditingExpense($row) {
-            $row.removeClass("editing").find("label:not(.text-danger), a").removeClass("d-none").siblings("select, input, a.accept, a.cancel, label.text-danger").addClass("d-none");
+            $row.removeClass("editing").find("label:not(.text-danger), a, .currentFiles").removeClass("d-none").siblings("select, input, a.accept, a.cancel, label.text-danger, .fileUpload").addClass("d-none");
 
             $("a.edit, a.remove").removeClass("d-none");
-        }
-
-        // validates an expense row and turns off edit mode
-        function acceptExpense($btnOk) {
-            var $row = $btnOk.closest(".trExpense");
-
-            if (validExpense($row)) {
-                var $ddlType = $row.find(".ddlExpenseType"),
-                    $txtEstCost = $row.find(".txtEstimatedCost"),
-                    $txtActCost = $row.find(".txtActualCost"),
-                    $txtRationale = $row.find(".txtRationale"),
-                    estCost = $txtEstCost.val(),
-                    actCost = $txtActCost.val();
-                // set the labels to display the updated values
-                $ddlType.prev().html($ddlType.children(":selected").text());
-
-                if (estCost != "N/A")
-                    $txtEstCost.prev().html("$<span>" + parseFloat(estCost).toFixed(2) + "</span>");
-
-                if (actCost == "")
-                    $txtActCost.prev().html("<span>TBD</span>");
-                else if (actCost != "TBD")
-                    $txtActCost.prev().html("$<span>" + parseFloat(actCost).toFixed(2) + "</span>");
-
-                $txtRationale.prev().html($txtRationale.val());
-
-                doneEditingExpense($row);
-            }
         }
 
         function cancelExpense($btnCancel) {
@@ -507,43 +503,134 @@
             doneEditingExpense($row);
         }
 
-        $("#btnSubmit").click(function () {
-            // make sure they aren't still editing an Expense
-            if ($(".trExpense.editing").length) {
-                alert("Please finish or cancel editing before saving changes.");
-                // move the scroll position to the editing row
-                $(window).scrollTop($(".trExpense.editing").offset().top);
+        function updateRowValues($row) {
+            var $ddlType = $row.find(".ddlExpenseType"),
+                $txtEstCost = $row.find(".txtEstimatedCost"),
+                $txtActCost = $row.find(".txtActualCost"),
+                $txtRationale = $row.find(".txtRationale"),
+                estCost = $txtEstCost.val(),
+                actCost = $txtActCost.val();
+            // set the labels to display the updated values
+            $ddlType.prev().html($ddlType.children(":selected").text());
+
+            if (estCost != "N/A")
+                $txtEstCost.prev().html("$<span>" + parseFloat(estCost).toFixed(2) + "</span>");
+
+            if (actCost == "")
+                $txtActCost.prev().html("<span>TBD</span>");
+            else if (actCost != "TBD")
+                $txtActCost.prev().html("$<span>" + parseFloat(actCost).toFixed(2) + "</span>");
+
+            $txtRationale.prev().html($txtRationale.val());
+
+            doneEditingExpense($row);
+        }
+
+        // updates a record if valid
+        function acceptExpense($btnOk) {
+            var $row = $btnOk.closest(".trExpense");
+
+            if (validExpense($row)) {
+                addOrUpdateExpense($row, true);
             }
-            else {
-                var expenseBatch = [],
-                    applicationID = $("#applicationID").val();
+        }
 
-                $(".trExpense").each(function () {
-                    var row = $(this);
+        // creates and returns an expense object from a row
+        function getExpense($row) {
+            var estCost = $row.find(".txtEstimatedCost").val(),
+                actCost = $row.find(".txtActualCost").val();
 
-                    var expense = {
-                        ID: row.find(".txtExpenseID").val(),
-                        ExpenseTypeID: row.find(".ddlExpenseType").val(),
-                        EstimatedCost: row.find(".txtEstimatedCost").val(),
-                        ActualCost: row.find(".txtActualCost").val(),
-                        Rationale: row.find(".txtRationale").val(),
-                        ApplicationID: applicationID
-                    };
+            var expense = {
+                ID: $row.find(".txtExpenseID").val(),
+                ExpenseTypeID: $row.find(".ddlExpenseType").val(),
+                EstimatedCost: estCost == "N/A" ? "" : estCost, // remove placeholder
+                ActualCost: actCost == "TBD" ? "" : actCost, // remove placeholder
+                Rationale: $row.find(".txtRationale").val(),
+                ApplicationID: $("#applicationID").val()
+            };
 
-                    expenseBatch.push(expense);
-                });
+            return expense;
+        }
 
-                $.ajax({
-                    type: "POST",
-                    url: "/Expenses/AddOrUpdateExpenses",
-                    data: JSON.stringify(expenseBatch),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        $("#frmEditApplication").submit();
+        function addOrUpdateExpense($row, update) {
+            var expense = [getExpense($row)];
+
+            $.ajax({
+                type: "POST",
+                url: "/Expenses/AddOrUpdateExpenses",
+                data: JSON.stringify(expense),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.substring(0,7) != "Success") {
+                        alert(response);
+                        if (update)
+                            cancelExpense($row);
                     }
-                });
-            }
+                    else {
+                        if (update) {
+                            updateRowValues($row);
+
+                            uploadFiles($row);
+                        }
+                        else {
+                            addExpenseRow(response.substring(8)); // pass the newly generated id
+                        }  
+                    }  
+                }
+            });
+        }
+
+        // saves changes to the application details
+        $("#btnSubmit").click(function () {
+            $("#frmEditApplication").submit();
         });
+
+        function uploadFiles($row) {
+            var $fileInput = $row.find("input[type='file']"),
+                $currentFiles = $row.find(".currentFiles"),
+                formdata = new FormData();
+
+            if (($fileInput)[0].files.length) {
+                var fileName;
+                for (i = 0; i < ($fileInput)[0].files.length; i++) {
+                    fileName = ($fileInput)[0].files[i].name;
+                    $currentFiles.append(fileName + "<br />");
+
+                    formdata.append(fileName, ($fileInput)[0].files[i]);
+                }
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Expenses/UploadFiles/" + $row.find(".txtExpenseID").val());
+                xhr.send(formdata);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        //alert(xhr.responseText);
+                        //// show the new files as download links
+                        //var newItems = xhr.responseText.split(";"),
+                        //    item;
+
+                        //addLinks:
+                        //for (i = 0; i < newItems.length; i++) {
+                        //    item = newItems[i].split(",");
+
+                        //    $currentFiles.children("a").each(function () {
+                        //        if ($(this).html() == item[1]) {
+                        //            continue addLinks;
+                        //        }
+                        //    });
+
+                        //    $currentFiles.append("<a href='/Expenses/Download/" + item[0] + "'>" + item[1] + "</a><br />");
+                        //}
+
+                        // clear the file input control
+
+
+                        ($fileInput)[0].value = "";
+                    }
+                }
+            }
+        }
+
     </script>
 }

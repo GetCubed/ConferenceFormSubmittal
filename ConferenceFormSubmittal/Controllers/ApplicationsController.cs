@@ -24,8 +24,7 @@ namespace ConferenceFormSubmittal.Controllers
             PopulateDropDownLists();
             var applications = db.Applications.Include(a => a.Conference).Include(a => a.Employee).Include(a => a.Status);
             ViewBag.Filtering = "";
-
-
+            
             if (startDate.HasValue && endDate.HasValue)
             {
                 applications = applications.Where(p => p.DateSubmitted > startDate && p.DateSubmitted < endDate);
@@ -392,7 +391,11 @@ namespace ConferenceFormSubmittal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Application application = db.Applications.Find(id);
+            Application application = db.Applications
+                .Include(a => a.Expenses)
+                .Include("Expenses.Files")
+                .Where(a => a.ID == id).SingleOrDefault();
+
             if (application == null)
             {
                 return HttpNotFound();
