@@ -80,17 +80,20 @@
                                 Details
                             </a>*@
 
-                            <a href='@Url.Action("Edit", "Sites", new { id = item.ID })' class="badge badge-primary bg-NCDSB-myGreen hoverable text-white">
+                            <a href='@Url.Action("Edit", "Sites", new { id = item.ID })' class="badge badge-info">
                                 @Helper.GetIcon(Helper.Icons.Edit, 3)
                                 <br />
                                 Edit
                             </a>
 
-                            <a href='#' class="badge badge-danger bg-NCDSB-myGreen hoverable text-white">
+                            <a href='#'  class="badge badge-danger">
                                 @Helper.GetIcon(Helper.Icons.Flag, 3)
                                 <br />
                                 Flag
                             </a>
+
+
+
                         </td>
                     </tr>
 }
