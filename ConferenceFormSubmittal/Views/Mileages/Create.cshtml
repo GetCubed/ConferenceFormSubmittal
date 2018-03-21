@@ -378,23 +378,20 @@
             var ddlStartSiteValue = ddlStartSite[ddlStartSite.selectedIndex].value;
             var ddlEndSite = document.getElementById("ddlEndSite");
             var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
-
-            if (!$chkCustomStartLocation.checked) {
-                source = ddlStartSiteValue;
-            }
-            else {
+            
+            if ($chkCustomStartLocation.checked) {
                 source = document.getElementById("txtStartAddress").value;
             }
-
-            if (!$chkCustomEndLocation.checked) {
-                destination = ddlEndLocationValue;
-            }
             else {
+                source = ddlStartSiteValue;
+            }
+            
+            if ($chkCustomEndLocation.checked) {
                 destination = document.getElementById("txtEndAddress").value;
             }
-
-            source = document.getElementById("txtStartAddress").value;
-            destination = document.getElementById("txtEndAddress").value;
+            else {
+                destination = ddlEndSiteValue;
+            }
 
             var request = {
                 origin: source,
@@ -424,13 +421,13 @@
                     //this will be changed from dvcost to Cost once the database supports it
                     var dvCost = document.getElementById("txtReimbursement");
                     //This is a dummy rate value for Cost per Km
-                    var rate = 5;
+                    var rate = .5;
                     //Converts the Distance from meters to kilometers
                     var distancecost = response.rows[0].elements[0].distance.value / 1000;
                     var cost = distancecost * rate;
 
                     dvDistance.value = distancecost.toFixed(2);
-                    dvCost.value = "$" + cost.toFixed(2)
+                    dvCost.value = "$" + cost.toFixed(2);
 
                 } else {
                     alert("Unable to find the distance via road.");

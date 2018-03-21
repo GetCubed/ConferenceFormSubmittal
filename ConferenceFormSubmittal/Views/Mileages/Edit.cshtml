@@ -33,6 +33,8 @@
                         @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
                     </div>
                     <div class="col-3">
+                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
+                        Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
                         @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
                         @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
                     </div>
@@ -40,6 +42,8 @@
                         @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
                     </div>
                     <div class="col-3">
+                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+                        Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
                         @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
                         @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
                     </div>
@@ -197,21 +201,25 @@
 
             var ddlStartSite = document.getElementById("ddlStartSite");
             var ddlStartSiteValue = ddlStartSite[ddlStartSite.selectedIndex].value;
+            var txtStartAddress = document.getElementById("txtStartAddress");
             var ddlEndSite = document.getElementById("ddlEndSite");
             var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
-
-            if (!$chkCustomStartLocation.checked) {
+            var txtEndAddress = document.getElementById("txtEndAddress");
+            
+            if ($chkCustomStartLocation.checked) {
+                source = txtStartAddress.value;
+            }
+            else {
                 source = ddlStartSiteValue;
-            }
-            else {
-                source = document.getElementById("txtStartAddress").value;
+                txtStartAddress.value = source;
             }
 
-            if (!$chkCustomEndLocation.checked) {
-                destination = ddlEndLocationValue;
+            if ($chkCustomEndLocation.checked) {
+                destination = txtEndAddress.value;
             }
             else {
-                destination = document.getElementById("txtEndAddress").value;
+                destination = ddlEndSiteValue;
+                txtEndAddress.value = destination;
             }
 
             var request = {
@@ -251,7 +259,7 @@
 
                     //dvDistance.value = distance;//"Distance: " + distance; CURRENTLY COMMITED OUT FOR TRANSFER FORMATING
                     dvDistance.value = distancecost;//CURRENTLY USING THIS SINCE ITS THE RAW NUMBER INSTEAD OF ALREADY FORMATTED
-                    dvCost.value = cost//;"Cost: $" + cost; CURRENTLY COMMITED OUT FOR TRANSFER FORMATING
+                    dvCost.value = cost;//;"Cost: $" + cost; CURRENTLY COMMITED OUT FOR TRANSFER FORMATING
                     //dvDistance.innerHTML += "Time:" + duration + " min";
 
                 } else {
