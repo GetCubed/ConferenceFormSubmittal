@@ -1,5 +1,5 @@
 ﻿@model ConferenceFormSubmittal.Models.Mileage
-
+@using ConferenceFormSubmittal.Utilities;
 @{
     ViewBag.Title = "Edit";
 }
@@ -19,148 +19,156 @@
 {
     @Html.AntiForgeryToken()
 
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-between">
 
-<div class="row pt-3">
+                            <a href='@Url.Action("Index", "Mileages")' class="btn btn-primary">
+                                @Helper.GetIcon(Helper.Icons.Back) Go Back
+                            </a>
 
+                            <button type="submit" class="btn btn-info ">
+                                @Helper.GetIcon(Helper.Icons.Save) Save
+                            </button>
 
-    @*---------------------Edit Form------------------------------------------------------------------------------------*@
-    <div class="col-8">
-        <div class="card bg-NCDSB-Grey">
-            <div class="card-body">
-                @*---------------------ROW------------------------------------------------------------------------------------*@
-                <div class="row pt-3">
-                    <div class="col-1">
-                        @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                            @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
+                            @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @Value = "1", @hidden = "hidden" } })
+                        </div>
                     </div>
-                    <div class="col-3">
-                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
-                        Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
-                        @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
-                        @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-2">
-                        @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                    </div>
-                    <div class="col-3">
-                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
-                        Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
-                        @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
-                        @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-3">
-                        <a onclick="GetRoute()" class="btn btn-primary d-block">
-                            <i class="fa fa-map-marker fa-2x"></i>
-                            Get Route
-                        </a>
-                    </div>
-                </div>
 
-                @*---------------------ROW------------------------------------------------------------------------------------*@
-                <div class="row pt-3">
-                    <div class="col-1">
-                        @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                    </div>
-                    <div class="col-3">
-                        @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
-                        @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-2">
-                        <label class="font-weight-bold">Attached Conference</label>
-                    </div>
-                    <div class="col-3">
-                        @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                    </div>
-                    <div class="col-2">
-                        @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                    </div>
-                    <div class="col-1">
-                        @Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control", @id = "chkRoundTrip" } })
-                    </div>
-                </div>
-
-
-                @*---------------------ERROR MESSAGES ---------------------*@
-                <div class="row pt-3">
-                    <div class="col-12">
-  
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.ID)
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div class="card-footer rgba-grey-light">
-                @*---------------------ROW------------------------------------------------------------------------------------*@
-                <div class="row pt-3 ">
-                    <div class="col-2">
-                        <label" class="font-weight-bold">Kilometers</label">
-                    </div>
-                    <div class="col-3">
-                        @Html.EditorFor(model => model.Kilometres, new
-            {
-                htmlAttributes = new
-                {
-                    @class = "form-control text-dark",
-                    @id = "txtKilometres",
-                    @disabled = "disabled"
-                }
-            })
-                        @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
-
-                    </div>
-                    <div class="col-2">
-                        <label class="font-weight-bold">Mileage Claim</label>
-                    </div>
-                    <div class="col-3">
-                        <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
-                    </div>
-                </div>
-
-                @*---------------------ROW------------------------------------------------------------------------------------*@
-                <div class="row">
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-success mt-3 d-block">
-                            @*<i class="fa fa-plus"></i>*@
-                            <i class="fa fa-floppy fa-2x" aria-hidden="true"></i>
-                            Save
-                        </button>
-
-                        <button type="submit" class="btn btn-success mt-3 d-block">
-                            @*<i class="fa fa-plus"></i>*@
-                            <i class="fa fa-floppy fa-2x" aria-hidden="true"></i>
-                            Save
-                        </button>
-
-                        
-
-                        @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
-                        @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @Value = "1", @hidden = "hidden" } })
-                    </div>
                 </div>
             </div>
-
         </div>
-
+       
     </div>
 
 
 
+    <div class="row pt-3">
 
-    @*-------------------------  GOOGLE MAP Column ---------------*@
-    <div class="col-4">
-        <div class="card bg-NCDSB-Grey">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="col-12" id="dvMap" style="min-height:400px"></div>
+
+        @*---------------------Edit Form------------------------------------------------------------------------------------*@
+        <div class="col-8">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    <div class="row pt-3">
+                        <div class="col-1">
+                            @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
+                            Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
+                            @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block bg-NCDSB-GreyLight", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
+                            @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-2">
+                            @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+                            Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
+                            @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
+                            @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-3">
+                            <a onclick="GetRoute()" class="btn btn-primary d-block">
+                                <i class="fa fa-map-marker fa-2x"></i>
+                                Get Route
+                            </a>
+                        </div>
+                    </div>
+
+                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    <div class="row pt-3">
+                        <div class="col-1">
+                            @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "txtTravelDate" } })
+                            @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-2">
+                            <label class="font-weight-bold">Attached Conference</label>
+                        </div>
+                        <div class="col-3">
+                            @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                        </div>
+                        <div class="col-2">
+                            @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-1">
+                            @Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "chkRoundTrip" } })
+                        </div>
+                    </div>
+
+
+                    @*---------------------ERROR MESSAGES ---------------------*@
+                    <div class="row pt-3">
+                        <div class="col-12">
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ID)
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="card-footer rgba-grey-light">
+                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    <div class="row pt-3 ">
+                        <div class="col-2">
+                            <label" class="font-weight-bold">Kilometers</label">
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.Kilometres, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control text-dark",
+                                    @id = "txtKilometres",
+                                    @disabled = "disabled"
+                                }
+                            })
+                            @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="col-2">
+                            <label class="font-weight-bold">Mileage Claim</label>
+                        </div>
+                        <div class="col-3">
+                            <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+        @*-------------------------  GOOGLE MAP Column ---------------*@
+        <div class="col-4">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-12" id="dvMap" style="min-height:400px"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
@@ -205,7 +213,7 @@
             var ddlEndSite = document.getElementById("ddlEndSite");
             var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
             var txtEndAddress = document.getElementById("txtEndAddress");
-            
+
             if ($chkCustomStartLocation.checked) {
                 source = txtStartAddress.value;
             }
