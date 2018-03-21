@@ -1,261 +1,628 @@
 ﻿@model ConferenceFormSubmittal.Models.Application
+@using ConferenceFormSubmittal.Utilities;
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Application";
 }
 
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">Edit Application</h3>
+        </div>
+    </div>
+</div>
 
-
-
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmEditApplication" }))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.ID)
+    
+    @*//------------------------------------------------ Header buttons ---------------------------------*@
+    <div class="row mt-3">
+        <div class="col-12">
 
-    <!--HEADING-->
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+                    <div class="row ">
+                        <div class="col-12 d-flex justify-content-between">
+                            <a href='@Url.Action("Index", "Applications")' class="btn btn-primary">
+                                @Helper.GetIcon(Helper.Icons.Back)
+                                Go Back
+                            </a>
+
+                            @*<button class="btn btn-primary">
+                                @Helper.GetIcon(Helper.Icons.Draft)
+                                Save Draft
+                            </button>*@
+
+                            <button class="btn btn-primary">
+                                @Helper.GetIcon(Helper.Icons.Save)
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    //-----------------------------------------Conference Details ------------------------------------
     <div class="row pt-3">
         <div class="col-12">
-            <div class="card card-header bg-NCDSB-Grey">
-                <h3 class="text-center font-weight-bold">Edit Application</h3>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-header ">
+                    <h4>Conference Details</h4>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            @Html.HiddenFor(model => model.ConferenceID)
+
+                            @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Conference.Name)
+                        </div>
+
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Conference.Location)
+
+                        </div>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Conference.StartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Conference.StartDate)
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Conference.EndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Conference.EndDate)
+                        </div>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Conference.RegistrationCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Conference.RegistrationCost)
+                        </div>
+                        <div class="col-6">
+
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
     </div>
 
-
-
-    <div class="row mt-3">
-        <div class="col-3">
-            <div class="card card-body bg-NCDSB-Grey">
-                <div class="col-12">
-                    <input type="submit" value="Save Draft" class="btn btn-primary btn-block mt-3" />
-                    <input type="submit" value="Create" class="btn btn-primary btn-block mt-3" />
-                    @Html.ActionLink("Back to List", "Index", "Applications", null, new { @class = "btn btn-primary btn-block mt-3" })
+    //--------------------------------------------------- Application Details -----------------------------
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-header">
+                    <h4 class="d-block mt-2">Application Details</h4> @*Each panel needs a header of some kind*@
+                    @Html.HiddenFor(Model => Model.ID, htmlAttributes: new { @id = "applicationID" })
                 </div>
-            </div>
-        </div> <!--col-->
+                <div class="card-body">
+                    <div class="row">
 
-        <div class="col-9">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-body bg-NCDSB-Grey mr-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <b class="d-block mt-2 ">Conference Name</b>
-                                @Html.DisplayFor(model => model.Conference.Name)
-
-                                <b class="d-block mt-2">Require Repl Staff</b>
-                                @Html.DisplayFor(model => model.ReplStaffReq)
-                            </div>
-                            <div class="col-6">
-                                <b class="d-block mt-2">Budget Code</b>
-                                @Html.EditorFor(model => model.BudgetCode, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.BudgetCode, "", new { @class = "text-danger" })
-                            </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Helper.GetIcon(Model.Status.Description, 2)
+                            <label id="lblStatus">@Model.Status.Description</label>
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Feedback)
                         </div>
                     </div>
 
-                </div>
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.AttendStartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.AttendStartDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AttendStartDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.AttendEndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.AttendEndDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AttendEndDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DepartureDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-body bg-NCDSB-Grey mt-3">
-                        <div class="col-12">
-                            <b class="d-block mt-2">Rationale</b>
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.BudgetCode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.BudgetCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.PaymentTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DropDownList("PaymentTypeID", null, "Select a Payment Type...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PaymentTypeID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                             @Html.EditorFor(model => model.Rationale, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Rationale, "", new { @class = "text-danger" })
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-body bg-NCDSB-Grey mt-3">
-                        <div class="col-12">
-
-
-                            <b class="d-block mt-2">Add Expense</b>
-                            <table class="table">
-                                <tbody>
-
-                                    <tr>
-                                        <th>
-                                            <b> Type</b>
-                                        <th>
-                                            <b>Estimated Cost</b>
-                                        </th>
-
-                                        <th></th>
-                                    </tr>
-
-                                    <tr class="rgba-grey-light">
-
-                                        <td>
-                                            <input type="text" />
-                                        </td>
-                                        <td>
-                                            <input type="text" />
-                                        </td>
-                                        <td>
-                                       
-                                        </td>
-                                        <td>
-                                            <a class="badge badge-primary" href="#">+</a>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-
-
-
-
-                            <b class="d-block mt-2">Expenses</b>
-
-                            <table class="table">
-                                <tbody>
-
-                                    <tr>
-                                        <th>
-                                            <b>Description</b>
-                                        </th>
-                                        <th>
-                                            <b>Type</b>
-                                        </th>
-                                        <th>
-                                            <b>Estimated Cost</b>
-                                        </th>
-
-                                        <th></th>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            Food
-                                        </td>
-
-                                        <td>
-                                            $200.00
-                                        </td>
-
-                                        <td></td>
-                                        <td>
-                                            <a class="badge badge-primary" href="/Expenses/Details/1">Details</a>
-                                            <a class="badge badge-danger" href="/Expenses/Delete/2">Delete</a>
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            Hotel
-                                        </td>
-
-                                        <td>
-                                            $20.00
-                                        </td>
-
-                                        <td></td>
-                                        <td>
-                                            <a class="badge badge-primary" href="/Expenses/Details/1">Details</a>
-                                            <a class="badge badge-danger" href="/Expenses/Delete/1">Delete</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            Limo
-                                        </td>
-
-                                        <td>
-                                            $200.00
-                                        </td>
-
-                                        <td></td>
-                                        <td>
-                                            <a class="badge badge-primary" href="/Expenses/Details/1">Details</a>
-                                            <a class="badge badge-danger" href="/Expenses/Delete/2">Delete</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            Food
-                                        </td>
-
-                                        <td>
-                                            $200.00
-                                        </td>
-
-                                        <td></td>
-                                        <td>
-                                            <a class="badge badge-primary" href="/Expenses/Details/1">Details</a>
-                                            <a class="badge badge-danger" href="/Expenses/Delete/2">Delete</a>
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            Hotel
-                                        </td>
-                                        <td>
-                                            $20.00
-                                        </td>
-
-                                        <td></td>
-                                        <td>
-                                            <a class="badge badge-primary" href="/Expenses/Details/2">Details</a>
-                                            <a class="badge badge-danger" href="/Expenses/Delete/2">Delete</a>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            Limo
-                                        </td>
-                                        <td>
-                                            $200.00
-                                        </td>
-
-                                        <td></td>
-                                        <td>
-                                            <a class="badge badge-primary" href="/Expenses/Details/1">Details</a>
-                                            <a class="badge badge-danger" href="/Expenses/Delete/2">Delete</a>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.ReplStaffReq)
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-        </div> <!--col-->
-
-
-
+        </div>
     </div>
 
+    //---------------------------------------------------Expenses -=------------------------------------------------------------
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey mt-3">
+                <div class="card-header">
+                    <h4>Expenses</h4>
+                </div>
+                <div class="card-body">
+                    <div class="col-12">
+
+                        <table id="tblExpenses" class="table">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().ExpenseTypeID, htmlAttributes: new { @class = "control-label font-bold" })
+                                    </th>
+                                    <th>
+                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().EstimatedCost, htmlAttributes: new { @class = "control-label font-bold" })
+                                    </th>
+                                    <th>
+                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().ActualCost, htmlAttributes: new { @class = "control-label font-bold" })
+                                    </th>
+                                    <th>
+                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().Rationale, htmlAttributes: new { @class = "control-label font-bold" })
+                                    </th>
+                                    <th>
+                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().Files, htmlAttributes: new { @class = "control-label font-bold" })
+                                    </th>
+                                    <th></th>
+                                </tr>
 
 
+                                @foreach (var item in Model.Expenses)
+                                {
+                                    var estimatedCostEditor = Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost d-none" } });
+                                    var estimatedCost = new MvcHtmlString("$<span>" + item.EstimatedCost + "</span>");
+                                    @* cannot input actual cost until application is approved *@
+                                    var actualCostEditor = new MvcHtmlString("<input type='text' class='form-control txtActualCost cost d-none' title='Actual Cost cannot be entered until the application has been approved.' value = 'TBD' disabled />");
+                                    var actualCost = new MvcHtmlString("TBD");
+
+                                    if (Model.Status.Description == "Approved")
+                                    {
+                                        if (item.EstimatedCost == null)
+                                        {
+                                            @* cannot edit estimated cost after application has been approved *@
+                                            estimatedCostEditor = new MvcHtmlString("<input type='text' class='form-control txtEstimatedCost cost d-none' title='Estimated Cost cannot be changed after the application has been approved.' value = 'N/A' disabled />");
+                                            estimatedCost = new MvcHtmlString("N/A");
+                                        }
+                                        else
+                                        {
+                                            estimatedCostEditor = new MvcHtmlString("<input type='text' class='form-control txtEstimatedCost cost d-none' title='Estimated Cost cannot be changed after the application has been approved.' value = '" + item.EstimatedCost + "' disabled />");
+                                        }
+
+                                        actualCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost cost d-none" } });
+
+                                        if (item.ActualCost != null)
+                                        {
+                                            actualCost = new MvcHtmlString("$<span>" + item.ActualCost + "</span>");
+                                        }
+                                    }
+
+                                    <tr class="trExpense">
+                                        <td>
+                                            <label>@item.ExpenseType.Description</label>
+                                            @Html.DropDownList("ExpenseTypes" + item.ID.ToString(), null, htmlAttributes: new { @class = "form-control ddlExpenseType d-none" })
+                                        </td>
+                                        <td>
+                                            <label>@estimatedCost</label>
+                                            @estimatedCostEditor
+                                            <label class="lblInvalidEstCost text-danger d-none">You must provide a valid cost estimate.</label>
+                                        </td>
+                                        <td>
+                                            <label>@actualCost</label>
+                                            @actualCostEditor
+                                            <label class="lblInvalidActCost text-danger d-none">You must provide a valid cost estimate.</label>
+                                        </td>
+                                        <td>
+                                            <label>@item.Rationale</label>
+                                            @Html.EditorFor(e => item.Rationale, new { htmlAttributes = new { @class = "form-control txtRationale d-none" } })
+                                        </td>
+                                        <td>
+                                            <div class="form-group currentFiles">
+                                                <div class="col-md-10">
+                                                    @foreach (var doc in item.Files)
+                                                    {
+                                                        @: @Html.ActionLink(doc.fileName, "Download", "Expenses", new { id = doc.ID }, null) <br />
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group fileUpload d-none">
+                                                <label class="control-label">
+                                                    Add Documentation:
+                                                </label>
+                                                <div class="col-md-10">
+                                                    @*This doesn't work yet*@
+                                                    <input type="file" class="" name="theFiles" multiple="multiple" /><br />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a onclick="editExpense($(this))" class="edit badge badge-primary text-white">
+                                                @Helper.GetIcon(Helper.Icons.Edit, 3, "white")
+                                                <br />
+                                                Edit
+                                            </a>
+                                            <a onclick="acceptExpense($(this))" class="accept badge badge-success text-white d-none">
+                                                @Helper.GetIcon(Helper.Icons.Check, 3, "white")
+                                                <br />
+                                                Save
+                                            </a>
+                                            <a onclick="cancelExpense($(this))" class="accept badge badge-danger text-white d-none">
+                                                @Helper.GetIcon(Helper.Icons.Cancel, 3, "white")
+                                                <br />
+                                                Cancel
+                                            </a>
+                                            <input type="hidden" value="@item.ID" class="txtExpenseID" />
+                                        </td>
+                                    </tr>
+                                }
+                                @{
+                                    var estCostPlaceholder = "";
+                                    var estCostDisabled = "";
+                                    var actCostPlaceholder = "";
+                                    var actCostDisabled = "";
+                                    if (Model.Status.Description != "Approved")
+                                    {
+                                        actCostPlaceholder = "TBD";
+                                        actCostDisabled = "disabled";
+                                    }
+                                    else
+                                    {
+                                        estCostPlaceholder = "N/A";
+                                        estCostDisabled = "disabled";
+                                    }
+                                }
+                                @*Needs an "Add Expense" heading*@
+                                <tr id="trAddExpense" class="rgba-grey-light">
+                                    <td>
+                                        @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control ddlExpenseType", @id = "ddlExpenseType" })
+                                        <label class="lblInvalidType text-danger d-none">You must select an expense type.</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control txtEstimatedCost cost" value="@estCostPlaceholder" @estCostDisabled />
+                                        <label class="lblInvalidEstCost text-danger d-none">You must provide a valid cost estimate.</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control txtActualCost cost" value="@actCostPlaceholder" @actCostDisabled />
+                                        <label class="lblInvalidActCost text-danger d-none">You must provide the actual cost.</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control txtRationale" />
+                                    </td>
+                                    <td>
+                                        <a onclick="addExpense()" class="btn btn-success mt-3">
+                                            @Helper.GetIcon(Helper.Icons.Plus, 1, "white")
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 }
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(".txtEstimatedCost").keydown(function () {
+            $(this).siblings("label.text-danger").addClass("d-none");
+        });
+        $(".txtActualCost").keydown(function () {
+            $(this).siblings("label.text-danger").addClass("d-none");
+        });
+        $(".ddlExpenseType").change(function () {
+            $(this).siblings("label.text-danger").addClass("d-none");
+        });
+
+        function applicationIsApproved() {
+            return $("#lblStatus").html() == "Approved";
+        }
+
+        function validExpense($row) {
+            var typeID = $row.find(".ddlExpenseType").val(),
+                estCost = $row.find(".txtEstimatedCost").val(),
+                actCost = $row.find(".txtActualCost").val(),
+                approved = applicationIsApproved();
+
+            $row.find("label.text-danger").addClass("d-none");
+
+            var result = true;
+
+            if (typeID == "") {
+                result = false;
+                $row.find(".lblInvalidType").removeClass("d-none");
+            }
+
+            var costPattern = /^\d+(\.\d{0,2})?$/; // matches a number with up to two decimals
+
+            if (!approved && !costPattern.test(estCost)) {
+                result = false
+                $row.find(".lblInvalidEstCost").removeClass("d-none");
+            }
+
+            if (approved && (actCost == "" || !costPattern.test(actCost))) {
+                result = false
+                $row.find(".lblInvalidActCost").removeClass("d-none");
+            }
+
+            return result;
+        }
+
+        // inserts the expense record if valid
+        function addExpense() {
+            var $row = $("#trAddExpense");
+
+            // attempt to validate and insert row
+            if (validExpense($row)) {
+                addOrUpdateExpense($row, false);
+            }
+        }
+
+        // adds a row to the table
+        function addExpenseRow(newID) {
+            // create a clone of the input row
+            // note: cloning an existing row (rather than the input row) is not possible because there may be none
+            var $row = $("#trAddExpense"),
+                $ddlType = $row.find(".ddlExpenseType"),
+                newRow = $row.clone();
+
+            // set the value of the ddl, and remove the default selection (first child)
+            newRow.removeAttr("id").removeClass().addClass("trExpense").find(".ddlExpenseType").val($ddlType.val()).children().first().remove();
+
+            // hide the input controls and append a label for each value
+            var $newDdlType = newRow.find(".ddlExpenseType"),
+                $newTxtRationale = newRow.find(".txtRationale");
+
+            $newDdlType.addClass("d-none").before("<label>" + $newDdlType.children(":selected").text() + "</label>");
+
+            newRow.find(".cost").addClass("d-none").each(function () {
+                var $this = $(this),
+                    v = $this.val();
+
+                if (v == "N/A" || v == "TBD")
+                    $this.before("<label><span>" + v + "</span></label>");
+                else
+                    $this.val(parseFloat($this.val()).toFixed(2)).before("<label>$<span>" + $this.val() + "</span></label>");
+            });
+
+            $newTxtRationale.addClass("d-none").before("<label>" + $newTxtRationale.val() + "</label>");
+
+            // replace the "+" button with edit, confirm, and delete buttons
+            newRow.find(".btn-success").replaceWith(
+                "<a onclick='editExpense($(this))' class='edit badge badge-primary text-white'>@Helper.GetIcon(Helper.Icons.Edit, 3, "white")<br />Edit</a>" +
+                "<a onclick='acceptExpense($(this))' class='accept badge badge-success text-white d-none'>@Helper.GetIcon(Helper.Icons.Check, 3, "white")<br />Done</a>" +
+                "<a onclick='cancelExpense($(this))' class='cancel badge badge-danger text-white d-none'>@Helper.GetIcon(Helper.Icons.Cancel, 3, "white")<br />Cancel</a>"
+            );
+
+            // add the file upload button
+            newRow.children("td").last().before("<td><div class='form-group'><div class='col-md-10'></div></div>" +
+                "<div class='form-group fileUpload'><label class='control-label'>Add Documentation:</label>" +
+                "<div class='col-md-10'><input type='file' class='' name='theFiles' multiple='multiple' />" +
+                "<br /></div ></div ></td>");
+
+            // add a hidden field for the new id
+            newRow.children("td").last().append("<input type='hidden' class='txtExpenseID' value='" + newID + "' />");
+
+            // append the new row to the table
+            $row.before(newRow);
+
+            // clear the input fields
+            $ddlType.prop("selectedIndex", 0);
+            txtBoxesToClear = $row.find("input").not(applicationIsApproved() ? ".txtEstimatedCost" : ".txtActualCost").val("");
+        }
+
+        // removes an expense from the table
+        function removeExpense($btnClicked) {
+            $btnClicked.closest(".trExpense").remove();
+        }
+
+        // converts a labels to input controls
+        function editExpense($btnEdit) {
+            var $row = $btnEdit.closest(".trExpense").addClass("editing");
+
+            $row.find("label, a").addClass("d-none").siblings("select, input, a.accept, a.cancel").removeClass("d-none");
+            $row.find(".fileUpload").removeClass("d-none");
+            $("a.edit, a.remove").addClass("d-none");
+        }
+
+        // converts input controls into labels, hides the done/cancel buttons, and shows the edit button
+        function doneEditingExpense($row) {
+            $row.removeClass("editing").find("label:not(.text-danger), a, .currentFiles").removeClass("d-none").siblings("select, input, a.accept, a.cancel, label.text-danger, .fileUpload").addClass("d-none");
+
+            $("a.edit, a.remove").removeClass("d-none");
+        }
+
+        function cancelExpense($btnCancel) {
+            var $row = $btnCancel.closest(".trExpense");
+
+            var $ddlType = $row.find(".ddlExpenseType"),
+                $txtEstCost = $row.find(".txtEstimatedCost"),
+                $txtActCost = $row.find(".txtActualCost"),
+                $txtRationale = $row.find(".txtRationale");
+            // reset the input values to the label values
+            $ddlType.children("option").filter(function () {
+                return $(this).text() == $ddlType.prev().html();
+            }).prop("selected", true);
+            $txtEstCost.val($txtEstCost.prev().children("span").html());
+            $txtActCost.val($txtActCost.prev().children("span").html());
+            $txtRationale.val($txtRationale.prev().html());
+
+            doneEditingExpense($row);
+        }
+
+        function updateRowValues($row) {
+            var $ddlType = $row.find(".ddlExpenseType"),
+                $txtEstCost = $row.find(".txtEstimatedCost"),
+                $txtActCost = $row.find(".txtActualCost"),
+                $txtRationale = $row.find(".txtRationale"),
+                estCost = $txtEstCost.val(),
+                actCost = $txtActCost.val();
+            // set the labels to display the updated values
+            $ddlType.prev().html($ddlType.children(":selected").text());
+
+            if (estCost != "N/A")
+                $txtEstCost.prev().html("$<span>" + parseFloat(estCost).toFixed(2) + "</span>");
+
+            if (actCost == "")
+                $txtActCost.prev().html("<span>TBD</span>");
+            else if (actCost != "TBD")
+                $txtActCost.prev().html("$<span>" + parseFloat(actCost).toFixed(2) + "</span>");
+
+            $txtRationale.prev().html($txtRationale.val());
+
+            doneEditingExpense($row);
+        }
+
+        // updates a record if valid
+        function acceptExpense($btnOk) {
+            var $row = $btnOk.closest(".trExpense");
+
+            if (validExpense($row)) {
+                addOrUpdateExpense($row, true);
+            }
+        }
+
+        // creates and returns an expense object from a row
+        function getExpense($row) {
+            var estCost = $row.find(".txtEstimatedCost").val(),
+                actCost = $row.find(".txtActualCost").val();
+
+            var expense = {
+                ID: $row.find(".txtExpenseID").val(),
+                ExpenseTypeID: $row.find(".ddlExpenseType").val(),
+                EstimatedCost: estCost == "N/A" ? "" : estCost, // remove placeholder
+                ActualCost: actCost == "TBD" ? "" : actCost, // remove placeholder
+                Rationale: $row.find(".txtRationale").val(),
+                ApplicationID: $("#applicationID").val()
+            };
+
+            return expense;
+        }
+
+        function addOrUpdateExpense($row, update) {
+            var expense = [getExpense($row)];
+
+            $.ajax({
+                type: "POST",
+                url: "/Expenses/AddOrUpdateExpenses",
+                data: JSON.stringify(expense),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.substring(0,7) != "Success") {
+                        alert(response);
+                        if (update)
+                            cancelExpense($row);
+                    }
+                    else {
+                        if (update) {
+                            updateRowValues($row);
+
+                            uploadFiles($row);
+                        }
+                        else {
+                            addExpenseRow(response.substring(8)); // pass the newly generated id
+                        }  
+                    }  
+                }
+            });
+        }
+
+        // saves changes to the application details
+        $("#btnSubmit").click(function () {
+            $("#frmEditApplication").submit();
+        });
+
+        function uploadFiles($row) {
+            var $fileInput = $row.find("input[type='file']"),
+                $currentFiles = $row.find(".currentFiles"),
+                formdata = new FormData();
+
+            if (($fileInput)[0].files.length) {
+                var fileName;
+                for (i = 0; i < ($fileInput)[0].files.length; i++) {
+                    fileName = ($fileInput)[0].files[i].name;
+                    $currentFiles.append(fileName + "<br />");
+
+                    formdata.append(fileName, ($fileInput)[0].files[i]);
+                }
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Expenses/UploadFiles/" + $row.find(".txtExpenseID").val());
+                xhr.send(formdata);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        //alert(xhr.responseText);
+                        //// show the new files as download links
+                        //var newItems = xhr.responseText.split(";"),
+                        //    item;
+
+                        //addLinks:
+                        //for (i = 0; i < newItems.length; i++) {
+                        //    item = newItems[i].split(",");
+
+                        //    $currentFiles.children("a").each(function () {
+                        //        if ($(this).html() == item[1]) {
+                        //            continue addLinks;
+                        //        }
+                        //    });
+
+                        //    $currentFiles.append("<a href='/Expenses/Download/" + item[0] + "'>" + item[1] + "</a><br />");
+                        //}
+
+                        // clear the file input control
+
+
+                        ($fileInput)[0].value = "";
+                    }
+                }
+            }
+        }
+
+    </script>
 }

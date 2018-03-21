@@ -4,55 +4,91 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Conference</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RegistrationCost)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RegistrationCost)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-    </dl>
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">Conference Details</h3>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey">
+
+            <div class="card-body">
+
+                @*---------------------ROW------------------------------------------------------------------------------------*@
+                <div class="row pt-4">
+
+                    <div class="col-1">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                    </div>
+                    <div class="col-3">
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
+
+
+
+                    <div class="col-1">
+                        @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                    </div>
+                    <div class="col-3">
+                        @Html.DisplayFor(model => model.Location)
+                    </div>
+
+
+
+                    <div class="col-1">
+                        @Html.LabelFor(model => model.RegistrationCost, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                    </div>
+                    <div class="col-3">
+                        @Html.DisplayFor(model => model.RegistrationCost)
+                    </div>
+                </div>
+
+
+                @*---------------------ROW------------------------------------------------------------------------------------*@
+                <div class="row pt-4">
+
+                    <div class="col-1">
+                        @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                    </div>
+                    <div class="col-3">
+                        @Html.DisplayFor(model => model.StartDate)
+                    </div>
+
+
+
+                    <div class="col-1">
+                        @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                    </div>
+                    <div class="col-3">
+                        @Html.DisplayFor(model => model.EndDate)
+                    </div>
+
+
+                    <div class="col-2">
+                        <a href='@Url.Action("Edit", "Conferences", new { id = Model.ID })' class="btn btn-success btn-block">
+                            <i class="fa fa-pencil"></i> Edit
+                        </a>
+                    </div>
+
+
+                    <div class="col-2">
+                        <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary btn-block">
+                            <i class="fa fa-long-arrow-left"></i> Go Back
+                        </a>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+

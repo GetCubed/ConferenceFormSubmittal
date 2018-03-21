@@ -1,0 +1,119 @@
+﻿@model IEnumerable<ConferenceFormSubmittal.Models.Site>
+@using ConferenceFormSubmittal.Utilities;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">Sites</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row pt-3">
+    <div class="col-12">
+
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-body d-flex justify-content-between">
+
+                <a href='@Url.Action("Index", "Home")' class="btn btn-primary">
+                    @Helper.GetIcon(Helper.Icons.Back) Go Back
+                </a>
+
+                <a href='@Url.Action("Create", "Sites")' class="btn btn-primary">
+                    @Helper.GetIcon(Helper.Icons.Create) Create New
+                </a>
+
+                <a href='#' class="btn btn-primary">
+                    @Helper.GetIcon(Helper.Icons.Filter) Filter
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@*--------------------------Sites ----------------------------------------*@
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-header">
+                <h4>Sites</h4>
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    <button class="btn btn-grey btn-md">
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </button>
+                                </th>
+                                <th>                     
+                                    <button class="btn btn-grey btn-md">
+                                        @Html.DisplayNameFor(model => model.Address)
+                                    </button>
+                                </th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+        {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td class="float-right">
+                            @*<a href='@Url.Action("Details", "Sites", new { id = item.ID })' class="badge badge-success bg-NCDSB-myGreen hoverable text-white">
+                                @Helper.GetIcon(Helper.Icons.View, 3)
+                                <br />
+                                Details
+                            </a>*@
+
+                            <a href='@Url.Action("Edit", "Sites", new { id = item.ID })' class="badge badge-primary bg-NCDSB-myGreen hoverable text-white">
+                                @Helper.GetIcon(Helper.Icons.Edit, 3)
+                                <br />
+                                Edit
+                            </a>
+
+                            <a href='#' class="badge badge-danger bg-NCDSB-myGreen hoverable text-white">
+                                @Helper.GetIcon(Helper.Icons.Flag, 3)
+                                <br />
+                                Flag
+                            </a>
+                        </td>
+                    </tr>
+}
+
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+            
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+

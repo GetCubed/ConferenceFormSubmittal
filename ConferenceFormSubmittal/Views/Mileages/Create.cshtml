@@ -4,84 +4,202 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">Create Mileages</h3>
+        </div>
+    </div>
+</div>
+
+
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmCreateMileage" }))
 {
     @Html.AntiForgeryToken()
 
-    //change type to back to button, use submit for testing?
-    <input id="btnSubmit" type="button" value="Submit" class="btn btn-primary btn-block mb-3" />
 
-    <table id="tblMileages" class="table">
-        <tbody>
-            <tr>
-                <th>
-                    @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-bold" })
-                </th>
-                <th>
-                    @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-bold" })
-                </th>
-                <th>
-                    @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-bold" })
-                </th>
-                <th>
-                    <b>Kilometres</b>
-                </th>
-                <th>
-                    <b>Attach Application?@*Should be conference?*@</b>
-                </th>
-                <th>
-                    @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-bold" })
-                </th>
-                <th>
-                    <b class="d-block">Mileage Claim</b>
-                </th>
-                <th></th>
-            </tr>
-            <tr @*id="trAddMileage"*@ class="rgba-grey-light">
-                <td>
-                    @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
-                    @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
-                    @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
-                    @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.Kilometres, new { htmlAttributes = new { @class = "form-control", @id = "txtKilometres"@*, @disabled = "disabled"*@ } })
-                    @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    @*this should actually display the conference name not the application rationale*@
-                    @Html.DropDownList("ApplicationID", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control", @id = "chkRoundTrip" } })
-                </td>
-                <td>
-                    <input type="text" id="txtReimbursement" @*disabled="disabled"*@ />
-                </td>
-                <td>
-                    <a onclick="GetRoute()" class="btn btn-success mt-3">Get Route</a>
-                    <a onclick="addMileage()" class="btn btn-success mt-3">
-                        @*<i class="fa fa-plus"></i>*@Add to List
-                    </a>
-                    @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
-                    @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @Value = "1", @hidden = "hidden" } })
-                </td>
-            </tr>
-            <tr><td colspan="7"><label id="txtValid"></label></td></tr>
-            <tr id="trAddMileage"><td></td></tr>
-        </tbody>
-    </table>
-    <div class="col-6" id="dvMap" style="min-height:500px">
+<div class="row pt-3">
+
+    @*---------------- MILEAGE FORM ----------------------*@
+    <div class="col-8">
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-body ">
+
+                @*---------------------ROW------------------------------------------------------------------------------------*@
+                <div class="row pt-3">
+                    <div class="col-1">
+                        @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                    </div>
+                    <div class="col-3">
+                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
+                        Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
+                        <input type="text" class = "form-control d-block" id = "txtStartAddress" placeholder = "Enter an Address" />
+                    </div>
+                    <div class="col-2">
+                        @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                    </div>
+                    <div class="col-3">
+                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+                        Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
+                        <input type="text" class = "form-control d-block" id = "txtEndAddress" placeholder = "Enter an Address" />
+                    </div>
+                    <div class="col-3">
+                        <a onclick="GetRoute()" class="btn btn-primary d-block">
+                            <i class="fa fa-map-marker fa-2x"></i>
+                            Get Route
+                        </a>
+                    </div>
+                </div>
+
+                @*---------------------ROW------------------------------------------------------------------------------------*@
+                <div class="row pt-3">
+                    <div class="col-1">
+                        @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                    </div>
+                    <div class="col-3">
+                        <input type="date" class = "form-control d-block" id = "txtTravelDate"/>
+                    </div>
+                    <div class="col-2">
+                        <label class="font-weight-bold">Attach to Conference? </label>
+                    </div>
+                    <div class="col-3">
+                        @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                    </div>
+                    <div class="col-2">
+                        @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                    </div>
+                    <div class="col-1">
+                        <input type="checkbox" class = "form-control" id = "chkRoundTrip"/>
+                    </div>
+                </div>
+
+                @*---------------------ERROR MESSAGES ---------------------*@
+                <div class="row pt-3">
+                    <div class="col-12">
+                        <label id="txtValid" class="text-danger "> </label>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="card-footer rgba-grey-light">
+                @*---------------------ROW------------------------------------------------------------------------------------*@
+                <div class="row pt-3 ">
+                    <div class="col-2">
+                        <label" class="font-weight-bold">Kilometers</label">
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class = "form-control text-dark" id = "txtKilometres" disabled = "disabled"/>
+                    </div>
+                    <div class="col-2">
+                        <label class="font-weight-bold">Mileage Claim</label>
+                    </div>
+                    <div class="col-3">
+                        <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
+                    </div>
+                </div>
+
+                @*---------------------ROW------------------------------------------------------------------------------------*@
+                <div class="row">
+                    <div class="col-12">
+                        <a onclick="addMileage()" class="btn btn-success mt-3 d-block">
+                            @*<i class="fa fa-plus"></i>*@
+                            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                            Add to List
+                        </a>
+                        @*@Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
+                        @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @Value = "1", @hidden = "hidden" } })*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>  @*---------------- MILEAGE FORM END----------------------*@
+
+
+    @*-------------------------  GOOGLE MAP Column ---------------*@
+    <div class="col-4">
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="col-12" id="dvMap" style="min-height:400px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-}
+
+
+</div>
+
+
+    //-----Show items basket ----
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-header">
+                    <button id="btnSubmit" type="button" value="Submit" class="btn btn-primary float-right">
+                        <i class="fa fa-paper-plane fa-2x"></i> Submit
+                    </button>
+                </div>
+                <div class="card-body">
+                    <table id="tblMileages" class="table">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-bold" })
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-bold" })
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-bold" })
+                                </th>
+                                <th>
+                                    <b>Kilometres</b>
+                                </th>
+                                <th>
+                                    <b>Attached Conference</b>
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-bold" })
+                                </th>
+                                <th>
+                                    <b class="d-block">Mileage Claim</b>
+                                </th>
+                                <th></th>
+                            </tr>
+                            <tr id="trAddMileage" class="flex-wrap">
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <button id="btnSubmit2" type="button" value="Submit" class="btn btn-primary float-right">
+                        <i class="fa  fa-paper-plane fa-2x"></i> Submit
+                    </button>
+                </div>
+
+            </div>
+
+
+        </div>
+
+   
+    </div>
+
+
+    
+} @*-----------end of form ---------------*@
+
+
+
 
 
 @section Scripts {
@@ -89,7 +207,7 @@
     <script type="text/javascript">
 
         function validMileage(travelDate, startAddress, endAddress, kilometres) {
-            
+
             var result = true;
             var valid = $("#txtValid");
             valid.empty();
@@ -119,21 +237,40 @@
 
             // get values
             var $txtTravelDate = $("#txtTravelDate"),
-                $txtStartAddress = $("#txtStartAddress"),
-                $txtEndAddress = $("#txtEndAddress"),
                 $txtKilometres = $("#txtKilometres"),
                 $ddlAppID = $("#ddlApplicationID"),
                 $chkRoundTrip = $("#chkRoundTrip"),
                 $txtreimbursement = $("#txtReimbursement"),
                 travelDate = $txtTravelDate.val(),
-                startAddress = $txtStartAddress.val(),
-                endAddress = $txtEndAddress.val(),
                 kilometres = $txtKilometres.val(),
                 app = $ddlAppID.find(":selected").val(),
                 appID = $ddlAppID.val(),
                 roundTrip = $chkRoundTrip.is(':checked'),
                 roundTriptxt = roundTrip ? "Yes" : "No";
                 reimbursement = $txtreimbursement.val();
+            
+            var $txtStartAddress = $("#txtStartAddress"),
+                $ddlStartAddress = $("#ddlStartSite"),
+                $txtEndAddress = $("#txtEndAddress"),
+                $ddlEndAddress = $("#ddlEndSite"),
+                $chkCustomStartLocation = $("#chkCustomStartLocation"),
+                $chkCustomEndLocation = $("#chkCustomEndLocation"),
+                customStartLocation = $chkCustomStartLocation.is(":checked"),
+                customEndLocation = $chkCustomEndLocation.is(":checked");
+
+            if (!customStartLocation) {
+                var startAddress = $ddlStartAddress.val();
+            }
+            else {
+                var startAddress = $txtStartAddress.val();
+            }
+
+            if (!customEndLocation) {
+                var endAddress = $ddlEndAddress.val();
+            }
+            else {
+                var endAddress = $txtEndAddress.val();
+            }
             
             if (confirm("Do you want to add this Mileage Entry?")) {
                 if (validMileage(travelDate, startAddress, endAddress, kilometres)) {
@@ -143,7 +280,7 @@
                         "<td class='travelDate'>" + travelDate + "</td>" +
                         "<td class='startAddress'>" + startAddress + "</td>" +
                         "<td class='endAddress'>" + endAddress + "</td>" +
-                        "<td class='kilometres' data-kilometres='" + kilometres + "' > " + kilometres + " km</td > " +
+                        "<td class='kilometres'>" + kilometres + "</td > " +
                         "<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
                         "<td class='roundTrip' data-roundTrip='" + roundTrip + "' > " + roundTriptxt + "</td > " +
                         "<td class='reimbursement'>" + reimbursement + "</td>" +
@@ -154,6 +291,8 @@
                     //$txtTravelDate.val("");
                     $txtStartAddress.val("");
                     $txtEndAddress.val("");
+                    $ddlStartAddress.val("");
+                    $ddlEndAddress.val("");
                     $txtKilometres.val("");
                     $chkRoundTrip.val("");
                     $txtreimbursement.val("");
@@ -181,7 +320,7 @@
                         TravelDate: row.find(".travelDate").html(),
                         StartAddress: row.find(".startAddress").html(),
                         EndAddress: row.find(".endAddress").html(),
-                        Kilometres: row.find(".kilometres").data("kilometres"),
+                        Kilometres: row.find(".kilometres").html(),
                         ApplicationID: row.find(".applicationID").data("id"),
                         RoundTrip: row.find(".roundTrip").data("roundTrip"),
                         StatusID: 1,
@@ -200,6 +339,7 @@
                     success: function (response) {
                         //alert((response + 1) + " mileage(s) added.");
                         $("#frmCreateMileage").submit();
+                        window.location = "/Mileages"
                     }
                 });
             }
@@ -211,7 +351,7 @@
     @*This script is the actual google api calculatin the distance and cost(with dummy rate) between two locations*@
     <script>
 
-        var source, destination;
+        var source, destination, $chkCustomStartLocation, $chkCustomEndLocation;
         var directionsDisplay;
         var directionsService = new google.maps.DirectionsService();
 
@@ -231,8 +371,27 @@
 
             directionsDisplay.setMap(map);
 
-            source = document.getElementById("txtStartAddress").value;
-            destination = document.getElementById("txtEndAddress").value;
+            $chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
+            $chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+
+            var ddlStartSite = document.getElementById("ddlStartSite");
+            var ddlStartSiteValue = ddlStartSite[ddlStartSite.selectedIndex].value;
+            var ddlEndSite = document.getElementById("ddlEndSite");
+            var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
+            
+            if ($chkCustomStartLocation.checked) {
+                source = document.getElementById("txtStartAddress").value;
+            }
+            else {
+                source = ddlStartSiteValue;
+            }
+            
+            if ($chkCustomEndLocation.checked) {
+                destination = document.getElementById("txtEndAddress").value;
+            }
+            else {
+                destination = ddlEndSiteValue;
+            }
 
             var request = {
                 origin: source,
@@ -262,13 +421,13 @@
                     //this will be changed from dvcost to Cost once the database supports it
                     var dvCost = document.getElementById("txtReimbursement");
                     //This is a dummy rate value for Cost per Km
-                    var rate = 5;
+                    var rate = .5;
                     //Converts the Distance from meters to kilometers
                     var distancecost = response.rows[0].elements[0].distance.value / 1000;
                     var cost = distancecost * rate;
-                    
-                    dvDistance.value = distancecost.toFixed(2) + " km";
-                    dvCost.value = "$" + cost.toFixed(2)
+
+                    dvDistance.value = distancecost.toFixed(2);
+                    dvCost.value = "$" + cost.toFixed(2);
 
                 } else {
                     alert("Unable to find the distance via road.");

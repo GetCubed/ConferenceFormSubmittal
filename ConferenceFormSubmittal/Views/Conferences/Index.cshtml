@@ -17,56 +17,83 @@
 
 @using (Html.BeginForm("Index", "Conferences", FormMethod.Get))
 {
+
+    //Filter
     <div class="row pt-3">
-        <div class="col-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
 
-            <div class="card card-body bg-NCDSB-Grey pb-2">
-                @Html.ActionLink("Create New", "Create", "Conferences", null, new { @class = "btn btn-primary btn-block mb-3" })
-            </div>
+                <div class="card-header d-flex justify-content-between ">
+                    <a href='@Url.Action("Index", "Home")' class="btn btn-primary">
+                        <i class="fa fa-long-arrow-left fa-2x"></i> Go Back
+                    </a>
 
-            <div class="card mt-3">
-                <div class="card-body bg-NCDSB-Grey">
+                    <a href='@Url.Action("Create", "Conferences")' class="btn btn-primary">
+                        <i class="fa fa-file-text"></i> Create New
+                    </a>
 
-                    <b>Sort by Conference</b>
-                    @Html.TextBox("ConferenceName", null, new { @class = "form-control" })
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="filter">
+                        <i class="fa fa-filter fa-2x"></i> Filter Conferences
+                    </button>
+                </div>
 
-                    <b>Sort by Location</b>
-                    @Html.TextBox("LocationName", null, new { @class = "form-control" })
+                <div class="collapse filter">
+                    <div class="card-body">
 
-                    <b>Start Date</b>
-                    @Html.TextBox("startDate", null, new { @class = "form-control datepicker", @type = "date" })
+                        <div class="row">
+                            <div class="col-6">
+                                <b>Conference</b>
+                                @Html.TextBox("ConferenceName", null, new { @class = "form-control" })
 
-                    <b>End Date</b>
-                    @Html.TextBox("endDate", null, new { @class = "form-control datepicker", @type = "date" })
+                                <b>Location</b>
+                                @Html.TextBox("LocationName", null, new { @class = "form-control" })
+
+                            </div>
+                            <div class="col-6">
+                                <b>Start Date</b>
+                                @Html.TextBox("startDate", null, new { @class = "form-control datepicker", @type = "date" })
+
+                                <b>End Date</b>
+                                @Html.TextBox("endDate", null, new { @class = "form-control datepicker", @type = "date" })
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <input type="submit" name="actionButton" value="Filter" class="btn btn-success" /> @Html.ActionLink("Clear", "Index")
+                    </div>
 
                 </div>
-                <div class="card-footer bg-NCDSB-Grey">
-                    <input type="submit" name="actionButton" value="Filter" class="btn btn-default" /> @Html.ActionLink("Clear", "Index")
-                </div>
-            </div>
 
+            </div>
         </div>
+    </div>
+    //Filter
 
-        <div class="col-9">
+    <div class="row pt-3">
+
+        <div class="col-12">
             <!--Panel-->
             <div class="card card-body bg-NCDSB-Grey">
 
                 <table class="table">
                     <tr>
                         <th>
-                            <b><input type="submit" name="actionButton" value="Conference" /></b>
+                            <b><input type="submit" name="actionButton" value="Conference" class="btn btn-grey btn-md" /></b>
                         </th>
                         <th>
-                            <b><input type="submit" name="actionButton" value="Location" /></b>
+                            <b><input type="submit" name="actionButton" value="Location" class="btn btn-grey btn-md" /></b>
                         </th>
                         <th>
-                            <b><input type="submit" name="actionButton" value="Registration Cost" /></b>
+                            <b><input type="submit" name="actionButton" value="Registration Cost" class="btn btn-grey btn-md" /></b>
                         </th>
                         <th>
-                            <b><input type="submit" name="actionButton" value="Start Date" /></b>
+                            <b><input type="submit" name="actionButton" value="Start Date" class="btn btn-grey btn-md" /></b>
                         </th>
                         <th>
-                            <b><input type="submit" name="actionButton" value="End Date" /></b>
+                            <b><input type="submit" name="actionButton" value="End Date" class="btn btn-grey btn-md" /></b>
                         </th>
                         <th></th>
                     </tr>
@@ -90,22 +117,42 @@
                                 @Html.DisplayFor(modelItem => item.EndDate)
                             </td>
                             <td>
-                                @*<a href="~/Conferences/Details/1" class="badge badge-primary bg-NCDSB-Blue white-text">View</a>*@
-                                <a href="~/Applications/Create?ConferenceID=@item.ID" class="badge badge-primary bg-NCDSB-Blue white-text">Select</a>
+                              
+                                <a href='@Url.Action("Details", "Conferences", new { id = item.ID })' class="badge badge-success bg-NCDSB-myGreen hoverable text-white">
+                                    <i class="fa fa-eye fa-3x text-white" aria-hidden="true"></i>
+                                    <br />
+                                    Details
+                                </a>
+
+
                             </td>
                         </tr>
                     }
                 </table>
-                    <span id="filterMessage" class="text-danger">@((Model.Count() == 0) ? "Zero applicaitons found.  No records match your criteria." : "")</span>
-                    <input type="hidden" name="sortDirection" value="@ViewBag.sortDirection" />
-                    <input type="hidden" name="sortField" value="@ViewBag.sortField" />
-            </div>
-                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                <span id="filterMessage" class="text-danger">@((Model.Count() == 0) ? "Zero applicaitons found.  No records match your criteria." : "")</span>
+                <input type="hidden" name="sortDirection" value="@ViewBag.sortDirection" />
+                <input type="hidden" name="sortField" value="@ViewBag.sortField" />
+
+
+
+                <label class="font-weight-bold">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
                     @Html.PagedListPager(Model, page => Url.Action("Index",
-                    new { page, sortDirection = ViewBag.sortDirection, sortField = ViewBag.sortField,
-                    conferenceID = ViewBag.LastConferenceID, location = ViewBag.LastLocation, startDate = ViewBag.LastStartDate,
-                    endDate = ViewBag.LastEndDate }))
+            new
+            {
+                page,
+                sortDirection = ViewBag.sortDirection,
+                sortField = ViewBag.sortField,
+                conferenceID = ViewBag.LastConferenceID,
+                location = ViewBag.LastLocation,
+                startDate = ViewBag.LastStartDate,
+                endDate = ViewBag.LastEndDate
+            }))
+                </label>
+
+            </div>
+
         </div>
     </div>
 }
