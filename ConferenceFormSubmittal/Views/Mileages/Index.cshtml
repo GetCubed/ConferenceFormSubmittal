@@ -42,47 +42,50 @@
                                 @Helper.GetIcon(Helper.Icons.Filter) Filter Mileages
                             </button>
                         </div>
-                        <div class="card-body collapse filter">
 
-                            <div class="row">
+                        <div class="collapse filter">
 
-                                <div class="col-4">
-                                    <label class="font-weight-bold">Start Address</label>
-                                    @Html.TextBox("startAddress", null, new { @class = "form-control" })
+                            <div class="card-body">
 
-                                    <label class="font-weight-bold">End Address</label>
-                                    @Html.TextBox("endAddress", null, new { @class = "form-control" })
-                                </div>
+                                <div class="row">
 
-                                <div class="col-4">
-                                    <label class="font-weight-bold">Date After:</label>
-                                    @Html.TextBox("startDate", null, new { @class = "form-control datepicker", @type = "date" })
+                                    <div class="col-4">
+                                        <label class="font-weight-bold">Start Address</label>
+                                        @Html.TextBox("startAddress", null, new { @class = "form-control bg-NCDSB-GreyLight" })
 
-                                    <label class="font-weight-bold">Date Before:</label>
-                                    @Html.TextBox("endDate", null, new { @class = "form-control datepicker", @type = "date" })
-                                </div>
+                                        <label class="font-weight-bold">End Address</label>
+                                        @Html.TextBox("endAddress", null, new { @class = "form-control bg-NCDSB-GreyLight" })
+                                    </div>
 
-                                <div class="col-4">
-                                    <b>Status</b>
-                                    @Html.DropDownList("StatusID", null, "All Statuses", htmlAttributes: new { @class = "form-control" })
+                                    <div class="col-4">
+                                        <label class="font-weight-bold">Date After:</label>
+                                        @Html.TextBox("startDate", null, new { @class = "form-control datepicker bg-NCDSB-GreyLight", @type = "date" })
+
+                                        <label class="font-weight-bold">Date Before:</label>
+                                        @Html.TextBox("endDate", null, new { @class = "form-control datepicker bg-NCDSB-GreyLight", @type = "date" })
+                                    </div>
+
+                                    <div class="col-4">
+                                        <b>Status</b>
+                                        @Html.DropDownList("StatusID", null, "All Statuses", htmlAttributes: new { @class = "form-control bg-NCDSB-GreyLight" })
+                                    </div>
+
                                 </div>
 
                             </div>
 
-                            <div class="row">
-                                <div class="col-12">
-                                    <a href='@Url.Action("Index","Mileages")' class="btn btn-danger text-white float-right">
-                                        <i class=" fa fa-eraser fa-3x"></i>
-                                        Clear
-                                    </a>
-                                    <button type="submit" name="actionButton" class="btn btn-primary text-white float-right">
-                                        <i class=" fa fa-eraser fa-3x"></i>
-                                        Filter
-                                    </button>
-                                </div>
-                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary" type="submit" name="actionButton">
+                                    @Helper.GetIcon(Helper.Icons.Filter) Filter
+                                </button>
 
+                                <a href='@Url.Action("Index", "Mileages")' class="btn btn-danger">
+                                    @Helper.GetIcon(Helper.Icons.Eraser) Clear
+                                </a>
+                            </div>
                         </div>
+
+
 
                     </div>
                 </div>
@@ -96,112 +99,113 @@
         <div class="col-12">
             <div class="card card-body bg-NCDSB-Grey ">
 
-                <table class="table">
-                    <tr>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
 
-                        <th>
-                            <b><input type="submit" name="actionButton" value="Start Address" /></b>
-                        </th>
-                        <th>
-                            <b><input type="submit" name="actionButton" value="End Address" /></b>
-                        </th>
-                        <th>
-                            <b><input type="submit" name="actionButton" value="Kilometres" /></b>
-                        </th>
-                        <th>
-                            <b><input type="submit" name="actionButton" value="Travel Date" /></b>
-                        </th>
-                        <th>
-                            <b><input type="submit" name="actionButton" value="Round Trip" disabled="disabled" /></b>
-                        </th>
-                        <th>
-                            <b><input type="submit" name="actionButton" value="Description" /></b>
-                        </th>
-                        <th></th>
-                    </tr>
-
-                    @foreach (var item in Model)
-                    {
-                        <tr class="
-                        @(item.StatusID == 1 ? "" : "")
-                        @(item.StatusID == 2 ? "rgba-green-light" : "")
-                        @(item.StatusID == 3 ? "rgba-black-light" : "")
-                        @(item.StatusID == 4 ? "gba-yellow-light" : "")">
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.StartAddress)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.EndAddress)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Kilometres) Km
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TravelDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.RoundTrip)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Status.Description)
-                            </td>
-
-                            <td>
-                                <a href='@Url.Action("Edit", "Mileages", new { id = item.ID })' class="badge badge-primary">
-                                    <i class="fa fa-pencil fa-3x"></i>
-                                    <br />
-                                    Edit
-                                </a>
-                                <a href='@Url.Action("Delete", "Mileages", new { id = item.ID })' class="badge badge-danger">
-                                    <i class="fa fa-flag fa-3x"></i>
-                                    <br />
-                                    Flag
-                                </a>
-
-                            </td>
+                            <th>
+                                <input type="submit" name="actionButton" value="Start Address" class="btn btn-grey btn-md" />
+                            </th>
+                            <th>
+                                <input type="submit" name="actionButton" value="End Address" class="btn btn-grey btn-md" />
+                            </th>
+                            <th>
+                                <input type="submit" name="actionButton" value="Kilometres" class="btn btn-grey btn-md" />
+                            </th>
+                            <th>
+                                <input type="submit" name="actionButton" value="Travel Date" class="btn btn-grey btn-md" />
+                            </th>
+                            <th>
+                                <input type="submit" name="actionButton" value="Round Trip" disabled="disabled" class="btn btn-grey btn-md" />
+                            </th>
+                            <th>
+                                <input type="submit" name="actionButton" value="Description" class="btn btn-grey btn-md" />
+                            </th>
+                            <th></th>
                         </tr>
-                    }
 
-                </table>
-                <span id="filterMessage" class="text-danger">@((Model.Count() == 0) ? "Zero applicaitons found.  No records match your criteria." : "")</span>
-                <input type="hidden" name="sortDirection" value="@ViewBag.sortDirection" />
-                <input type="hidden" name="sortField" value="@ViewBag.sortField" />
+                        @foreach (var item in Model)
+                        {
+                            <tr class=@Helper.GetBackGround(item.Status.Description)>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartAddress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EndAddress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Kilometres) Km
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TravelDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RoundTrip)
+                                </td>
+                                <td>
+                                    @Helper.GetIcon(item.Status.Description)
+                                    @Html.DisplayFor(modelItem => item.Status.Description)
+                                </td>
+
+                                <td>
+
+                                    <a href='@Url.Action("Details", "Mileages", new { id = item.ID })' class="badge badge-primary">
+                                        @Helper.GetIcon(Helper.Icons.View, 3)
+                                        <br />
+                                        View
+                                    </a>
+                                    <a href='@Url.Action("Edit", "Mileages", new { id = item.ID })' class="badge badge-info">
+                                        @Helper.GetIcon(Helper.Icons.Edit, 3)
+                                        <br />
+                                        Edit
+                                    </a>
+                                    <a href='@Url.Action("Delete", "Mileages", new { id = item.ID })' class="badge badge-danger">
+                                        @Helper.GetIcon(Helper.Icons.Flag, 3)
+                                        <br />
+                                        Flag
+                                    </a>
+
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                    <span id="filterMessage" class="text-danger">@((Model.Count() == 0) ? "Zero applicaitons found.  No records match your criteria." : "")</span>
+                    <input type="hidden" name="sortDirection" value="@ViewBag.sortDirection" />
+                    <input type="hidden" name="sortField" value="@ViewBag.sortField" />
+
+
+                    <label class="font-weight-bold">
+                        <label class="font-weight-bold">
+                            Page  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)  of @Model.PageCount
+                            @Html.PagedListPager(Model, page => Url.Action("Index",
+new
+{
+page,
+sortDirection = ViewBag.sortDirection,
+sortField = ViewBag.sortField,
+employeeID = ViewBag.LastEmployeeID,
+employeeFirst = ViewBag.LastEmployeeFirst,
+employeeLast = ViewBag.LastEmployeeLast,
+startAddress = ViewBag.LastStartAddress,
+endAddress = ViewBag.LastEndAddress,
+startDate = ViewBag.LastStartDate,
+endDate = ViewBag.LastEndDate,
+statusID = ViewBag.LastStatusID
+}))
+                        </label>
+                    </label>
+                </div>
+
+
 
             </div>
         </div>
 
     </div>
 
-    //--------------Paging bar ---------------------
-    <div class="row pt-3">
-        <div class="col-12">
-            <div class="card card-body bg-NCDSB-Grey">
-                <label class="font-weight-bold"> Page  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)  of @Model.PageCount  </label>
-                <label class="font-weight-bold">
-                    @Html.PagedListPager(Model, page => Url.Action("Index",
-     new
-     {
-         page,
-         sortDirection = ViewBag.sortDirection,
-         sortField = ViewBag.sortField,
-         employeeID = ViewBag.LastEmployeeID,
-         employeeFirst = ViewBag.LastEmployeeFirst,
-         employeeLast = ViewBag.LastEmployeeLast,
-         startAddress = ViewBag.LastStartAddress,
-         endAddress = ViewBag.LastEndAddress,
-         startDate = ViewBag.LastStartDate,
-         endDate = ViewBag.LastEndDate,
-         statusID = ViewBag.LastStatusID
-     }))
-                </label>
-            </div>
-        </div>
-
-
-
-
-    </div>
+ 
 
 }
 
