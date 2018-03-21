@@ -4,68 +4,114 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">Create Conference</h3>
+        </div>
+    </div>
+</div>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Conference</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @*---------------- Conference FORM ----------------------*@
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RegistrationCost, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RegistrationCost, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RegistrationCost, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="card-body">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    <div class="row pt-4">
+
+                        <div class="col-1">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a Name" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+
+
+
+                        <div class="col-1">
+                            @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a Location" } })
+                            @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                        </div>
+
+
+
+                        <div class="col-1">
+                            @Html.LabelFor(model => model.RegistrationCost, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.RegistrationCost, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a Cost" } })
+                            @Html.ValidationMessageFor(model => model.RegistrationCost, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    <div class="row pt-4">
+
+                        <div class="col-1">
+                            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a Start Date" } })
+                            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                        </div>
+
+
+
+                        <div class="col-1">
+                            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a End Date" } })
+                            @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                        </div>
+
+
+
+
+                        <div class="col-2">
+
+                            <input type="submit" value="Create" class="btn btn-success btn-block">
+
+
+
+
+                        </div>
+                        <div class="col-2">
+                            <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary btn-block">
+                                <i class="fa fa-long-arrow-left"></i> Go Back
+                            </a>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

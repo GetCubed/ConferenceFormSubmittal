@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -51,7 +52,7 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Rationale,EstimatedCost,ActualCost,Feedback,ExpenseTypeID,StatusID,ApplicationID")] Expense expense)
+        public ActionResult Create([Bind(Include = "ID,Rationale,EstimatedCost,ActualCost,ExpenseTypeID,ApplicationID")] Expense expense)
         {
             if (ModelState.IsValid)
             {
@@ -82,23 +83,72 @@ namespace ConferenceFormSubmittal.Controllers
             return View(expense);
         }
 
+        // inserts or updates Expenses from the Application Edit view
+        public JsonResult AddOrUpdateExpenses(List<Expense> expenses)
+        {
+            if (expenses == null)
+            {
+                expenses = new List<Expense>();
+            }
+
+            string result = "Success";
+
+            if (expenses.Count > 0)
+            {
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (Expense e in expenses)
+                        {
+                            if (db.Expenses.Any(a => a.ID == e.ID)) // if the Expense exists in the db, update it
+                            {
+                                var expenseToUpdate = db.Expenses.Find(e.ID);
+                                expenseToUpdate.Rationale = e.Rationale;
+                                expenseToUpdate.EstimatedCost = e.EstimatedCost;
+                                expenseToUpdate.ActualCost = e.ActualCost;
+                                expenseToUpdate.ExpenseTypeID = e.ExpenseTypeID;
+                            }
+                            else // insert it
+                            {
+                                db.Expenses.Add(e);
+                            }
+                        }
+
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+
+                        result = "Failed to save changes: " + ex.Message;
+                    }
+                }
+            }
+            
+            return Json(result);
+        }
+
         // POST: Expenses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Rationale,EstimatedCost,ActualCost,Feedback,ExpenseTypeID,StatusID,ApplicationID")] Expense expense)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(expense).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", expense.ApplicationID);
-            ViewBag.ExpenseTypeID = new SelectList(db.ExpenseTypes, "ID", "Description", expense.ExpenseTypeID);
-            return View(expense);
-        }
+        //[HttpPost, ActionName("Edit")]
+        //[ValidateAntiForgeryToken]
+        //public bool EditPost(Expense expense)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var expenseToUpdate = db.Expenses.Find(expense.ID);
+
+        //        expenseToUpdate = expense;
+
+        //        db.Entry(expenseToUpdate).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         // GET: Expenses/Delete/5
         public ActionResult Delete(int? id)

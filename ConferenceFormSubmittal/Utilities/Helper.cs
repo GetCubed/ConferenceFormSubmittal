@@ -7,30 +7,86 @@ namespace ConferenceFormSubmittal.Utilities
 {
     static public class Helper
     {
-        public static string StatusIcon(string status)
+        // font-awesome icons
+        public enum Icons
         {
-            string icon = "<i class='fa fa-";
+            Plus,
+            Minus,
+            Edit,
+            View,
+            Flag,
+            Submitted,
+            Draft,
+            Approved,
+            Denied,
+            Check,
+            Cancel,
+            Back,
+            Save
+        }
 
-            switch (status)
+        // returns an <i> element.
+        // Need to pass a string instead of an enum for the first parameter?
+        // No problem! Use the overload defined below.
+        public static HtmlString GetIcon(Icons icon, int size = 2, string textColor = "black")
+        {
+            string element = "<i class='fa fa-";
+
+            switch ((int)icon)
             {
-                case "Submitted":
-                    icon += "paper-plane";
+                case 0:
+                    element += "plus";
                     break;
-                case "Draft":
-                    icon += "paperclip";
+                case 1:
+                    element += "minus";
                     break;
-                case "Approved":
-                    icon += "thumbs-up";
+                case 2:
+                    element += "pencil";
                     break;
-                case "Denied":
-                    icon += "thunbs-up";
+                case 3:
+                    element += "eye";
+                    break;
+                case 4:
+                    element += "flag";
+                    break;
+                case 5:
+                    element += "paper-plane";
+                    break;
+                case 6:
+                    element += "paperclip";
+                    break;
+                case 7:
+                    element += "thumbs-up";
+                    break;
+                case 8:
+                    element += "thunbs-up";
+                    break;
+                case 9:
+                    element += "check";
+                    break;
+                case 10:
+                    element += "ban";
+                    break;
+                case 11:
+                    element += "arrow-left";
+                    break;
+                case 12:
+                    element += "floppy-o";
                     break;
                 default:
-                    icon += "question";
+                    element += "question";
                     break;
             }
 
-            return icon + " fa-2x'></i>";
+            element += " fa-" + size.ToString() + "x text-" + textColor + "'></i>";
+
+            return new HtmlString(element);
+        }
+
+        // pass a string instead of an enum
+        public static HtmlString GetIcon(string icon, int size = 2, string textColor = "black")
+        {
+            return GetIcon((Icons)Enum.Parse(typeof(Icons), icon), size, textColor);
         }
 
         public static string YesNoFromBool(bool b)

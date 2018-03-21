@@ -8,6 +8,11 @@ namespace ConferenceFormSubmittal.Models
 {
     public class Expense
     {
+        public Expense()
+        {
+            Files = new HashSet<Documentation>();
+        }
+
         public int ID { get; set; }
 
         [StringLength(500, ErrorMessage = "Rationale may include a maximum of 500 characters.")]
@@ -29,5 +34,8 @@ namespace ConferenceFormSubmittal.Models
         public virtual ExpenseType ExpenseType { get; set; }
 
         public virtual Application Application { get; set; }
+
+        [Display(Name = "Documentation")]
+        public ICollection<Documentation> Files { get; set; }
     }
 }
