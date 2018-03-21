@@ -269,7 +269,8 @@
                                                 <div class="col-md-10">
                                                     @foreach (var doc in item.Files)
                                                     {
-                                                        @: @Html.ActionLink(doc.fileName, "Download", "Expenses", new { id = doc.ID }, null) <br />
+                                                        <i class="fa fa-download"></i>
+                                                        @: <u>@Html.ActionLink(doc.fileName, "Download", "Expenses", new { id = doc.ID }, null) </u><br />
                                                     }
                                                 </div>
                                             </div>
