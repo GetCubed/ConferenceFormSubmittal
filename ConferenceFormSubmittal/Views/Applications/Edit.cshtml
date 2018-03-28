@@ -68,6 +68,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
+                            @Html.HiddenFor(model => model.RowVersion)
                             @Html.HiddenFor(model => model.ConferenceID)
 
                             @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })

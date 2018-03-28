@@ -410,14 +410,23 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPost([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,ConferenceID")] Application application)
+        public ActionResult EditPost(Byte[] RowVersion, [Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,ConferenceID")] Application application)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(application).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(application).State = EntityState.Modified;
+                    db.Entry(application).OriginalValues["RowVersion"] = RowVersion;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+            catch
+            {
+                ModelState.AddModelError(string.Empty, "The record you attempted to edit " + "was modified by another user. Please go back and refresh");
+            }
+
             PopulateDropDownLists(application);
             return View(application);
         }
