@@ -101,6 +101,7 @@
                             @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
                         </div>
+                            @Html.HiddenFor(model => model.RowVersion)
 
 
                         

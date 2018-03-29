@@ -57,6 +57,7 @@
 
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.ID)
+                            @Html.HiddenFor(model => model.RowVersion)
 
                         </div>
 

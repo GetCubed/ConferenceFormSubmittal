@@ -203,14 +203,24 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Location,RegistrationCost,StartDate,EndDate")] Conference conference)
+        public ActionResult Edit(Byte[] RowVersion, [Bind(Include = "ID,Name,Location,RegistrationCost,StartDate,EndDate")] Conference conference)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(conference).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(conference).State = EntityState.Modified;
+                    db.Entry(conference).OriginalValues["RowVersion"] = RowVersion;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
             }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                ModelState.AddModelError(string.Empty, "The record you attempted to edit " + "was modified by another user. Please go back and refresh");
+            }
+
             return View(conference);
         }
 

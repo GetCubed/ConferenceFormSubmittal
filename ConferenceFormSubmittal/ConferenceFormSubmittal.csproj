@@ -230,6 +230,10 @@
     <Compile Include="DAL\CFSMigrations\201803281013584_AuditConcurrencyMileageApplication.Designer.cs">
       <DependentUpon>201803281013584_AuditConcurrencyMileageApplication.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\CFSMigrations\201803291328582_AuditConcurrencySitesConference.cs" />
+    <Compile Include="DAL\CFSMigrations\201803291328582_AuditConcurrencySitesConference.Designer.cs">
+      <DependentUpon>201803291328582_AuditConcurrencySitesConference.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -460,6 +464,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\CFSMigrations\201803281013584_AuditConcurrencyMileageApplication.resx">
       <DependentUpon>201803281013584_AuditConcurrencyMileageApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201803291328582_AuditConcurrencySitesConference.resx">
+      <DependentUpon>201803291328582_AuditConcurrencySitesConference.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
