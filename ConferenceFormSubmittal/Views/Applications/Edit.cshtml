@@ -27,7 +27,7 @@
                     <div class="row ">
                         <div class="col-12 d-flex justify-content-between">
                             <a href='@Url.Action("Index", "Applications")' class="btn btn-primary">
-                                @Helper.GetIcon(Helper.Icons.Back)
+                                @Helper.GetIcon(Icons.Back)
                                 Go Back
                             </a>
 
@@ -36,12 +36,12 @@
 
                             <button class="btn btn-primary" type="submit">
 
-                                @Helper.GetIcon(Helper.Icons.Draft)
+                                @Helper.GetIcon(Icons.Draft)
                                 Save Draft
                             </button>*@
 
                             <button class="btn btn-success" type="submit">
-                                @Helper.GetIcon(Helper.Icons.Save)
+                                @Helper.GetIcon(Icons.Save)
 
                                 Save Changes
 
@@ -287,17 +287,17 @@
                                         </td>
                                         <td>
                                             <a onclick="editExpense($(this))" class="edit badge badge-primary text-white">
-                                                @Helper.GetIcon(Helper.Icons.Edit, 3, "white")
+                                                @Helper.GetIcon(Icons.Edit, 3, "white")
                                                 <br />
                                                 Edit
                                             </a>
                                             <a onclick="acceptExpense($(this))" class="accept badge badge-success text-white d-none">
-                                                @Helper.GetIcon(Helper.Icons.Check, 3, "white")
+                                                @Helper.GetIcon(Icons.Check, 3, "white")
                                                 <br />
                                                 Save
                                             </a>
                                             <a onclick="cancelExpense($(this))" class="accept badge badge-danger text-white d-none">
-                                                @Helper.GetIcon(Helper.Icons.Cancel, 3, "white")
+                                                @Helper.GetIcon(Icons.Cancel, 3, "white")
                                                 <br />
                                                 Cancel
                                             </a>
@@ -340,7 +340,7 @@
                                     </td>
                                     <td>
                                         <a onclick="addExpense()" class="btn btn-success mt-3">
-                                            @Helper.GetIcon(Helper.Icons.Plus, 1, "white")
+                                            @Helper.GetIcon(Icons.Plus, 1, "white")
                                         </a>
                                     </td>
                                 </tr>
@@ -443,9 +443,9 @@
 
             // replace the "+" button with edit, confirm, and delete buttons
             newRow.find(".btn-success").replaceWith(
-                "<a onclick='editExpense($(this))' class='edit badge badge-primary text-white'>@Helper.GetIcon(Helper.Icons.Edit, 3, "white")<br />Edit</a>" +
-                "<a onclick='acceptExpense($(this))' class='accept badge badge-success text-white d-none'>@Helper.GetIcon(Helper.Icons.Check, 3, "white")<br />Done</a>" +
-                "<a onclick='cancelExpense($(this))' class='cancel badge badge-danger text-white d-none'>@Helper.GetIcon(Helper.Icons.Cancel, 3, "white")<br />Cancel</a>"
+                "<a onclick='editExpense($(this))' class='edit badge badge-primary text-white'>@Helper.GetIcon(Icons.Edit, 3, "white")<br />Edit</a>" +
+                "<a onclick='acceptExpense($(this))' class='accept badge badge-success text-white d-none'>@Helper.GetIcon(Icons.Check, 3, "white")<br />Done</a>" +
+                "<a onclick='cancelExpense($(this))' class='cancel badge badge-danger text-white d-none'>@Helper.GetIcon(Icons.Cancel, 3, "white")<br />Cancel</a>"
             );
 
             // add the file upload button
