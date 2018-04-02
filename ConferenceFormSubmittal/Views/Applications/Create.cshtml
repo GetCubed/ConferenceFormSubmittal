@@ -152,7 +152,38 @@
                     </div>
                 </div>
             </div>
+
+            @*//-----------------------------------------------------------------buttons bar --------------------------------------------------------------------*@
+            <div class="row pt-3">
+                <div class="col-12 ">
+                    <div class="card bg-NCDSB-Grey">
+                        <div class="card-body">
+                            <div class="col-12 d-flex justify-content-between">
+
+                                <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
+                                    @Helper.GetIcon(Helper.Icons.Back)
+                                    Go Back
+                                </a>
+
+                                <button class="btn btn-info" type="button">
+                                    @Helper.GetIcon(Helper.Icons.Draft)
+                                    Save As Draft
+                                </button>
+
+                                <button class="btn btn-success submit" type="button" id="btnSubmit">
+                                    @Helper.GetIcon(Helper.Icons.Save)
+                                    Submit
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
+
+  
     </div>
 }
 
@@ -164,7 +195,11 @@
 {
     <div id="form-content">
         @Html.Partial("ApplicationExpensePartial", Model)
+
     </div>
+
+
+   
 }
 
 @section Scripts {
