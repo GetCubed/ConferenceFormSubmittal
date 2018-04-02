@@ -7,27 +7,6 @@ namespace ConferenceFormSubmittal.Utilities
 {
     static public class Helper
     {
-        // font-awesome icons
-        public enum Icons
-        {
-            Plus,
-            Minus,
-            Edit,
-            View,
-            Flag,
-            Submitted,
-            Draft,
-            Approved,
-            Denied,
-            Check,
-            Cancel,
-            Back,
-            Save,
-            Filter,
-            Create,
-            Eraser
-        }
-
         // returns an <i> element.
         // Need to pass a string instead of an enum for the first parameter?
         // No problem! Use the overload defined below.
