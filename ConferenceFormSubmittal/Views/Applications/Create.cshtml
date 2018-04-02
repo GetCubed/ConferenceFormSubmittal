@@ -170,7 +170,7 @@
                                     Save As Draft
                                 </button>
 
-                                <button class="btn btn-success submit" type="button" id="btnSubmit">
+                                <button class="btn btn-success" type="button" id="btnSubmit" data-bind="click: save">
                                     @Helper.GetIcon(Icons.Save)
                                     Submit
                                 </button>
@@ -206,10 +206,44 @@
     @Scripts.Render("~/bundles/knockout")
 
     <script type="text/javascript">
+        // hide expense error messages when the input value changes
+        $("#ddlExpenseType").change(function () {
+            $(this).siblings("label.text-danger").addClass("d-none");
+        });
+        $("#txtEstimatedCost").keydown(function () {
+            $(this).siblings("label.text-danger").addClass("d-none");
+        });
+
+        function expenseIsValid() {
+            // hide error messages
+            $("#newExpense").find("label.text-danger").addClass("d-none");
+
+            // get user input
+            var typeID = $("#ddlExpenseType").val(),
+                estCost = $("#txtEstimatedCost").val();
+            
+            // innocent until proven guilty
+            var result = true;
+
+            if (typeID == 0) {
+                result = false;
+                $("#lblInvalidType").removeClass("d-none");
+            }
+
+            var costPattern = /^\d+(\.\d{0,2})?$/; // matches a number with up to two decimals
+
+            if (!costPattern.test(estCost)) {
+                result = false
+                $("#lblInvalidCost").removeClass("d-none");
+            }
+
+            return result;
+        }
+
         function expense(type, typeID, cost, rationale) {
             var self = this;
             self.type = type;
-            self.ExpenseTypeID = typeID
+            self.ExpenseTypeID = typeID;
             self.EstimatedCost = cost;
             self.Rationale = rationale;
         }
@@ -224,16 +258,18 @@
                 self.newRationale = ko.observable();
 
                 self.addExpense = function () {
-                    self.expenses.push(new expense(
-                        $("#ddlExpenseType option:selected").text(),
-                        self.newTypeID(),
-                        parseFloat(self.newCost()).toFixed(2),
-                        self.newRationale()
-                    ));
+                    if (expenseIsValid()) {
+                        self.expenses.push(new expense(
+                            $("#ddlExpenseType option:selected").text(),
+                            self.newTypeID(),
+                            parseFloat(self.newCost()).toFixed(2),
+                            self.newRationale()
+                        ));
 
-                    self.newTypeID(0);
-                    self.newCost("");
-                    self.newRationale("");
+                        self.newTypeID(0);
+                        self.newCost("");
+                        self.newRationale("");
+                    }
                 }
 
                 self.removeExpense = function () {
