@@ -205,6 +205,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MileagesController.cs" />
     <Compile Include="Controllers\SitesController.cs" />
+    <Compile Include="DAL\ApplicationDBContext.cs" />
     <Compile Include="DAL\CFSEntities.cs" />
     <Compile Include="DAL\CFSMigrations\201802112120261_InitialCreate.cs" />
     <Compile Include="DAL\CFSMigrations\201802112120261_InitialCreate.Designer.cs">
@@ -227,6 +228,11 @@
       <DependentUpon>201803201059446_FileUploads.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
+    <Compile Include="DAL\SecurityMigrations\201804020454335_SecurityInitial.cs" />
+    <Compile Include="DAL\SecurityMigrations\201804020454335_SecurityInitial.Designer.cs">
+      <DependentUpon>201804020454335_SecurityInitial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\SecurityMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -452,6 +458,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\CFSMigrations\201803201059446_FileUploads.resx">
       <DependentUpon>201803201059446_FileUploads.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\SecurityMigrations\201804020454335_SecurityInitial.resx">
+      <DependentUpon>201804020454335_SecurityInitial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
