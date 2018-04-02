@@ -292,7 +292,7 @@ namespace ConferenceFormSubmittal.Controllers
         {
             if (!ConferenceID.HasValue)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Conferences");
             }
 
             ViewBag.Conference = db.Conferences.Find(ConferenceID);
@@ -302,8 +302,11 @@ namespace ConferenceFormSubmittal.Controllers
         }
 
         private static List<Expense> expenseBatch = new List<Expense>();
+        // Add expenses to the expenseBatch List for use in Applications/Create
         public JsonResult AddExpenses(List<Expense> expenses)
         {
+            expenseBatch.Clear();
+
             if (expenses == null)
             {
                 expenses = new List<Expense>();
@@ -314,7 +317,7 @@ namespace ConferenceFormSubmittal.Controllers
                 expenseBatch.Add(expense);
             }
 
-            return Json(expenseBatch.Count);
+            return Json(expenseBatch.Count + " expense(s) added.");
         }
 
         // POST: Applications/Create
@@ -341,7 +344,8 @@ namespace ConferenceFormSubmittal.Controllers
                 // clear the expense batch
                 expenseBatch.Clear();
 
-                return RedirectToAction("Index");
+                // show details of the newly created application
+                return RedirectToAction("Details/" + application.ID);
             }
 
             PopulateDropDownLists(application);
