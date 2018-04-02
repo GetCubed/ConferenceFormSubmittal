@@ -55,13 +55,13 @@
 
                         <div class="row">
                             <div class="col-10">
-                                <div class="row">
+                                <div class="row" id="newExpense">
                                     <div class="col-4">
                                         @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control bg-NCDSB-GreyLight required", data_bind = "value: newTypeID", @id = "ddlExpenseType" })
                                         <label id="lblInvalidType" class="text-danger d-none">You must choose an expense type.</label>
                                     </div>
                                     <div class="col-4">
-                                        @Html.EditorFor(model => model.EstimatedCost, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight required", data_bind = "value: newCost" } })
+                                        @Html.EditorFor(model => model.EstimatedCost, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight required", data_bind = "value: newCost", @id = "txtEstimatedCost" } })
                                         <label id="lblInvalidCost" class="text-danger d-none">You must provide a valid cost estimate.</label>
                                     </div>
                                     <div class="col-4">
