@@ -183,11 +183,17 @@ namespace ConferenceFormSubmittal.Controllers
         }
 
         // GET: Mileages/Create
-        public ActionResult Create()
+        public ActionResult Create(int? ApplicationID)
         {
+            if (!ApplicationID.HasValue)
+            {
+                ApplicationID = 0;
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             PopulateDropDownLists();
             //ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name");
             //so ConferenceID would need to display Conference Name       "ConferenceID"
+            ViewBag.Application = db.Applications.Find(ApplicationID);
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale");
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName");
             ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description");
