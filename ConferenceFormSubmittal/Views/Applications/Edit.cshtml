@@ -193,7 +193,6 @@
                 </div>
                 <div class="card-body">
                     <div class="col-12">
-
                         <table id="tblExpenses" class="table">
                             <tbody>
                                 <tr>
@@ -215,136 +214,88 @@
                                     <th></th>
                                 </tr>
 
-
-                                @foreach (var item in Model.Expenses)
-                                {
-                                    var estimatedCostEditor = Html.EditorFor(e => item.EstimatedCost, new { htmlAttributes = new { @class = "form-control txtEstimatedCost d-none" } });
-                                    var estimatedCost = new MvcHtmlString("$<span>" + item.EstimatedCost + "</span>");
-                                    @* cannot input actual cost until application is approved *@
-                                    var actualCostEditor = new MvcHtmlString("<input type='text' class='form-control txtActualCost cost d-none' title='Actual Cost cannot be entered until the application has been approved.' value = 'TBD' disabled />");
-                                    var actualCost = new MvcHtmlString("TBD");
-
-                                    if (Model.Status.Description == "Approved")
-                                    {
-                                        if (item.EstimatedCost == null)
-                                        {
-                                            @* cannot edit estimated cost after application has been approved *@
-                                            estimatedCostEditor = new MvcHtmlString("<input type='text' class='form-control txtEstimatedCost cost d-none' title='Estimated Cost cannot be changed after the application has been approved.' value = 'N/A' disabled />");
-                                            estimatedCost = new MvcHtmlString("N/A");
-                                        }
-                                        else
-                                        {
-                                            estimatedCostEditor = new MvcHtmlString("<input type='text' class='form-control txtEstimatedCost cost d-none' title='Estimated Cost cannot be changed after the application has been approved.' value = '" + item.EstimatedCost + "' disabled />");
-                                        }
-
-                                        actualCostEditor = Html.EditorFor(e => item.ActualCost, new { htmlAttributes = new { @class = "form-control txtActualCost cost d-none" } });
-
-                                        if (item.ActualCost != null)
-                                        {
-                                            actualCost = new MvcHtmlString("$<span>" + item.ActualCost + "</span>");
-                                        }
-                                    }
-
-                                    <tr class="trExpense">
-                                        <td>
-                                            <label>@item.ExpenseType.Description</label>
-                                            @Html.DropDownList("ExpenseTypes" + item.ID.ToString(), null, htmlAttributes: new { @class = "form-control ddlExpenseType d-none" })
-                                        </td>
-                                        <td>
-                                            <label>@estimatedCost</label>
-                                            @estimatedCostEditor
-                                            <label class="lblInvalidEstCost text-danger d-none">You must provide a valid cost estimate.</label>
-                                        </td>
-                                        <td>
-                                            <label>@actualCost</label>
-                                            @actualCostEditor
-                                            <label class="lblInvalidActCost text-danger d-none">You must provide a valid cost estimate.</label>
-                                        </td>
-                                        <td>
-                                            <label>@item.Rationale</label>
-                                            @Html.EditorFor(e => item.Rationale, new { htmlAttributes = new { @class = "form-control txtRationale d-none" } })
-                                        </td>
-                                        <td>
-                                            <div class="form-group currentFiles">
-                                                <div class="col-md-10">
-                                                    @foreach (var doc in item.Files)
-                                                    {
-                                                        <i class="fa fa-download"></i>
-                                                        @: <u>@Html.ActionLink(doc.fileName, "Download", "Expenses", new { id = doc.ID }, new { @class = "fileLink" }) </u><br />
-                                                    }
-                                                </div>
+                            <tbody data-bind="foreach: expenses">
+                                <tr>
+                                    <td>
+                                        <label data-bind="text: type, visible: !editMode()"></label>
+                                        @Html.DropDownList("ExpenseTypeID", null, htmlAttributes: new { @class = "form-control", data_bind = "value: ExpenseTypeID, visible: editMode" })
+                                    </td>
+                                    <td>
+                                        <label data-bind="text: EstimatedCost, visible: !editMode()"></label>
+                                        <input type="text" class="form-control" data-bind="value: EstimatedCost, visible: editMode, css:{ valid: EstimatedIsValid, invalid: !EstimatedIsValid() }, event:{keyup: validate }, valueUpdate: 'afterkeydown'" />
+                                        <label class="text-danger" data-bind="visible: editMode() && !EstimatedIsValid()">Invalid currency value.</label>
+                                    </td>
+                                    <td>
+                                        <label data-bind="text: ActualCost, visible: !editMode()"></label>
+                                        <input type="text" class="form-control" data-bind="value: ActualCost, visible: editMode, css:{ valid: ActualIsValid, invalid: !ActualIsValid() }, event:{keyup: validate }, valueUpdate: 'afterkeydown'" />
+                                        <label class="text-danger" data-bind="visible: editMode() && !ActualIsValid()">Invalid currency value.</label>
+                                    </td>
+                                    <td>
+                                        <label data-bind="text: Rationale, visible: !editMode()"></label>
+                                        <input type="text" class="form-control valid" data-bind="value: Rationale, visible: editMode" />
+                                    </td>
+                                    <td>
+                                        <div class="form-group" data-bind="visible: !editMode()">
+                                            <label data-bind="visible: Files.length < 1">None</label>
+                                            <div class="col-md-10" data-bind="foreach: Files">
+                                                <i class="fa fa-download"></i>
+                                                <label data-bind="text: FileName"></label>
+                                                @*<u>@Html.ActionLink(doc.fileName, "Download", "Expenses", new { id = doc.ID }, new { @class = "fileLink" }) </u>*@
+                                                <br />
                                             </div>
+                                        </div>
 
-                                            <div class="form-group fileUpload d-none">
-                                                <label class="control-label doc">
-                                                    Add Documentation:
-                                                </label>
-                                                <div class="col-md-10">
-                                                    @*This doesn't work yet*@
-                                                    <input type="file" class="" name="theFiles" multiple="multiple" /><br />
-                                                </div>
+                                        <div class="form-group" data-bind="visible: editMode">
+                                            <div class="col-md-10">
+                                                <input type="file" class="" name="theFiles" multiple="multiple" /><br />
                                             </div>
-                                        </td>
-                                        <td>
-                                            <a onclick="editExpense($(this))" class="edit badge badge-primary text-white">
-                                                @Helper.GetIcon(Icons.Edit, 3, "white")
-                                                <br />
-                                                Edit
-                                            </a>
-                                            <a onclick="acceptExpense($(this))" class="accept badge badge-success text-white d-none">
-                                                @Helper.GetIcon(Icons.Check, 3, "white")
-                                                <br />
-                                                Save
-                                            </a>
-                                            <a onclick="cancelExpense($(this))" class="accept badge badge-danger text-white d-none">
-                                                @Helper.GetIcon(Icons.Cancel, 3, "white")
-                                                <br />
-                                                Cancel
-                                            </a>
-                                            <input type="hidden" value="@item.ID" class="txtExpenseID" />
-                                        </td>
-                                    </tr>
-                                }
-                                @{
-                                    var estCostPlaceholder = "";
-                                    var estCostDisabled = "";
-                                    var actCostPlaceholder = "";
-                                    var actCostDisabled = "";
-                                    if (Model.Status.Description != "Approved")
-                                    {
-                                        actCostPlaceholder = "TBD";
-                                        actCostDisabled = "disabled";
-                                    }
-                                    else
-                                    {
-                                        estCostPlaceholder = "N/A";
-                                        estCostDisabled = "disabled";
-                                    }
-                                }
-                                @*Needs an "Add Expense" heading*@
-                                <tr id="trAddExpense" class="rgba-grey-light">
-                                    <td>
-                                        @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control ddlExpenseType", @id = "ddlExpenseType" })
-                                        <label class="lblInvalidType text-danger d-none">You must select an expense type.</label>
+                                        </div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control txtEstimatedCost cost" value="@estCostPlaceholder" @estCostDisabled />
-                                        <label class="lblInvalidEstCost text-danger d-none">You must provide a valid cost estimate.</label>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control txtActualCost cost" value="@actCostPlaceholder" @actCostDisabled />
-                                        <label class="lblInvalidActCost text-danger d-none">You must provide the actual cost.</label>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control txtRationale" />
-                                    </td>
-                                    <td>
-                                        <a onclick="addExpense()" class="btn btn-success mt-3">
-                                            @Helper.GetIcon(Icons.Plus, 1, "white")
+                                        <a data-bind="visible: !$root.editMode(), click: $root.edit" class="badge badge-primary text-white">
+                                            @Helper.GetIcon(Icons.Edit, 3, "white")
+                                            <br />
+                                            Edit
+                                        </a>
+                                        <a data-bind="visible: editMode, click: $root.save" class="badge badge-success text-white">
+                                            @Helper.GetIcon(Icons.Save, 3, "white")
+                                            <br />
+                                            Save
+                                        </a>
+                                        <a data-bind="visible: editMode, click: $root.cancel" class="badge badge-danger text-white">
+                                            @Helper.GetIcon(Icons.Cancel, 3, "white")
+                                            <br />
+                                            Cancel
                                         </a>
                                     </td>
                                 </tr>
                             </tbody>
+
+
+                           @*
+                            <tr id="trAddExpense" class="rgba-grey-light">
+                                <td>
+                                    @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control ddlExpenseType", @id = "ddlExpenseType" })
+                                    <label class="lblInvalidType text-danger d-none">You must select an expense type.</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control txtEstimatedCost cost" value="@estCostPlaceholder" @estCostDisabled />
+                                    <label class="lblInvalidEstCost text-danger d-none">You must provide a valid cost estimate.</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control txtActualCost cost" value="@actCostPlaceholder" @actCostDisabled />
+                                    <label class="lblInvalidActCost text-danger d-none">You must provide the actual cost.</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control txtRationale" />
+                                </td>
+                                <td>
+                                    <a onclick="addExpense()" class="btn btn-success mt-3">
+                                        @Helper.GetIcon(Icons.Plus, 1, "white")
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>*@
                         </table>
                     </div>
                 </div>
@@ -355,242 +306,126 @@
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/knockout")
 
     <script type="text/javascript">
-        $(".txtEstimatedCost").keydown(function () {
-            $(this).siblings("label.text-danger").addClass("d-none");
-        });
-        $(".txtActualCost").keydown(function () {
-            $(this).siblings("label.text-danger").addClass("d-none");
-        });
-        $(".ddlExpenseType").change(function () {
-            $(this).siblings("label.text-danger").addClass("d-none");
-        });
+        function Expense(data) {
+            var self = this,
+                currentData = data;
 
-        function applicationIsApproved() {
-            return $("#lblStatus").html() == "Approved";
-        }
+            self.ID = data.ID;
+            self.type = ko.observable(data.type);
+            self.ExpenseTypeID = ko.observable(data.ExpenseTypeID);
+            self.EstimatedCost = ko.observable(data.EstimatedCost);
+            self.ActualCost = ko.observable(data.ActualCost);
+            self.Rationale = ko.observable(data.Rationale);
+            self.Files = ko.observableArray();
 
-        function validExpense($row) {
-            var typeID = $row.find(".ddlExpenseType").val(),
-                estCost = $row.find(".txtEstimatedCost").val(),
-                actCost = $row.find(".txtActualCost").val(),
-                approved = applicationIsApproved();
+            self.editMode = ko.observable(false);
+            self.EstimatedIsValid = ko.observable(true);
+            self.ActualIsValid = ko.observable(true);
 
-            $row.find("label.text-danger").addClass("d-none");
-
-            var result = true;
-
-            if (typeID == "") {
-                result = false;
-                $row.find(".lblInvalidType").removeClass("d-none");
+            self.validate = function () {
+                self.EstimatedIsValid(self.EstimatedCost() == "" || /^\d+(\.\d{0,2})?$/.test(self.EstimatedCost()));
+                self.ActualIsValid(self.ActualCost() == "" || /^\d+(\.\d{0,2})?$/.test(self.ActualCost()));
             }
 
-            var costPattern = /^\d+(\.\d{0,2})?$/; // matches a number with up to two decimals
-
-            if (!approved && !costPattern.test(estCost)) {
-                result = false
-                $row.find(".lblInvalidEstCost").removeClass("d-none");
+            self.isValid = function () {
+                self.validate();
+                return (self.EstimatedIsValid() && self.ActualIsValid());
             }
 
-            if (approved && (actCost == "" || !costPattern.test(actCost))) {
-                result = false
-                $row.find(".lblInvalidActCost").removeClass("d-none");
-            }
+            self.update = function (vm) {
+                if (self.isValid()) {
+                    $.ajax("/Expenses/AddOrUpdateExpense", {
+                        data: ko.toJSON({ expense: self }),
+                        type: "post", contentType: "application/json",
+                        success: function (response) {
+                            if (response.split(":")[0] == "success") {
+                                currentData = {
+                                    type: self.type(),
+                                    ExpenseTypeID: self.ExpenseTypeID(),
+                                    EstimatedCost: self.EstimatedCost(),
+                                    ActualCost: self.ActualCost(),
+                                    Rationale: self.Rationale()
+                                }
 
-            return result;
-        }
-
-        // inserts the expense record if valid
-        function addExpense() {
-            var $row = $("#trAddExpense");
-
-            // attempt to validate and insert row
-            if (validExpense($row)) {
-                addOrUpdateExpense($row, false);
-            }
-        }
-
-        // adds a row to the table
-        function addExpenseRow(newID) {
-            // create a clone of the input row
-            // note: cloning an existing row (rather than the input row) is not possible because there may be none
-            var $row = $("#trAddExpense"),
-                $ddlType = $row.find(".ddlExpenseType"),
-                newRow = $row.clone();
-
-            // set the value of the ddl, and remove the default selection (first child)
-            newRow.removeAttr("id").removeClass().addClass("trExpense").find(".ddlExpenseType").val($ddlType.val()).children().first().remove();
-
-            // hide the input controls and append a label for each value
-            var $newDdlType = newRow.find(".ddlExpenseType"),
-                $newTxtRationale = newRow.find(".txtRationale");
-
-            $newDdlType.addClass("d-none").before("<label>" + $newDdlType.children(":selected").text() + "</label>");
-
-            newRow.find(".cost").addClass("d-none").each(function () {
-                var $this = $(this),
-                    v = $this.val();
-
-                if (v == "N/A" || v == "TBD")
-                    $this.before("<label><span>" + v + "</span></label>");
-                else
-                    $this.val(parseFloat($this.val()).toFixed(2)).before("<label>$<span>" + $this.val() + "</span></label>");
-            });
-
-            $newTxtRationale.addClass("d-none").before("<label>" + $newTxtRationale.val() + "</label>");
-
-            // replace the "+" button with edit, confirm, and delete buttons
-            newRow.find(".btn-success").replaceWith(
-                "<a onclick='editExpense($(this))' class='edit badge badge-primary text-white'>@Helper.GetIcon(Icons.Edit, 3, "white")<br />Edit</a>" +
-                "<a onclick='acceptExpense($(this))' class='accept badge badge-success text-white d-none'>@Helper.GetIcon(Icons.Check, 3, "white")<br />Done</a>" +
-                "<a onclick='cancelExpense($(this))' class='cancel badge badge-danger text-white d-none'>@Helper.GetIcon(Icons.Cancel, 3, "white")<br />Cancel</a>"
-            );
-
-            // add the file upload button
-            newRow.children("td").last().before("<td><div class='form-group currentFiles'><div class='col-md-10'>" +
-                "<div class='form-group'><div class='col-md-10'></div></div>" +
-                "<div class='form-group fileUpload d-none'><label class='control-label doc'>Add Documentation:</label>" +
-                "<div class='col-md-10'><input type='file' class='' name='theFiles' multiple='multiple' />" +
-                "<br /></div ></div ></td>");
-
-            // add a hidden field for the new id
-            newRow.children("td").last().append("<input type='hidden' class='txtExpenseID' value='" + newID + "' />");
-
-            // append the new row to the table
-            $row.before(newRow);
-
-            // clear the input fields
-            $ddlType.prop("selectedIndex", 0);
-            txtBoxesToClear = $row.find("input").not(applicationIsApproved() ? ".txtEstimatedCost" : ".txtActualCost").val("");
-        }
-
-        // removes an expense from the table
-        function removeExpense($btnClicked) {
-            $btnClicked.closest(".trExpense").remove();
-        }
-
-        // converts a labels to input controls
-        function editExpense($btnEdit) {
-            var $row = $btnEdit.closest(".trExpense").addClass("editing");
-
-            $row.find("label:not(.doc), a:not(.fileLink)").addClass("d-none").siblings("select, input, a.accept, a.cancel").removeClass("d-none");
-            $row.find(".fileUpload").removeClass("d-none");
-            $("a.edit, a.remove").addClass("d-none");
-        }
-
-        // converts input controls into labels, hides the done/cancel buttons, and shows the edit button
-        function doneEditingExpense($row) {
-            $row.removeClass("editing").find("label:not(.text-danger), a, .currentFiles").removeClass("d-none").siblings("select, input, a.accept, a.cancel, label.text-danger, .fileUpload").addClass("d-none");
-
-            // empty the file upload control
-            ($row.find("input[type='file']"))[0].value = "";
-
-            $("a.edit, a.remove").removeClass("d-none");
-        }
-
-        function cancelExpense($btnCancel) {
-            var $row = $btnCancel.closest(".trExpense");
-
-            var $ddlType = $row.find(".ddlExpenseType"),
-                $txtEstCost = $row.find(".txtEstimatedCost"),
-                $txtActCost = $row.find(".txtActualCost"),
-                $txtRationale = $row.find(".txtRationale");
-            // reset the input values to the label values
-            $ddlType.children("option").filter(function () {
-                return $(this).text() == $ddlType.prev().html();
-            }).prop("selected", true);
-            $txtEstCost.val($txtEstCost.prev().children("span").html());
-            $txtActCost.val($txtActCost.prev().children("span").html());
-            $txtRationale.val($txtRationale.prev().html());
-
-            doneEditingExpense($row);
-        }
-
-        function updateRowValues($row) {
-            var $ddlType = $row.find(".ddlExpenseType"),
-                $txtEstCost = $row.find(".txtEstimatedCost"),
-                $txtActCost = $row.find(".txtActualCost"),
-                $txtRationale = $row.find(".txtRationale"),
-                estCost = $txtEstCost.val(),
-                actCost = $txtActCost.val();
-            // set the labels to display the updated values
-            $ddlType.prev().html($ddlType.children(":selected").text());
-
-            if (estCost != "N/A")
-                $txtEstCost.prev().html("$<span>" + parseFloat(estCost).toFixed(2) + "</span>");
-
-            if (actCost == "")
-                $txtActCost.prev().html("<span>TBD</span>");
-            else if (actCost != "TBD")
-                $txtActCost.prev().html("$<span>" + parseFloat(actCost).toFixed(2) + "</span>");
-
-            $txtRationale.prev().html($txtRationale.val());
-
-            doneEditingExpense($row);
-        }
-
-        // updates a record if valid
-        function acceptExpense($btnOk) {
-            var $row = $btnOk.closest(".trExpense");
-
-            if (validExpense($row)) {
-                addOrUpdateExpense($row, true);
-            }
-        }
-
-        // creates and returns an expense object from a row
-        function getExpense($row) {
-            var estCost = $row.find(".txtEstimatedCost").val(),
-                actCost = $row.find(".txtActualCost").val();
-
-            var expense = {
-                ID: $row.find(".txtExpenseID").val(),
-                ExpenseTypeID: $row.find(".ddlExpenseType").val(),
-                EstimatedCost: estCost == "N/A" ? "" : estCost, // remove placeholder
-                ActualCost: actCost == "TBD" ? "" : actCost, // remove placeholder
-                Rationale: $row.find(".txtRationale").val(),
-                ApplicationID: $("#applicationID").val()
-            };
-
-            return expense;
-        }
-
-        function addOrUpdateExpense($row, update) {
-            var expense = [getExpense($row)];
-
-            $.ajax({
-                type: "POST",
-                url: "/Expenses/AddOrUpdateExpenses",
-                data: JSON.stringify(expense),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    if (response.substring(0,7) != "Success") {
-                        alert(response);
-                        if (update)
-                            cancelExpense($row);
-                    }
-                    else {
-                        if (update) {
-                            updateRowValues($row);
-
-                            uploadFiles($row);
+                                self.editMode(false);
+                                vm.editMode(false);
+                            }
+                            else
+                                alert(response);
                         }
-                        else {
-                            addExpenseRow(response.substring(8)); // pass the newly generated id
-                        }  
-                    }  
+                    });
                 }
-            });
+            }
+
+            self.reset = function () {
+                self.type(currentData.type);
+                self.ExpenseTypeID(currentData.ExpenseTypeID);
+                self.EstimatedCost(currentData.EstimatedCost);
+                self.ActualCost(currentData.ActualCost);
+                self.Rationale(currentData.Rationale);
+
+                self.editMode(false);
+            }
         }
 
-        // saves changes to the application details
-        $("#btnSubmit").click(function () {
-            $("#frmEditApplication").submit();
+        $(function () {
+            function ExpenseVM() {
+                var self = this;
+
+                self.expenses = ko.observableArray([]);
+
+                self.newTypeID = ko.observable();
+                self.newEstCost = ko.observable();
+                self.newActCost = ko.observable();
+                self.newRationale = ko.observable();
+
+                self.editMode = ko.observable(false);
+                self.edit = function (expense)
+                {
+                    expense.editMode(true);
+                    self.editMode(true);
+                }
+
+                self.save = function (expense) {
+                    expense.update(self); // passing self in order to access ExpenseVM.editMode from Expense class
+                }
+
+                self.cancel = function (expense) {
+                    expense.reset();
+                    self.editMode(false);
+                }
+
+                $.getJSON("/Expenses/GetExpensesByApplication/", { applicationID: $("#applicationID").val() }, function (data) {
+                    var mappedExpenses = $.map(data, function (item) { return new Expense(item) });
+                    self.expenses(mappedExpenses);
+                });
+
+                //self.addExpense = function () {
+                //    self.expenses.push(new expense(
+                //        $("#ddlExpenseType option:selected").text(),
+                //        self.newTypeID(),
+                //        parseFloat(self.newCost()).toFixed(2),
+                //        self.newRationale()
+                //    ));
+
+                //    self.newTypeID(0);
+                //    self.newCost("");
+                //    self.newRationale("");
+                //}
+
+                //self.removeExpense = function () {
+                //    self.expenses.remove(this);
+                //}
+            }
+
+            ko.applyBindings(new ExpenseVM());
         });
 
+        @* 
+        // going to change this to knockout next!
         function uploadFiles($row) {
             var $fileInput = $row.find("input[type='file']"),
                 $currentFiles = $row.find(".currentFiles"),
@@ -615,7 +450,7 @@
                     }
                 }
             }
-        }
+        }*@
 
     </script>
 }

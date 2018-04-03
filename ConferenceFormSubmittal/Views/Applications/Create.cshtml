@@ -225,15 +225,17 @@
             // innocent until proven guilty
             var result = true;
 
+            // Expense Type
             if (typeID == 0) {
                 result = false;
                 $("#lblInvalidType").removeClass("d-none");
             }
 
-            var costPattern = /^\d+(\.\d{0,2})?$/; // matches a number with up to two decimals
+            var currencyPattern = /^\d+(\.\d{0,2})?$/;
 
-            if (!costPattern.test(estCost)) {
-                result = false
+            // Estimated Cost
+            if (!currencyPattern.test(estCost)) {
+                result = false;
                 $("#lblInvalidCost").removeClass("d-none");
             }
 

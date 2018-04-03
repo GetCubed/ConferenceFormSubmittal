@@ -83,55 +83,66 @@ namespace ConferenceFormSubmittal.Controllers
             return View(expense);
         }
 
-        // inserts or updates Expenses from the Application Edit view
-        public JsonResult AddOrUpdateExpenses(List<Expense> expenses)
+        public JsonResult GetExpensesByApplication(int? applicationID)
         {
-            if (expenses == null)
+            if (applicationID == null)
             {
-                expenses = new List<Expense>();
+                return Json(new List<Expense>(), JsonRequestBehavior.AllowGet);
             }
 
-            string result = "Success:";
-
-            if (expenses.Count > 0)
-            {
-                using (var dbContextTransaction = db.Database.BeginTransaction())
+            var expenses = db.Expenses
+                .Where(e => e.ApplicationID == applicationID)
+                .Select(e => new
                 {
-                    try
+                    e.ID,
+                    e.ExpenseTypeID,
+                    type = e.ExpenseType.Description,
+                    e.EstimatedCost,
+                    e.ActualCost,
+                    e.Rationale,
+                    e.Files
+                });
+
+            return Json(expenses, JsonRequestBehavior.AllowGet);
+        }
+
+        // inserts or updates Expenses from the Application Edit view
+        public JsonResult AddOrUpdateExpense(Expense expense)
+        {
+            if (expense == null)
+            {
+                return Json("Failure: null Expense");
+            }
+
+            string result = "success:";
+
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (db.Expenses.Any(a => a.ID == expense.ID)) // if the Expense exists in the db, update it
                     {
-                        foreach (Expense e in expenses)
-                        {
-                            if (db.Expenses.Any(a => a.ID == e.ID)) // if the Expense exists in the db, update it
-                            {
-                                var expenseToUpdate = db.Expenses.Find(e.ID);
-                                expenseToUpdate.Rationale = e.Rationale;
-                                expenseToUpdate.EstimatedCost = e.EstimatedCost;
-                                expenseToUpdate.ActualCost = e.ActualCost;
-                                expenseToUpdate.ExpenseTypeID = e.ExpenseTypeID;
-                            }
-                            else // insert it
-                            {
-                                db.Expenses.Add(e);
-
-                                
-                            }
-                        }
-
-                        db.SaveChanges();
-                        dbContextTransaction.Commit();
-
-                        // we need to pass back the newly generated ids of rows that are inserted through the ApplicationEdit view
-                        if (expenses.Count == 1)
-                        {
-                            result += expenses[0].ID.ToString();
-                        }
+                        var expenseToUpdate = db.Expenses.Find(expense.ID);
+                        expenseToUpdate.Rationale = expense.Rationale;
+                        expenseToUpdate.EstimatedCost = expense.EstimatedCost;
+                        expenseToUpdate.ActualCost = expense.ActualCost;
+                        expenseToUpdate.ExpenseTypeID = expense.ExpenseTypeID;
                     }
-                    catch (Exception)
+                    else // new Expense -- insert it
                     {
-                        dbContextTransaction.Rollback();
-
-                        result = "Failed to save changes. Refresh the page and try again. If the problem persists, please contact your database administrator.";
+                        db.Expenses.Add(expense);
                     }
+
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+
+                    // add the ID of the inserted or updated record to the response
+                    result += expense.ID.ToString();
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback();
+                    result = "Failed to save changes. Refresh the page and try again. If the problem persists, please contact your database administrator.";
                 }
             }
             
