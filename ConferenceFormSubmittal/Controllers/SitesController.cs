@@ -48,13 +48,22 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Address")] Site site)
+        public ActionResult Create(Byte[] RowVersion, [Bind(Include = "ID,Name,Address")] Site site)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Sites.Add(site);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(site).State = EntityState.Added;
+                    db.Entry(site).OriginalValues["RowVersion"] = RowVersion;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                ModelState.AddModelError(string.Empty, "The record you attempted to edit " + "was modified by another user. Please go back and refresh");
             }
 
             return View(site);

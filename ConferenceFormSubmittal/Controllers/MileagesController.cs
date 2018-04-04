@@ -229,13 +229,22 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,TravelDate,StartAddress,EndAddress,Kilometres,Feedback,StatusID,EmployeeID,ApplicationID")] Mileage mileage)
+        public ActionResult Create(Byte[] RowVersion, [Bind(Include = "ID,TravelDate,StartAddress,EndAddress,Kilometres,Feedback,StatusID,EmployeeID,ApplicationID")] Mileage mileage)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Mileages.Add(mileage);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(mileage).State = EntityState.Added;
+                    db.Entry(mileage).OriginalValues["RowVersion"] = RowVersion;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                ModelState.AddModelError(string.Empty, "The record you attempted to edit " + "was modified by another user. Please go back and refresh");
             }
             PopulateDropDownLists();
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", mileage.ApplicationID);
