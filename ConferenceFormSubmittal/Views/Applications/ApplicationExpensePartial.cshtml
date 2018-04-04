@@ -1,5 +1,5 @@
 ﻿@model ConferenceFormSubmittal.Models.Expense
-
+@using ConferenceFormSubmittal.Utilities;
 
 @using (Html.BeginForm())
 {
@@ -7,48 +7,76 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card card-body bg-NCDSB-Grey mt-3">
-                <div class="col-12">
+            <div class="card bg-NCDSB-Grey mt-3">
+                <div class="card-header">
                     <h4>Expenses</h4>
+                </div>
+                <div class="card-body">
+                    <div class="col-12">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="row font-bold">
+                            <div class="col-10">
+                                <div class="row">
+                                    <div class="col-4 font-bold">
+                                        @Html.LabelFor(model => model.ExpenseTypeID, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-4 font-bold">
+                                        @Html.LabelFor(model => model.EstimatedCost, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-4 font-bold">
+                                        @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                        </div>
 
-                    <table id="tblExpenses" class="table">
-                        <tbody>
-                            <tr>
-                                <th>
-                                    <label class="control-label font-bold">Expense Type</label>
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.EstimatedCost, htmlAttributes: new { @class = "control-label font-bold" })
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label font-bold" })
-                                </th>
-                                <th></th>
-                            </tr>
+                        <div data-bind="foreach: expenses">
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="row">
+                                        <div class="col-4" data-bind="text: type"></div>
 
-                            <tr id="trAddExpense" class="rgba-grey-light">
-                                <td>
-                                    @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control", @id = "ddlExpenseType" })
-                                    <label id="lblInvalidType" class="text-danger d-none">You must choose an expense type.</label>
-                                </td>
-                                <td>
-                                    @Html.EditorFor(model => model.EstimatedCost, new { htmlAttributes = new { @class = "form-control", @id = "txtEstimatedCost" } })
-                                    <label id="lblInvalidCost" class="text-danger d-none">You must provide a valid cost estimate.</label>
-                                </td>
-                                <td>
-                                    @Html.EditorFor(model => model.Rationale, new { htmlAttributes = new { @class = "form-control", @id = "txtRationale" } })
-                                    @Html.ValidationMessageFor(model => model.Rationale, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    <a onclick="addExpense()" class="btn btn-success mt-3">
-                                        <i class="fa fa-plus"></i>
+                                        <div class="col-4">
+                                            $<span data-bind="text: EstimatedCost"></span>
+                                        </div>
+
+                                        <div class="col-4" data-bind="text: Rationale"></div>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <a data-bind='click: $parent.removeExpense' class='btn btn-danger'>
+                                        @Helper.GetIcon(Icons.Minus, 1, "white")
                                     </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="row" id="newExpense">
+                                    <div class="col-4">
+                                        @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control bg-NCDSB-GreyLight required", data_bind = "value: newTypeID", @id = "ddlExpenseType" })
+                                        <label id="lblInvalidType" class="text-danger d-none">You must choose an expense type.</label>
+                                    </div>
+                                    <div class="col-4">
+                                        @Html.EditorFor(model => model.EstimatedCost, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight required", data_bind = "value: newCost", @id = "txtEstimatedCost" } })
+                                        <label id="lblInvalidCost" class="text-danger d-none">You must provide a valid cost estimate.</label>
+                                    </div>
+                                    <div class="col-4">
+                                        @Html.EditorFor(model => model.Rationale, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight required", data_bind = "value: newRationale" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <a data-bind="click: addExpense" class="btn btn-success mt-3">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,5 +84,5 @@
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/knockout")
 }

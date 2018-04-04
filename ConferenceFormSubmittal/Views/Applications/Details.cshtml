@@ -15,159 +15,243 @@
     </div>
 </div>
 
+@*//------------------------------------------------ Header buttons ---------------------------------*@
 <div class="row mt-3">
     <div class="col-12">
-        <div class="card card-body bg-NCDSB-Grey">
-            <div class="row">
-                <div class="col-5">
 
-                    @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                    @Html.DisplayFor(model => model.Conference.Name)
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-body">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <a href='@Url.Action("Index", "Applications")' class="btn btn-primary">
+                            @Helper.GetIcon(Icons.Back)
+                            Go Back
+                        </a>
 
-                    @Html.LabelFor(model => model.Conference.StartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                    @Html.DisplayFor(model => model.Conference.StartDate)
+                        <a href='@Url.Action("Edit", "Applications", new { id = Model.ID })' class="btn btn-primary">
+                            @Helper.GetIcon(Icons.Edit)
+                            Edit
+                        </a>
 
-                    @Html.LabelFor(model => model.Conference.EndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                    @Html.DisplayFor(model => model.Conference.EndDate)
+                        <a href='@Url.Action("Delete", "Applications", new { id = Model.ID })' class="btn btn-danger">
+                            @Helper.GetIcon(Icons.Flag)
+                            Flag
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@*-----------------------------------------------------Conference Details ----------------------------------------*@
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-header" ">
+                <h4>Conference Details</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Conference.Name)
+                    </div>
+
+                    <div class="col-6">
+
+                        @Html.LabelFor(model => model.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Conference.Location)
+
+                    </div>
 
                 </div>
 
-                <div class="col-5">
-
-                    @Html.LabelFor(model => model.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                    @Html.DisplayFor(model => model.Conference.Location)
-
-                    @Html.LabelFor(model => model.Conference.RegistrationCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                    @Html.DisplayFor(model => model.Conference.RegistrationCost)
+                <div class="row pt-2">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.Conference.StartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Conference.StartDate)
+                    </div>
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.Conference.EndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Conference.EndDate)
+                    </div>
 
                 </div>
 
-                <div class="col-2">
+                <div class="row pt-2">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.Conference.RegistrationCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Conference.RegistrationCost)
+                    </div>
+                    <div class="col-6">
 
-                    <a href='@Url.Action("Delete", "Applications", new { id = Model.ID })' class="btn btn-danger btn-block">
-                        <i class="fa fa-flag fa-2x"></i>
-                        Flag
-                    </a>
- 
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+@*--------------------------------------------------------------Application details -----------------------------------------------*@
+<div class="row pt-2">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey mt-3">
+            <div class="card-header">
+                <h4>Application Details</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.Raw(Helper.GetIcon(Model.Status.Description)) @Html.DisplayFor(model => model.Status.Description)
+                       
+                    </div>
+                    <div class="col-4">
+                        @Html.LabelFor(model => model.DateSubmitted, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.DateSubmitted)
+                    </div>
+                    <div class="col-4">
+                        @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Feedback)
+                    </div>
+                </div>
+
+
+                <div class="row pt-2">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.AttendStartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.AttendStartDate)
+                    </div>
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.AttendEndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.AttendEndDate)
+                    </div>
+                </div>
+                <div class="row pt-2">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.DepartureDate)
+
+                       
+                    </div>
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.ReturnDate)
+                    </div>
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-6">                     
+                        @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.BudgetCode)
+
+                    </div>
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.PaymentType.Description, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.PaymentType.Description)
+                    </div>
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Rationale)
+                    </div>
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Helper.YesNoFromBool(Model.ReplStaffReq)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+
+@*----------------------------------------Expenses -----------------------------*@
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey mt-3">
+            <div class="card-header">
+                <h4>Expenses</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().ExpenseTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().EstimatedCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().ActualCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Expenses)
+                {
+                    var estimatedCost = item.EstimatedCost?.ToString("C");
+
+                    if (String.IsNullOrEmpty(estimatedCost))
+                    {
+                        estimatedCost = "N/A";
+                    }
+
+                    var actualCost = item.ActualCost?.ToString("C");
+
+                    if (String.IsNullOrEmpty(actualCost))
+                    {
+                        actualCost = "TBD";
+                    }
+                    <tr>
+                        <td>@item.ExpenseType.Description</td>
+                        <td>@estimatedCost</td>
+                        <td>
+                            @actualCost
+                        </td>
+                        <td>@item.Rationale</td>
+                    </tr>
+    }
+                        </tbody>
+                    </table>
+
 
                 </div>
             </div>
            
         </div>
-    </div> <!--col-->
+    </div>
 </div>
 
+
+@*-------------------------------------------Mileages---------------------------------------------------------*@
 <div class="row">
-
     <div class="col-12">
-
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-body bg-NCDSB-Grey mt-3">
-                    <div class="row">
-                        <div class="col-4">
-                            @Html.LabelFor(model => model.DateSubmitted, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Html.DisplayFor(model => model.DateSubmitted)
-
-                            @Html.LabelFor(model => model.AttendStartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Html.DisplayFor(model => model.AttendStartDate)
-
-                            @Html.LabelFor(model => model.AttendEndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Html.DisplayFor(model => model.AttendEndDate)
-
-                            @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Html.DisplayFor(model => model.DepartureDate)
-
-                            @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Html.DisplayFor(model => model.ReturnDate)
-                        </div>
-                        <div class="col-4">
-                            @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Html.DisplayFor(model => model.Rationale)
-
-                            @Html.LabelFor(model => model.PaymentType.Description, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Html.DisplayFor(model => model.PaymentType.Description)
-
-                            @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Html.DisplayFor(model => model.BudgetCode)
-
-                            @Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Helper.YesNoFromBool(Model.ReplStaffReq)
-                        </div>
-                        <div class="col-4">
-                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Html.Raw(Helper.StatusIcon(Model.Status.Description)) @Html.DisplayFor(model => model.Status.Description)
-
-                            @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @Html.DisplayFor(model => model.Feedback)
-                        </div>
-                    </div>
-                </div>
+        <div class="card bg-NCDSB-Grey mt-3">
+            <div class="card-header">
+                <h4>Mileages</h4>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-body bg-NCDSB-Grey mt-3">
+            <div class="card-body">
+                <div class="row">
                     <div class="col-12">
-                        <h5>Expenses</h5>
 
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().ExpenseTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                    </th>
-                                    <th>
-                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().EstimatedCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                    </th>
-                                    <th>
-                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().ActualCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                    </th>
-                                    <th>
-                                        @Html.LabelFor(model => model.Expenses.SingleOrDefault().Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.Expenses)
-                            {
-                                var estimatedCost = item.EstimatedCost?.ToString("C");
-
-                                if (String.IsNullOrEmpty(estimatedCost))
-                                {
-                                    estimatedCost = "N/A";
-                                }
-
-                                var actualCost = item.ActualCost?.ToString("C");
-
-                                if (String.IsNullOrEmpty(actualCost))
-                                {
-                                    actualCost = "TBD";
-                                }
-                                <tr>
-                                    <td>@item.ExpenseType.Description</td>
-                                    <td>@estimatedCost</td>
-                                    <td>
-                                        @actualCost
-                                    </td>
-                                    <td>@item.Rationale</td>
-                                </tr>
-                        }
-                            </tbody>
-                        </table>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-body bg-NCDSB-Grey mt-3">
-                    <div class="col-12">
-                        <h5>Mileage</h5>
 
                         <table class="table">
                             <thead>
@@ -191,33 +275,36 @@
                             </thead>
                             <tbody>
                                 @foreach (var item in Model.Mileages)
-                                {
-                                <tr>
-                                    <td>
-                                        @item.TravelDate.ToShortDateString()
-                                    </td>
-                                    <td>
-                                        @item.StartAddress
-                                    </td>
-                                    <td>
-                                        @item.EndAddress
-                                    </td>
-                                    <td>
-                                        @item.Kilometres km
-                                    </td>
-                                    <td>
-                                        @Html.Raw(Helper.StatusIcon(item.Status.Description))
-                                        @item.Status.Description
-                                    </td>
-                                </tr>
-                                }
+                {
+                    <tr>
+                        <td>
+                            @item.TravelDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.StartAddress
+                        </td>
+                        <td>
+                            @item.EndAddress
+                        </td>
+                        <td>
+                            @item.Kilometres km
+                        </td>
+                        <td>
+                           @Helper.GetIcon(item.Status.Description)
+                            @item.Status.Description
+                        </td>
+                    </tr>
+}
                             </tbody>
                         </table>
 
 
                     </div>
                 </div>
+               
             </div>
+          
         </div>
-    </div> <!--col-->
+    </div>
 </div>
+

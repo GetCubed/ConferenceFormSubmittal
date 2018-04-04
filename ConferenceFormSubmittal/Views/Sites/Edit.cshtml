@@ -1,0 +1,93 @@
+﻿@model ConferenceFormSubmittal.Models.Site
+@using ConferenceFormSubmittal.Utilities;
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">Create Site</h3>
+        </div>
+    </div>
+</div>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    //------------------------------------------------------------------buttons bar--------------------------------------
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+
+                    <div class="col-12 d-flex justify-content-between">
+
+                        <a href='@Url.Action("Index", "Sites")' class="btn btn-primary">
+                            @Helper.GetIcon(Icons.Back)
+                            Go Back
+                        </a>
+
+                        <button type="submit" class="btn btn-success">
+                            @Helper.GetIcon(Icons.Save)
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    //--------------------------------------------------------------- Create -------------------------------------------
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-header">
+                    <h4>Site</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ID)
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight" } })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

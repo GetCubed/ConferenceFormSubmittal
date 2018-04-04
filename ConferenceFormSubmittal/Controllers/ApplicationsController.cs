@@ -24,7 +24,7 @@ namespace ConferenceFormSubmittal.Controllers
             PopulateDropDownLists();
             var applications = db.Applications.Include(a => a.Conference).Include(a => a.Employee).Include(a => a.Status);
             ViewBag.Filtering = "";
-
+            
             if (startDate.HasValue && endDate.HasValue)
             {
                 applications = applications.Where(p => p.DateSubmitted > startDate && p.DateSubmitted < endDate);
@@ -55,6 +55,15 @@ namespace ConferenceFormSubmittal.Controllers
                 applications = applications.Where(p => p.StatusID == statusID);
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastStatusID = statusID;
+            }
+            if (ViewBag.Filtering == "")
+            {
+                string url = Request.Url.AbsoluteUri;
+                if (url == "http://localhost:5824/Applications")
+                {
+                    statusID = 1;
+                    applications = applications.Where(p => p.StatusID == statusID);
+                }
             }
 
             if (!String.IsNullOrEmpty(actionButton))
@@ -126,6 +135,7 @@ namespace ConferenceFormSubmittal.Controllers
         {
             PopulateDropDownLists();
             var applications = db.Applications.Include(a => a.Conference).Include(a => a.Employee).Include(a => a.Status);
+            ViewBag.Filtering = "";
 
             if (employeeID.HasValue)
             {
@@ -175,6 +185,15 @@ namespace ConferenceFormSubmittal.Controllers
                 applications = applications.Where(p => p.StatusID == statusID);
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastStatusID = statusID;
+            }
+            if (ViewBag.Filtering == "")
+            {
+                string url = Request.Url.AbsoluteUri;
+                if (url == "http://localhost:5824/Applications/IndexAdmin")
+                {
+                    statusID = 1;
+                    applications = applications.Where(p => p.StatusID == statusID);
+                }
             }
 
             if (!String.IsNullOrEmpty(actionButton))
@@ -273,7 +292,7 @@ namespace ConferenceFormSubmittal.Controllers
         {
             if (!ConferenceID.HasValue)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Conferences");
             }
 
             ViewBag.Conference = db.Conferences.Find(ConferenceID);
@@ -283,8 +302,11 @@ namespace ConferenceFormSubmittal.Controllers
         }
 
         private static List<Expense> expenseBatch = new List<Expense>();
+        // Add expenses to the expenseBatch List for use in Applications/Create
         public JsonResult AddExpenses(List<Expense> expenses)
         {
+            expenseBatch.Clear();
+
             if (expenses == null)
             {
                 expenses = new List<Expense>();
@@ -295,7 +317,7 @@ namespace ConferenceFormSubmittal.Controllers
                 expenseBatch.Add(expense);
             }
 
-            return Json(expenseBatch.Count);
+            return Json(expenseBatch.Count + " expense(s) added.");
         }
 
         // POST: Applications/Create
@@ -313,6 +335,8 @@ namespace ConferenceFormSubmittal.Controllers
                     application.Expenses.Add(expense);
                 }
 
+                application.DateSubmitted = DateTime.Today;
+                
                 // insert the application
                 db.Applications.Add(application);
                 db.SaveChanges();
@@ -320,7 +344,8 @@ namespace ConferenceFormSubmittal.Controllers
                 // clear the expense batch
                 expenseBatch.Clear();
 
-                return RedirectToAction("Index");
+                // show details of the newly created application
+                return RedirectToAction("Details/" + application.ID);
             }
 
             PopulateDropDownLists(application);
@@ -370,22 +395,26 @@ namespace ConferenceFormSubmittal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Application application = db.Applications.Find(id);
+            Application application = db.Applications
+                .Include(a => a.Expenses)
+                .Include("Expenses.Files")
+                .Where(a => a.ID == id).SingleOrDefault();
+
             if (application == null)
             {
                 return HttpNotFound();
             }
 
-            PopulateDropDownLists(application);
+            PopulateDropDownLists(application, application.Expenses.ToList());
             return View(application);
         }
 
         // POST: Applications/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,Feedback,EmployeeID,ConferenceID,StatusID")] Application application)
+        public ActionResult EditPost([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,ConferenceID")] Application application)
         {
             if (ModelState.IsValid)
             {
@@ -423,7 +452,7 @@ namespace ConferenceFormSubmittal.Controllers
             return RedirectToAction("Index");
         }
 
-        private void PopulateDropDownLists(Application application = null)
+        private void PopulateDropDownLists(Application application = null, List<Expense> expenses = null)
         {
             var pQuery = from p in db.PaymentTypes
                          orderby p.Description
@@ -431,13 +460,23 @@ namespace ConferenceFormSubmittal.Controllers
             ViewBag.PaymentTypeID = new SelectList(pQuery, "ID", "Description", application?.PaymentTypeID);
 
             var eQuery = from e in db.ExpenseTypes
-                         orderby e.Description
-                         select e;
+                            orderby e.Description
+                            select e;
             ViewBag.ExpenseTypeID = new SelectList(eQuery, "ID", "Description");
-
+            
+            // how to have the current ExpenseType selected in each Expense's ddl?
+            if (expenses != null)
+            {
+                // each Expense needs its own SelectList in the ViewBag
+                foreach (Expense e in expenses)
+                {
+                    ViewData.Add("ExpenseTypes" + e.ID.ToString(), new SelectList(eQuery, "ID", "Description", e.ExpenseTypeID));
+                }
+            }
+            
             var sQuery = from s in db.Statuses
-                             orderby s.Description
-                             select s;
+                         orderby s.Description
+                         select s;
             ViewBag.StatusID = new SelectList(sQuery, "ID", "Description");
         }
 
