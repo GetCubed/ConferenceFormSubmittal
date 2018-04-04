@@ -26,10 +26,10 @@
 
                 <div class="card-header d-flex justify-content-between ">
                     <a href='@Url.Action("Index", "Home")' class="btn btn-primary">
-                        @Helper.GetIcon(Helper.Icons.Back) Go Back
+                        @Helper.GetIcon(Icons.Back) Go Back
                     </a>
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="filter">
-                        @Helper.GetIcon(Helper.Icons.Filter) Filter Applications
+                        @Helper.GetIcon(Icons.Filter) Filter Applications
                     </button>
                 </div>
 
@@ -69,11 +69,11 @@
 
                     <div class="card-footer">
                         <button class="btn btn-primary" name="actionButton" type="submit">
-                            @Helper.GetIcon(Helper.Icons.Filter) Filter
+                            @Helper.GetIcon(Icons.Filter) Filter
                         </button>
 
                         <a href='@Url.Action("Index", "Applications")' class="btn btn-danger">
-                            @Helper.GetIcon(Helper.Icons.Eraser) Clear
+                            @Helper.GetIcon(Icons.Eraser) Clear
                         </a>
                     </div>
 
@@ -132,17 +132,17 @@
                                 <td style="width:20%">
 
                                     <a href='@Url.Action("Details", "Applications", new { id = item.ID })' class="badge badge-primary">
-                                        @Helper.GetIcon(Helper.Icons.View, 3)
+                                        @Helper.GetIcon(Icons.View, 3)
                                         <br />
                                         View
                                     </a>
                                     <a href='@Url.Action("Edit", "Applications", new { id = item.ID })' class="badge badge-info">
-                                        @Helper.GetIcon(Helper.Icons.Edit, 3)
+                                        @Helper.GetIcon(Icons.Edit, 3)
                                         <br />
                                         Edit
                                     </a>
                                     <a href='@Url.Action("Delete", "Applications", new { id = item.ID })' class="badge badge-danger">
-                                        @Helper.GetIcon(Helper.Icons.Flag, 3)
+                                        @Helper.GetIcon(Icons.Flag, 3)
                                         <br />
                                         Flag
                                     </a>

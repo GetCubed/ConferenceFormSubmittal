@@ -28,17 +28,17 @@
                     <div class="col-12 d-flex justify-content-between">
 
                         <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
-                            @Helper.GetIcon(Helper.Icons.Back)
+                            @Helper.GetIcon(Icons.Back)
                             Go Back
                         </a>
 
                         <button class="btn btn-info" type="button">
-                            @Helper.GetIcon(Helper.Icons.Draft)
+                            @Helper.GetIcon(Icons.Draft)
                             Save As Draft
                         </button>
 
-                        <button class="btn btn-success" type="button" id="btnSubmit">
-                            @Helper.GetIcon(Helper.Icons.Save)
+                        <button class="btn btn-success" type="button" id="btnSubmit" data-bind="click: save">
+                            @Helper.GetIcon(Icons.Save)
                             Submit
                         </button>
 
@@ -152,7 +152,38 @@
                     </div>
                 </div>
             </div>
+
+            @*//-----------------------------------------------------------------buttons bar --------------------------------------------------------------------*@
+            <div class="row pt-3">
+                <div class="col-12 ">
+                    <div class="card bg-NCDSB-Grey">
+                        <div class="card-body">
+                            <div class="col-12 d-flex justify-content-between">
+
+                                <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
+                                    @Helper.GetIcon(Icons.Back)
+                                    Go Back
+                                </a>
+
+                                <button class="btn btn-info" type="button">
+                                    @Helper.GetIcon(Icons.Draft)
+                                    Save As Draft
+                                </button>
+
+                                <button class="btn btn-success" type="button" id="btnSubmit" data-bind="click: save">
+                                    @Helper.GetIcon(Icons.Save)
+                                    Submit
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
+
+  
     </div>
 }
 
@@ -164,99 +195,101 @@
 {
     <div id="form-content">
         @Html.Partial("ApplicationExpensePartial", Model)
+
     </div>
+
+
+   
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/knockout")
 
     <script type="text/javascript">
-        $("#txtEstimatedCost").keydown(function () {
-            $("#lblInvalidCost").addClass("d-none");
-        });
+        // hide expense error messages when the input value changes
         $("#ddlExpenseType").change(function () {
-            $("#lblInvalidType").addClass("d-none");
+            $(this).siblings("label.text-danger").addClass("d-none");
+        });
+        $("#txtEstimatedCost").keydown(function () {
+            $(this).siblings("label.text-danger").addClass("d-none");
         });
 
-        function validExpense(typeID, cost) {
-            $("#lblInvalidCost").addClass("d-none");
-            $("#lblInvalidType").addClass("d-none");
+        function expenseIsValid() {
+            // hide error messages
+            $("#newExpense").find("label.text-danger").addClass("d-none");
 
+            // get user input
+            var typeID = $("#ddlExpenseType").val(),
+                estCost = $("#txtEstimatedCost").val();
+            
+            // innocent until proven guilty
             var result = true;
 
-            if (typeID == "") {
+            // Expense Type
+            if (typeID == 0) {
                 result = false;
                 $("#lblInvalidType").removeClass("d-none");
             }
 
-            if (!/^\d+(\.\d{0,2})?$/.test(cost)) {
-                result = false
+            var currencyPattern = /^\d+(\.\d{0,2})?$/;
+
+            // Estimated Cost
+            if (!currencyPattern.test(estCost)) {
+                result = false;
                 $("#lblInvalidCost").removeClass("d-none");
             }
 
             return result;
         }
 
-        // adds the expense to the table if valid
-        function addExpense() {
-
-            // get values
-            var $ddlType = $("#ddlExpenseType"),
-                $txtCost = $("#txtEstimatedCost"),
-                $txtRationale = $("#txtRationale"),
-                type = $ddlType.find(":selected").text(),
-                typeID = $ddlType.val(),
-                cost = $txtCost.val(),
-                rationale = $txtRationale.val();
-
-            if (validExpense(typeID, cost)) {
-                // add the expense to the table
-                $("#trAddExpense").before(
-                    "<tr class='trExpense'>" +
-                    "<td class='expenseType' data-id='" + typeID + "'>" + type + "</td>" +
-                    "<td>$<span class='estimatedCost'>" + parseFloat(cost).toFixed(2) + "</span></td>" +
-                    "<td class='rationale'>" + rationale + "</td>" +
-                    "<td><a onclick='removeExpense($(this))' class='removeExpense btn btn-danger'><i class='fa fa-minus'></i></a></td>" +
-                    "</tr>");
-                // clear the input fields
-                $ddlType.prop("selectedIndex", 0);
-                $txtCost.val("");
-                $txtRationale.val("");
-            }
+        function expense(type, typeID, cost, rationale) {
+            var self = this;
+            self.type = type;
+            self.ExpenseTypeID = typeID;
+            self.EstimatedCost = cost;
+            self.Rationale = rationale;
         }
 
-        // removes an expense from the table
-        function removeExpense($row) {
-            $row.closest(".trExpense").remove();
-        }
+        $(function () {
+            function expenseVM() {
+                var self = this;
+                
+                self.expenses = ko.observableArray([]);
+                self.newTypeID = ko.observable();
+                self.newCost = ko.observable();
+                self.newRationale = ko.observable();
 
-        $("#btnSubmit").click(function () {
-            var expenseBatch = [];
+                self.addExpense = function () {
+                    if (expenseIsValid()) {
+                        self.expenses.push(new expense(
+                            $("#ddlExpenseType option:selected").text(),
+                            self.newTypeID(),
+                            parseFloat(self.newCost()).toFixed(2),
+                            self.newRationale()
+                        ));
 
-            $(".trExpense").each(function () {
-                var row = $(this);
-
-                var expense = {
-                    ExpenseTypeID: row.find(".expenseType").data("id"),
-                    EstimatedCost: row.find(".estimatedCost").html(),
-                    Rationale: row.children(".rationale").html()
-                };
-
-                expenseBatch.push(expense);
-            });
-
-            $.ajax({
-                type: "POST",
-                url: "/Applications/AddExpenses",
-                data: JSON.stringify(expenseBatch),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    alert(response + " expenses(s) added.");
-
-                    $("#frmCreateApplication").submit();
+                        self.newTypeID(0);
+                        self.newCost("");
+                        self.newRationale("");
+                    }
                 }
-            });
+
+                self.removeExpense = function () {
+                    self.expenses.remove(this);
+                }
+
+                self.save = function () {
+                    $.ajax("/Applications/AddExpenses", {
+                        data: ko.toJSON({ expenses: self.expenses }),
+                        type: "post", contentType: "application/json",
+                        success: function () {
+                            $("#frmCreateApplication").submit();
+                        }
+                    });
+                }
+            }
+
+            ko.applyBindings(new expenseVM());
         });
     </script>
 }

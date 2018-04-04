@@ -28,11 +28,11 @@
                         <div class="col-12 d-flex justify-content-between">
 
                             <a href='@Url.Action("Index", "Mileages")' class="btn btn-primary">
-                                @Helper.GetIcon(Helper.Icons.Back) Go Back
+                                @Helper.GetIcon(Icons.Back) Go Back
                             </a>
 
                             <button type="submit" class="btn btn-info ">
-                                @Helper.GetIcon(Helper.Icons.Save) Save
+                                @Helper.GetIcon(Icons.Save) Save
                             </button>
 
                             @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })

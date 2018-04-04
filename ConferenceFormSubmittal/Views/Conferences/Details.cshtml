@@ -22,17 +22,17 @@
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
-                            @Helper.GetIcon(Helper.Icons.Back)
+                            @Helper.GetIcon(Icons.Back)
                             Go Back
                         </a>
 
                         <a href='@Url.Action("Edit", "Conferences", new { id = Model.ID })' class="btn btn-primary">
-                            @Helper.GetIcon(Helper.Icons.Edit)
+                            @Helper.GetIcon(Icons.Edit)
                             Edit
                         </a>
 
                         <a href='@Url.Action("Delete", "Conferences", new { id = Model.ID })' class="btn btn-danger">
-                            @Helper.GetIcon(Helper.Icons.Flag)
+                            @Helper.GetIcon(Icons.Flag)
                             Flag
                         </a>
                     </div>
