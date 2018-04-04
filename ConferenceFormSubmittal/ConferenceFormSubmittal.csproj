@@ -227,6 +227,14 @@
     <Compile Include="DAL\CFSMigrations\201803201059446_FileUploads.Designer.cs">
       <DependentUpon>201803201059446_FileUploads.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\CFSMigrations\201803281013584_AuditConcurrencyMileageApplication.cs" />
+    <Compile Include="DAL\CFSMigrations\201803281013584_AuditConcurrencyMileageApplication.Designer.cs">
+      <DependentUpon>201803281013584_AuditConcurrencyMileageApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\CFSMigrations\201803291328582_AuditConcurrencySitesConference.cs" />
+    <Compile Include="DAL\CFSMigrations\201803291328582_AuditConcurrencySitesConference.Designer.cs">
+      <DependentUpon>201803291328582_AuditConcurrencySitesConference.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
     <Compile Include="DAL\SecurityMigrations\201804041121402_SecurityInitial.cs" />
     <Compile Include="DAL\SecurityMigrations\201804041121402_SecurityInitial.Designer.cs">
@@ -238,6 +246,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
+    <Compile Include="Models\Auditable.cs" />
     <Compile Include="Models\Conference.cs" />
     <Compile Include="Models\Documentation.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -464,6 +473,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\SecurityMigrations\201804041121402_SecurityInitial.resx">
       <DependentUpon>201804041121402_SecurityInitial.cs</DependentUpon>
+     </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201803281013584_AuditConcurrencyMileageApplication.resx">
+      <DependentUpon>201803281013584_AuditConcurrencyMileageApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201803291328582_AuditConcurrencySitesConference.resx">
+      <DependentUpon>201803291328582_AuditConcurrencySitesConference.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

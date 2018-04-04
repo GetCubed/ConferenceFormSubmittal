@@ -183,11 +183,17 @@ namespace ConferenceFormSubmittal.Controllers
         }
 
         // GET: Mileages/Create
-        public ActionResult Create()
+        public ActionResult Create(int? ApplicationID)
         {
+            if (!ApplicationID.HasValue)
+            {
+                ApplicationID = 0;
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             PopulateDropDownLists();
             //ViewBag.ConferenceID = new SelectList(db.Conferences, "ID", "Name");
             //so ConferenceID would need to display Conference Name       "ConferenceID"
+            ViewBag.Application = db.Applications.Find(ApplicationID);
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale");
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName");
             ViewBag.StatusID = new SelectList(db.Statuses, "ID", "Description");
@@ -223,13 +229,22 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,TravelDate,StartAddress,EndAddress,Kilometres,Feedback,StatusID,EmployeeID,ApplicationID")] Mileage mileage)
+        public ActionResult Create(Byte[] RowVersion, [Bind(Include = "ID,TravelDate,StartAddress,EndAddress,Kilometres,Feedback,StatusID,EmployeeID,ApplicationID")] Mileage mileage)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Mileages.Add(mileage);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(mileage).State = EntityState.Added;
+                    db.Entry(mileage).OriginalValues["RowVersion"] = RowVersion;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                ModelState.AddModelError(string.Empty, "The record you attempted to edit " + "was modified by another user. Please go back and refresh");
             }
             PopulateDropDownLists();
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", mileage.ApplicationID);
@@ -262,14 +277,24 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,TravelDate,StartAddress,EndAddress,Kilometres,Feedback,StatusID,EmployeeID,ApplicationID")] Mileage mileage)
+        public ActionResult Edit(Byte [] RowVersion, [Bind(Include = "ID,TravelDate,StartAddress,EndAddress,Kilometres,Feedback,StatusID,EmployeeID,ApplicationID")] Mileage mileage)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(mileage).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(mileage).State = EntityState.Modified;
+                    db.Entry(mileage).OriginalValues["RowVersion"] = RowVersion;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
             }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                ModelState.AddModelError(string.Empty, "The record you attempted to edit " + "was modified by another user. Please go back and refresh");
+            }
+
             PopulateDropDownLists();
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", mileage.ApplicationID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "FirstName", mileage.EmployeeID);
