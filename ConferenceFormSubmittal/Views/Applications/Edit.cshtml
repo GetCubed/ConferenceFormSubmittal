@@ -190,6 +190,8 @@
                 </div>
                 <div class="card-body">
                     <div class="col-12">
+
+
                         <table id="tblExpenses" class="table">
                             <tbody>
                                 <tr>
@@ -266,36 +268,60 @@
                                     </td>
                                 </tr>
                             </tbody>
-
-
-                           @*
-                            <tr id="trAddExpense" class="rgba-grey-light">
-                                <td>
-                                    @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control ddlExpenseType", @id = "ddlExpenseType" })
-                                    <label class="lblInvalidType text-danger d-none">You must select an expense type.</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control txtEstimatedCost cost" value="@estCostPlaceholder" @estCostDisabled />
-                                    <label class="lblInvalidEstCost text-danger d-none">You must provide a valid cost estimate.</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control txtActualCost cost" value="@actCostPlaceholder" @actCostDisabled />
-                                    <label class="lblInvalidActCost text-danger d-none">You must provide the actual cost.</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control txtRationale" />
-                                </td>
-                                <td>
-                                    <a onclick="addExpense()" class="btn btn-success mt-3">
-                                        @Helper.GetIcon(Icons.Plus, 1, "white")
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>*@
                         </table>
                     </div>
                 </div>
 
+                <div class="card-header">
+                    <h5>Add Expense</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().ExpenseTypeID, htmlAttributes: new { @class = "control-label font-bold" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().EstimatedCost, htmlAttributes: new { @class = "control-label font-bold" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().ActualCost, htmlAttributes: new { @class = "control-label font-bold" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().Rationale, htmlAttributes: new { @class = "control-label font-bold" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div id="newExpense" class="row">
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.DropDownList("ExpenseTypeID", null, "Select Expense Type...", htmlAttributes: new { @class = "form-control", @id = "ddlExpenseType", data_bind = "value: newTypeID" })
+                                    <label id="lblInvalidType" class="text-danger d-none">You must select an expense type.</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" id="txtEstimatedCost" class="form-control" data-bind="value: newEstCost"/>
+                                    <label id="lblInvalidEstCost" class="text-danger d-none">You must provide a valid cost estimate.</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" id="txtActualCost" class="form-control"  data-bind="value: newActCost"/>
+                                    <label id="lblInvalidActCost" class="text-danger d-none">You must provide the actual cost.</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control"  data-bind="value: newRationale"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-success mt-3"  data-bind="click: addExpense">
+                                @Helper.GetIcon(Icons.Plus, 1, "white")
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -305,28 +331,42 @@
     @Scripts.Render("~/bundles/knockout")
 
     <script type="text/javascript">
-        function File(data, ID, FileName) {
+        function File(data) {
             var self = this;
-            if (data !== false) {
-                self.ID = data.ID;
-                self.FileName = data.fileName;
-            }
-            else {
-                self.ID = ID;
-                self.FileName = FileName;
-            }
+            self.ID = data.ID;
+            self.FileName = data.fileName;
         }
 
-        function Expense(data) {
+        function Expense(data, type, ExpenseTypeID, EstimatedCost, ActualCost, Rationale) {
             var self = this,
-                currentData = data; // saved in case the user cancels edits
+                currentData; // saved in case the user cancels edits
 
-            self.ID = data.ID;
-            self.type = ko.observable(data.type); // Expense type description
-            self.ExpenseTypeID = ko.observable(data.ExpenseTypeID);
-            self.EstimatedCost = ko.observable(data.EstimatedCost);
-            self.ActualCost = ko.observable(data.ActualCost);
-            self.Rationale = ko.observable(data.Rationale);
+            if (data) {
+                currentData = data;
+
+                self.ID = data.ID;
+                self.type = ko.observable(data.type); // Expense type description
+                self.ExpenseTypeID = ko.observable(data.ExpenseTypeID);
+                self.EstimatedCost = ko.observable(data.EstimatedCost);
+                self.ActualCost = ko.observable(data.ActualCost);
+                self.Rationale = ko.observable(data.Rationale);
+            }
+            else {
+                self.type = ko.observable(type); // Expense type description
+                self.ExpenseTypeID = ko.observable(ExpenseTypeID);
+                self.EstimatedCost = ko.observable(EstimatedCost);
+                self.ActualCost = ko.observable(ActualCost);
+                self.Rationale = ko.observable(Rationale);
+
+                currentData = {
+                    type: self.type,
+                    ExpenseTypeID: self.ExpenseTypeID,
+                    EstimatedCost: self.EstimatedCost,
+                    ActualCost: self.ActualCost,
+                    Rationale: self.Rationale
+                }
+            }
+            self.ApplicationID = $("#applicationID").val();
             self.Files = ko.observableArray();
 
             self.formattedEstCost = ko.computed(function() {
@@ -334,7 +374,6 @@
             });
 
             self.formattedActCost = ko.computed(function() {
-                alert(self.ActualCost())
                 return (isNaN(self.ActualCost()) || self.ActualCost() == null) ? "TBD" : "$" + parseFloat(self.ActualCost()).toFixed(2);
             });
 
@@ -426,6 +465,41 @@
             }
         }
 
+        function expenseIsValid() {
+            // hide error messages
+            $("#newExpense").find("label.text-danger").addClass("d-none");
+
+            // get user input
+            var typeID = $("#ddlExpenseType").val(),
+                estCost = $("#txtEstimatedCost").val(),
+                actCost = $("#txtActualCost").val();
+
+            // innocent until proven guilty
+            var result = true;
+
+            // Expense Type
+            if (typeID == 0) {
+                result = false;
+                $("#lblInvalidType").removeClass("d-none");
+            }
+
+            var currencyPattern = /^\d+(\.\d{0,2})?$/;
+
+            // Estimated Cost
+            if (!currencyPattern.test(estCost)) {
+                result = false;
+                $("#lblInvalidEstCost").removeClass("d-none");
+            }
+
+            // Actual Cost
+            if (!currencyPattern.test(actCost)) {
+                result = false;
+                $("#lblInvalidActCost").removeClass("d-none");
+            }
+
+            return result;
+        }
+
         $(function () {
             function ExpenseVM() {
                 var self = this;
@@ -433,6 +507,7 @@
 
                 self.expenses = ko.observableArray([]);
 
+                self.newExpense = ko.observable();
                 self.newTypeID = ko.observable();
                 self.newEstCost = ko.observable();
                 self.newActCost = ko.observable();
@@ -454,6 +529,30 @@
                     self.editMode(false);
                 }
 
+                self.addExpense = function () {
+                    if (expenseIsValid()) {
+                        self.newExpense(new Expense(false,
+                            $("#ddlExpenseType option:selected").text(),
+                            self.newTypeID(),
+                            self.newEstCost(),
+                            self.newActCost(),
+                            self.newRationale()
+                        ));
+
+                        $.ajax("/Expenses/AddOrUpdateExpense", {
+                            type: "post",
+                            contentType: "application/json",
+                            data: ko.toJSON({ expense: self.newExpense() }),
+                            success: function (response) {
+                                if (response.split(":")[0] == "success")
+                                    window.location.reload();
+                                else
+                                    alert(response);
+                            }
+                        });
+                    }
+                }
+
                 // load expenses
                 $.getJSON("/Expenses/LoadExpenses/", { applicationID: $("#applicationID").val() }, function (data) {
                     var mappedExpenses = $.map(data, function (item) { return new Expense(item) });
@@ -467,23 +566,6 @@
                         });
                     });
                 });
-
-                //self.addExpense = function () {
-                //    self.expenses.push(new expense(
-                //        $("#ddlExpenseType option:selected").text(),
-                //        self.newTypeID(),
-                //        parseFloat(self.newCost()).toFixed(2),
-                //        self.newRationale()
-                //    ));
-
-                //    self.newTypeID(0);
-                //    self.newCost("");
-                //    self.newRationale("");
-                //}
-
-                //self.removeExpense = function () {
-                //    self.expenses.remove(this);
-                //}
             }
 
             ko.applyBindings(new ExpenseVM());
