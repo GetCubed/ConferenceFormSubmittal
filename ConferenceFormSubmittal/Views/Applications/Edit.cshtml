@@ -217,7 +217,7 @@
                                 <tr data-bind="attr:{ 'id': 'trExpense' + ID }">
                                     <td>
                                         <label data-bind="text: type, visible: !editMode()"></label>
-                                        @Html.DropDownList("ExpenseTypeID", null, htmlAttributes: new { @class = "form-control", data_bind = "value: ExpenseTypeID, visible: editMode" })
+                                        @Html.DropDownList("ExpenseTypeID", null, htmlAttributes: new { @class = "form-control ddlExpenseType", data_bind = "value: ExpenseTypeID, visible: editMode" })
                                     </td>
                                     <td>
                                         <label data-bind="text: formattedEstCost, visible: $root.applicationIsApproved || !editMode()"></label>
@@ -432,6 +432,8 @@
                         data: ko.toJSON({ expense: self }),
                         success: function (response) {
                             if (response.split(":")[0] == "success") {
+                                self.type($("#trExpense" + self.ID).find(".ddlExpenseType option:selected").text());
+
                                 currentData = {
                                     type: self.type(),
                                     ExpenseTypeID: self.ExpenseTypeID(),
