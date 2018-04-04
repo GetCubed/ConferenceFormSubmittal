@@ -31,7 +31,7 @@
                     {
 
 
-                        if (User.IsInRole("Admin") || User.IsInRole("Steward"))
+                        if (User.IsInRole("Admin") )
                         {
                             <li class="nav-item">
                                 @Html.ActionLink("Applications", "IndexAdmin", "Applications", null, new { @class = "nav-link" })
@@ -52,6 +52,19 @@
                             <li class="nav-item">
                                 @Html.ActionLink("Sites", "Index", "Sites", null, new { @class = "nav-link" })
                             </li>
+                        }
+                        
+                        else if ( User.IsInRole("Staff"))
+                        {
+
+                            <li class="nav-item">
+                                @Html.ActionLink("My Applications", "Index", "Applications", null, new { @class = "nav-link" })
+                            </li>
+
+                            <li class="nav-item">
+                                @Html.ActionLink("My Mileage", "Index", "Mileages", null, new { @class = "nav-link" })
+                            </li>
+
                         }
                     }
 
