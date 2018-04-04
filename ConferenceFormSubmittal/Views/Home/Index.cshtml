@@ -6,13 +6,16 @@
 
 <div class="row py-5 px-5">
 
-    <div class="card-deck">
-        
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="card-deck">
+
             <!--Card-->
             <div class="card bg-NCDSB-GreyLight col-4 px-0">
 
-                    <!--Card image-->
-                    <img class="img-fluid" src="~/Images/bookconference.jpeg" alt="Card image cap">
+                <!--Card image-->
+                <img class="img-fluid" src="~/Images/bookconference.jpeg" alt="Card image cap">
 
                 <!--Card content-->
                 <div class="card-body">
@@ -20,7 +23,7 @@
                     <h4 class="card-title">Start A Conference Application</h4>
                     <!--Text-->
                     <p class="card-text">Select a conference and begin a new conference application. You may save the application as a draft and complete the application later. </p>
-                    
+
                 </div>
 
                 <div class="card-footer text-center">
@@ -29,7 +32,6 @@
 
             </div>
             <!--/.Card-->
-       
             <!--Card-->
             <div class="card bg-NCDSB-GreyLight">
 
@@ -42,7 +44,7 @@
                     <h4 class="card-title">Track Your Mileage</h4>
                     <!--Text-->
                     <p class="card-text">Begin a mileage form and track your mileage</p>
-                    
+
                 </div>
                 <div class="card-footer text-center">
                     <a href="~/Mileages/Create" class="btn btn-primary">Submit A Mileage Form</a>
@@ -50,7 +52,6 @@
 
             </div>
             <!--/.Card-->
-       
             <!--Card-->
             <div class="card bg-NCDSB-GreyLight">
 
@@ -63,7 +64,7 @@
                     <h4 class="card-title">My Applications</h4>
                     <!--Text-->
                     <p class="card-text">View your conference applications. You may even view draft applications to complete.</p>
-                   
+
                 </div>
                 <div class="card-footer text-center">
                     <a href="~/Applications/Index" class="btn btn-primary">View Applications</a>
@@ -71,7 +72,15 @@
 
             </div>
             <!--/.Card-->
-        
-    </div>
+
+        </div>
+    }
+    else
+    {
+        <div>
+            @{Response.Redirect(Url.Action("Login", "Account")); }
+        </div>
+    }
+
 
 </div>

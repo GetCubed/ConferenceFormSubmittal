@@ -22,12 +22,10 @@
 @using (Html.BeginForm("Index", "Mileages", FormMethod.Get))
 {
     //--------------Filter bar ---------------------
-    <div class="row pt-2">
-        <div class="col-12">
-            <div class="row">
-                <div class="col-12">
+    <div class="row pt-3">
+        <div class="col-12">           
                     @*---------------FILTER CARD -------------------*@
-                    <div class="card bg-NCDSB-Grey mt-3">
+                    <div class="card bg-NCDSB-Grey">
                         <div class="card-header d-flex justify-content-between ">
 
                             <a href='@Url.Action("Index", "Home")' class="btn btn-primary">
@@ -88,9 +86,6 @@
 
 
                     </div>
-                </div>
-
-            </div>
         </div>
     </div>
 

@@ -14,5 +14,7 @@ Add-Migration -ConfigurationTypeName rmativo3_College_Strike.DAL.SecurityMigrati
 Update-Database -ConfigurationTypeName rmativo3_College_Strike.DAL.SecurityMigrations.Configuration
 
 Update-Database -ConfigurationTypeName ConferenceFormSubmittal.DAL.CFSMigrations.Configuration
+Add-Migration -ConfigurationTypeName ConferenceFormSubmittal.DAL.SecurityMigrations.Configuration
+Update-Database -ConfigurationTypeName ConferenceFormSubmittal.DAL.SecurityMigrations.Configuration
 
 
