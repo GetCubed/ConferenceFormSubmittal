@@ -44,9 +44,6 @@
                                 @Helper.GetIcon(Icons.Save)
 
                                 Save Changes
-
-                                Submit
-
                             </button>
                         </div>
                     </div>
@@ -215,20 +212,20 @@
                                 </tr>
 
                             <tbody data-bind="foreach: expenses">
-                                <tr>
+                                <tr data-bind="attr:{ 'id': 'trExpense' + ID }">
                                     <td>
                                         <label data-bind="text: type, visible: !editMode()"></label>
                                         @Html.DropDownList("ExpenseTypeID", null, htmlAttributes: new { @class = "form-control", data_bind = "value: ExpenseTypeID, visible: editMode" })
                                     </td>
                                     <td>
-                                        <label data-bind="text: EstimatedCost, visible: !editMode()"></label>
-                                        <input type="text" class="form-control" data-bind="value: EstimatedCost, visible: editMode, css:{ valid: EstimatedIsValid, invalid: !EstimatedIsValid() }, event:{keyup: validate }, valueUpdate: 'afterkeydown'" />
-                                        <label class="text-danger" data-bind="visible: editMode() && !EstimatedIsValid()">Invalid currency value.</label>
+                                        <label data-bind="text: formattedEstCost, visible: $root.applicationIsApproved || !editMode()"></label>
+                                        <input type="text" class="form-control" data-bind="value: EstimatedCost, visible: !$root.applicationIsApproved && editMode(), css:{ valid: EstimatedIsValid, invalid: !EstimatedIsValid() }, event:{keyup: validate }, valueUpdate: 'afterkeydown'" />
+                                        <label class="text-danger" data-bind="visible: !$root.applicationIsApproved && editMode() && !EstimatedIsValid()">Invalid currency value.</label>
                                     </td>
                                     <td>
-                                        <label data-bind="text: ActualCost, visible: !editMode()"></label>
-                                        <input type="text" class="form-control" data-bind="value: ActualCost, visible: editMode, css:{ valid: ActualIsValid, invalid: !ActualIsValid() }, event:{keyup: validate }, valueUpdate: 'afterkeydown'" />
-                                        <label class="text-danger" data-bind="visible: editMode() && !ActualIsValid()">Invalid currency value.</label>
+                                        <label data-bind="text: formattedActCost, visible: !$root.applicationIsApproved || !editMode()"></label>
+                                        <input type="text" class="form-control" data-bind="value: ActualCost, visible: $root.applicationIsApproved && editMode(), css:{ valid: ActualIsValid, invalid: !ActualIsValid() }, event:{keyup: validate }, valueUpdate: 'afterkeydown'" />
+                                        <label class="text-danger" data-bind="visible: $root.applicationIsApproved && editMode() && !ActualIsValid()">Invalid currency value.</label>
                                     </td>
                                     <td>
                                         <label data-bind="text: Rationale, visible: !editMode()"></label>
@@ -236,18 +233,17 @@
                                     </td>
                                     <td>
                                         <div class="form-group" data-bind="visible: !editMode()">
-                                            <label data-bind="visible: Files.length < 1">None</label>
-                                            <div class="col-md-10" data-bind="foreach: Files">
-                                                <i class="fa fa-download"></i>
-                                                <label data-bind="text: FileName"></label>
-                                                @*<u>@Html.ActionLink(doc.fileName, "Download", "Expenses", new { id = doc.ID }, new { @class = "fileLink" }) </u>*@
+                                            <label data-bind="visible: Files().length < 1">None</label>
+                                            <div data-bind="foreach: Files()">
+                                                <i class="fa fa-download prefix"></i>
+                                                <u><a data-bind="text: FileName, attr:{ href: '/Expenses/DownloadFile/' + ID }"></a></u>
                                                 <br />
                                             </div>
                                         </div>
 
                                         <div class="form-group" data-bind="visible: editMode">
                                             <div class="col-md-10">
-                                                <input type="file" class="" name="theFiles" multiple="multiple" /><br />
+                                                <input type="file" class="form-control" multiple="multiple" /><br />
                                             </div>
                                         </div>
                                     </td>
@@ -309,25 +305,48 @@
     @Scripts.Render("~/bundles/knockout")
 
     <script type="text/javascript">
+        function File(data, ID, FileName) {
+            var self = this;
+            if (data !== false) {
+                self.ID = data.ID;
+                self.FileName = data.fileName;
+            }
+            else {
+                self.ID = ID;
+                self.FileName = FileName;
+            }
+        }
+
         function Expense(data) {
             var self = this,
-                currentData = data;
+                currentData = data; // saved in case the user cancels edits
 
             self.ID = data.ID;
-            self.type = ko.observable(data.type);
+            self.type = ko.observable(data.type); // Expense type description
             self.ExpenseTypeID = ko.observable(data.ExpenseTypeID);
             self.EstimatedCost = ko.observable(data.EstimatedCost);
             self.ActualCost = ko.observable(data.ActualCost);
             self.Rationale = ko.observable(data.Rationale);
             self.Files = ko.observableArray();
 
+            self.formattedEstCost = ko.computed(function() {
+                return (isNaN(self.EstimatedCost()) || self.EstimatedCost() == null) ? "N/A" : "$" + parseFloat(self.EstimatedCost()).toFixed(2);
+            });
+
+            self.formattedActCost = ko.computed(function() {
+                alert(self.ActualCost())
+                return (isNaN(self.ActualCost()) || self.ActualCost() == null) ? "TBD" : "$" + parseFloat(self.ActualCost()).toFixed(2);
+            });
+
             self.editMode = ko.observable(false);
             self.EstimatedIsValid = ko.observable(true);
             self.ActualIsValid = ko.observable(true);
 
             self.validate = function () {
-                self.EstimatedIsValid(self.EstimatedCost() == "" || /^\d+(\.\d{0,2})?$/.test(self.EstimatedCost()));
-                self.ActualIsValid(self.ActualCost() == "" || /^\d+(\.\d{0,2})?$/.test(self.ActualCost()));
+                var approved = $("#lblStatus").html() == "Approved";
+
+                self.EstimatedIsValid((approved && (self.EstimatedCost() == "" || self.EstimatedCost() == null)) || /^\d+(\.\d{0,2})?$/.test(self.EstimatedCost()));
+                self.ActualIsValid(!approved || self.ActualCost() == "" || self.ActualCost() == null || /^\d+(\.\d{0,2})?$/.test(self.ActualCost()));
             }
 
             self.isValid = function () {
@@ -335,11 +354,43 @@
                 return (self.EstimatedIsValid() && self.ActualIsValid());
             }
 
+            self.uploadFiles = function () {
+                var $row = $("#trExpense" + self.ID),
+                    $fileInput = $row.find("input[type='file']"),
+                    formdata = new FormData();
+
+                if (($fileInput)[0].files.length) {
+                    var fileName;
+                    for (i = 0; i < ($fileInput)[0].files.length; i++) {
+                        fileName = ($fileInput)[0].files[i].name;
+                        formdata.append(fileName, ($fileInput)[0].files[i]);
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("post", "/Expenses/UploadFiles/" + self.ID);
+                    xhr.send(formdata);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            ($fileInput)[0].value = "";
+
+                            // add the new files to the observable array
+                            // the substring removes the unwanted quotation marks from the response string
+                            var newFiles = xhr.responseText.substring(1, xhr.responseText.length - 1).split(";"), f;
+                            for (var i = 0; i < newFiles.length; i++) {
+                                f = newFiles[i].split(",");
+                                self.Files.push({ ID: f[0], FileName: f[1] });
+                            }
+                        }
+                    }
+                }
+            }
+
             self.update = function (vm) {
                 if (self.isValid()) {
                     $.ajax("/Expenses/AddOrUpdateExpense", {
+                        type: "post",
+                        contentType: "application/json",
                         data: ko.toJSON({ expense: self }),
-                        type: "post", contentType: "application/json",
                         success: function (response) {
                             if (response.split(":")[0] == "success") {
                                 currentData = {
@@ -349,9 +400,10 @@
                                     ActualCost: self.ActualCost(),
                                     Rationale: self.Rationale()
                                 }
-
                                 self.editMode(false);
                                 vm.editMode(false);
+
+                                self.uploadFiles();
                             }
                             else
                                 alert(response);
@@ -368,12 +420,16 @@
                 self.Rationale(currentData.Rationale);
 
                 self.editMode(false);
+
+                // clear file input
+                ($("#trExpense" + self.ID).find("input[type='file']"))[0].value = "";
             }
         }
 
         $(function () {
             function ExpenseVM() {
                 var self = this;
+                self.applicationIsApproved = $("#lblStatus").html() == "Approved";
 
                 self.expenses = ko.observableArray([]);
 
@@ -398,9 +454,18 @@
                     self.editMode(false);
                 }
 
-                $.getJSON("/Expenses/GetExpensesByApplication/", { applicationID: $("#applicationID").val() }, function (data) {
+                // load expenses
+                $.getJSON("/Expenses/LoadExpenses/", { applicationID: $("#applicationID").val() }, function (data) {
                     var mappedExpenses = $.map(data, function (item) { return new Expense(item) });
                     self.expenses(mappedExpenses);
+
+                    // load documentation for each expense
+                    ko.utils.arrayForEach(self.expenses(), function (expense) {
+                        $.getJSON("/Expenses/LoadDocumentation/", { expenseID: expense.ID }, function (data) {
+                            var mappedFiles = $.map(data, function (item) { return new File(item) });
+                            expense.Files(mappedFiles);
+                        });
+                    });
                 });
 
                 //self.addExpense = function () {
@@ -423,34 +488,5 @@
 
             ko.applyBindings(new ExpenseVM());
         });
-
-        @* 
-        // going to change this to knockout next!
-        function uploadFiles($row) {
-            var $fileInput = $row.find("input[type='file']"),
-                $currentFiles = $row.find(".currentFiles"),
-                formdata = new FormData();
-
-            if (($fileInput)[0].files.length) {
-                var fileName;
-                for (i = 0; i < ($fileInput)[0].files.length; i++) {
-                    fileName = ($fileInput)[0].files[i].name;
-                    $currentFiles.append(fileName + "<br />");
-
-                    formdata.append(fileName, ($fileInput)[0].files[i]);
-                }
-
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/Expenses/UploadFiles/" + $row.find(".txtExpenseID").val());
-                xhr.send(formdata);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        location.reload();
-                        //($fileInput)[0].value = "";
-                    }
-                }
-            }
-        }*@
-
     </script>
 }

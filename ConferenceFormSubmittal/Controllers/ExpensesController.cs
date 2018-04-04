@@ -83,14 +83,17 @@ namespace ConferenceFormSubmittal.Controllers
             return View(expense);
         }
 
-        public JsonResult GetExpensesByApplication(int? applicationID)
+        public JsonResult LoadExpenses(int? applicationID)
         {
             if (applicationID == null)
             {
                 return Json(new List<Expense>(), JsonRequestBehavior.AllowGet);
             }
 
-            var expenses = db.Expenses
+            try
+            {
+                var expenses = db.Expenses
+                .Include(e => e.Files)
                 .Where(e => e.ApplicationID == applicationID)
                 .Select(e => new
                 {
@@ -99,11 +102,40 @@ namespace ConferenceFormSubmittal.Controllers
                     type = e.ExpenseType.Description,
                     e.EstimatedCost,
                     e.ActualCost,
-                    e.Rationale,
-                    e.Files
+                    e.Rationale
                 });
 
-            return Json(expenses, JsonRequestBehavior.AllowGet);
+                return Json(expenses, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("Unable to load associated expenses. Refresh the page and try again. If the problem persists, contact your database administrator.");
+            }
+        }
+
+        public JsonResult LoadDocumentation(int? expenseID)
+        {
+            if (expenseID == null)
+            {
+                return Json(new List<Documentation>(), JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                var documentation = db.Files
+                .Where(f => f.ExpenseID == expenseID)
+                .Select(f => new
+                {
+                    f.ID,
+                    f.fileName
+                });
+
+                return Json(documentation, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("Unable to load expense documentation. Refresh the page and try again. If the problem persists, contact your database administrator.");
+            }
         }
 
         // inserts or updates Expenses from the Application Edit view
@@ -155,6 +187,9 @@ namespace ConferenceFormSubmittal.Controllers
             {
                 return Json("bad request");
             }
+
+            string newFileInfo = "";
+
             Expense expense = db.Expenses
                 .Include(e => e.Files)
                 .Where(e => e.ID == id).SingleOrDefault();
@@ -183,12 +218,14 @@ namespace ConferenceFormSubmittal.Controllers
                         fileName = fileName
                     };
                     expense.Files.Add(newFile);
+
+                    db.SaveChanges(); // need to do this here to get the newly added IDs
+
+                    newFileInfo += newFile.ID.ToString() + "," + newFile.fileName + ";";
                 }
             }
 
-            db.SaveChanges();
-
-            return Json(Request.Files.Count + " files uploaded");
+            return Json(newFileInfo.TrimEnd(';'));
         }
 
         // POST: Expenses/Edit/5
@@ -233,7 +270,7 @@ namespace ConferenceFormSubmittal.Controllers
             return RedirectToAction("Index");
         }
 
-        public FileContentResult Download(int id)
+        public FileContentResult DownloadFile(int id)
         {
             var theFile = db.Files.Include(f => f.FileContent).Where(f => f.ID == id).SingleOrDefault();
             return File(theFile.FileContent.Content, theFile.FileContent.MimeType, theFile.fileName);
