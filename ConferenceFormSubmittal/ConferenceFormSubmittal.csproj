@@ -228,6 +228,10 @@
       <DependentUpon>201803201059446_FileUploads.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
+    <Compile Include="DAL\SecurityMigrations\201804041121402_SecurityInitial.cs" />
+    <Compile Include="DAL\SecurityMigrations\201804041121402_SecurityInitial.Designer.cs">
+      <DependentUpon>201804041121402_SecurityInitial.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\SecurityMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -457,6 +461,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\CFSMigrations\201803201059446_FileUploads.resx">
       <DependentUpon>201803201059446_FileUploads.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\SecurityMigrations\201804041121402_SecurityInitial.resx">
+      <DependentUpon>201804041121402_SecurityInitial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
