@@ -278,34 +278,34 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
 
             var mileages = new List<Mileage>
             {
-                new Mileage {TravelDate=DateTime.Parse("2018-10-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="40 Bay St, Toronto, ON M5J 2X2",
+                new Mileage {TravelDate=DateTime.Parse("2018-10-20"), StartAddress="427 1Rice Rd, Welland, ON L3C 7C1", EndAddress="40 Bay St, Toronto, ON M5J 2X2",
                     RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=13, ApplicationID=1},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-11-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="421 Union St W, Kingston, ON K7L 3N6",
+                new Mileage {TravelDate=DateTime.Parse("2018-11-20"), StartAddress="427 R23ice Rd, Welland, ON L3C 7C1", EndAddress="421 Union St W, Kingston, ON K7L 3N6",
                     RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=6, ApplicationID=2},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-5-6"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="3995 Geraedts Dr, Windsor, ON N9G 3C3",
+                new Mileage {TravelDate=DateTime.Parse("2018-5-6"), StartAddress="427 Ric3e Rd, Welland, ON L3C 7C1", EndAddress="3995 Geraedts Dr, Windsor, ON N9G 3C3",
                     RoundTrip = true, Kilometres =200, Feedback="okay lets go", StatusID=2, EmployeeID=7, ApplicationID=3},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-4-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="222 Bremner Blvd, Toronto, ON M5V 3L9",
+                new Mileage {TravelDate=DateTime.Parse("2018-4-20"), StartAddress="427 Ric4e Rd, Welland, ON L3C 7C1", EndAddress="222 Bremner Blvd, Toronto, ON M5V 3L9",
                     RoundTrip = true, Kilometres =600, Feedback="okay lets go", StatusID=3, EmployeeID=8, ApplicationID=4},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-6-6"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="2800 Opryland Dr, Nashville, TN 37214, USA",
+                new Mileage {TravelDate=DateTime.Parse("2018-6-6"), StartAddress="427 Ri5ce Rd, Welland, ON L3C 7C1", EndAddress="2800 Opryland Dr, Nashville, TN 37214, USA",
                     RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=4, EmployeeID=11, ApplicationID=5},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-8-14"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="300 York St, London, ON N6B 1P8",
+                new Mileage {TravelDate=DateTime.Parse("2018-8-14"), StartAddress="427 Rice6 Rd, Welland, ON L3C 7C1", EndAddress="300 York St, London, ON N6B 1P8",
                     RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=3, EmployeeID=12, ApplicationID=6},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-5-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="1001 Jean Paul Riopelle Pl, Montreal, QC H2Z 1H5",
+                new Mileage {TravelDate=DateTime.Parse("2018-5-20"), StartAddress="427 Rice 7Rd, Welland, ON L3C 7C1", EndAddress="1001 Jean Paul Riopelle Pl, Montreal, QC H2Z 1H5",
                     RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=4, EmployeeID=10, ApplicationID=7},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-2-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="801 Mt Vernon Place NW, Washington, DC 20001, USA",
+                new Mileage {TravelDate=DateTime.Parse("2018-2-20"), StartAddress="427 Rice R8d, Welland, ON L3C 7C1", EndAddress="801 Mt Vernon Place NW, Washington, DC 20001, USA",
                     RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=2, EmployeeID=2, ApplicationID=8},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-7-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="9800 International Dr, Orlando, FL 32819, USA",
+                new Mileage {TravelDate=DateTime.Parse("2018-7-20"), StartAddress="427 Rice R9d, Welland, ON L3C 7C1", EndAddress="9800 International Dr, Orlando, FL 32819, USA",
                     RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=5, ApplicationID=9},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-6-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="6815 Stanley Ave, Niagara Falls, ON L2G 3Y9",
+                new Mileage {TravelDate=DateTime.Parse("2018-6-20"), StartAddress="427 Rice Rd,0 Welland, ON L3C 7C1", EndAddress="6815 Stanley Ave, Niagara Falls, ON L2G 3Y9",
                     RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=3, ApplicationID=10}
             };
             mileages.ForEach(a => context.Mileages.AddOrUpdate(n => n.StartAddress, a));
