@@ -48,14 +48,13 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Byte[] RowVersion, [Bind(Include = "ID,Name,Address")] Site site)
+        public ActionResult Create([Bind(Include = "ID,Name,Address")] Site site)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     db.Entry(site).State = EntityState.Added;
-                    db.Entry(site).OriginalValues["RowVersion"] = RowVersion;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
