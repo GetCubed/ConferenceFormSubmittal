@@ -7,7 +7,6 @@
 
 <div class="row pt-3">
     <div class="col-6 mx-auto">
-
         <div class="card bg-NCDSB-Grey">
 
             <div class="card-header">
@@ -19,7 +18,7 @@
                     {
                 @Html.AntiForgeryToken()
 
-                <hr />
+  
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -45,7 +44,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                        <input type="submit" value="Log in" class="btn btn-primary" />
                     </div>
                 </div>
 
@@ -54,10 +53,7 @@
                 </section>
             </div>
 
-        </div>
-
-
-        
+        </div>  
     </div>
 
 

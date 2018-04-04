@@ -75,6 +75,12 @@
 
         </div>
     }
+    else
+    {
+        <div>
+            @{Response.Redirect(Url.Action("Login", "Account")); }         
+        </div>
+    }
 
 
-    </div>
+</div>
