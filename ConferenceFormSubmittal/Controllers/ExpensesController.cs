@@ -83,55 +83,98 @@ namespace ConferenceFormSubmittal.Controllers
             return View(expense);
         }
 
-        // inserts or updates Expenses from the Application Edit view
-        public JsonResult AddOrUpdateExpenses(List<Expense> expenses)
+        public JsonResult LoadExpenses(int? applicationID)
         {
-            if (expenses == null)
+            if (applicationID == null)
             {
-                expenses = new List<Expense>();
+                return Json(new List<Expense>(), JsonRequestBehavior.AllowGet);
             }
 
-            string result = "Success:";
-
-            if (expenses.Count > 0)
+            try
             {
-                using (var dbContextTransaction = db.Database.BeginTransaction())
+                var expenses = db.Expenses
+                .Include(e => e.Files)
+                .Where(e => e.ApplicationID == applicationID)
+                .Select(e => new
                 {
-                    try
+                    e.ID,
+                    e.ExpenseTypeID,
+                    type = e.ExpenseType.Description,
+                    e.EstimatedCost,
+                    e.ActualCost,
+                    e.Rationale
+                });
+
+                return Json(expenses, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("Unable to load associated expenses. Refresh the page and try again. If the problem persists, contact your database administrator.");
+            }
+        }
+
+        public JsonResult LoadDocumentation(int? expenseID)
+        {
+            if (expenseID == null)
+            {
+                return Json(new List<Documentation>(), JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                var documentation = db.Files
+                .Where(f => f.ExpenseID == expenseID)
+                .Select(f => new
+                {
+                    f.ID,
+                    f.fileName
+                });
+
+                return Json(documentation, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("Unable to load expense documentation. Refresh the page and try again. If the problem persists, contact your database administrator.");
+            }
+        }
+
+        // inserts or updates Expenses from the Application Edit view
+        public JsonResult AddOrUpdateExpense(Expense expense)
+        {
+            if (expense == null)
+            {
+                return Json("Failure: null Expense");
+            }
+
+            string result = "success:";
+
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (db.Expenses.Any(a => a.ID == expense.ID)) // if the Expense exists in the db, update it
                     {
-                        foreach (Expense e in expenses)
-                        {
-                            if (db.Expenses.Any(a => a.ID == e.ID)) // if the Expense exists in the db, update it
-                            {
-                                var expenseToUpdate = db.Expenses.Find(e.ID);
-                                expenseToUpdate.Rationale = e.Rationale;
-                                expenseToUpdate.EstimatedCost = e.EstimatedCost;
-                                expenseToUpdate.ActualCost = e.ActualCost;
-                                expenseToUpdate.ExpenseTypeID = e.ExpenseTypeID;
-                            }
-                            else // insert it
-                            {
-                                db.Expenses.Add(e);
-
-                                
-                            }
-                        }
-
-                        db.SaveChanges();
-                        dbContextTransaction.Commit();
-
-                        // we need to pass back the newly generated ids of rows that are inserted through the ApplicationEdit view
-                        if (expenses.Count == 1)
-                        {
-                            result += expenses[0].ID.ToString();
-                        }
+                        var expenseToUpdate = db.Expenses.Find(expense.ID);
+                        expenseToUpdate.Rationale = expense.Rationale;
+                        expenseToUpdate.EstimatedCost = expense.EstimatedCost;
+                        expenseToUpdate.ActualCost = expense.ActualCost;
+                        expenseToUpdate.ExpenseTypeID = expense.ExpenseTypeID;
                     }
-                    catch (Exception)
+                    else // new Expense -- insert it
                     {
-                        dbContextTransaction.Rollback();
-
-                        result = "Failed to save changes. Refresh the page and try again. If the problem persists, please contact your database administrator.";
+                        db.Expenses.Add(expense);
                     }
+
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+
+                    // add the ID of the inserted or updated record to the response
+                    result += expense.ID.ToString();
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback();
+                    result = "Failed to save changes. Refresh the page and try again. If the problem persists, please contact your database administrator.";
                 }
             }
             
@@ -144,6 +187,9 @@ namespace ConferenceFormSubmittal.Controllers
             {
                 return Json("bad request");
             }
+
+            string newFileInfo = "";
+
             Expense expense = db.Expenses
                 .Include(e => e.Files)
                 .Where(e => e.ID == id).SingleOrDefault();
@@ -172,12 +218,14 @@ namespace ConferenceFormSubmittal.Controllers
                         fileName = fileName
                     };
                     expense.Files.Add(newFile);
+
+                    db.SaveChanges(); // need to do this here to get the newly added IDs
+
+                    newFileInfo += newFile.ID.ToString() + "," + newFile.fileName + ";";
                 }
             }
 
-            db.SaveChanges();
-
-            return Json(Request.Files.Count + " files uploaded");
+            return Json(newFileInfo.TrimEnd(';'));
         }
 
         // POST: Expenses/Edit/5
@@ -222,7 +270,7 @@ namespace ConferenceFormSubmittal.Controllers
             return RedirectToAction("Index");
         }
 
-        public FileContentResult Download(int id)
+        public FileContentResult DownloadFile(int id)
         {
             var theFile = db.Files.Include(f => f.FileContent).Where(f => f.ID == id).SingleOrDefault();
             return File(theFile.FileContent.Content, theFile.FileContent.MimeType, theFile.fileName);
