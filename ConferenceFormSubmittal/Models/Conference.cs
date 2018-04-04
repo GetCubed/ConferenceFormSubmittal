@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ConferenceFormSubmittal.Models
 {
-    public class Conference
+    public class Conference : Auditable
     {
         public Conference()
         {

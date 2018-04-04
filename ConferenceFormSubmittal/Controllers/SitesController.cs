@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -49,11 +50,19 @@ namespace ConferenceFormSubmittal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Address")] Site site)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Sites.Add(site);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(site).State = EntityState.Added;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                ModelState.AddModelError(string.Empty, "The record you attempted to edit " + "was modified by another user. Please go back and refresh");
             }
 
             return View(site);
@@ -79,14 +88,24 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Address")] Site site)
+        public ActionResult Edit(Byte[] RowVersion, [Bind(Include = "ID,Name,Address")] Site site)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(site).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(site).State = EntityState.Modified;
+                    db.Entry(site).OriginalValues["RowVersion"] = RowVersion;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
             }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                ModelState.AddModelError(string.Empty, "The record you attempted to edit " + "was modified by another user. Please go back and refresh");
+            }
+
             return View(site);
         }
 

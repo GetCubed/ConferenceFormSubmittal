@@ -24,7 +24,9 @@ namespace ConferenceFormSubmittal.Controllers
             PopulateDropDownLists();
             var applications = db.Applications.Include(a => a.Conference).Include(a => a.Employee).Include(a => a.Status);
             ViewBag.Filtering = "";
-            
+            //need to add employee stuff to all the wheres so it only shows that employee stuff
+            //not doing it yet since extremely low number of data entries
+
             if (startDate.HasValue && endDate.HasValue)
             {
                 applications = applications.Where(p => p.DateSubmitted > startDate && p.DateSubmitted < endDate);
@@ -58,8 +60,10 @@ namespace ConferenceFormSubmittal.Controllers
             }
             if (ViewBag.Filtering == "")
             {
+                //Status DDL need a default value for filtering to work
                 string url = Request.Url.AbsoluteUri;
-                if (url == "http://localhost:5824/Applications")
+                //Response.Write(url);
+                if (url.Contains("/Applications "))
                 {
                     statusID = 1;
                     applications = applications.Where(p => p.StatusID == statusID);
@@ -414,14 +418,23 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPost([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,ConferenceID")] Application application)
+        public ActionResult EditPost(Byte[] RowVersion, [Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,ConferenceID")] Application application)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(application).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(application).State = EntityState.Modified;
+                    db.Entry(application).OriginalValues["RowVersion"] = RowVersion;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+            catch
+            {
+                ModelState.AddModelError(string.Empty, "The record you attempted to edit " + "was modified by another user. Please go back and refresh");
+            }
+
             PopulateDropDownLists(application);
             return View(application);
         }
