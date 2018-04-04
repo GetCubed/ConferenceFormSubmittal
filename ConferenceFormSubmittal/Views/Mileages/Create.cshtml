@@ -30,16 +30,24 @@
 
                 <div class="row pt-3">
                     <div>
-                        Attach to Conference?
-                        @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                        <a onclick="attachConference()" class="btn btn-success mt-3 d-block">
-                            Attach Conference
-                        </a>
+                        @if (ViewBag.Application == null)
+                        {
+                            <text>Attach to Conference?</text>
+                            @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                            <a onclick="attachConference()" class="btn btn-success mt-3 d-block">
+                                Attach Conference
+                            </a>
+                        }
+                        @if (ViewBag.Application != null)
+                        {
+                            @Html.Hidden("ApplicationID", new { @value = ViewBag.Application.ID })
+                        }
                     </div>
                     <div>
                         @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @if (ViewBag.Application != null)
                         {
+                            @Html.Hidden("ConferenceName", new { @value = ViewBag.Application.Conference.Name })
                             @ViewBag.Application.Conference.Name
                         }
                     </div>
@@ -296,13 +304,17 @@
             // get values
             var $txtTravelDate = $("#txtTravelDate"),
                 $txtKilometres = $("#txtKilometres"),
-                $ddlAppID = $("#ddlApplicationID"),
+                $appID = $("#ApplicationID"),
+                $con = $("#ConferenceName")
+                //$ddlAppID = $("#ddlApplicationID"),
                 $chkRoundTrip = $("#chkRoundTrip"),
                 $txtreimbursement = $("#txtReimbursement"),
                 travelDate = $txtTravelDate.val(),
                 kilometres = $txtKilometres.val(),
-                app = $ddlAppID.find(":selected").val(),
-                appID = $ddlAppID.val(),
+                appID = $appID.val(),
+                ConName = $con.val(),
+                //app = $ddlAppID.find(":selected").val(),
+                //appID = $ddlAppID.val(),
                 roundTrip = $chkRoundTrip.is(':checked'),
                 roundTriptxt = roundTrip ? "Yes" : "No";
                 reimbursement = $txtreimbursement.val();
@@ -329,6 +341,10 @@
             else {
                 var endAddress = $txtEndAddress.val();
             }
+
+            if (typeof appID != 'string') {
+                ConName = "None";
+            }
             
             if (confirm("Do you want to add this Mileage Entry?")) {
                 if (validMileage(travelDate, startAddress, endAddress, kilometres)) {
@@ -339,7 +355,8 @@
                         "<td class='startAddress'>" + startAddress + "</td>" +
                         "<td class='endAddress'>" + endAddress + "</td>" +
                         "<td class='kilometres'>" + kilometres + "</td > " +
-                        "<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
+                        //"<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
+                        "<td class='applicationID' data-id='" + appID + "'>" + ConName + "</td>" +
                         "<td class='roundTrip' data-roundTrip='" + roundTrip + "' > " + roundTriptxt + "</td > " +
                         "<td class='reimbursement'>" + reimbursement + "</td>" +
                         "<td><a onclick='removeMileage($(this))' class='removeMileage btn btn-danger'><i class='fa fa-minus'></i></a></td>" +
