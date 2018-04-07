@@ -15,7 +15,7 @@
 
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmEditMileage" }))
 {
     @Html.AntiForgeryToken()
 
@@ -31,6 +31,10 @@
                                 @Helper.GetIcon(Icons.Back) Go Back
                             </a>
 
+                            <button id="btnDraft" type="button" value="Draft" class="btn btn-primary float-right">
+                                <i class="fa  fa-paper-plane fa-2x"></i> Save as Draft
+                            </button>
+
                             <button type="submit" class="btn btn-info ">
                                 @Helper.GetIcon(Icons.Save) Save
                             </button>
@@ -43,7 +47,7 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
 
 
@@ -146,7 +150,7 @@
                         </div>
                     </div>
 
-                   
+
                 </div>
 
             </div>
@@ -183,6 +187,13 @@
 
     @*This script is the actual google api calculatin the distance and cost(with dummy rate) between two locations*@
     <script>
+
+        $("#btnDraft").click(function () {
+            var $status = $("#txtStatusID");
+
+            $status.val(4);
+            document.getElementById("frmEditMileage").submit();
+        });
 
         var source, destination, $chkCustomStartLocation, $chkCustomEndLocation;
         var directionsDisplay;

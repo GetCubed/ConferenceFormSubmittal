@@ -1,0 +1,193 @@
+﻿@model ConferenceFormSubmittal.Models.Mileage
+@using ConferenceFormSubmittal.Utilities;
+@{
+    ViewBag.Title = "Edit";
+}
+
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">Edit Mileage</h3>
+        </div>
+    </div>
+</div>
+
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmEditMileageAdmin" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-between">
+
+                            <a href='@Url.Action("Index", "Mileages")' class="btn btn-primary">
+                                @Helper.GetIcon(Icons.Back) Go Back
+                            </a>
+
+                            <button id="btnApprove" type="button" value="Approve" class="btn btn-primary float-right">
+                                <i class="fa  fa-paper-plane fa-2x"></i> Approve
+                            </button>
+
+                            <button id="btnDeny" type="button" value="Deny" class="btn btn-primary float-right">
+                                <i class="fa  fa-paper-plane fa-2x"></i> Deny
+                            </button>
+
+                            @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
+                            @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @hidden = "hidden" } })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+       
+    </div>
+
+
+
+    <div class="row pt-3">
+
+
+        @*---------------------Edit Form------------------------------------------------------------------------------------*@
+        <div class="col-8">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+
+                    <div>
+                        @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Application.Conference.Name)
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Application.DepartureDate)
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Application.ReturnDate)
+                    </div>
+
+
+                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    <div class="row pt-3">
+                        <div class="col-1">
+                            @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtStartAddress", @hidden = "hidden" } })
+                            @Html.DisplayFor(model => model.StartAddress)
+                        </div>
+                        <div class="col-2">
+                            @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @hidden = "hidden" } })
+                            @Html.DisplayFor(model => model.EndAddress)
+                        </div>
+                        <div class="col-3">
+                            <a onclick="GetRoute()" class="btn btn-primary d-block">
+                                <i class="fa fa-map-marker fa-2x"></i>
+                                Get Route
+                            </a>
+                        </div>
+                    </div>
+
+                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    <div class="row pt-3">
+                        <div class="col-1">
+                            @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
+                            @Html.DisplayFor(model => model.TravelDate)
+                        </div>
+                        <div class="col-2">
+                            @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        </div>
+                        <div class="col-1">
+                            @*@Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "chkRoundTrip" } })*@
+                            @Html.DisplayFor(model => model.RoundTrip)
+                        </div>
+                    </div>
+
+
+                    @*---------------------ERROR MESSAGES ---------------------*@
+                    <div class="row pt-3">
+                        <div class="col-12">
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ID)
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="card-footer rgba-grey-light">
+                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    <div class="row pt-3 ">
+                        <div class="col-2">
+                            <label" class="font-weight-bold">Kilometers</label">
+                        </div>
+                        <div class="col-3">
+                            @Html.EditorFor(model => model.Kilometres, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control text-dark",
+                                    @id = "txtKilometres",
+                                    @disabled = "disabled"
+                                }
+                            })
+                            @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="col-2">
+                            <label class="font-weight-bold">Mileage Claim</label>
+                        </div>
+                        <div class="col-3">
+                            <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $("#btnApprove").click(function () {
+            var $status = $("#txtStatusID");
+            alert($status.val());
+
+            $status.val(2);
+            document.getElementById("frmEditMileageAdmin").submit();
+        });
+
+        $("#btnDeny").click(function () {
+            var $status = $("#txtStatusID");
+
+            $status.val(3);
+            document.getElementById("frmEditMileageAdmin").submit();
+        });
+    </script>
+}
