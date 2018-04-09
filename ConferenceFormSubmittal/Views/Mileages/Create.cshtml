@@ -416,43 +416,43 @@
             }
         });
 
-        //$("#btnDraft").click(function () {
+        $("#btnDraft").click(function () {
 
-        //    var mileageBatch = [];
+            var mileageBatch = [];
 
-        //    if (confirm("Do you want save as draft?")) {
+            if (confirm("Do you want save as draft?")) {
 
-        //        $(".trMileage").each(function () {
-        //            var row = $(this);
+                $(".trMileage").each(function () {
+                    var row = $(this);
 
-        //            var mileage = {
-        //                TravelDate: row.find(".travelDate").html(),
-        //                StartAddress: row.find(".startAddress").html(),
-        //                EndAddress: row.find(".endAddress").html(),
-        //                Kilometres: row.find(".kilometres").html(),
-        //                ApplicationID: row.find(".applicationID").data("id"),
-        //                RoundTrip: row.find(".roundTrip").data("roundTrip"),
-        //                StatusID: 4,
-        //                EmployeeID: 1 //needs to reference the logged in user
-        //            };
+                    var mileage = {
+                        TravelDate: row.find(".travelDate").html(),
+                        StartAddress: row.find(".startAddress").html(),
+                        EndAddress: row.find(".endAddress").html(),
+                        Kilometres: row.find(".kilometres").html(),
+                        ApplicationID: row.find(".applicationID").data("id"),
+                        RoundTrip: row.find(".roundTrip").data("roundTrip"),
+                        StatusID: 4,
+                        EmployeeID: 1 //needs to reference the logged in user
+                    };
 
-        //            mileageBatch.push(mileage);
-        //        });
+                    mileageBatch.push(mileage);
+                });
 
-        //        $.ajax({
-        //            type: "POST",
-        //            url: "/Mileages/AddMileages",
-        //            data: JSON.stringify(mileageBatch),
-        //            contentType: "application/json; charset=utf-8",
-        //            dataType: "json",
-        //            success: function (response) {
-        //                //alert((response + 1) + " mileage(s) added.");
-        //                $("#frmCreateMileage").submit();
-        //                window.location = "/Mileages"
-        //            }
-        //        });
-        //    }
-        //});
+                $.ajax({
+                    type: "POST",
+                    url: "/Mileages/AddMileages",
+                    data: JSON.stringify(mileageBatch),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        //alert((response + 1) + " mileage(s) added.");
+                        $("#frmCreateMileage").submit();
+                        window.location = "/Mileages"
+                    }
+                });
+            }
+        });
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQoBa1Dcsary4e_iMueoDfG8taMDb8IKI&libraries=places" type="text/javascript"></script>
