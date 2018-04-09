@@ -167,6 +167,158 @@ namespace ConferenceFormSubmittal.Controllers
             return View(mileages.ToPagedList(pageNumber, pageSize));
         }
 
+        public ActionResult IndexAdmin(string sortDirection, string sortField, string actionButton,
+            int? employeeID, string employeeFirst, string employeeLast, string startAddress,
+            string endAddress, DateTime? startDate, DateTime? endDate, int? statusID, int? page)
+        {
+            PopulateDropDownLists();
+            var mileages = db.Mileages.Include(m => m.Application).Include(m => m.Employee).Include(m => m.Status);
+            ViewBag.Filtering = "";
+
+            if (employeeID.HasValue)
+            {
+                mileages = mileages.Where(p => p.EmployeeID == employeeID);
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastEmployeeID = employeeID;
+            }
+            if (!String.IsNullOrEmpty(employeeFirst))
+            {
+                mileages = mileages.Where(p => p.Employee.FirstName.ToUpper().Contains(employeeFirst.ToUpper()));
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastEmployeeFirst = employeeFirst;
+            }
+            if (!String.IsNullOrEmpty(employeeLast))
+            {
+                mileages = mileages.Where(p => p.Employee.LastName.ToUpper().Contains(employeeLast.ToUpper()));
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastEmployeeLast = employeeLast;
+            }
+            if (!String.IsNullOrEmpty(startAddress))
+            {
+                mileages = mileages.Where(p => p.StartAddress.ToUpper().Contains(startAddress.ToUpper()));
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastStartAddress = startAddress;
+            }
+            if (!String.IsNullOrEmpty(endAddress))
+            {
+                mileages = mileages.Where(p => p.EndAddress.ToUpper().Contains(endAddress.ToUpper()));
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastEndAddress = endAddress;
+            }
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                mileages = mileages.Where(p => p.TravelDate > startDate && p.TravelDate < endDate);
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastStartDate = startDate;
+                ViewBag.LastEndDate = endDate;
+            }
+            else if (startDate.HasValue && !endDate.HasValue)
+            {
+                mileages = mileages.Where(p => p.TravelDate > startDate);
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastStartDate = startDate;
+            }
+            else if (!startDate.HasValue && endDate.HasValue)
+            {
+                mileages = mileages.Where(p => p.TravelDate < endDate);
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastEndDate = endDate;
+            }
+            if (statusID.HasValue)
+            {
+                mileages = mileages.Where(p => p.StatusID == statusID);
+                ViewBag.Filtering = " in";//Flag filtering
+                ViewBag.LastStatusID = statusID;
+            }
+            statusID = 4;
+            mileages = mileages.Where(p => p.StatusID < statusID);
+            ViewBag.Filtering = " in";//Flag filtering
+
+            if (!String.IsNullOrEmpty(actionButton))
+            {
+                //Reset paging if ANY button was pushed
+                page = 1;
+
+                if (actionButton != "Filter")//Change of sort is requested
+                {
+                    if (actionButton == sortField) //Reverse order on same field
+                    {
+                        sortDirection = String.IsNullOrEmpty(sortDirection) ? "desc" : "";
+                    }
+                    sortField = actionButton;//Sort by the button clicked
+                }
+            }
+            if (sortField == "Start Address")//Sorting by Start Location
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    mileages = mileages
+                        .OrderBy(c => c.StartAddress);
+                }
+                else
+                {
+                    mileages = mileages.OrderByDescending(c => c.StartAddress);
+                }
+            }
+            else if (sortField == "End Address")//Sorting by End Location
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    mileages = mileages
+                        .OrderBy(c => c.EndAddress);
+                }
+                else
+                {
+                    mileages = mileages.OrderByDescending(c => c.EndAddress);
+                }
+            }
+            else if (sortField == "Kilometres")//Sorting by Kilometres
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    mileages = mileages
+                        .OrderBy(c => c.Kilometres);
+                }
+                else
+                {
+                    mileages = mileages.OrderByDescending(c => c.Kilometres);
+                }
+            }
+            else if (sortField == "Description")//Sorting by Status
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    mileages = mileages
+                        .OrderBy(c => c.StatusID);
+                }
+                else
+                {
+                    mileages = mileages.OrderByDescending(c => c.StatusID);
+                }
+            }
+            else //By default sort by Travel Date
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    mileages = mileages
+                        .OrderBy(p => p.TravelDate);
+                }
+                else
+                {
+                    mileages = mileages
+                        .OrderByDescending(p => p.TravelDate);
+                }
+            }
+
+            ViewBag.sortField = sortField;
+            ViewBag.sortDirection = sortDirection;
+
+            int pageSize = 5;//Temp value, good value is like 10
+            int pageNumber = (page ?? 1);
+
+            return View(mileages.ToPagedList(pageNumber, pageSize));
+        }
+
         // GET: Mileages/Details/5
         public ActionResult Details(int? id)
         {

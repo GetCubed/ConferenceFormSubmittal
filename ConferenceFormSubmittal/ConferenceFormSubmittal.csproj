@@ -434,6 +434,7 @@
     <Content Include="Views\Sites\Edit.cshtml" />
     <Content Include="Views\Sites\Index.cshtml" />
     <Content Include="Views\Mileages\EditAdmin.cshtml" />
+    <Content Include="Views\Mileages\IndexAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
