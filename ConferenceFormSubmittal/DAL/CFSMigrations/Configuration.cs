@@ -308,7 +308,7 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
                 new Mileage {TravelDate=DateTime.Parse("2018-6-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="6815 Stanley Ave, Niagara Falls, ON L2G 3Y9",
                     RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=3, ApplicationID=10}
             };
-            mileages.ForEach(a => context.Mileages.AddOrUpdate(n => n.StartAddress, a));
+            mileages.ForEach(a => context.Mileages.AddOrUpdate(n => n.TravelDate, a));
             SaveChanges(context);
 
             var sites = new List<Site>

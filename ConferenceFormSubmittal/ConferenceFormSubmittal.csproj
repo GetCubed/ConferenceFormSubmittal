@@ -406,7 +406,6 @@
     <Content Include="Views\Expenses\Details.cshtml" />
     <Content Include="Views\Expenses\Edit.cshtml" />
     <Content Include="Views\Expenses\Index.cshtml" />
-    <Content Include="Views\Applications\Evaluate.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -433,6 +432,7 @@
     <Content Include="Views\Sites\Details.cshtml" />
     <Content Include="Views\Sites\Edit.cshtml" />
     <Content Include="Views\Sites\Index.cshtml" />
+    <Content Include="Views\Applications\Evaluate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

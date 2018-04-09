@@ -17,11 +17,13 @@ namespace ConferenceFormSubmittal.Models
         public int ID { get; set; }
 
         [StringLength(500, ErrorMessage = "Rationale may include a maximum of 500 characters.")]
+        [DataType(DataType.MultilineText)]
         public string Rationale { get; set; }
 
         [Display(Name = "Replacement Staff Required")]
         public bool ReplStaffReq { get; set; }
 
+        [Display(Name = "Budget Code")]
         public string BudgetCode { get; set; }
 
         // The date on which they will travel to the conference
@@ -56,6 +58,7 @@ namespace ConferenceFormSubmittal.Models
 
         // Administrator feedback
         [StringLength(500, ErrorMessage = "Feedback may include a maximum of 500 characters.")]
+        [DataType(DataType.MultilineText)]
         public string Feedback { get; set; }
 
         [Display(Name = "Employee")]
