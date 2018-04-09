@@ -65,8 +65,8 @@
                             @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
                         </div>
                         <div class="col-3">
-                            @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
-                            Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
+                            @Html.DropDownList("Sites", null, "Custom Location", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
+                            @*Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />*@
                             @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block bg-NCDSB-GreyLight", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
                             @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
                         </div>
@@ -74,8 +74,8 @@
                             @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
                         </div>
                         <div class="col-3">
-                            @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
-                            Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
+                            @Html.DropDownList("Sites", null, "Custom Location", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+                            @*Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />*@
                             @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
                             @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
                         </div>
@@ -188,6 +188,14 @@
     @*This script is the actual google api calculatin the distance and cost(with dummy rate) between two locations*@
     <script>
 
+        window.onload = function () {
+            var txtMileage = document.getElementById("txtKilometres").value
+            var txtReimbursement = document.getElementById("txtReimbursement");
+
+            document.getElementById("txtReimbursement").value = (txtMileage / 2).toFixed(2);
+
+        }
+
         $("#btnDraft").click(function () {
             var $status = $("#txtStatusID");
 
@@ -215,30 +223,47 @@
 
             directionsDisplay.setMap(map);
 
-            $chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
-            $chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+            //$chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
+            //$chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+            $chkRoundTrip = document.getElementById("chkRoundTrip");
 
+            var txtStartSite = document.getElementById("txtStartAddress");
             var ddlStartSite = document.getElementById("ddlStartSite");
             var ddlStartSiteValue = ddlStartSite[ddlStartSite.selectedIndex].value;
-            var txtStartAddress = document.getElementById("txtStartAddress");
+            var txtEndSite = document.getElementById("txtEndAddress");
             var ddlEndSite = document.getElementById("ddlEndSite");
             var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
-            var txtEndAddress = document.getElementById("txtEndAddress");
 
-            if ($chkCustomStartLocation.checked) {
-                source = txtStartAddress.value;
-            }
-            else {
-                source = ddlStartSiteValue;
-                txtStartAddress.value = source;
+            if (ddlStartSiteValue != "") {
+                txtStartSite.value = ddlStartSiteValue;
             }
 
-            if ($chkCustomEndLocation.checked) {
-                destination = txtEndAddress.value;
+            if (ddlEndSiteValue != "") {
+                txtEndSite.value = ddlEndSiteValue;
+            }
+
+            source = txtStartSite.value;
+            destination = txtEndSite.value;
+
+            //if ($chkCustomStartLocation.checked) {
+            //    source = txtStartSite.value;
+            //}
+            //else {
+            //    source = ddlStartSiteValue;
+            //}
+
+            //if ($chkCustomEndLocation.checked) {
+            //    destination = txtEndSite.value;
+            //}
+            //else {
+            //    destination = ddlEndSiteValue;
+            //}
+
+            if ($chkRoundTrip.checked) {
+                roundTrip = 2;
             }
             else {
-                destination = ddlEndSiteValue;
-                txtEndAddress.value = destination;
+                roundTrip = 1;
             }
 
             var request = {
@@ -271,7 +296,7 @@
                     var dvCost = document.getElementById("txtReimbursement");
                     //duration = parseFloat(duration / 60).toFixed(2);
                     //This is a dummy rate value for Cost per Km
-                    var rate = 5;
+                    var rate = .5;
                     //Converts the Distance from meters to kilometers
                     var distancecost = response.rows[0].elements[0].distance.value / 1000;
                     var cost = distancecost * rate;
