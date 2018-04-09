@@ -1,5 +1,5 @@
 ﻿@model ConferenceFormSubmittal.Models.Mileage
-
+@using ConferenceFormSubmittal.Utilities;
 @{
     ViewBag.Title = "Create";
 }
@@ -28,98 +28,128 @@
             <div class="card bg-NCDSB-Grey">
                 <div class="card-body ">
 
-                    <div class="row pt-3">
-                        <div>
-                            @if (ViewBag.Application == null)
-                            {
-                                <text>Attach to Conference?</text>
-                                @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                                <a onclick="attachConference()" class="btn btn-success mt-3 d-block">
-                                    Attach Conference
-                                </a>
-                            }
-                            @if (ViewBag.Application != null)
-                            {
-                                @Html.Hidden("ApplicationID", new { @value = ViewBag.Application.ID })
-                            }
-                        </div>
-                        <div>
-                            @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @Html.Hidden("ConferenceName", new { @value = ViewBag.Application.Conference.Name })
-                                @ViewBag.Application.Conference.Name
-                            }
-                        </div>
-                        <div>
-                            @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @ViewBag.Application.Conference.Location
-                            }
-                        </div>
-                        <div>
-                            @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @ViewBag.Application.DepartureDate.ToShortDateString()
-                            }
-                        </div>
-                        <div>
-                            @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @ViewBag.Application.ReturnDate.ToShortDateString()
-                            }
-                        </div>
-                        <div>
-                            <a onclick="Reset()" class="btn btn-success mt-3 d-block">
-                                Restart
-                            </a>
-                        </div>
-                    </div>
 
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
-                    <div class="row pt-3">
-                        <div class="col-1">
+
+
+
+                    @*---------------------ROW--------START - END DATE----------------------------------------------------*@
+                    <div class="row pt-4">
+                        <div class="col-6">
                             @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
+
                             @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
-                            Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
+                            Enter a Custom Location? <input type="checkbox" id="chkCustomStartLocation" />
                             <input type="text" class="form-control d-block" id="txtStartAddress" placeholder="Enter an Address" />
                         </div>
-                        <div class="col-2">
+
+                        <div class="col-6">
                             @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
+
                             @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
-                            Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
+                            Enter a Custom Location? <input type="checkbox" id="chkCustomEndLocation" />
                             <input type="text" class="form-control d-block" id="txtEndAddress" placeholder="Enter an Address" />
                         </div>
-                        <div class="col-3">
-                            <a onclick="GetRoute()" class="btn btn-primary d-block">
+
+                        <div class="col-12">
+                            <a onclick="GetRoute()" class="btn btn-success d-block">
                                 <i class="fa fa-map-marker fa-2x"></i>
                                 Get Route
                             </a>
                         </div>
                     </div>
 
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
+
+                    @*---------------------ROW---DATE OF TRAVEL---------------------------------------------------*@
                     <div class="row pt-3">
-                        <div class="col-1">
-                            @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                        <div class="col-12">
+                            <hr />
                         </div>
-                        <div class="col-3">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+
                             <input type="date" class="form-control d-block" id="txtTravelDate" />
                         </div>
-                        <div class="col-2">
+                        <div class="col-6">
                             @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
+
+                            <input type="checkbox" class="" id="chkRoundTrip" />
                         </div>
-                        <div class="col-1">
-                            <input type="checkbox" class="form-control" id="chkRoundTrip" />
-                        </div>
+
                     </div>
+
+
+                    @*---------------------ROW--------ATTACH TO CONFERENCE----------------------------------------------------------------*@
+                    <div class="row pt-3">
+                        <div class="col-12">
+                            <hr />
+                        </div>
+
+
+
+                        @if (ViewBag.Application == null)
+        {
+                <div class="col-6">
+                    <div class="font-weight-bold">
+                        Attach to Conference?
+                        @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                    </div>
+                </div>
+                <div class="col-6 ">
+
+                    <a onclick="attachConference()" class="btn btn-primary mt-3 d-block ">
+                        @Helper.GetIcon(Icons.Draft, 2, "white")
+                        Attach Conference
+                    </a>
+                </div>
+}
+                    </div>
+
+
+                    @*---------------------ROW--------CONFERENCE DETAILS-------------------------------------------------------------*@
+                    <div class="row pt-3">
+
+                        @if (ViewBag.Application != null)
+        {
+                @Html.Hidden("ApplicationID", new { @value = ViewBag.Application.ID })
+}
+
+
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @if (ViewBag.Application != null)
+            {
+                @Html.Hidden("ConferenceName", new { @value = ViewBag.Application.Conference.Name })
+                @ViewBag.Application.Conference.Name
+}
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @if (ViewBag.Application != null)
+            {
+                @ViewBag.Application.Conference.Location
+}
+                        </div>
+
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @if (ViewBag.Application != null)
+            {
+                @ViewBag.Application.DepartureDate.ToShortDateString()
+}
+                        </div>
+
+                        <div class="col-6">
+
+                            @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @if (ViewBag.Application != null)
+            {
+                @ViewBag.Application.ReturnDate.ToShortDateString()
+}
+
+                        </div>
+
+                    </div>
+
 
                     @*---------------------ERROR MESSAGES ---------------------*@
                     <div class="row pt-3">
@@ -129,38 +159,52 @@
                     </div>
 
 
-                </div>
 
-                <div class="card-footer rgba-grey-light">
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
-                    <div class="row pt-3 ">
-                        <div class="col-2">
-                            <label" class="font-weight-bold">Kilometers</label">
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control text-dark" id="txtKilometres" disabled="disabled" />
-                        </div>
-                        <div class="col-2">
-                            <label class="font-weight-bold">Mileage Claim</label>
-                        </div>
-                        <div class="col-3">
-                            <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
-                        </div>
-                    </div>
-
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                    @*---------------------RESTART BUTTON-------------------*@
                     <div class="row">
-                        <div class="col-12">
-                            <a onclick="addMileage()" class="btn btn-success mt-3 d-block">
-                                @*<i class="fa fa-plus"></i>*@
-                                <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
-                                Add to List
+        
+                        <div class="col-4">
+                            <a onclick="Reset()" class="btn btn-danger d-block">
+                                @Helper.GetIcon(Icons.Eraser)
+
+                                Restart
                             </a>
                         </div>
                     </div>
+
+
                 </div>
 
-            </div>
+                    <div class="card-footer rgba-grey-light">
+                        @*---------------------ROW------------------------------------------------------------------------------------*@
+                        <div class="row pt-3 ">
+                            <div class="col-2">
+                                <label" class="font-weight-bold">Kilometers</label">
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control text-dark" id="txtKilometres" disabled="disabled" />
+                            </div>
+                            <div class="col-2">
+                                <label class="font-weight-bold">Mileage Claim</label>
+                            </div>
+                            <div class="col-3">
+                                <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
+                            </div>
+                        </div>
+
+                        @*---------------------ROW------------------------------------------------------------------------------------*@
+                        <div class="row">
+                            <div class="col-12">
+                                <a onclick="addMileage()" class="btn btn-success mt-3 d-block">
+                                    @*<i class="fa fa-plus"></i>*@
+                                    <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                                    Add to List
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
         </div>  @*---------------- MILEAGE FORM END----------------------*@
 
 
