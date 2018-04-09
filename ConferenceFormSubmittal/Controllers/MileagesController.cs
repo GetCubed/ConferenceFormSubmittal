@@ -502,8 +502,8 @@ namespace ConferenceFormSubmittal.Controllers
                          join b in db.Conferences on a.ConferenceID equals b.ID
                          //where a.EmployeeID = current logged in employee ya know
                          orderby b.Name
-                         select b;
-            ViewBag.ConferenceName = new SelectList(aQuery, "ID", "Name");
+                         select a;
+            ViewBag.ApplicationConferenceName = new SelectList(aQuery, "ID", "Rationale");
 
             var lQuery = from l in db.Sites
                          orderby l.Name
