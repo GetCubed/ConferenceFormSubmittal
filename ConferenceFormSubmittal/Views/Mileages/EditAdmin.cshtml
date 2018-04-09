@@ -65,6 +65,10 @@
                         @Html.DisplayFor(model => model.Application.Conference.Name)
                     </div>
                     <div>
+                        @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Application.Conference.Location)
+                    </div>
+                    <div>
                         @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.DisplayFor(model => model.Application.DepartureDate)
                     </div>

@@ -32,6 +32,7 @@
                         <div>
                             @if (ViewBag.Application == null)
                             {
+                                //this need to connect to the proper conference, needs changes in controller?
                                 <text>Attach to Conference?</text>
                                 @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
                                 <a onclick="attachConference()" class="btn btn-success mt-3 d-block">
