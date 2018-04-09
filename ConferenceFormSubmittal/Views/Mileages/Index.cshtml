@@ -122,7 +122,7 @@
                                 <input type="submit" name="actionButton" value="Round Trip" disabled="disabled" class="btn btn-grey btn-md" />
                             </th>
                             <th>
-                                <input type="submit" name="actionButton" value="Description" class="btn btn-grey btn-md" />
+                                <input type="submit" name="actionButton" value="Status" class="btn btn-grey btn-md" />
                             </th>
                             <th></th>
                         </tr>
@@ -153,11 +153,11 @@
 
                                 <td>
 
-                                    <a href='@Url.Action("Details", "Mileages", new { id = item.ID })' class="badge badge-primary">
+                                    @*<a href='@Url.Action("Details", "Mileages", new { id = item.ID })' class="badge badge-primary">
                                         @Helper.GetIcon(Icons.View, 3)
                                         <br />
                                         View
-                                    </a>
+                                    </a>*@
                                     <a href='@Url.Action("Edit", "Mileages", new { id = item.ID })' class="badge badge-info">
                                         @Helper.GetIcon(Icons.Edit, 3)
                                         <br />

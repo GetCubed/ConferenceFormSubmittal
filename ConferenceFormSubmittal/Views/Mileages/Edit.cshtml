@@ -19,11 +19,13 @@
 {
     @Html.AntiForgeryToken()
 
+
+    @*---------------------FILTER BAR-------------------------------------------*@
     <div class="row pt-3">
         <div class="col-12">
             <div class="card bg-NCDSB-Grey">
-                <div class="card-body">
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                <div class="card-header">
+
                     <div class="row">
                         <div class="col-12 d-flex justify-content-between">
 
@@ -31,11 +33,11 @@
                                 @Helper.GetIcon(Icons.Back) Go Back
                             </a>
 
-                            <button id="btnDraft" type="button" value="Draft" class="btn btn-primary float-right">
-                                <i class="fa  fa-paper-plane fa-2x"></i> Save as Draft
+                            <button id="btnDraft" type="button" value="Draft" class="btn btn-info float-right">
+                                @Helper.GetIcon(Icons.Draft) Save as Draft
                             </button>
 
-                            <button type="submit" class="btn btn-info ">
+                            <button type="submit" class="btn btn-success ">
                                 @Helper.GetIcon(Icons.Save) Save
                             </button>
 
@@ -51,63 +53,58 @@
     </div>
 
 
-
+    @*---------------------Edit Form------------------------------------------------------------------------------------*@
     <div class="row pt-3">
 
-
-        @*---------------------Edit Form------------------------------------------------------------------------------------*@
         <div class="col-8">
             <div class="card bg-NCDSB-Grey">
                 <div class="card-body">
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
-                    <div class="row pt-3">
-                        <div class="col-1">
+                    <div class="row">
+                        <div class="col-6">
                             @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
                             @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
                             Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
                             @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block bg-NCDSB-GreyLight", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
                             @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
                         </div>
-                        <div class="col-2">
+                        <div class="col-6">
                             @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
                             @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
                             Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
                             @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
                             @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
                         </div>
-                        <div class="col-3">
+                        <div class="col-12">
                             <a onclick="GetRoute()" class="btn btn-primary d-block">
                                 <i class="fa fa-map-marker fa-2x"></i>
+                                @Helper.GetIcon(Icons.Marker)
                                 Get Route
                             </a>
                         </div>
+
                     </div>
 
                     @*---------------------ROW------------------------------------------------------------------------------------*@
                     <div class="row pt-3">
-                        <div class="col-1">
+                        <div class="col-6">
                             @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
                             @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "txtTravelDate" } })
                             @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
                         </div>
-                        <div class="col-2">
-                            <label class="font-weight-bold">Attached Conference</label>
-                        </div>
-                        <div class="col-3">
-                            @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                        </div>
-                        <div class="col-2">
+                        <div class="col-6">
                             @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-1">
                             @Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "chkRoundTrip" } })
                         </div>
+                        <div class="col-12">
+                            <hr />
+                        </div>
+
+                        <div class="col-6">
+                            <label class="font-weight-bold">Attached Conference</label>
+                            @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                        </div>
+
+  
                     </div>
 
 
