@@ -13,25 +13,22 @@
 <div class="row pt-3">
     <div class="col-12">
         <div class="card card-header bg-NCDSB-Grey">
-            <h3 class="text-center font-weight-bold">My Mileage</h3>
+            <h3 class="text-center font-weight-bold">View Mileages</h3>
         </div>
     </div>
 </div>
 
 
-@using (Html.BeginForm("Index", "Mileages", FormMethod.Get))
+@using (Html.BeginForm("IndexAdmin", "Mileages", FormMethod.Get))
 {
     //--------------Filter bar ---------------------
     <div class="row pt-3">
-        <div class="col-12">
-            <div class="row">
-            <div class="row pt-3">
                 <div class="col-12">
                     @*---------------FILTER CARD -------------------*@
                     <div class="card bg-NCDSB-Grey">
                         <div class="card-header d-flex justify-content-between ">
 
-                            <a href='@Url.Action("Index", "Home")' class="btn btn-primary">
+                            <a href='@Url.Action("IndexAdmin", "Home")' class="btn btn-primary">
                                 @Helper.GetIcon(Icons.Back) Go Back
                             </a>
 
@@ -80,7 +77,7 @@
                                     @Helper.GetIcon(Icons.Filter) Filter
                                 </button>
 
-                                <a href='@Url.Action("Index", "Mileages")' class="btn btn-danger">
+                                <a href='@Url.Action("IndexAdmin", "Mileages")' class="btn btn-danger">
                                     @Helper.GetIcon(Icons.Eraser) Clear
                                 </a>
                             </div>
@@ -90,9 +87,9 @@
 
                     </div>
                 </div>
-
-            </div>
-
+    </div>
+     
+ 
 
     //--------------Mileages bar ---------------------
     <div class="row pt-3">
@@ -158,10 +155,10 @@
                                         <br />
                                         View
                                     </a>*@
-                                    <a href='@Url.Action("Edit", "Mileages", new { id = item.ID })' class="badge badge-info">
+                                    <a href='@Url.Action("EditAdmin", "Mileages", new { id = item.ID })' class="badge badge-info">
                                         @Helper.GetIcon(Icons.Edit, 3)
                                         <br />
-                                        Edit
+                                        Evaluate
                                     </a>
                                     <a href='@Url.Action("Delete", "Mileages", new { id = item.ID })' class="badge badge-danger">
                                         @Helper.GetIcon(Icons.Flag, 3)

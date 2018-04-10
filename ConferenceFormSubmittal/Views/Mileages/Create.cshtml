@@ -1,5 +1,5 @@
 ﻿@model ConferenceFormSubmittal.Models.Mileage
-
+@using ConferenceFormSubmittal.Utilities;
 @{
     ViewBag.Title = "Create";
 }
@@ -23,102 +23,186 @@
 
 <div class="row pt-3">
 
-    @*---------------- MILEAGE FORM ----------------------*@
     <div class="col-8">
-        <div class="card bg-NCDSB-Grey">
-            <div class="card-body ">
+        @*---------------------------Determine Route Row------------------------------------------*@
+        <div class="row">
+            <div class="col-12">
+                <div class="card bg-NCDSB-Grey">
+                    <div class="card-header">
+                        <h3>Determine Route</h3>
+                    </div>
+                    <div class="card-body">
+                        @*---------------------ROW--------START - END DATE----------------------------------------------------*@
+                        <div class="row pt-4">
+                            <div class="col-2">
+                                @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                            </div>
+                            <div class="col-4">
+                                @Html.DropDownList("Sites", null, "Custom Address", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
+                                @*Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />*@
+                                <input type="text" class="form-control d-block" id="txtStartAddress" placeholder="Enter an Address" />
+                            </div>
 
-                @*---------------------ROW------------------------------------------------------------------------------------*@
-                <div class="row pt-3">
-                    <div class="col-1">
-                        @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                    </div>
-                    <div class="col-3">
-                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
-                        Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
-                        <input type="text" class = "form-control d-block" id = "txtStartAddress" placeholder = "Enter an Address" />
-                    </div>
-                    <div class="col-2">
-                        @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                    </div>
-                    <div class="col-3">
-                        @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
-                        Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
-                        <input type="text" class = "form-control d-block" id = "txtEndAddress" placeholder = "Enter an Address" />
-                    </div>
-                    <div class="col-3">
-                        <a onclick="GetRoute()" class="btn btn-primary d-block">
-                            <i class="fa fa-map-marker fa-2x"></i>
-                            Get Route
-                        </a>
-                    </div>
-                </div>
+                            <div class="col-3">
+                                @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                            </div>
+                            <div class="col-3">
+                                @Html.DropDownList("Sites", null, "Custom Address", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+                                @*Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />*@
+                                <input type="text" class="form-control d-block" id="txtEndAddress" placeholder="Enter an Address" />
+                            </div>
 
-                @*---------------------ROW------------------------------------------------------------------------------------*@
-                <div class="row pt-3">
-                    <div class="col-1">
-                        @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                    </div>
-                    <div class="col-3">
-                        <input type="date" class = "form-control d-block" id = "txtTravelDate"/>
-                    </div>
-                    <div class="col-2">
-                        <label class="font-weight-bold">Attach to Conference? </label>
-                    </div>
-                    <div class="col-3">
-                        @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                    </div>
-                    <div class="col-2">
-                        @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                    </div>
-                    <div class="col-1">
-                        <input type="checkbox" class = "form-control" id = "chkRoundTrip"/>
-                    </div>
-                </div>
-
-                @*---------------------ERROR MESSAGES ---------------------*@
-                <div class="row pt-3">
-                    <div class="col-12">
-                        <label id="txtValid" class="text-danger "> </label>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div class="card-footer rgba-grey-light">
-                @*---------------------ROW------------------------------------------------------------------------------------*@
-                <div class="row pt-3 ">
-                    <div class="col-2">
-                        <label" class="font-weight-bold">Kilometers</label">
-                    </div>
-                    <div class="col-3">
-                        <input type="text" class = "form-control text-dark" id = "txtKilometres" disabled = "disabled"/>
-                    </div>
-                    <div class="col-2">
-                        <label class="font-weight-bold">Mileage Claim</label>
-                    </div>
-                    <div class="col-3">
-                        <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
-                    </div>
-                </div>
-
-                @*---------------------ROW------------------------------------------------------------------------------------*@
-                <div class="row">
-                    <div class="col-12">
-                        <a onclick="addMileage()" class="btn btn-success mt-3 d-block">
-                            @*<i class="fa fa-plus"></i>*@
-                            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
-                            Add to List
-                        </a>
-                        @*@Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
-                        @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @Value = "1", @hidden = "hidden" } })*@
+                            <div class="col-12">
+                                <a onclick="GetRoute()" class="btn btn-success d-block">
+                                    <i class="fa fa-map-marker fa-2x"></i>
+                                    Get Route
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
         </div>
-    </div>  @*---------------- MILEAGE FORM END----------------------*@
+
+        <div class="row pt-3">
+
+            @*---------------- MILEAGE FORM ----------------------*@
+            <div class="col-12">
+                <div class="card bg-NCDSB-Grey">
+                    <div class="card-body ">
+
+                        @*---------------------ROW---DATE OF TRAVEL---------------------------------------------------*@
+                        <div class="row">
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+
+                                <input type="date" class="form-control d-block" id="txtTravelDate" />
+                            </div>
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                <input type="checkbox" class="" id="chkRoundTrip" />
+                            </div>
+                            <div class="col-12">
+                                <hr />
+                            </div>
+                        </div>
+
+
+                        @*---------------------ROW--------ATTACH TO CONFERENCE----------------------------------------------------------------*@
+                        <div class="row pt-3">
+
+                            @if (ViewBag.Application == null)
+                    {
+                        <div class="col-6">
+                            <div class="font-weight-bold">
+                                Attach to Conference?
+                                @Html.DropDownList("ApplicationConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                            </div>
+                        </div>
+                        <div class="col-6 ">
+                            <a onclick="attachConference()" class="btn btn-primary mt-3 d-block ">
+                                @Helper.GetIcon(Icons.Draft, 2, "white")
+                                Attach Conference
+                            </a>
+                        </div>
+            }
+                        </div>
+
+
+                        @*---------------------ROW--------CONFERENCE DETAILS-------------------------------------------------------------*@
+                        <div class="row pt-3">
+
+                            @if (ViewBag.Application != null)
+                    {
+                        @Html.Hidden("ApplicationID", new { @value = ViewBag.Application.ID })
+            }
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @if (ViewBag.Application != null)
+                        {
+                            @Html.Hidden("ConferenceName", new { @value = ViewBag.Application.Conference.Name })
+                            @ViewBag.Application.Conference.Name
+                }
+                            </div>
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @if (ViewBag.Application != null)
+                        {
+                            @ViewBag.Application.Conference.Location
+                }
+                            </div>
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @if (ViewBag.Application != null)
+                        {
+                            @ViewBag.Application.DepartureDate.ToShortDateString()
+                }
+                            </div>
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @if (ViewBag.Application != null)
+                        {
+                            @ViewBag.Application.ReturnDate.ToShortDateString()
+                }
+                            </div>
+
+                        </div>
+
+
+                        @*---------------------ERROR MESSAGES ---------------------*@
+                        <div class="row pt-3">
+                            <div class="col-12">
+                                <label id="txtValid" class="text-danger "> </label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="card-footer rgba-grey-light">
+                        @*---------------------ROW------------------------------------------------------------------------------------*@
+                        <div class="row pt-3 ">
+                            <div class="col-2">
+                                <label" class="font-weight-bold">Kilometers</label">
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control text-dark" id="txtKilometres" disabled="disabled" />
+                            </div>
+                            <div class="col-2">
+                                <label class="font-weight-bold">Mileage Claim</label>
+                            </div>
+                            <div class="col-3">
+                                <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
+                            </div>
+                        </div>
+
+                        @*---------------------ROW------------------------------------------------------------------------------------*@
+                        <div class="row">
+
+                            <div class="col-9">
+                                <a onclick="addMileage()" class="btn btn-success mt-3 d-block">
+                                    @*<i class="fa fa-plus"></i>*@
+                                    <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                                    Add to List
+                                </a>
+                            </div>
+                            <div class="col-3">
+                                <a onclick="Reset()" class="btn btn-danger mt-3 d-block ">
+                                    @Helper.GetIcon(Icons.Eraser)
+                                    Restart
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
 
 
     @*-------------------------  GOOGLE MAP Column ---------------*@
@@ -143,6 +227,9 @@
         <div class="col-12">
             <div class="card bg-NCDSB-Grey">
                 <div class="card-header">
+                    <button id="btnDraft" type="button" value="Save As Draft" class="btn btn-info float-left">
+                        @Helper.GetIcon(Icons.Draft, 2, "white") Save As Draft
+                    </button>
                     <button id="btnSubmit" type="button" value="Submit" class="btn btn-primary float-right">
                         <i class="fa fa-paper-plane fa-2x"></i> Submit
                     </button>
@@ -191,20 +278,34 @@
 
         </div>
 
-   
+
     </div>
 
 
-    
+
 } @*-----------end of form ---------------*@
-
-
-
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
+
+    <script>
+
+        function attachConference() {
+            var $ApplicationID = $("#ddlApplicationID"),
+                app = $ApplicationID.find(":selected").text(),
+                appID = $ApplicationID.find(":selected").val();
+
+            if (appID > 0) {
+                if (confirm("Do you want to attach this Conference, " + app + "? ")) {
+                    window.location.replace("/Mileages/Create?ApplicationID=" + appID);
+                }
+            }
+        }
+
+        function Reset() {
+            window.location.replace("/Mileages/Create/");
+        }
 
         function validMileage(travelDate, startAddress, endAddress, kilometres) {
 
@@ -234,44 +335,54 @@
 
         // adds the mileage to the table if valid
         function addMileage() {
-
             // get values
             var $txtTravelDate = $("#txtTravelDate"),
                 $txtKilometres = $("#txtKilometres"),
-                $ddlAppID = $("#ddlApplicationID"),
+                $appID = $("#ApplicationID"),
+                $con = $("#ConferenceName")
+                //$ddlAppID = $("#ddlApplicationID"),
                 $chkRoundTrip = $("#chkRoundTrip"),
                 $txtreimbursement = $("#txtReimbursement"),
                 travelDate = $txtTravelDate.val(),
                 kilometres = $txtKilometres.val(),
-                app = $ddlAppID.find(":selected").val(),
-                appID = $ddlAppID.val(),
+                appID = $appID.val(),
+                ConName = $con.val(),
+                //app = $ddlAppID.find(":selected").val(),
+                //appID = $ddlAppID.val(),
                 roundTrip = $chkRoundTrip.is(':checked'),
                 roundTriptxt = roundTrip ? "Yes" : "No";
                 reimbursement = $txtreimbursement.val();
-            
+
             var $txtStartAddress = $("#txtStartAddress"),
                 $ddlStartAddress = $("#ddlStartSite"),
                 $txtEndAddress = $("#txtEndAddress"),
-                $ddlEndAddress = $("#ddlEndSite"),
-                $chkCustomStartLocation = $("#chkCustomStartLocation"),
-                $chkCustomEndLocation = $("#chkCustomEndLocation"),
-                customStartLocation = $chkCustomStartLocation.is(":checked"),
-                customEndLocation = $chkCustomEndLocation.is(":checked");
-
-            if (!customStartLocation) {
-                var startAddress = $ddlStartAddress.val();
-            }
-            else {
+                $ddlEndAddress = $("#ddlEndSite");
+                //$chkCustomStartLocation = $("#chkCustomStartLocation"),
+                //$chkCustomEndLocation = $("#chkCustomEndLocation"),
+                //customStartLocation = $chkCustomStartLocation.is(":checked"),
+                //customEndLocation = $chkCustomEndLocation.is(":checked");
+                
+            //if (!customStartLocation) {
+            //    var startAddress = $ddlStartAddress.val();
+            //}
+            //else {
                 var startAddress = $txtStartAddress.val();
-            }
+            //}
 
-            if (!customEndLocation) {
-                var endAddress = $ddlEndAddress.val();
+            //if (!customEndLocation) {
+            //    var endAddress = $ddlEndAddress.val();
+            //}
+            //else {
+                var endAddress = $txtEndAddress.val();
+            //}
+
+            if (typeof appID != 'string') {
+                ConName = "None";
             }
             else {
-                var endAddress = $txtEndAddress.val();
+                ConName = ConName.slice(9, -2);
             }
-            
+
             if (confirm("Do you want to add this Mileage Entry?")) {
                 if (validMileage(travelDate, startAddress, endAddress, kilometres)) {
                     // add the expense to the table
@@ -281,7 +392,8 @@
                         "<td class='startAddress'>" + startAddress + "</td>" +
                         "<td class='endAddress'>" + endAddress + "</td>" +
                         "<td class='kilometres'>" + kilometres + "</td > " +
-                        "<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
+                        //"<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
+                        "<td class='applicationID' data-id='" + appID + "'>" + ConName + "</td>" +
                         "<td class='roundTrip' data-roundTrip='" + roundTrip + "' > " + roundTriptxt + "</td > " +
                         "<td class='reimbursement'>" + reimbursement + "</td>" +
                         "<td><a onclick='removeMileage($(this))' class='removeMileage btn btn-danger'><i class='fa fa-minus'></i></a></td>" +
@@ -344,6 +456,44 @@
                 });
             }
         });
+
+        $("#btnDraft").click(function () {
+
+            var mileageBatch = [];
+
+            if (confirm("Do you want save as draft?")) {
+
+                $(".trMileage").each(function () {
+                    var row = $(this);
+
+                    var mileage = {
+                        TravelDate: row.find(".travelDate").html(),
+                        StartAddress: row.find(".startAddress").html(),
+                        EndAddress: row.find(".endAddress").html(),
+                        Kilometres: row.find(".kilometres").html(),
+                        ApplicationID: row.find(".applicationID").data("id"),
+                        RoundTrip: row.find(".roundTrip").data("roundTrip"),
+                        StatusID: 4,
+                        EmployeeID: 1 //needs to reference the logged in user
+                    };
+
+                    mileageBatch.push(mileage);
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Mileages/AddMileages",
+                    data: JSON.stringify(mileageBatch),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        //alert((response + 1) + " mileage(s) added.");
+                        $("#frmCreateMileage").submit();
+                        window.location = "/Mileages"
+                    }
+                });
+            }
+        });
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQoBa1Dcsary4e_iMueoDfG8taMDb8IKI&libraries=places" type="text/javascript"></script>
@@ -351,7 +501,7 @@
     @*This script is the actual google api calculatin the distance and cost(with dummy rate) between two locations*@
     <script>
 
-        var source, destination, $chkCustomStartLocation, $chkCustomEndLocation;
+        var source, destination, $chkCustomStartLocation, $chkCustomEndLocation, $chkRoundTrip, roundTrip;
         var directionsDisplay;
         var directionsService = new google.maps.DirectionsService();
 
@@ -366,31 +516,53 @@
             new google.maps.places.SearchBox(document.getElementById('txtEndAddress'));
             directionsDisplay = new google.maps.DirectionsRenderer({ /*'draggable': true*/ });
         });
+        
 
         function GetRoute() {
 
             directionsDisplay.setMap(map);
 
-            $chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
-            $chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+            //$chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
+            //$chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+            $chkRoundTrip = document.getElementById("chkRoundTrip");
 
+            var txtStartSite = document.getElementById("txtStartAddress");
             var ddlStartSite = document.getElementById("ddlStartSite");
             var ddlStartSiteValue = ddlStartSite[ddlStartSite.selectedIndex].value;
+            var txtEndSite = document.getElementById("txtEndAddress");
             var ddlEndSite = document.getElementById("ddlEndSite");
             var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
             
-            if ($chkCustomStartLocation.checked) {
-                source = document.getElementById("txtStartAddress").value;
+            if (ddlStartSiteValue != "") {
+                txtStartSite.value = ddlStartSiteValue;
+            }
+
+            if (ddlEndSiteValue != "") {
+                txtEndSite.value = ddlEndSiteValue;
+            }
+
+            source = txtStartSite.value;
+            destination = txtEndSite.value;
+
+            //if ($chkCustomStartLocation.checked) {
+            //    source = txtStartSite.value;
+            //}
+            //else {
+            //    source = ddlStartSiteValue;
+            //}
+
+            //if ($chkCustomEndLocation.checked) {
+            //    destination = txtEndSite.value;
+            //}
+            //else {
+            //    destination = ddlEndSiteValue;
+            //}
+
+            if ($chkRoundTrip.checked) {
+                roundTrip = 2;
             }
             else {
-                source = ddlStartSiteValue;
-            }
-            
-            if ($chkCustomEndLocation.checked) {
-                destination = document.getElementById("txtEndAddress").value;
-            }
-            else {
-                destination = ddlEndSiteValue;
+                roundTrip = 1;
             }
 
             var request = {
@@ -423,10 +595,11 @@
                     //This is a dummy rate value for Cost per Km
                     var rate = .5;
                     //Converts the Distance from meters to kilometers
-                    var distancecost = response.rows[0].elements[0].distance.value / 1000;
-                    var cost = distancecost * rate;
+                    var distance = (response.rows[0].elements[0].distance.value / 1000);
+                    var cost = (distance * rate) * roundTrip;
+                    var distanceRoundTrip = distance * roundTrip;
 
-                    dvDistance.value = distancecost.toFixed(2);
+                    dvDistance.value = distanceRoundTrip.toFixed(2);
                     dvCost.value = "$" + cost.toFixed(2);
 
                 } else {
