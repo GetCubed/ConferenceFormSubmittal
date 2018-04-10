@@ -81,7 +81,7 @@
                             </div>
                             <div class="col-6">
                                 @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                <input type="checkbox" class="" id="chkRoundTrip" />
+                                <input type="checkbox" class="toggle" id="chkRoundTrip" />
                             </div>
                             <div class="col-12">
                                 <hr />
@@ -516,7 +516,34 @@
             new google.maps.places.SearchBox(document.getElementById('txtEndAddress'));
             directionsDisplay = new google.maps.DirectionsRenderer({ /*'draggable': true*/ });
         });
-        
+
+        $(function () {
+            $('.toggle').change(function () {
+                var self = $(this);
+                var roundTrip = 2;
+                var $txtMileage = $("#txtKilometres");
+                var txtMileageVal = $txtMileage.val();
+                var newMileage;
+                var $txtReim = $("#txtReimbursement");
+                var txtReimVal = $txtReim.val();
+                var newReim;
+
+                if (self.prop('checked')) {
+                    newMileage = txtMileageVal * roundTrip;
+                    $txtMileage.val(newMileage.toFixed(2));
+
+                    newReim = txtReimVal * roundTrip;
+                    $txtReim.val(newReim.toFixed(2));
+                }
+                else {
+                    newMileage = txtMileageVal / roundTrip;
+                    $txtMileage.val(newMileage.toFixed(2));
+
+                    newReim = txtReimVal / roundTrip;
+                    $txtReim.val(newReim.toFixed(2));
+                }
+            });
+        });
 
         function GetRoute() {
 
@@ -600,7 +627,7 @@
                     var distanceRoundTrip = distance * roundTrip;
 
                     dvDistance.value = distanceRoundTrip.toFixed(2);
-                    dvCost.value = "$" + cost.toFixed(2);
+                    dvCost.value = cost.toFixed(2);
 
                 } else {
                     alert("Unable to find the distance via road.");
