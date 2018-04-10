@@ -20,7 +20,7 @@
     <div class="col-12">
 
         <div class="card bg-NCDSB-Grey">
-            <div class="card-body">
+            <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <a href='@Url.Action("Index", "Applications")' class="btn btn-primary">
@@ -28,7 +28,7 @@
                             Go Back
                         </a>
 
-                        <a href='@Url.Action("Edit", "Applications", new { id = Model.ID })' class="btn btn-primary">
+                        <a href='@Url.Action("Edit", "Applications", new { id = Model.ID })' class="btn btn-info">
                             @Helper.GetIcon(Icons.Edit)
                             Edit
                         </a>
@@ -111,7 +111,6 @@
                     <div class="col-4">
                         @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.Raw(Helper.GetIcon(Model.Status.Description)) @Html.DisplayFor(model => model.Status.Description)
-                       
                     </div>
                     <div class="col-4">
                         @Html.LabelFor(model => model.DateSubmitted, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
@@ -120,6 +119,9 @@
                     <div class="col-4">
                         @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.DisplayFor(model => model.Feedback)
+                    </div>
+                    <div class="col-12">
+                        <hr />
                     </div>
                 </div>
 

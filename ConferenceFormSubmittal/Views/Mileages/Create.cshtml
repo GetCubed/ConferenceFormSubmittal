@@ -21,134 +21,144 @@
     @Html.AntiForgeryToken()
 
 
-    <div class="row pt-3">
+<div class="row pt-3">
 
-        @*---------------- MILEAGE FORM ----------------------*@
-        <div class="col-8">
-            <div class="card bg-NCDSB-Grey">
-                <div class="card-body ">
+    <div class="col-8">
+        @*---------------------------Determine Route Row------------------------------------------*@
+        <div class="row">
+            <div class="col-12">
+                <div class="card bg-NCDSB-Grey">
+                    <div class="card-header">
+                        <h3>Determine Route</h3>
+                    </div>
+                    <div class="card-body">
+                        @*---------------------ROW--------START - END DATE----------------------------------------------------*@
+                        <div class="row pt-4">
+                            <div class="col-2">
+                                @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                            </div>
+                            <div class="col-4">
+                                @Html.DropDownList("Sites", null, "Custom Address", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
+                                @*Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />*@
+                                <input type="text" class="form-control d-block" id="txtStartAddress" placeholder="Enter an Address" />
+                            </div>
 
-                    @*---------------------ROW--------START - END DATE----------------------------------------------------*@
-                    <div class="row pt-4">
-                        <div class="col-6">
-                            @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
-                            @Html.DropDownList("Sites", null, "Custom Address", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
-                            @*Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />*@
-                            <input type="text" class="form-control d-block" id="txtStartAddress" placeholder="Enter an Address" />
-                        </div>
+                            <div class="col-3">
+                                @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                            </div>
+                            <div class="col-3">
+                                @Html.DropDownList("Sites", null, "Custom Address", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+                                @*Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />*@
+                                <input type="text" class="form-control d-block" id="txtEndAddress" placeholder="Enter an Address" />
+                            </div>
 
-                        <div class="col-6">
-                            @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
-                            @Html.DropDownList("Sites", null, "Custom Address", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
-                            @*Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />*@
-                            <input type="text" class="form-control d-block" id="txtEndAddress" placeholder="Enter an Address" />
-                        </div>
-
-                        <div class="col-12">
-                            <a onclick="GetRoute()" class="btn btn-success d-block">
-                                <i class="fa fa-map-marker fa-2x"></i>
-                                Get Route
-                            </a>
+                            <div class="col-12">
+                                <a onclick="GetRoute()" class="btn btn-success d-block">
+                                    <i class="fa fa-map-marker fa-2x"></i>
+                                    Get Route
+                                </a>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
+        </div>
 
-                    @*---------------------ROW---DATE OF TRAVEL---------------------------------------------------*@
-                    <div class="row pt-3">
-                        <div class="col-12">
-                            <hr />
+        <div class="row pt-3">
+
+            @*---------------- MILEAGE FORM ----------------------*@
+            <div class="col-12">
+                <div class="card bg-NCDSB-Grey">
+                    <div class="card-body ">
+
+                        @*---------------------ROW---DATE OF TRAVEL---------------------------------------------------*@
+                        <div class="row">
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+
+                                <input type="date" class="form-control d-block" id="txtTravelDate" />
+                            </div>
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                <input type="checkbox" class="" id="chkRoundTrip" />
+                            </div>
+                            <div class="col-12">
+                                <hr />
+                            </div>
                         </div>
-                        <div class="col-6">
-                            @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
-
-                            <input type="date" class="form-control d-block" id="txtTravelDate" />
-                        </div>
-                        <div class="col-6">
-                            @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
-
-                            <input type="checkbox" class="" id="chkRoundTrip" />
-                        </div>
-
-                    </div>
 
 
-                    @*---------------------ROW--------ATTACH TO CONFERENCE----------------------------------------------------------------*@
-                    <div class="row pt-3">
-                        <div class="col-12">
-                            <hr />
-                        </div>
+                        @*---------------------ROW--------ATTACH TO CONFERENCE----------------------------------------------------------------*@
+                        <div class="row pt-3">
 
-                        @if (ViewBag.Application == null)
-                        {
+                            @if (ViewBag.Application == null)
+                    {
                         <div class="col-6">
                             <div class="font-weight-bold">
                                 Attach to Conference?
                                 @Html.DropDownList("ApplicationConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
                             </div>
-                         </div>
+                        </div>
                         <div class="col-6 ">
                             <a onclick="attachConference()" class="btn btn-primary mt-3 d-block ">
                                 @Helper.GetIcon(Icons.Draft, 2, "white")
                                 Attach Conference
                             </a>
                         </div>
-                        }
-                    </div>
+            }
+                        </div>
 
 
-                    @*---------------------ROW--------CONFERENCE DETAILS-------------------------------------------------------------*@
-                    <div class="row pt-3">
+                        @*---------------------ROW--------CONFERENCE DETAILS-------------------------------------------------------------*@
+                        <div class="row pt-3">
 
-                        @if (ViewBag.Application != null)
+                            @if (ViewBag.Application != null)
+                    {
+                        @Html.Hidden("ApplicationID", new { @value = ViewBag.Application.ID })
+            }
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @if (ViewBag.Application != null)
                         {
-                            @Html.Hidden("ApplicationID", new { @value = ViewBag.Application.ID })
-                        }
-                        <div class="col-6">
-                            @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @Html.Hidden("ConferenceName", new { @value = ViewBag.Application.Conference.Name })
-                                @ViewBag.Application.Conference.Name
-                            }
+                            @Html.Hidden("ConferenceName", new { @value = ViewBag.Application.Conference.Name })
+                            @ViewBag.Application.Conference.Name
+                }
+                            </div>
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @if (ViewBag.Application != null)
+                        {
+                            @ViewBag.Application.Conference.Location
+                }
+                            </div>
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @if (ViewBag.Application != null)
+                        {
+                            @ViewBag.Application.DepartureDate.ToShortDateString()
+                }
+                            </div>
+                            <div class="col-6">
+                                @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                @if (ViewBag.Application != null)
+                        {
+                            @ViewBag.Application.ReturnDate.ToShortDateString()
+                }
+                            </div>
+
                         </div>
-                        <div class="col-6">
-                            @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @ViewBag.Application.Conference.Location
-                            }
+
+
+                        @*---------------------ERROR MESSAGES ---------------------*@
+                        <div class="row pt-3">
+                            <div class="col-12">
+                                <label id="txtValid" class="text-danger "> </label>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @ViewBag.Application.DepartureDate.ToShortDateString()
-                            }
-                        </div>
-                        <div class="col-6">
-                            @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @ViewBag.Application.ReturnDate.ToShortDateString()
-                            }
-                        </div>
+
 
                     </div>
-
-
-                    @*---------------------ERROR MESSAGES ---------------------*@
-                    <div class="row pt-3">
-                        <div class="col-12">
-                            <label id="txtValid" class="text-danger "> </label>
-                        </div>
-                    </div>
-
-
-                </div>
 
                     <div class="card-footer rgba-grey-light">
                         @*---------------------ROW------------------------------------------------------------------------------------*@
@@ -182,24 +192,11 @@
                                     @Helper.GetIcon(Icons.Eraser)
                                     Restart
                                 </a>
-                            </div>   
+                            </div>
 
                         </div>
                     </div>
 
-                </div>
-        </div>  @*---------------- MILEAGE FORM END----------------------*@
-
-
-        @*-------------------------  GOOGLE MAP Column ---------------*@
-        <div class="col-4">
-            <div class="card bg-NCDSB-Grey">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="col-12" id="dvMap" style="min-height:400px"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -208,13 +205,30 @@
     </div>
 
 
+    @*-------------------------  GOOGLE MAP Column ---------------*@
+    <div class="col-4">
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="col-12" id="dvMap" style="min-height:400px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
     //-----Show items basket ----
     <div class="row pt-3">
         <div class="col-12">
             <div class="card bg-NCDSB-Grey">
                 <div class="card-header">
-                    <button id="btnDraft" type="button" value="Save As Draft" class="btn btn-primary float-left">
-                        <i class="fa fa-paper-plane fa-2x"></i> Save As Draft
+                    <button id="btnDraft" type="button" value="Save As Draft" class="btn btn-info float-left">
+                        @Helper.GetIcon(Icons.Draft, 2, "white") Save As Draft
                     </button>
                     <button id="btnSubmit" type="button" value="Submit" class="btn btn-primary float-right">
                         <i class="fa fa-paper-plane fa-2x"></i> Submit
