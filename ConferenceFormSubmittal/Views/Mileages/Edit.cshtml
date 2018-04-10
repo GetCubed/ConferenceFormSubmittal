@@ -236,8 +236,10 @@
         $("#btnDraft").click(function () {
             var $status = $("#txtStatusID");
 
-            $status.val(4);
-            document.getElementById("frmEditMileage").submit();
+            if (confirm("Do you want to save this Mileage Application as Draft?")) {
+                $status.val(4);
+                document.getElementById("frmEditMileageAdmin").submit();
+            }
         });
 
         var source, destination, $chkCustomStartLocation, $chkCustomEndLocation;

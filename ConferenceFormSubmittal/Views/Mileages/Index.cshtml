@@ -24,74 +24,72 @@
     //--------------Filter bar ---------------------
     <div class="row pt-3">
         <div class="col-12">
-            <div class="row">
-            <div class="row pt-3">
-                <div class="col-12">
-                    @*---------------FILTER CARD -------------------*@
-                    <div class="card bg-NCDSB-Grey">
-                        <div class="card-header d-flex justify-content-between ">
 
-                            <a href='@Url.Action("Index", "Home")' class="btn btn-primary">
-                                @Helper.GetIcon(Icons.Back) Go Back
-                            </a>
+            @*---------------FILTER CARD -------------------*@
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-header d-flex justify-content-between ">
 
-                            <a href='@Url.Action("Create", "Mileages")' class="btn btn-primary">
-                                <i class="fa fa-file-text fa-2x" aria-hidden="true"></i> Create New
-                            </a>
+                    <a href='@Url.Action("Index", "Home")' class="btn btn-primary">
+                        @Helper.GetIcon(Icons.Back) Go Back
+                    </a>
 
-                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="collapseExample,collapseExamples">
-                                @Helper.GetIcon(Icons.Filter) Filter
-                            </button>
-                        </div>
+                    <a href='@Url.Action("Create", "Mileages")' class="btn btn-primary">
+                        <i class="fa fa-file-text fa-2x" aria-hidden="true"></i> Create New
+                    </a>
 
-                        <div class="collapse filter">
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="collapseExample,collapseExamples">
+                        @Helper.GetIcon(Icons.Filter) Filter
+                    </button>
+                </div>
 
-                            <div class="card-body">
+                <div class="collapse filter">
 
-                                <div class="row">
+                    <div class="card-body">
 
-                                    <div class="col-4">
-                                        <label class="font-weight-bold">Start Address</label>
-                                        @Html.TextBox("startAddress", null, new { @class = "form-control bg-NCDSB-GreyLight" })
+                        <div class="row">
 
-                                        <label class="font-weight-bold">End Address</label>
-                                        @Html.TextBox("endAddress", null, new { @class = "form-control bg-NCDSB-GreyLight" })
-                                    </div>
+                            <div class="col-4">
+                                <label class="font-weight-bold">Start Address</label>
+                                @Html.TextBox("startAddress", null, new { @class = "form-control bg-NCDSB-GreyLight" })
 
-                                    <div class="col-4">
-                                        <label class="font-weight-bold">Date After:</label>
-                                        @Html.TextBox("startDate", null, new { @class = "form-control datepicker bg-NCDSB-GreyLight", @type = "date" })
-
-                                        <label class="font-weight-bold">Date Before:</label>
-                                        @Html.TextBox("endDate", null, new { @class = "form-control datepicker bg-NCDSB-GreyLight", @type = "date" })
-                                    </div>
-
-                                    <div class="col-4">
-                                        <b>Status</b>
-                                        @Html.DropDownList("StatusID", null, "All Statuses", htmlAttributes: new { @class = "form-control bg-NCDSB-GreyLight" })
-                                    </div>
-
-                                </div>
-
+                                <label class="font-weight-bold">End Address</label>
+                                @Html.TextBox("endAddress", null, new { @class = "form-control bg-NCDSB-GreyLight" })
                             </div>
 
-                            <div class="card-footer">
-                                <button class="btn btn-primary" type="submit" name="actionButton">
-                                    @Helper.GetIcon(Icons.Filter) Filter
-                                </button>
+                            <div class="col-4">
+                                <label class="font-weight-bold">Date After:</label>
+                                @Html.TextBox("startDate", null, new { @class = "form-control datepicker bg-NCDSB-GreyLight", @type = "date" })
 
-                                <a href='@Url.Action("Index", "Mileages")' class="btn btn-danger">
-                                    @Helper.GetIcon(Icons.Eraser) Clear
-                                </a>
+                                <label class="font-weight-bold">Date Before:</label>
+                                @Html.TextBox("endDate", null, new { @class = "form-control datepicker bg-NCDSB-GreyLight", @type = "date" })
                             </div>
+
+                            <div class="col-4">
+                                <b>Status</b>
+                                @Html.DropDownList("StatusID", null, "All Statuses", htmlAttributes: new { @class = "form-control bg-NCDSB-GreyLight" })
+                            </div>
+
                         </div>
 
+                    </div>
 
+                    <div class="card-footer">
+                        <button class="btn btn-primary" type="submit" name="actionButton">
+                            @Helper.GetIcon(Icons.Filter) Filter
+                        </button>
 
+                        <a href='@Url.Action("Index", "Mileages")' class="btn btn-danger">
+                            @Helper.GetIcon(Icons.Eraser) Clear
+                        </a>
                     </div>
                 </div>
 
+
+
             </div>
+
+        </div>
+    </div>
 
 
     //--------------Mileages bar ---------------------
@@ -154,10 +152,10 @@
                                 <td>
 
                                     @*<a href='@Url.Action("Details", "Mileages", new { id = item.ID })' class="badge badge-primary">
-                                        @Helper.GetIcon(Icons.View, 3)
-                                        <br />
-                                        View
-                                    </a>*@
+                                            @Helper.GetIcon(Icons.View, 3)
+                                            <br />
+                                            View
+                                        </a>*@
                                     <a href='@Url.Action("Edit", "Mileages", new { id = item.ID })' class="badge badge-info">
                                         @Helper.GetIcon(Icons.Edit, 3)
                                         <br />
@@ -208,7 +206,7 @@ statusID = ViewBag.LastStatusID
 
     </div>
 
- 
+
 
 }
 

@@ -174,15 +174,19 @@
         $("#btnApprove").click(function () {
             var $status = $("#txtStatusID");
 
-            $status.val(2);
-            document.getElementById("frmEditMileageAdmin").submit();
+            if (confirm("Do you want to approve this Mileage Application?")) {
+                $status.val(2);
+                document.getElementById("frmEditMileageAdmin").submit();
+            }
         });
 
         $("#btnDeny").click(function () {
             var $status = $("#txtStatusID");
 
-            $status.val(3);
-            document.getElementById("frmEditMileageAdmin").submit();
+            if (confirm("Do you want to deny this Mileage Application?")) {
+                $status.val(3);
+                document.getElementById("frmEditMileageAdmin").submit();
+            }
         });
 
         window.onload = function () {
