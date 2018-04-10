@@ -65,6 +65,17 @@
 
                     <div class="row">
                         <div class="col-6">
+                            @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Application.DepartureDate)
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Application.ReturnDate)
+                        </div>
+                        <div class="col-12">
+                            <hr />
+                        </div>
+                        <div class="col-6">
                             @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                             @Html.DisplayFor(model => model.Application.DepartureDate)
                         </div>
