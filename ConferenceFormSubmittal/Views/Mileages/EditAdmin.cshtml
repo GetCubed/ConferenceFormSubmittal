@@ -61,8 +61,11 @@
                     @*@Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })*@
                     @Html.DisplayFor(model => model.Application.Conference.Name)
                 </div>
+                  <div>
+                        @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Application.Conference.Location)
+                    </div>
                 <div class="card-body">
-
                     <div class="row">
                         <div class="col-6">
                             @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
@@ -86,6 +89,7 @@
                         <div class="col-12">
                             <hr />
                         </div>
+                          @*---------------------ROW------------------------------------------------------------------------------------*@
                         <div class="col-6">
                             @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                             @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtStartAddress", @hidden = "hidden" } })
@@ -170,7 +174,6 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-
         $("#btnApprove").click(function () {
             var $status = $("#txtStatusID");
 
@@ -184,5 +187,13 @@
             $status.val(3);
             document.getElementById("frmEditMileageAdmin").submit();
         });
+
+        window.onload = function () {
+            var txtMileage = document.getElementById("txtKilometres").value
+            var txtReimbursement = document.getElementById("txtReimbursement");
+
+            document.getElementById("txtReimbursement").value = (txtMileage / 2).toFixed(2);
+
+        }
     </script>
 }

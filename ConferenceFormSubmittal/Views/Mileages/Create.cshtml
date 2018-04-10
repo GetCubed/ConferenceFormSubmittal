@@ -28,6 +28,57 @@
             <div class="card bg-NCDSB-Grey">
                 <div class="card-body ">
 
+                    <div class="row pt-3">
+                        <div>
+                            @if (ViewBag.Application == null)
+                            {
+                                //this need to connect to the proper conference, needs changes in controller?
+                                <text>Attach to Application?</text>
+                                @Html.DropDownList("ApplicationConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                                <a onclick="attachConference()" class="btn btn-success mt-3 d-block">
+                                    Attach Application
+                                </a>
+                            }
+                            @if (ViewBag.Application != null)
+                            {
+                                @Html.Hidden("ApplicationID", new { @value = ViewBag.Application.ID })
+                            }
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @if (ViewBag.Application != null)
+                            {
+                                @Html.Hidden("ConferenceName", new { @value = ViewBag.Application.Conference.Name })
+                                @ViewBag.Application.Conference.Name
+                            }
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @if (ViewBag.Application != null)
+                            {
+                                @ViewBag.Application.Conference.Location
+                            }
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @if (ViewBag.Application != null)
+                            {
+                                @ViewBag.Application.DepartureDate.ToShortDateString()
+                            }
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @if (ViewBag.Application != null)
+                            {
+                                @ViewBag.Application.ReturnDate.ToShortDateString()
+                            }
+                        </div>
+                        <div>
+                            <a onclick="Reset()" class="btn btn-success mt-3 d-block">
+                                Restart
+                            </a>
+                        </div>
+                    </div>
 
 
 
@@ -36,17 +87,19 @@
                     <div class="row pt-4">
                         <div class="col-6">
                             @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-
-                            @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
-                            Enter a Custom Location? <input type="checkbox" id="chkCustomStartLocation" />
+                        </div>
+                        <div class="col-3">
+                            @Html.DropDownList("Sites", null, "Custom Address", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
+                            @*Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />*@
                             <input type="text" class="form-control d-block" id="txtStartAddress" placeholder="Enter an Address" />
                         </div>
 
                         <div class="col-6">
                             @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-
-                            @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
-                            Enter a Custom Location? <input type="checkbox" id="chkCustomEndLocation" />
+                        </div>
+                        <div class="col-3">
+                            @Html.DropDownList("Sites", null, "Custom Address", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+                            @*Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />*@
                             <input type="text" class="form-control d-block" id="txtEndAddress" placeholder="Enter an Address" />
                         </div>
 
@@ -224,6 +277,9 @@
         <div class="col-12">
             <div class="card bg-NCDSB-Grey">
                 <div class="card-header">
+                    <button id="btnDraft" type="button" value="Save As Draft" class="btn btn-primary float-left">
+                        <i class="fa fa-paper-plane fa-2x"></i> Save As Draft
+                    </button>
                     <button id="btnSubmit" type="button" value="Submit" class="btn btn-primary float-right">
                         <i class="fa fa-paper-plane fa-2x"></i> Submit
                     </button>
@@ -280,12 +336,10 @@
 } @*-----------end of form ---------------*@
 
 
-
-
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
+
+    <script>
 
         function attachConference() {
             var $ApplicationID = $("#ddlApplicationID"),
@@ -296,7 +350,6 @@
                 if (confirm("Do you want to attach this Conference, " + app + "? ")) {
                     window.location.replace("/Mileages/Create?ApplicationID=" + appID);
                 }
-
             }
         }
 
@@ -332,14 +385,13 @@
 
         // adds the mileage to the table if valid
         function addMileage() {
-
             // get values
             var $txtTravelDate = $("#txtTravelDate"),
                 $txtKilometres = $("#txtKilometres"),
                 $appID = $("#ApplicationID"),
                 $con = $("#ConferenceName")
-            //$ddlAppID = $("#ddlApplicationID"),
-            $chkRoundTrip = $("#chkRoundTrip"),
+                //$ddlAppID = $("#ddlApplicationID"),
+                $chkRoundTrip = $("#chkRoundTrip"),
                 $txtreimbursement = $("#txtReimbursement"),
                 travelDate = $txtTravelDate.val(),
                 kilometres = $txtKilometres.val(),
@@ -349,33 +401,36 @@
                 //appID = $ddlAppID.val(),
                 roundTrip = $chkRoundTrip.is(':checked'),
                 roundTriptxt = roundTrip ? "Yes" : "No";
-            reimbursement = $txtreimbursement.val();
+                reimbursement = $txtreimbursement.val();
 
             var $txtStartAddress = $("#txtStartAddress"),
                 $ddlStartAddress = $("#ddlStartSite"),
                 $txtEndAddress = $("#txtEndAddress"),
-                $ddlEndAddress = $("#ddlEndSite"),
-                $chkCustomStartLocation = $("#chkCustomStartLocation"),
-                $chkCustomEndLocation = $("#chkCustomEndLocation"),
-                customStartLocation = $chkCustomStartLocation.is(":checked"),
-                customEndLocation = $chkCustomEndLocation.is(":checked");
-
-            if (!customStartLocation) {
-                var startAddress = $ddlStartAddress.val();
-            }
-            else {
+                $ddlEndAddress = $("#ddlEndSite");
+                //$chkCustomStartLocation = $("#chkCustomStartLocation"),
+                //$chkCustomEndLocation = $("#chkCustomEndLocation"),
+                //customStartLocation = $chkCustomStartLocation.is(":checked"),
+                //customEndLocation = $chkCustomEndLocation.is(":checked");
+                
+            //if (!customStartLocation) {
+            //    var startAddress = $ddlStartAddress.val();
+            //}
+            //else {
                 var startAddress = $txtStartAddress.val();
-            }
+            //}
 
-            if (!customEndLocation) {
-                var endAddress = $ddlEndAddress.val();
-            }
-            else {
+            //if (!customEndLocation) {
+            //    var endAddress = $ddlEndAddress.val();
+            //}
+            //else {
                 var endAddress = $txtEndAddress.val();
-            }
+            //}
 
             if (typeof appID != 'string') {
                 ConName = "None";
+            }
+            else {
+                ConName = ConName.slice(9, -2);
             }
 
             if (confirm("Do you want to add this Mileage Entry?")) {
@@ -451,6 +506,44 @@
                 });
             }
         });
+
+        $("#btnDraft").click(function () {
+
+            var mileageBatch = [];
+
+            if (confirm("Do you want save as draft?")) {
+
+                $(".trMileage").each(function () {
+                    var row = $(this);
+
+                    var mileage = {
+                        TravelDate: row.find(".travelDate").html(),
+                        StartAddress: row.find(".startAddress").html(),
+                        EndAddress: row.find(".endAddress").html(),
+                        Kilometres: row.find(".kilometres").html(),
+                        ApplicationID: row.find(".applicationID").data("id"),
+                        RoundTrip: row.find(".roundTrip").data("roundTrip"),
+                        StatusID: 4,
+                        EmployeeID: 1 //needs to reference the logged in user
+                    };
+
+                    mileageBatch.push(mileage);
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Mileages/AddMileages",
+                    data: JSON.stringify(mileageBatch),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        //alert((response + 1) + " mileage(s) added.");
+                        $("#frmCreateMileage").submit();
+                        window.location = "/Mileages"
+                    }
+                });
+            }
+        });
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQoBa1Dcsary4e_iMueoDfG8taMDb8IKI&libraries=places" type="text/javascript"></script>
@@ -473,33 +566,47 @@
             new google.maps.places.SearchBox(document.getElementById('txtEndAddress'));
             directionsDisplay = new google.maps.DirectionsRenderer({ /*'draggable': true*/ });
         });
+        
 
         function GetRoute() {
 
             directionsDisplay.setMap(map);
 
-            $chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
-            $chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+            //$chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
+            //$chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
             $chkRoundTrip = document.getElementById("chkRoundTrip");
 
+            var txtStartSite = document.getElementById("txtStartAddress");
             var ddlStartSite = document.getElementById("ddlStartSite");
             var ddlStartSiteValue = ddlStartSite[ddlStartSite.selectedIndex].value;
+            var txtEndSite = document.getElementById("txtEndAddress");
             var ddlEndSite = document.getElementById("ddlEndSite");
             var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
-
-            if ($chkCustomStartLocation.checked) {
-                source = document.getElementById("txtStartAddress").value;
-            }
-            else {
-                source = ddlStartSiteValue;
+            
+            if (ddlStartSiteValue != "") {
+                txtStartSite.value = ddlStartSiteValue;
             }
 
-            if ($chkCustomEndLocation.checked) {
-                destination = document.getElementById("txtEndAddress").value;
+            if (ddlEndSiteValue != "") {
+                txtEndSite.value = ddlEndSiteValue;
             }
-            else {
-                destination = ddlEndSiteValue;
-            }
+
+            source = txtStartSite.value;
+            destination = txtEndSite.value;
+
+            //if ($chkCustomStartLocation.checked) {
+            //    source = txtStartSite.value;
+            //}
+            //else {
+            //    source = ddlStartSiteValue;
+            //}
+
+            //if ($chkCustomEndLocation.checked) {
+            //    destination = txtEndSite.value;
+            //}
+            //else {
+            //    destination = ddlEndSiteValue;
+            //}
 
             if ($chkRoundTrip.checked) {
                 roundTrip = 2;
