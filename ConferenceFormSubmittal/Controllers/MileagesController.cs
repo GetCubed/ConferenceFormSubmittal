@@ -503,7 +503,7 @@ namespace ConferenceFormSubmittal.Controllers
                          //where a.EmployeeID = current logged in employee ya know
                          orderby b.Name
                          select a;
-            ViewBag.ApplicationConferenceName = new SelectList(aQuery, "ID", "Rationale");
+            ViewBag.ApplicationConferenceName = new SelectList(aQuery, "ID", "Rationale", mileage?.ApplicationID);
 
             var lQuery = from l in db.Sites
                          orderby l.Name
