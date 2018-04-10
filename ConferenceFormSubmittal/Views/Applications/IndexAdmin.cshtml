@@ -11,7 +11,7 @@
 <div class="row pt-3">
     <div class="col-12">
         <div class="card card-header bg-NCDSB-Grey">
-            <h3 class="text-center font-weight-bold">View Applications</h3>
+            <h3 class="text-center font-weight-bold">Applications List</h3>
         </div>
     </div>
 </div>
@@ -57,10 +57,10 @@
 
                             </div>
                             <div class="col-6">
-                                <label class="font-weight-bold d-block"> Sort by Conference </label>
+                                <label class="font-weight-bold d-block"> Conference </label>
                                 @Html.TextBox("ConferenceName", null, new { @class = "form-control bg-NCDSB-GreyLight" })
 
-                                <label class="font-weight-bold d-block"> Employee Last Name </label>
+                                <label class="font-weight-bold d-block"> Status </label>
                                 @*Needs to default to Submitted*@
                                 @Html.DropDownList("StatusID", null, "All Statuses", htmlAttributes: new { @class = "form-control bg-NCDSB-GreyLight" })
                             </div>
@@ -72,7 +72,7 @@
                             @Helper.GetIcon(Icons.Filter) Filter
                         </button>
 
-                        <a href='@Url.Action("Index", "Applications")' class="btn btn-danger">
+                        <a href='@Url.Action("IndexAdmin", "Applications")' class="btn btn-danger">
                             @Helper.GetIcon(Icons.Eraser) Clear
                         </a>
                     </div>
@@ -97,7 +97,7 @@
                     <table class="table">
                         <tr>
                             <th>
-                                <input type="submit" name="actionButton" value="Full Name" class="btn btn-grey btn-md" />
+                                <input type="submit" name="actionButton" value="Employee" class="btn btn-grey btn-md" />
                             </th>
                             <th>
                                 <input type="submit" name="actionButton" value="Conference" class="btn btn-grey btn-md" />
@@ -136,10 +136,10 @@
                                         <br />
                                         View
                                     </a>
-                                    <a href='@Url.Action("Edit", "Applications", new { id = item.ID })' class="badge badge-info">
+                                    <a href='@Url.Action("Evaluate", "Applications", new { id = item.ID })' class="badge badge-info">
                                         @Helper.GetIcon(Icons.Edit, 3)
                                         <br />
-                                        Edit
+                                        Evaluate
                                     </a>
                                     <a href='@Url.Action("Delete", "Applications", new { id = item.ID })' class="badge badge-danger">
                                         @Helper.GetIcon(Icons.Flag, 3)
@@ -180,15 +180,7 @@
                         <!--/.Panel-->
                     </div>
                 </div>
-
-
             </div>
-
-
-
-
         </div>
     </div>
-
-
 }

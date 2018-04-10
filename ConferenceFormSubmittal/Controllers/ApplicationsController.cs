@@ -210,7 +210,7 @@ namespace ConferenceFormSubmittal.Controllers
                     sortField = actionButton;//Sort by the button clicked
                 }
             }
-            if (sortField == "Full Name")//Sorting by Employee Name
+            if (sortField == "Employee")//Sorting by Employee Name
             {
                 if (String.IsNullOrEmpty(sortDirection))
                 {
@@ -352,7 +352,7 @@ namespace ConferenceFormSubmittal.Controllers
             return View(application);
         }
 
-        // GET: Applications/Edit/5
+        // GET: Applications/Evaluate/5
         public ActionResult Evaluate(int? id)
         {
             if (id == null)
@@ -373,21 +373,26 @@ namespace ConferenceFormSubmittal.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Evaluate([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,Feedback,EmployeeID,ConferenceID,StatusID")] Application application)
+        public JsonResult EvaluatePost(Application a, string status)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(application).State = EntityState.Modified;
+                Application application = db.Applications.Find(a.ID);
+
+                application.StatusID = db.Statuses.Where(s => s.Description == status).SingleOrDefault().ID;
+                application.Feedback = a.Feedback;
+                application.PaymentTypeID = a.PaymentTypeID;
+                application.BudgetCode = a.BudgetCode;
+
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json("success");
             }
-            PopulateDropDownLists(application);
-            return View(application);
+            catch (Exception)
+            {
+                return Json("Failed to save changes to the database. Refresh the page and try again. If the problem persists, contact your database administrator.");
+            }
         }
-
-
-
+        
         // GET: Applications/Edit/5
         public ActionResult Edit(int? id)
         {
