@@ -64,6 +64,9 @@ namespace ConferenceFormSubmittal.Utilities
                 case 15:
                     element += "eraser";
                     break;
+                case 16:
+                    element += "marker";
+                    break;
                 default:
                     element += "question";
                     break;

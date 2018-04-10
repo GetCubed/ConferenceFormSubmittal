@@ -22,6 +22,7 @@ namespace ConferenceFormSubmittal.Utilities
         Save,
         Filter,
         Create,
-        Eraser
+        Eraser,
+        Marker
     }
 }
