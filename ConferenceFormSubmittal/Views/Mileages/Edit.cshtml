@@ -134,14 +134,12 @@
 
                                 <div class="col-4">
                                     @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                    @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "txtTravelDate" } })
+                                    @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight" } })
                                     @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
                                 </div>
 
                                 <div class="col-4">
-                                    <label class="font-weight-bold">Attached Conference</label>
-                                    @*make this hidden once it pulls the right value*@
-                                    @Html.DropDownList("ApplicationConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                                    @Html.EditorFor(model => model.ApplicationID, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @hidden = "hidden" } })
                                 </div>
 
                                 <div class="col-4">
