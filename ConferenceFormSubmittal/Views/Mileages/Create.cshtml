@@ -28,61 +28,6 @@
             <div class="card bg-NCDSB-Grey">
                 <div class="card-body ">
 
-                    <div class="row pt-3">
-                        <div>
-                            @if (ViewBag.Application == null)
-                            {
-                                //this need to connect to the proper conference, needs changes in controller?
-                                <text>Attach to Application?</text>
-                                @Html.DropDownList("ApplicationConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                                <a onclick="attachConference()" class="btn btn-success mt-3 d-block">
-                                    Attach Application
-                                </a>
-                            }
-                            @if (ViewBag.Application != null)
-                            {
-                                @Html.Hidden("ApplicationID", new { @value = ViewBag.Application.ID })
-                            }
-                        </div>
-                        <div>
-                            @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @Html.Hidden("ConferenceName", new { @value = ViewBag.Application.Conference.Name })
-                                @ViewBag.Application.Conference.Name
-                            }
-                        </div>
-                        <div>
-                            @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @ViewBag.Application.Conference.Location
-                            }
-                        </div>
-                        <div>
-                            @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @ViewBag.Application.DepartureDate.ToShortDateString()
-                            }
-                        </div>
-                        <div>
-                            @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                            @if (ViewBag.Application != null)
-                            {
-                                @ViewBag.Application.ReturnDate.ToShortDateString()
-                            }
-                        </div>
-                        <div>
-                            <a onclick="Reset()" class="btn btn-success mt-3 d-block">
-                                Restart
-                            </a>
-                        </div>
-                    </div>
-
-
-
-
                     @*---------------------ROW--------START - END DATE----------------------------------------------------*@
                     <div class="row pt-4">
                         <div class="col-6">
@@ -137,24 +82,21 @@
                             <hr />
                         </div>
 
-
-
                         @if (ViewBag.Application == null)
-        {
-                <div class="col-6">
-                    <div class="font-weight-bold">
-                        Attach to Conference?
-                        @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                    </div>
-                </div>
-                <div class="col-6 ">
-
-                    <a onclick="attachConference()" class="btn btn-primary mt-3 d-block ">
-                        @Helper.GetIcon(Icons.Draft, 2, "white")
-                        Attach Conference
-                    </a>
-                </div>
-}
+                        {
+                        <div class="col-6">
+                            <div class="font-weight-bold">
+                                Attach to Conference?
+                                @Html.DropDownList("ApplicationConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
+                            </div>
+                         </div>
+                        <div class="col-6 ">
+                            <a onclick="attachConference()" class="btn btn-primary mt-3 d-block ">
+                                @Helper.GetIcon(Icons.Draft, 2, "white")
+                                Attach Conference
+                            </a>
+                        </div>
+                        }
                     </div>
 
 
@@ -162,43 +104,37 @@
                     <div class="row pt-3">
 
                         @if (ViewBag.Application != null)
-        {
-                @Html.Hidden("ApplicationID", new { @value = ViewBag.Application.ID })
-}
-
-
+                        {
+                            @Html.Hidden("ApplicationID", new { @value = ViewBag.Application.ID })
+                        }
                         <div class="col-6">
                             @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                             @if (ViewBag.Application != null)
-            {
-                @Html.Hidden("ConferenceName", new { @value = ViewBag.Application.Conference.Name })
-                @ViewBag.Application.Conference.Name
-}
+                            {
+                                @Html.Hidden("ConferenceName", new { @value = ViewBag.Application.Conference.Name })
+                                @ViewBag.Application.Conference.Name
+                            }
                         </div>
                         <div class="col-6">
                             @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                             @if (ViewBag.Application != null)
-            {
-                @ViewBag.Application.Conference.Location
-}
+                            {
+                                @ViewBag.Application.Conference.Location
+                            }
                         </div>
-
                         <div class="col-6">
                             @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                             @if (ViewBag.Application != null)
-            {
-                @ViewBag.Application.DepartureDate.ToShortDateString()
-}
+                            {
+                                @ViewBag.Application.DepartureDate.ToShortDateString()
+                            }
                         </div>
-
                         <div class="col-6">
-
                             @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                             @if (ViewBag.Application != null)
-            {
-                @ViewBag.Application.ReturnDate.ToShortDateString()
-}
-
+                            {
+                                @ViewBag.Application.ReturnDate.ToShortDateString()
+                            }
                         </div>
 
                     </div>
