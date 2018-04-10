@@ -19,35 +19,33 @@
 {
     @Html.AntiForgeryToken()
 
+    @*---------------------ROW--APPROVAL BAR----------------------------------------------*@
     <div class="row pt-3">
         <div class="col-12">
             <div class="card bg-NCDSB-Grey">
-                <div class="card-body">
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                <div class="card-header">
                     <div class="row">
                         <div class="col-12 d-flex justify-content-between">
 
-                            <a href='@Url.Action("Index", "Mileages")' class="btn btn-primary">
+                            <a href='@Url.Action("IndexAdmin", "Mileages")' class="btn btn-primary">
                                 @Helper.GetIcon(Icons.Back) Go Back
                             </a>
 
-                            <button id="btnApprove" type="button" value="Approve" class="btn btn-primary float-right">
-                                <i class="fa  fa-paper-plane fa-2x"></i> Approve
+                            <button id="btnApprove" type="button" value="Approve" class="btn btn-success">
+                                @Helper.GetIcon(Icons.Approved) Approve
                             </button>
 
-                            <button id="btnDeny" type="button" value="Deny" class="btn btn-primary float-right">
-                                <i class="fa  fa-paper-plane fa-2x"></i> Deny
+                            <button id="btnDeny" type="button" value="Deny" class="btn btn-danger ">
+                                @Helper.GetIcon(Icons.Denied) Deny
                             </button>
 
                             @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @id = "txtEmployeeID", @Value = "1", @hidden = "hidden" } })
                             @Html.EditorFor(model => model.StatusID, new { htmlAttributes = new { @class = "form-control", @id = "txtStatusID", @hidden = "hidden" } })
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-       
     </div>
 
 
@@ -56,75 +54,73 @@
 
 
         @*---------------------Edit Form------------------------------------------------------------------------------------*@
-        <div class="col-8">
+        <div class="col-12">
             <div class="card bg-NCDSB-Grey">
-                <div class="card-body">
-
-                    <div>
-                        @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                        @Html.DisplayFor(model => model.Application.Conference.Name)
-                    </div>
-                    <div>
+                <div class="card-header">
+                    <h3>Conference Details</h3>
+                    @*@Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })*@
+                    @Html.DisplayFor(model => model.Application.Conference.Name)
+                </div>
+                  <div>
                         @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.DisplayFor(model => model.Application.Conference.Location)
                     </div>
-                    <div>
-                        @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                        @Html.DisplayFor(model => model.Application.DepartureDate)
-                    </div>
-                    <div>
-                        @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                        @Html.DisplayFor(model => model.Application.ReturnDate)
-                    </div>
-
-
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
-                    <div class="row pt-3">
-                        <div class="col-1">
-                            @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Application.DepartureDate)
                         </div>
-                        <div class="col-3">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Application.ReturnDate)
+                        </div>
+                        <div class="col-12">
+                            <hr />
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Application.DepartureDate)
+                        </div>
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DisplayFor(model => model.Application.ReturnDate)
+                        </div>
+                        <div class="col-12">
+                            <hr />
+                        </div>
+                          @*---------------------ROW------------------------------------------------------------------------------------*@
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                             @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtStartAddress", @hidden = "hidden" } })
                             @Html.DisplayFor(model => model.StartAddress)
                         </div>
-                        <div class="col-2">
-                            @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                             @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtEndAddress", @hidden = "hidden" } })
                             @Html.DisplayFor(model => model.EndAddress)
                         </div>
-                        <div class="col-3">
-                            <a onclick="GetRoute()" class="btn btn-primary d-block">
-                                <i class="fa fa-map-marker fa-2x"></i>
-                                Get Route
-                            </a>
+                        <div class="col-12">
+                            <hr />
                         </div>
-                    </div>
-
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
-                    <div class="row pt-3">
-                        <div class="col-1">
-                            @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
-                            @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate" } })
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control", @id = "txtTravelDate", @hidden = "hidden" } })
                             @Html.DisplayFor(model => model.TravelDate)
                         </div>
-                        <div class="col-2">
-                            @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-1">
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label  d-block font-weight-bold" })
                             @*@Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "chkRoundTrip" } })*@
                             @Html.DisplayFor(model => model.RoundTrip)
                         </div>
+
                     </div>
+
 
 
                     @*---------------------ERROR MESSAGES ---------------------*@
                     <div class="row pt-3">
                         <div class="col-12">
-
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.ID)
                         </div>
@@ -160,7 +156,7 @@
                         </div>
                     </div>
 
-                   
+
                 </div>
 
             </div>
