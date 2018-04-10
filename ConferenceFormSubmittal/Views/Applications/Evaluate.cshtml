@@ -350,8 +350,10 @@
                 data: JSON.stringify({ a: application, status: status }),
                 type: "post", contentType: "application/json",
                 success: function (response) {
-                    if (response == "success")
-                        alert("Application " + status + ".");
+                    if (response == "success") {
+                        alert("Application " + status + ".\n\nRedirecting to Applications List...");
+                        window.location.replace("/Applications/IndexAdmin");
+                    }
                     else
                         alert(response);
                 }
