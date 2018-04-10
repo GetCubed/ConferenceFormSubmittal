@@ -335,7 +335,10 @@ namespace ConferenceFormSubmittal.Controllers
                     application.Expenses.Add(expense);
                 }
 
-                application.DateSubmitted = DateTime.Today;
+                if (application.StatusID == 1)
+                {
+                    application.DateSubmitted = DateTime.Today;
+                }
                 
                 // insert the application
                 db.Applications.Add(application);
@@ -423,6 +426,12 @@ namespace ConferenceFormSubmittal.Controllers
         {
             if (ModelState.IsValid)
             {
+                // set DateSubmitted when they submit the Application
+                if (application.DateSubmitted == null && application.StatusID == 1)
+                {
+                    application.DateSubmitted = DateTime.Today;
+                }
+
                 db.Entry(application).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

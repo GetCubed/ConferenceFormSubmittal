@@ -30,25 +30,25 @@ namespace ConferenceFormSubmittal.Models
         [Display(Name = "Departure Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime DepartureDate { get; set; }
+        public DateTime? DepartureDate { get; set; }
 
         // The date on which they will return from the conference
         [Display(Name = "Return Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime ReturnDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
 
         // The first day they will attend the conference
         [Display(Name = "Start of Attendance")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime AttendStartDate { get; set; }
+        public DateTime? AttendStartDate { get; set; }
 
         // The last day they will attend the conference
         [Display(Name = "End of Attendance")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime AttendEndDate { get; set; }
+        public DateTime? AttendEndDate { get; set; }
 
         // The actual submission date (Applications can be saved as drafts)
         [Display(Name = "Date Submitted")]

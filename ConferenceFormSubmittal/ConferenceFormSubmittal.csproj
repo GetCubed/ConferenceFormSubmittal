@@ -230,6 +230,10 @@
     <Compile Include="DAL\CFSMigrations\201804101314129_NullablePaymentType.Designer.cs">
       <DependentUpon>201804101314129_NullablePaymentType.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\CFSMigrations\201804102132441_NullableApplicationDates.cs" />
+    <Compile Include="DAL\CFSMigrations\201804102132441_NullableApplicationDates.Designer.cs">
+      <DependentUpon>201804102132441_NullableApplicationDates.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -464,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\CFSMigrations\201804101314129_NullablePaymentType.resx">
       <DependentUpon>201804101314129_NullablePaymentType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201804102132441_NullableApplicationDates.resx">
+      <DependentUpon>201804102132441_NullableApplicationDates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
