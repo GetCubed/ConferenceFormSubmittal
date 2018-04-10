@@ -461,7 +461,7 @@ namespace ConferenceFormSubmittal.Controllers
             {
                 db.Entry(mileage).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexAdmin");
             }
             PopulateDropDownLists();
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "Rationale", mileage.ApplicationID);
