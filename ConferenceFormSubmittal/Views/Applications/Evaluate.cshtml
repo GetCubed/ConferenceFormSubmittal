@@ -334,8 +334,6 @@
         $("#BudgetCode").keyup(function () {
             if ($(this).val().length)
                 $("#lblBudgetCodeRequired").addClass("d-none");
-            else
-                $("#lblBudgetCodeRequired").removeClass("d-none");
         });
 
         function submitEvaluation(status) {
@@ -361,13 +359,16 @@
         }
 
         $(".btnApprove").click(function () {
-            if ($("#BudgetCode").val().length && confirm("Are you sure?\n\nClick OK to approve the application.")) {
-                submitEvaluation("Approved");
+            if ($("#BudgetCode").val().length) {
+                if (confirm("Are you sure?\n\nClick OK to approve the application."))
+                    submitEvaluation("Approved");
             }
+            else
+                $("#lblBudgetCodeRequired").removeClass("d-none");
         });
 
         $(".btnDeny").click(function () {
-            if ($("#BudgetCode").val().length && confirm("Are you sure?\n\nClick OK to deny the application.")) {
+            if (confirm("Are you sure?\n\nClick OK to deny the application.")) {
                 submitEvaluation("Denied");
             }
         });
