@@ -96,7 +96,7 @@
                         <div class="card-body ">
 
                             <div class="row">
-                                @Html.HiddenFor(model => model.StatusID, new { Value = 1 })
+                                @Html.HiddenFor(model => model.StatusID, new { @id = "StatusID", Value = 1 })
 
                                 <div class="col-12">
                                     @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
@@ -214,11 +214,11 @@
                 result = false;
             }
             else
-                $("#lblAttendEndError").html("Return Date cannot be before End of Attendance.").addClass("d-none");
+                $("#lblAttendEndError").addClass("d-none");
 
             // return date can't be before end of attendance
             if (attendEnd.length && returnDate.length && attendEnd > returnDate) {
-                $("#lblReturnDateError").removeClass("d-none");
+                $("#lblReturnDateError").html("Return Date cannot be before End of Attendance.").removeClass("d-none");
                 result = false;
             }
             else
@@ -247,7 +247,12 @@
             return result;
         }
 
-        $(".applicationDate").change(function () { datesAreValid(); });
+        $(".applicationDate").change(function () {
+            if ($(this).attr("id") == "DepartureDate")
+                $("#lblDepartureDateError").addClass("d-none");
+
+            datesAreValid();
+        });
 
         // hide expense error messages when the input value changes
         $("#ddlExpenseType").change(function () {

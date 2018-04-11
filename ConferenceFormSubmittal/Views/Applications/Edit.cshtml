@@ -113,6 +113,7 @@
                             @Helper.GetIcon(Model.Status.Description, 2)
                             <label id="lblStatus">@Model.Status.Description</label>
                             @Html.HiddenFor(model => model.StatusID)
+                            @Html.HiddenFor(model => model.DateSubmitted)
                         </div>
                         <div class="col-6">
                             @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })

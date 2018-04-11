@@ -68,7 +68,7 @@ namespace ConferenceFormSubmittal.Models
         public int ConferenceID { get; set; }
 
         [Display(Name = "Status")]
-        public int StatusID { get; set; } = 1; // Default status is "Submitted"
+        public int StatusID { get; set; }
 
         [Display(Name = "Payment Type")]
         public int? PaymentTypeID { get; set; }
