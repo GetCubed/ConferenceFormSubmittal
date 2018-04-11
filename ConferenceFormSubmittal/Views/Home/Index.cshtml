@@ -1,77 +1,96 @@
-﻿@{
+﻿@using ConferenceFormSubmittal.Utilities;
+@{
     ViewBag.Title = "Home Page";
 }
 
 
 
 <div class="row py-5 px-5">
-
+    @if (ViewBag.NewApplications > 0)
+    {
+        <a href='@Url.Action("IndexAdmin", "Applications")' class="btn btn-primary">
+            @Helper.GetIcon(Icons.View)
+            @if (ViewBag.NewApplications == 1)
+            {
+                @ViewBag.NewApplications @: application needs review
+            }
+            else
+            {
+                @ViewBag.NewApplications @: applications need review
+            }
+    </a>
+    }
+    @if (ViewBag.Denied > 0)
+    {
+        <a href='/Applications/Index?StatusID=3' class="btn btn-primary">
+            @Helper.GetIcon(Icons.Denied)
+            Application Denied
+        </a>
+    }
     <div class="card-deck">
-        
-            <!--Card-->
-            <div class="card bg-NCDSB-GreyLight col-4 px-0">
 
-                    <!--Card image-->
-                    <img class="img-fluid" src="~/Images/bookconference.jpeg" alt="Card image cap">
+        <!--Card-->
+        <div class="card bg-NCDSB-GreyLight col-4 px-0">
 
-                <!--Card content-->
-                <div class="card-body">
-                    <!--Title-->
-                    <h4 class="card-title">Start A Conference Application</h4>
-                    <!--Text-->
-                    <p class="card-text">Select a conference and begin a new conference application. You may save the application as a draft and complete the application later. </p>
-                    
-                </div>
+            <!--Card image-->
+            <img class="img-fluid" src="~/Images/bookconference.jpeg" alt="Card image cap">
 
-                <div class="card-footer text-center">
-                    <a href="~/Conferences/Index" class="btn btn-primary">Start An Application</a>
-                </div>
+            <!--Card content-->
+            <div class="card-body">
+                <!--Title-->
+                <h4 class="card-title">Start A Conference Application</h4>
+                <!--Text-->
+                <p class="card-text">Select a conference and begin a new conference application. You may save the application as a draft and complete the application later. </p>
 
             </div>
-            <!--/.Card-->
-       
-            <!--Card-->
-            <div class="card bg-NCDSB-GreyLight">
 
-                <!--Card image-->
-                <img class="img-fluid" src="~/Images/trackmileage.jpeg" alt="Card image cap">
+            <div class="card-footer text-center">
+                <a href="~/Conferences/Index" class="btn btn-primary">Start An Application</a>
+            </div>
 
-                <!--Card content-->
-                <div class="card-body">
-                    <!--Title-->
-                    <h4 class="card-title">Track Your Mileage</h4>
-                    <!--Text-->
-                    <p class="card-text">Begin a mileage form and track your mileage</p>
-                    
-                </div>
-                <div class="card-footer text-center">
-                    <a href="~/Mileages/Create" class="btn btn-primary">Submit A Mileage Form</a>
-                </div>
+        </div>
+        <!--/.Card-->
+        <!--Card-->
+        <div class="card bg-NCDSB-GreyLight">
+
+            <!--Card image-->
+            <img class="img-fluid" src="~/Images/trackmileage.jpeg" alt="Card image cap">
+
+            <!--Card content-->
+            <div class="card-body">
+                <!--Title-->
+                <h4 class="card-title">Track Your Mileage</h4>
+                <!--Text-->
+                <p class="card-text">Begin a mileage form and track your mileage</p>
 
             </div>
-            <!--/.Card-->
-       
-            <!--Card-->
-            <div class="card bg-NCDSB-GreyLight">
+            <div class="card-footer text-center">
+                <a href="~/Mileages/Create" class="btn btn-primary">Submit A Mileage Form</a>
+            </div>
 
-                <!--Card image-->
-                <img class="img-fluid" src="~/Images/myconferences.jpeg" alt="Card image cap">
+        </div>
+        <!--/.Card-->
+        <!--Card-->
+        <div class="card bg-NCDSB-GreyLight">
 
-                <!--Card content-->
-                <div class="card-body">
-                    <!--Title-->
-                    <h4 class="card-title">My Applications</h4>
-                    <!--Text-->
-                    <p class="card-text">View your conference applications. You may even view draft applications to complete.</p>
-                   
-                </div>
-                <div class="card-footer text-center">
-                    <a href="~/Applications/Index" class="btn btn-primary">View Applications</a>
-                </div>
+            <!--Card image-->
+            <img class="img-fluid" src="~/Images/myconferences.jpeg" alt="Card image cap">
+
+            <!--Card content-->
+            <div class="card-body">
+                <!--Title-->
+                <h4 class="card-title">My Applications</h4>
+                <!--Text-->
+                <p class="card-text">View your conference applications. You may even view draft applications to complete.</p>
 
             </div>
-            <!--/.Card-->
-        
+            <div class="card-footer text-center">
+                <a href="~/Applications/Index" class="btn btn-primary">View Applications</a>
+            </div>
+
+        </div>
+        <!--/.Card-->
+
     </div>
 
 </div>
