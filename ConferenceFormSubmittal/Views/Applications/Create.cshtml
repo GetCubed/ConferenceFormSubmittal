@@ -193,7 +193,7 @@
     @Scripts.Render("~/bundles/knockout")
 
     <script type="text/javascript">
-        function datesAreValid() {
+        function datesAreValid(submitting) {
             var departureDate = $("#DepartureDate").val(),
                 attendStart = $("#AttendStartDate").val(),
                 attendEnd = $("#AttendEndDate").val(),
@@ -205,7 +205,7 @@
                 $("#lblAttendStartError").html("Start of Attendance cannot be before Departure Date.").removeClass("d-none");
                 result = false;
             }
-            else
+            else if (attendStart.length)
                 $("#lblAttendStartError").addClass("d-none");
 
             // end of attendance can't be before start of attendance
@@ -213,7 +213,7 @@
                 $("#lblAttendEndError").html("End of Attendance cannot be before Start of Attendance.").removeClass("d-none");
                 result = false;
             }
-            else
+            else if (attendEnd.length)
                 $("#lblAttendEndError").addClass("d-none");
 
             // return date can't be before end of attendance
@@ -221,11 +221,11 @@
                 $("#lblReturnDateError").html("Return Date cannot be before End of Attendance.").removeClass("d-none");
                 result = false;
             }
-            else
+            else if (returnDate.length)
                 $("#lblReturnDateError").addClass("d-none");
 
             // if submitting, dates are required
-            if ($("#StatusID").val() == 1) {
+            if (submitting) {
                 if (departureDate == "") {
                     $("#lblDepartureDateError").html("Departure Date is required.").removeClass("d-none");
                     result = false;
@@ -327,7 +327,7 @@
                 }
 
                 self.save = function () {
-                    if (datesAreValid()) {
+                    if (datesAreValid($("#StatusID").val() == 1)) {
                         $.ajax("/Applications/AddExpenses", {
                             data: ko.toJSON({ expenses: self.expenses }),
                             type: "post", contentType: "application/json",
