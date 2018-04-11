@@ -177,7 +177,7 @@ namespace ConferenceFormSubmittal.Controllers
             {
                 db.Conferences.Add(conference);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create", "Applications", new { ConferenceID = conference.ID });
             }
 
             return View(conference);

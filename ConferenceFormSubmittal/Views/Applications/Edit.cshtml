@@ -102,7 +102,7 @@
         <div class="col-12">
             <div class="card bg-NCDSB-Grey">
                 <div class="card-header">
-                    <h4 class="d-block mt-2">Application Details</h4> @*Each panel needs a header of some kind*@
+                    <h4 class="d-block mt-2">Application Details</h4>
                     @Html.HiddenFor(Model => Model.ID, htmlAttributes: new { @id = "applicationID" })
                 </div>
                 <div class="card-body">
@@ -234,7 +234,7 @@
                                     <th>
                                         @Html.LabelFor(model => model.Expenses.SingleOrDefault().Rationale, htmlAttributes: new { @class = "control-label font-bold" })
                                     </th>
-                                    <th>
+                                    <th  data-bind="visible: $root.applicationIsApproved">
                                         @Html.LabelFor(model => model.Expenses.SingleOrDefault().Files, htmlAttributes: new { @class = "control-label font-bold" })
                                     </th>
                                     <th></th>
@@ -260,7 +260,7 @@
                                         <label data-bind="text: Rationale, visible: !editMode()"></label>
                                         <input type="text" class="form-control valid" data-bind="value: Rationale, visible: editMode" />
                                     </td>
-                                    <td>
+                                    <td data-bind="visible: $root.applicationIsApproved">
                                         <div class="form-group" data-bind="visible: !editMode()">
                                             <label data-bind="visible: Files().length < 1">None</label>
                                             <div data-bind="foreach: Files()">
@@ -270,7 +270,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group" data-bind="visible: editMode">
+                                        <div class="form-group" data-bind="visible: editMode()">
                                             <div class="col-md-10">
                                                 <input type="file" class="form-control" multiple="multiple" /><br />
                                             </div>
