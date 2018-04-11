@@ -32,17 +32,17 @@ namespace ConferenceFormSubmittal.DAL
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
-            ////Added for cascade delete for all Files with Expense
-            //modelBuilder.Entity<Expense>()
-            //    .HasMany(a => a.Files)
-            //    .WithRequired(p => p.Expense)
-            //    .WillCascadeOnDelete(true);
+            //Added for cascade delete for all Files with Expense
+            modelBuilder.Entity<Expense>()
+                .HasMany(a => a.Files)
+                .WithRequired(p => p.Expense)
+                .WillCascadeOnDelete(true);
 
-            ////Added for cascade delete for FileContent with Documentation
-            //modelBuilder.Entity<Documentation>()
-            //    .HasOptional(w => w.FileContent)
-            //    .WithRequired(p => p.Documentation)
-            //    .WillCascadeOnDelete(true);
+            //Added for cascade delete for FileContent with Documentation
+            modelBuilder.Entity<Documentation>()
+                .HasOptional(w => w.FileContent)
+                .WithRequired(p => p.Documentation)
+                .WillCascadeOnDelete(true);
         }
     }
 }

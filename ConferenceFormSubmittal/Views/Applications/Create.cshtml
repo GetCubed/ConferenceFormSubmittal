@@ -19,7 +19,6 @@
 {
     @Html.AntiForgeryToken()
 
-
     //-----------------------------------------------------------------buttons bar --------------------------------------------------------------------
     <div class="row pt-3">
         <div class="col-12 ">
@@ -32,13 +31,13 @@
                             Go Back
                         </a>
 
-                        <button class="btn btn-info" type="button">
+                        <button class="btn btn-info" type="button" data-bind="click: saveAsDraft">
                             @Helper.GetIcon(Icons.Draft)
                             Save As Draft
                         </button>
 
                         <button class="btn btn-success" type="button" id="btnSubmit" data-bind="click: save">
-                            @Helper.GetIcon(Icons.Save)
+                            @Helper.GetIcon(Icons.Submitted)
                             Submit
                         </button>
 
@@ -46,19 +45,10 @@
                 </div>
             </div>
         </div>
-
     </div>
 
-
-
-
-
     <div class="row mt-3">
-
-
         <div class="col-12 ">
-
-
             @*-------------------------------------------------- conference details ---------------------------------------------------------*@
             <div class="row mb-3">
                 <div class="col-12">
@@ -95,7 +85,6 @@
                 </div>
             </div>
 
-
             @*---------------------------------------------------------------Application Details ----------------------------------------------------------*@
             <div class="row">
                 <div class="col-12">
@@ -107,6 +96,7 @@
                         <div class="card-body ">
 
                             <div class="row">
+                                @Html.HiddenFor(model => model.StatusID, new { @id = "StatusID", Value = 1 })
 
                                 <div class="col-12">
                                     @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
@@ -115,12 +105,14 @@
                                 </div>
                                 <div class="col-6">
                                     @Html.LabelFor(model => model.AttendStartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                    @Html.EditorFor(model => model.AttendStartDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight" } })
+                                    @Html.EditorFor(model => model.AttendStartDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight applicationDate" } })
                                     @Html.ValidationMessageFor(model => model.AttendStartDate, "", new { @class = "text-danger" })
+                                    <label id="lblAttendStartError" class="d-none text-danger"></label>
 
                                     @Html.LabelFor(model => model.AttendEndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                    @Html.EditorFor(model => model.AttendEndDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight" } })
+                                    @Html.EditorFor(model => model.AttendEndDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight applicationDate" } })
                                     @Html.ValidationMessageFor(model => model.AttendEndDate, "", new { @class = "text-danger" })
+                                    <label id="lblAttendEndError" class="d-none text-danger"></label>
 
                                     @Html.LabelFor(model => model.PaymentTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                     @Html.DropDownList("PaymentTypeID", null, "Select a Payment Type...", htmlAttributes: new { @class = "form-control" })
@@ -128,12 +120,14 @@
                                 </div>
                                 <div class="col-6">
                                     @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                    @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight" } })
+                                    @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight applicationDate" } })
                                     @Html.ValidationMessageFor(model => model.DepartureDate, "", new { @class = "text-danger" })
+                                    <label id="lblDepartureDateError" class="d-none text-danger"></label>
 
                                     @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
-                                    @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight" } })
+                                    @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight applicationDate" } })
                                     @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+                                    <label id="lblReturnDateError" class="d-none text-danger"></label>
 
                                     @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                                     @Html.EditorFor(model => model.BudgetCode, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight" } })
@@ -165,13 +159,13 @@
                                     Go Back
                                 </a>
 
-                                <button class="btn btn-info" type="button">
+                                <button class="btn btn-info" type="button" data-bind="click: saveAsDraft">
                                     @Helper.GetIcon(Icons.Draft)
                                     Save As Draft
                                 </button>
 
                                 <button class="btn btn-success" type="button" id="btnSubmit" data-bind="click: save">
-                                    @Helper.GetIcon(Icons.Save)
+                                    @Helper.GetIcon(Icons.Submitted)
                                     Submit
                                 </button>
 
@@ -179,11 +173,8 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
-  
     </div>
 }
 
@@ -195,17 +186,74 @@
 {
     <div id="form-content">
         @Html.Partial("ApplicationExpensePartial", Model)
-
     </div>
-
-
-   
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/knockout")
 
     <script type="text/javascript">
+        function datesAreValid() {
+            var departureDate = $("#DepartureDate").val(),
+                attendStart = $("#AttendStartDate").val(),
+                attendEnd = $("#AttendEndDate").val(),
+                returnDate = $("#ReturnDate").val(),
+                result = true;
+
+            // start of attendance can't be before departure date
+            if (departureDate.length && attendStart.length && departureDate > attendStart) {
+                $("#lblAttendStartError").html("Start of Attendance cannot be before Departure Date.").removeClass("d-none");
+                result = false;
+            }
+            else
+                $("#lblAttendStartError").addClass("d-none");
+
+            // end of attendance can't be before start of attendance
+            if (attendStart.length && attendEnd.length && attendStart > attendEnd) {
+                $("#lblAttendEndError").html("End of Attendance cannot be before Start of Attendance.").removeClass("d-none");
+                result = false;
+            }
+            else
+                $("#lblAttendEndError").addClass("d-none");
+
+            // return date can't be before end of attendance
+            if (attendEnd.length && returnDate.length && attendEnd > returnDate) {
+                $("#lblReturnDateError").html("Return Date cannot be before End of Attendance.").removeClass("d-none");
+                result = false;
+            }
+            else
+                $("#lblReturnDateError").addClass("d-none");
+
+            // if submitting, dates are required
+            if ($("#StatusID").val() == 1) {
+                if (departureDate == "") {
+                    $("#lblDepartureDateError").html("Departure Date is required.").removeClass("d-none");
+                    result = false;
+                }
+                if (attendStart == "") {
+                    $("#lblAttendStartError").html("Start of Attendance is required.").removeClass("d-none");
+                    result = false;
+                }
+                if (attendEnd == "") {
+                    $("#lblAttendEndError").html("End of Attendance is required.").removeClass("d-none");
+                    result = false;
+                }
+                if (returnDate == "") {
+                    $("#lblReturnDateError").html("Return Date is required.").removeClass("d-none");
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
+        $(".applicationDate").change(function () {
+            if ($(this).attr("id") == "DepartureDate")
+                $("#lblDepartureDateError").addClass("d-none");
+
+            datesAreValid();
+        });
+
         // hide expense error messages when the input value changes
         $("#ddlExpenseType").change(function () {
             $(this).siblings("label.text-danger").addClass("d-none");
@@ -253,7 +301,7 @@
         $(function () {
             function expenseVM() {
                 var self = this;
-                
+
                 self.expenses = ko.observableArray([]);
                 self.newTypeID = ko.observable();
                 self.newCost = ko.observable();
@@ -279,13 +327,23 @@
                 }
 
                 self.save = function () {
-                    $.ajax("/Applications/AddExpenses", {
-                        data: ko.toJSON({ expenses: self.expenses }),
-                        type: "post", contentType: "application/json",
-                        success: function () {
-                            $("#frmCreateApplication").submit();
-                        }
-                    });
+                    if (datesAreValid()) {
+                        $.ajax("/Applications/AddExpenses", {
+                            data: ko.toJSON({ expenses: self.expenses }),
+                            type: "post", contentType: "application/json",
+                            success: function () {
+                                $("#frmCreateApplication").submit();
+                            }
+                        });
+                    }
+                    else // change scroll position to align with the card containing the first visible error message
+                        $(window).scrollTop($(".text-danger:not(.d-none)").first().closest(".card").offset().top);
+                }
+
+                self.saveAsDraft = function () {
+                    // I'm sure there's a better way of doing this, but there's no time
+                    $("#StatusID").val(4); // draft
+                    self.save();
                 }
             }
 

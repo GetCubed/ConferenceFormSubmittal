@@ -30,11 +30,11 @@
                     </a>
 
                     <a href='@Url.Action("Create", "Conferences")' class="btn btn-primary">
-                        @Helper.GetIcon(Icons.Create) Create New
+                        @Helper.GetIcon(Icons.Create) Add a Conference
                     </a>
 
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="filter">
-                        @Helper.GetIcon(Icons.Filter) Filter
+                        @Helper.GetIcon(Icons.Filter) Filters
                     </button>
                 </div>
 
@@ -156,7 +156,7 @@
                 </tr>
 }
                     </table>
-                    <span id="filterMessage" class="text-danger">@((Model.Count() == 0) ? "Zero applicaitons found.  No records match your criteria." : "")</span>
+                    <span id="filterMessage" class="text-danger">@((Model.Count() == 0) ? "No results match your criteria. Can't find the conference you're looking for? Click \"ADD A CONFERENCE\"." : "")</span>
                     <input type="hidden" name="sortDirection" value="@ViewBag.sortDirection" />
                     <input type="hidden" name="sortField" value="@ViewBag.sortField" />
 

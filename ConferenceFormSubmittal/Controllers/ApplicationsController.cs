@@ -335,7 +335,10 @@ namespace ConferenceFormSubmittal.Controllers
                     application.Expenses.Add(expense);
                 }
 
-                application.DateSubmitted = DateTime.Today;
+                if (application.StatusID == 1)
+                {
+                    application.DateSubmitted = DateTime.Today;
+                }
                 
                 // insert the application
                 db.Applications.Add(application);
@@ -419,13 +422,19 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPost([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,ConferenceID")] Application application)
+        public ActionResult EditPost([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,ConferenceID,StatusID")] Application application)
         {
             if (ModelState.IsValid)
             {
+                // set DateSubmitted when they submit the Application
+                if (application.DateSubmitted == null && application.StatusID == 1)
+                {
+                    application.DateSubmitted = DateTime.Today;
+                }
+
                 db.Entry(application).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + application.ID);
             }
             PopulateDropDownLists(application);
             return View(application);
