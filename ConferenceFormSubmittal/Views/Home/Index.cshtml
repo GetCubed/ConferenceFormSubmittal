@@ -12,13 +12,13 @@
         //-----------------Notification BAR --------------------------------
         <div class="col-12 px-0">
       
-            <div class="card-footer bg-light ">
+            <div class="card-footer bg-NCDSB-GreyLight ">
  
                 <div class="row">  
                     <div class="col-12 justify-content-end d-flex">
                         @if (ViewBag.NewApplications > 0)
     {
-                    <a href='@Url.Action("IndexAdmin", "Applications")' class="btn btn-primary">
+                    <a href='@Url.Action("IndexAdmin", "Applications")' class="btn btn-success">
                         @Helper.GetIcon(Icons.View)
                         @if (ViewBag.NewApplications == 1)
     {
@@ -30,13 +30,13 @@ else
 }
                     </a>
 }
-                        @if (true)
-    {
-                    <a href='/Applications/Index?StatusID=3' class="btn btn-danger">
-                        @Helper.GetIcon(Icons.Denied)
-                        Application Denied
-                    </a>
-}
+                        @if (ViewBag.Denied > 0)
+                        {
+                        <a href='/Applications/Index?StatusID=3' class="btn btn-danger">
+                            @Helper.GetIcon(Icons.Denied)
+                            Application Denied
+                        </a>
+                        }
                     </div>
                 </div>
 
@@ -47,7 +47,7 @@ else
         <div class="card-deck px-4 py-4 ">
 
             <!--Card-->
-            <div class="card bg-NCDSB-GreyLight col-4 px-0">
+            <div class="card bg-NCDSB-Grey col-4 px-0">
 
                 <!--Card image-->
                 <img class="img-fluid" src="~/Images/bookconference.jpeg" alt="Card image cap">
@@ -68,7 +68,7 @@ else
             </div>
             <!--/.Card-->
             <!--Card-->
-            <div class="card bg-NCDSB-GreyLight">
+            <div class="card bg-NCDSB-Grey">
 
                 <!--Card image-->
                 <img class="img-fluid" src="~/Images/trackmileage.jpeg" alt="Card image cap">
@@ -88,7 +88,7 @@ else
             </div>
             <!--/.Card-->
             <!--Card-->
-            <div class="card bg-NCDSB-GreyLight">
+            <div class="card bg-NCDSB-Grey">
 
                 <!--Card image-->
                 <img class="img-fluid" src="~/Images/myconferences.jpeg" alt="Card image cap">
