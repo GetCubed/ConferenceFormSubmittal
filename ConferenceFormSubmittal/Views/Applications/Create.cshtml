@@ -202,7 +202,7 @@
                 result = true;
 
             // departure cannot be in the past
-            if (departureDate < today) {
+            if (departureDate.length && departureDate < today) {
                 $("#lblDepartureDateError").html("Departure Date cannot be in the past.").removeClass("d-none");
                 result = false;
             } else if (departureDate.length)

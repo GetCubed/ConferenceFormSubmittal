@@ -141,7 +141,7 @@
                         @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.DisplayFor(model => model.DepartureDate)
 
-                       
+
                     </div>
                     <div class="col-6">
                         @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
@@ -150,7 +150,7 @@
                 </div>
 
                 <div class="row pt-2">
-                    <div class="col-6">                     
+                    <div class="col-6">
                         @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.DisplayFor(model => model.BudgetCode)
 
@@ -173,7 +173,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 
 
@@ -186,7 +186,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    
+
 
                     <table class="table">
                         <thead>
@@ -207,36 +207,36 @@
                         </thead>
                         <tbody>
                             @foreach (var item in Model.Expenses)
-                {
-                    var estimatedCost = item.EstimatedCost?.ToString("C");
+                            {
+                                var estimatedCost = item.EstimatedCost?.ToString("C");
 
-                    if (String.IsNullOrEmpty(estimatedCost))
-                    {
-                        estimatedCost = "N/A";
-                    }
+                                if (String.IsNullOrEmpty(estimatedCost))
+                                {
+                                    estimatedCost = "N/A";
+                                }
 
-                    var actualCost = item.ActualCost?.ToString("C");
+                                var actualCost = item.ActualCost?.ToString("C");
 
-                    if (String.IsNullOrEmpty(actualCost))
-                    {
-                        actualCost = "TBD";
-                    }
-                    <tr>
-                        <td>@item.ExpenseType.Description</td>
-                        <td>@estimatedCost</td>
-                        <td>
-                            @actualCost
-                        </td>
-                        <td>@item.Rationale</td>
-                    </tr>
-    }
+                                if (String.IsNullOrEmpty(actualCost))
+                                {
+                                    actualCost = "TBD";
+                                }
+                                <tr>
+                                    <td>@item.ExpenseType.Description</td>
+                                    <td>@estimatedCost</td>
+                                    <td>
+                                        @actualCost
+                                    </td>
+                                    <td>@item.Rationale</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
 
 
                 </div>
             </div>
-           
+
         </div>
     </div>
 </div>
@@ -275,35 +275,35 @@
                             </thead>
                             <tbody>
                                 @foreach (var item in Model.Mileages)
-                {
-                    <tr>
-                        <td>
-                            @item.TravelDate.ToShortDateString()
-                        </td>
-                        <td>
-                            @item.StartAddress
-                        </td>
-                        <td>
-                            @item.EndAddress
-                        </td>
-                        <td>
-                            @item.Kilometres km
-                        </td>
-                        <td>
-                           @Helper.GetIcon(item.Status.Description)
-                            @item.Status.Description
-                        </td>
-                    </tr>
-}
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.TravelDate.ToShortDateString()
+                                        </td>
+                                        <td>
+                                            @item.StartAddress
+                                        </td>
+                                        <td>
+                                            @item.EndAddress
+                                        </td>
+                                        <td>
+                                            @item.Kilometres km
+                                        </td>
+                                        <td>
+                                            @Helper.GetIcon(item.Status.Description)
+                                            @item.Status.Description
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
 
 
                     </div>
                 </div>
-               
+
             </div>
-          
+
         </div>
     </div>
 </div>
