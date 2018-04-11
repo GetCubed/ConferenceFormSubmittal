@@ -198,7 +198,15 @@
                 attendStart = $("#AttendStartDate").val(),
                 attendEnd = $("#AttendEndDate").val(),
                 returnDate = $("#ReturnDate").val(),
+                today = new Date().toISOString().slice(0, 10),
                 result = true;
+
+            // departure cannot be in the past
+            if (departureDate.length && departureDate < today) {
+                $("#lblDepartureDateError").html("Departure Date cannot be in the past.").removeClass("d-none");
+                result = false;
+            } else if (departureDate.length)
+                $("#lblDepartureDateError").addClass("d-none");
 
             // start of attendance can't be before departure date
             if (departureDate.length && attendStart.length && departureDate > attendStart) {
