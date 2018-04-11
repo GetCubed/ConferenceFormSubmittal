@@ -23,45 +23,49 @@
                 <ul class="navbar-nav">
 
                     @if (User.Identity.IsAuthenticated)
-                    {
+    {
 
 
-                        if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                @Html.ActionLink("Applications", "IndexAdmin", "Applications", null, new { @class = "nav-link" })
-                            </li>
+        if (User.IsInRole("Admin"))
+        {
+                <li class="nav-item">
+                    @Html.ActionLink("Applications", "IndexAdmin", "Applications", null, new { @class = "nav-link" })
+                </li>
 
-                            <li class="nav-item">
-                                @Html.ActionLink("My Applications", "Index", "Applications", null, new { @class = "nav-link" })
-                            </li>
+                <li class="nav-item">
+                    @Html.ActionLink("My Applications", "Index", "Applications", null, new { @class = "nav-link" })
+                </li>
 
-                            <li class="nav-item">
-                                @Html.ActionLink("Conferences", "Index", "Conferences", null, new { @class = "nav-link" })
-                            </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Conferences", "Index", "Conferences", null, new { @class = "nav-link" })
+                </li>
 
-                            <li class="nav-item">
-                                @Html.ActionLink("My Mileage", "Index", "Mileages", null, new { @class = "nav-link" })
-                            </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Mileage", "IndexAdmin", "Mileages", null, new { @class = "nav-link" })
+                </li>
 
-                            <li class="nav-item">
-                                @Html.ActionLink("Sites", "Index", "Sites", null, new { @class = "nav-link" })
-                            </li>
-                        }
+                <li class="nav-item">
+                    @Html.ActionLink("My Mileage", "Index", "Mileages", null, new { @class = "nav-link" })
+                </li>
 
-                        else if (User.IsInRole("Staff"))
-                        {
+                <li class="nav-item">
+                    @Html.ActionLink("Sites", "Index", "Sites", null, new { @class = "nav-link" })
+                </li>
+}
 
-                            <li class="nav-item">
-                                @Html.ActionLink("My Applications", "Index", "Applications", null, new { @class = "nav-link" })
-                            </li>
+else if (User.IsInRole("Staff"))
+{
 
-                            <li class="nav-item">
-                                @Html.ActionLink("My Mileage", "Index", "Mileages", null, new { @class = "nav-link" })
-                            </li>
+                <li class="nav-item">
+                    @Html.ActionLink("My Applications", "Index", "Applications", null, new { @class = "nav-link" })
+                </li>
 
-                        }
-                    }
+                <li class="nav-item">
+                    @Html.ActionLink("My Mileage", "Index", "Mileages", null, new { @class = "nav-link" })
+                </li>
+
+}
+}
 
                 </ul>
                 @*<ul class="navbar-nav ml-auto text-white">
