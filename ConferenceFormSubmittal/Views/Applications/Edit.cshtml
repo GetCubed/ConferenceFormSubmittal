@@ -234,7 +234,7 @@
                                     <th>
                                         @Html.LabelFor(model => model.Expenses.SingleOrDefault().Rationale, htmlAttributes: new { @class = "control-label font-bold" })
                                     </th>
-                                    <th  data-bind="visible: $root.applicationIsApproved">
+                                    <th data-bind="visible: $root.applicationIsApproved">
                                         @Html.LabelFor(model => model.Expenses.SingleOrDefault().Files, htmlAttributes: new { @class = "control-label font-bold" })
                                     </th>
                                     <th></th>
@@ -357,6 +357,81 @@
             </div>
         </div>
     </div>
+
+    @*-------------------------------------------Mileages---------------------------------------------------------*@
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey mt-3">
+                <div class="card-header">
+                    <h4>Mileages</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            @if (Model.Mileages.Count > 0)
+                            {
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.LabelFor(model => model.Mileages.SingleOrDefault().TravelDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Mileages.SingleOrDefault().StartAddress, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Mileages.SingleOrDefault().EndAddress, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Mileages.SingleOrDefault().Kilometres, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Mileages.SingleOrDefault().Status, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Mileages)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.TravelDate.ToShortDateString()
+                                            </td>
+                                            <td>
+                                                @item.StartAddress
+                                            </td>
+                                            <td>
+                                                @item.EndAddress
+                                            </td>
+                                            <td>
+                                                @item.Kilometres km
+                                            </td>
+                                            <td>
+                                                @Helper.GetIcon(item.Status.Description)
+                                                @item.Status.Description
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            }
+                            else
+                            {
+                            <p>None</p>
+                            }
+                            @if (Model.Status.Description == "Approved")
+                            {
+                                <a class="btn btn-success mt-3" href="/Mileages/Create?ApplicationID=@Model.ID">
+                                @Helper.GetIcon(Icons.Plus, 1, "white")
+                                Add Mileage
+                            </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 @section Scripts {
@@ -417,8 +492,7 @@
             return result;
         }
 
-        $(".applicationDate").change(function ()
-        {
+        $(".applicationDate").change(function () {
             if ($(this).val().length)
                 $(this).siblings("label.text-danger").addClass("d-none");
 
@@ -711,12 +785,10 @@
                 }).removeClass("d-none");
             }
 
-            if ($("#lblStatus").html() == "Approved")
-            {
+            if ($("#lblStatus").html() == "Approved") {
                 $("#txtEstimatedCost").prop("disabled", true).val("N/A");
             }
-            else
-            {
+            else {
                 $("#txtActualCost").prop("disabled", true).val("TBD");
             }
 
@@ -725,7 +797,7 @@
                 if (okToSubmit(submitted)) {
                     $("#frmEditApplication").submit();
                 }
-                    
+
             });
 
             $("#ddlExpenseType").change(function () {
