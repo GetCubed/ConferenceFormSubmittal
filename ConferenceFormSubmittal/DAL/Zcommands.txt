@@ -17,3 +17,4 @@ Update-Database -ConfigurationTypeName ConferenceFormSubmittal.DAL.CFSMigrations
 Add-Migration -ConfigurationTypeName ConferenceFormSubmittal.DAL.SecurityMigrations.Configuration
 Update-Database -ConfigurationTypeName ConferenceFormSubmittal.DAL.SecurityMigrations.Configuration
 
+[Authorize(Roles="Admin")] -- add annotation to both get and post
