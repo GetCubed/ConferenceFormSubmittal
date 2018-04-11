@@ -8,40 +8,43 @@
 <div class="row">
     @if (User.Identity.IsAuthenticated)
     {
+        if (User.IsInRole("Admin"))
+        {
+            //-----------------Notification BAR --------------------------------
+            <div class="col-12 px-0">
 
-        //-----------------Notification BAR --------------------------------
-        <div class="col-12 px-0">
-      
-            <div class="card-footer bg-NCDSB-GreyLight ">
- 
-                <div class="row">  
-                    <div class="col-12 justify-content-end d-flex">
-                        @if (ViewBag.NewApplications > 0)
-    {
-                    <a href='@Url.Action("IndexAdmin", "Applications")' class="btn btn-success">
-                        @Helper.GetIcon(Icons.View)
-                        @if (ViewBag.NewApplications == 1)
-    {
-                    @ViewBag.NewApplications @: application needs review
-}
-else
-{
-                    @ViewBag.NewApplications @: applications need review
-}
-                    </a>
-}
-                        @if (ViewBag.Denied > 0)
-                        {
-                        <a href='/Applications/Index?StatusID=3' class="btn btn-danger">
-                            @Helper.GetIcon(Icons.Denied)
-                            Application Denied
-                        </a>
-                        }
+                <div class="card-footer bg-NCDSB-GreyLight ">
+
+                    <div class="row">
+                        <div class="col-12 justify-content-end d-flex">
+                            @if (ViewBag.NewApplications > 0)
+                            {
+                                <a href='@Url.Action("IndexAdmin", "Applications")' class="btn btn-success">
+                                    @Helper.GetIcon(Icons.View)
+                                    @if (ViewBag.NewApplications == 1)
+                                    {
+                                        @ViewBag.NewApplications @: application needs review
+            }
+                                    else
+                                    {
+                                        @ViewBag.NewApplications @: applications need review
+            }
+                                </a>
+                            }
+                            @if (ViewBag.Denied > 0)
+                            {
+                                <a href='/Applications/Index?StatusID=3' class="btn btn-danger">
+                                    @Helper.GetIcon(Icons.Denied)
+                                    Application Denied
+                                </a>
+                            }
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
+        }
+
 
 
         <div class="card-deck px-4 py-4 ">
