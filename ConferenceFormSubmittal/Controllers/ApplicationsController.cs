@@ -434,7 +434,7 @@ namespace ConferenceFormSubmittal.Controllers
 
                 db.Entry(application).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + application.ID);
             }
             PopulateDropDownLists(application);
             return View(application);

@@ -37,7 +37,7 @@
                         </button>
 
                         <button class="btn btn-success" type="button" id="btnSubmit" data-bind="click: save">
-                            @Helper.GetIcon(Icons.Save)
+                            @Helper.GetIcon(Icons.Submitted)
                             Submit
                         </button>
 
@@ -96,7 +96,7 @@
                         <div class="card-body ">
 
                             <div class="row">
-                                @Html.HiddenFor(model => model.StatusID, new { @id = "ddlStatus", Value = 1 })
+                                @Html.HiddenFor(model => model.StatusID, new { Value = 1 })
 
                                 <div class="col-12">
                                     @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
@@ -165,7 +165,7 @@
                                 </button>
 
                                 <button class="btn btn-success" type="button" id="btnSubmit" data-bind="click: save">
-                                    @Helper.GetIcon(Icons.Save)
+                                    @Helper.GetIcon(Icons.Submitted)
                                     Submit
                                 </button>
 
@@ -186,11 +186,7 @@
 {
     <div id="form-content">
         @Html.Partial("ApplicationExpensePartial", Model)
-
     </div>
-
-
-   
 }
 
 @section Scripts {
@@ -229,7 +225,7 @@
                 $("#lblReturnDateError").addClass("d-none");
 
             // if submitting, dates are required
-            if ($("#ddlStatus").val() == 1) {
+            if ($("#StatusID").val() == 1) {
                 if (departureDate == "") {
                     $("#lblDepartureDateError").html("Departure Date is required.").removeClass("d-none");
                     result = false;
@@ -341,7 +337,7 @@
 
                 self.saveAsDraft = function () {
                     // I'm sure there's a better way of doing this, but there's no time
-                    $("#ddlStatus").val(4); // draft
+                    $("#StatusID").val(4); // draft
                     self.save();
                 }
             }
