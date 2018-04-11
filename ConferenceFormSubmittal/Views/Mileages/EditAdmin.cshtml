@@ -139,9 +139,10 @@
                                 {
                                     @class = "form-control text-dark",
                                     @id = "txtKilometres",
-                                    @disabled = "disabled"
+                                    @hidden = "hidden"
                                 }
                             })
+                            @Html.DisplayFor(model => model.Kilometres)
                             @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
 
                         </div>

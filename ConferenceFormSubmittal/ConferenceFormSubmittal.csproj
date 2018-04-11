@@ -205,6 +205,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MileagesController.cs" />
     <Compile Include="Controllers\SitesController.cs" />
+    <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="DAL\CFSEntities.cs" />
     <Compile Include="DAL\CFSMigrations\201802112120261_InitialCreate.cs" />
     <Compile Include="DAL\CFSMigrations\201802112120261_InitialCreate.Designer.cs">
@@ -239,6 +240,11 @@
       <DependentUpon>201804110237377_ExpenseFileCascadeDelete.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
+    <Compile Include="DAL\SecurityMigrations\201804110739539_SecurityInitial.cs" />
+    <Compile Include="DAL\SecurityMigrations\201804110739539_SecurityInitial.Designer.cs">
+      <DependentUpon>201804110739539_SecurityInitial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\SecurityMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -478,6 +484,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\CFSMigrations\201804110237377_ExpenseFileCascadeDelete.resx">
       <DependentUpon>201804110237377_ExpenseFileCascadeDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\SecurityMigrations\201804110739539_SecurityInitial.resx">
+      <DependentUpon>201804110739539_SecurityInitial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
