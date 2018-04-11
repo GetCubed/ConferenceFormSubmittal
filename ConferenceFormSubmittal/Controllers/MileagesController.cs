@@ -167,6 +167,7 @@ namespace ConferenceFormSubmittal.Controllers
             return View(mileages.ToPagedList(pageNumber, pageSize));
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult IndexAdmin(string sortDirection, string sortField, string actionButton,
             int? employeeID, string employeeFirst, string employeeLast, string startAddress,
             string endAddress, DateTime? startDate, DateTime? endDate, int? statusID, int? page)

@@ -136,6 +136,7 @@
                         @Html.DisplayFor(model => model.AttendEndDate)
                     </div>
                 </div>
+
                 <div class="row pt-2">
                     <div class="col-6">
                         @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
@@ -147,7 +148,13 @@
                         @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.DisplayFor(model => model.ReturnDate)
                     </div>
+
+                    <div class="col-12">
+                        <hr />
+                    </div>
                 </div>
+
+               
 
                 <div class="row pt-2">
                     <div class="col-6">
