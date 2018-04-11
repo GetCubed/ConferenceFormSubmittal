@@ -375,7 +375,7 @@
                 $("#lblAttendStartError").html("Start of Attendance cannot be before Departure Date.").removeClass("d-none");
                 result = false;
             }
-            else
+            else if (attendStart.length)
                 $("#lblAttendStartError").addClass("d-none");
 
             // end of attendance can't be before start of attendance
@@ -383,7 +383,7 @@
                 $("#lblAttendEndError").html("End of Attendance cannot be before Start of Attendance.").removeClass("d-none");
                 result = false;
             }
-            else
+            else if (attendEnd.length)
                 $("#lblAttendEndError").addClass("d-none");
 
             // return date can't be before end of attendance
@@ -391,7 +391,7 @@
                 $("#lblReturnDateError").html("Return Date cannot be before End of Attendance.").removeClass("d-none");
                 result = false;
             }
-            else
+            else if (returnDate.length)
                 $("#lblReturnDateError").addClass("d-none");
 
             // if submitting, dates are required
