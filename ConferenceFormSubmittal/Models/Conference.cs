@@ -49,10 +49,6 @@ namespace ConferenceFormSubmittal.Models
             {
                 yield return new ValidationResult("End Date cannot be before Start Date.", new[] { "EndDate" });
             }
-            if (StartDate < DateTime.Today)
-            {
-                yield return new ValidationResult("Start Date cannot be in the past.", new[] { "StartDate" });
-            }
         }
     }
 }
