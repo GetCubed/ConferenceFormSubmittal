@@ -56,15 +56,6 @@ namespace ConferenceFormSubmittal.Controllers
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastStatusID = statusID;
             }
-            if (ViewBag.Filtering == "")
-            {
-                string url = Request.Url.AbsoluteUri;
-                if (url == "http://localhost:5824/Applications")
-                {
-                    statusID = 1;
-                    applications = applications.Where(p => p.StatusID == statusID);
-                }
-            }
 
             if (!String.IsNullOrEmpty(actionButton))
             {
@@ -80,16 +71,17 @@ namespace ConferenceFormSubmittal.Controllers
                     sortField = actionButton;//Sort by the button clicked
                 }
             }
-            if (sortField == "Status")//Sorting by Status
+            if (sortField == "Date Submitted")//Sorting by Date Submitted
             {
                 if (String.IsNullOrEmpty(sortDirection))
                 {
                     applications = applications
-                        .OrderBy(c => c.StatusID);
+                        .OrderBy(p => p.DateSubmitted);
                 }
                 else
                 {
-                    applications = applications.OrderByDescending(c => c.StatusID);
+                    applications = applications
+                        .OrderByDescending(p => p.DateSubmitted);
                 }
             }
             else if (sortField == "Conference Name")//Sorting by Conference Name
@@ -104,25 +96,23 @@ namespace ConferenceFormSubmittal.Controllers
                     applications = applications.OrderByDescending(c => c.Conference.Name);
                 }
             }
-            else //By default sort by Date Submitted
+            else //By default sort by Status
             {
-
                 if (String.IsNullOrEmpty(sortDirection))
                 {
                     applications = applications
-                        .OrderBy(p => p.DateSubmitted);
+                        .OrderBy(c => c.StatusID);
                 }
                 else
                 {
-                    applications = applications
-                        .OrderByDescending(p => p.DateSubmitted);
+                    applications = applications.OrderByDescending(c => c.StatusID);
                 }
             }
 
             ViewBag.sortField = sortField;
             ViewBag.sortDirection = sortDirection;
 
-            int pageSize = 5;//Temp value, good value is like 10
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             return View(applications.ToPagedList(pageNumber, pageSize));
@@ -186,15 +176,6 @@ namespace ConferenceFormSubmittal.Controllers
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastStatusID = statusID;
             }
-            if (ViewBag.Filtering == "")
-            {
-                string url = Request.Url.AbsoluteUri;
-                if (url == "http://localhost:5824/Applications/IndexAdmin")
-                {
-                    statusID = 1;
-                    applications = applications.Where(p => p.StatusID == statusID);
-                }
-            }
 
             if (!String.IsNullOrEmpty(actionButton))
             {
@@ -225,16 +206,17 @@ namespace ConferenceFormSubmittal.Controllers
                         .ThenByDescending(c => c.Employee.FirstName);
                 }
             }
-            else if (sortField == "Status")//Sorting by Status
+            else if (sortField == "Date Submitted")//Sorting by Date Submitted
             {
                 if (String.IsNullOrEmpty(sortDirection))
                 {
                     applications = applications
-                        .OrderBy(c => c.StatusID);
+                        .OrderBy(p => p.DateSubmitted);
                 }
                 else
                 {
-                    applications = applications.OrderByDescending(c => c.StatusID);
+                    applications = applications
+                        .OrderByDescending(p => p.DateSubmitted);
                 }
             }
             else if (sortField == "Conference Name")//Sorting by Conference Name
@@ -249,24 +231,23 @@ namespace ConferenceFormSubmittal.Controllers
                     applications = applications.OrderByDescending(c => c.Conference.Name);
                 }
             }
-            else //By default sort by Date Submitted
+            else //By default sort by Status
             {
                 if (String.IsNullOrEmpty(sortDirection))
                 {
                     applications = applications
-                        .OrderBy(p => p.DateSubmitted);
+                        .OrderBy(c => c.StatusID);
                 }
                 else
                 {
-                    applications = applications
-                        .OrderByDescending(p => p.DateSubmitted);
+                    applications = applications.OrderByDescending(c => c.StatusID);
                 }
             }
 
             ViewBag.sortField = sortField;
             ViewBag.sortDirection = sortDirection;
 
-            int pageSize = 5;//Temp value, good value is like 10
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             return View(applications.ToPagedList(pageNumber, pageSize));
