@@ -363,8 +363,11 @@
                 if (confirm("Are you sure?\n\nClick OK to approve the application."))
                     submitEvaluation("Approved");
             }
-            else
+            else {
                 $("#lblBudgetCodeRequired").removeClass("d-none");
+
+                $(window).scrollTop(0);
+            }
         });
 
         $(".btnDeny").click(function () {
