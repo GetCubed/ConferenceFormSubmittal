@@ -24,21 +24,22 @@
     //------------------------------------------------------------------buttons bar--------------------------------------
     <div class="row pt-3">
         <div class="col-12">
-            <div class="card bg-NCDSB-Grey">
-                <div class="card-body">
+            <div class="card bg-NCDSB-Grey">          
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-between">
 
-                    <div class="col-12 d-flex justify-content-between">
+                            <a href='@Url.Action("Index", "Sites")' class="btn btn-primary">
+                                @Helper.GetIcon(Icons.Back)
+                                Go Back
+                            </a>
 
-                        <a href='@Url.Action("Index", "Sites")' class="btn btn-primary">
-                            @Helper.GetIcon(Icons.Back)
-                            Go Back
-                        </a>
-
-                        <button type="submit" class="btn btn-success">
-                            @Helper.GetIcon(Icons.Save)
-                            Save
-                        </button>
-                    </div>
+                            <button type="submit" class="btn btn-success">
+                                @Helper.GetIcon(Icons.Save)
+                                Save
+                            </button>
+                        </div>
+                    </div>               
                 </div>
             </div>
         </div>

@@ -18,7 +18,7 @@
     <div class="col-12">
 
         <div class="card bg-NCDSB-Grey">
-            <div class="card-body">
+            <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
@@ -26,7 +26,7 @@
                             Go Back
                         </a>
 
-                        <a href='@Url.Action("Edit", "Conferences", new { id = Model.ID })' class="btn btn-primary">
+                        <a href='@Url.Action("Edit", "Conferences", new { id = Model.ID })' class="btn btn-info">
                             @Helper.GetIcon(Icons.Edit)
                             Edit
                         </a>

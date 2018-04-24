@@ -27,8 +27,13 @@
                     <a href='@Url.Action("Index", "Home")' class="btn btn-primary">
                         @Helper.GetIcon(Icons.Back) Go Back
                     </a>
+
+                    <a href='@Url.Action("Index", "Conferences")' class="btn btn-primary">
+                        @Helper.GetIcon(Icons.Create) Create New
+                    </a>
+
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".filter" aria-expanded="false" aria-controls="collapseExample,collapseExamples">
-                        @Helper.GetIcon(Icons.Filter) Filter Applications
+                        @Helper.GetIcon(Icons.Filter) Filter
                     </button>
                 </div>
 
@@ -135,7 +140,7 @@
 
 
                     </table>
-                    <span id="filterMessage" class="text-danger">@((Model.Count() == 0) ? "Zero applicaitons found.  No records match your criteria." : "")</span>
+                    <span id="filterMessage" class="text-danger">@((Model.Count() == 0) ? "Zero applications found.  No records match your criteria." : "")</span>
                     <input type="hidden" name="sortDirection" value="@ViewBag.sortDirection" />
                     <input type="hidden" name="sortField" value="@ViewBag.sortField" />
 

@@ -56,15 +56,6 @@ namespace ConferenceFormSubmittal.Controllers
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastStatusID = statusID;
             }
-            if (ViewBag.Filtering == "")
-            {
-                string url = Request.Url.AbsoluteUri;
-                if (url == "http://localhost:5824/Applications")
-                {
-                    statusID = 1;
-                    applications = applications.Where(p => p.StatusID == statusID);
-                }
-            }
 
             if (!String.IsNullOrEmpty(actionButton))
             {
@@ -80,16 +71,17 @@ namespace ConferenceFormSubmittal.Controllers
                     sortField = actionButton;//Sort by the button clicked
                 }
             }
-            if (sortField == "Status")//Sorting by Status
+            if (sortField == "Date Submitted")//Sorting by Date Submitted
             {
                 if (String.IsNullOrEmpty(sortDirection))
                 {
                     applications = applications
-                        .OrderBy(c => c.StatusID);
+                        .OrderBy(p => p.DateSubmitted);
                 }
                 else
                 {
-                    applications = applications.OrderByDescending(c => c.StatusID);
+                    applications = applications
+                        .OrderByDescending(p => p.DateSubmitted);
                 }
             }
             else if (sortField == "Conference Name")//Sorting by Conference Name
@@ -104,25 +96,23 @@ namespace ConferenceFormSubmittal.Controllers
                     applications = applications.OrderByDescending(c => c.Conference.Name);
                 }
             }
-            else //By default sort by Date Submitted
+            else //By default sort by Status
             {
-
                 if (String.IsNullOrEmpty(sortDirection))
                 {
                     applications = applications
-                        .OrderBy(p => p.DateSubmitted);
+                        .OrderBy(c => c.StatusID);
                 }
                 else
                 {
-                    applications = applications
-                        .OrderByDescending(p => p.DateSubmitted);
+                    applications = applications.OrderByDescending(c => c.StatusID);
                 }
             }
 
             ViewBag.sortField = sortField;
             ViewBag.sortDirection = sortDirection;
 
-            int pageSize = 5;//Temp value, good value is like 10
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             return View(applications.ToPagedList(pageNumber, pageSize));
@@ -186,15 +176,6 @@ namespace ConferenceFormSubmittal.Controllers
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastStatusID = statusID;
             }
-            if (ViewBag.Filtering == "")
-            {
-                string url = Request.Url.AbsoluteUri;
-                if (url == "http://localhost:5824/Applications/IndexAdmin")
-                {
-                    statusID = 1;
-                    applications = applications.Where(p => p.StatusID == statusID);
-                }
-            }
 
             if (!String.IsNullOrEmpty(actionButton))
             {
@@ -210,7 +191,7 @@ namespace ConferenceFormSubmittal.Controllers
                     sortField = actionButton;//Sort by the button clicked
                 }
             }
-            if (sortField == "Full Name")//Sorting by Employee Name
+            if (sortField == "Employee")//Sorting by Employee Name
             {
                 if (String.IsNullOrEmpty(sortDirection))
                 {
@@ -225,16 +206,17 @@ namespace ConferenceFormSubmittal.Controllers
                         .ThenByDescending(c => c.Employee.FirstName);
                 }
             }
-            else if (sortField == "Status")//Sorting by Status
+            else if (sortField == "Date Submitted")//Sorting by Date Submitted
             {
                 if (String.IsNullOrEmpty(sortDirection))
                 {
                     applications = applications
-                        .OrderBy(c => c.StatusID);
+                        .OrderBy(p => p.DateSubmitted);
                 }
                 else
                 {
-                    applications = applications.OrderByDescending(c => c.StatusID);
+                    applications = applications
+                        .OrderByDescending(p => p.DateSubmitted);
                 }
             }
             else if (sortField == "Conference Name")//Sorting by Conference Name
@@ -249,24 +231,23 @@ namespace ConferenceFormSubmittal.Controllers
                     applications = applications.OrderByDescending(c => c.Conference.Name);
                 }
             }
-            else //By default sort by Date Submitted
+            else //By default sort by Status
             {
                 if (String.IsNullOrEmpty(sortDirection))
                 {
                     applications = applications
-                        .OrderBy(p => p.DateSubmitted);
+                        .OrderBy(c => c.StatusID);
                 }
                 else
                 {
-                    applications = applications
-                        .OrderByDescending(p => p.DateSubmitted);
+                    applications = applications.OrderByDescending(c => c.StatusID);
                 }
             }
 
             ViewBag.sortField = sortField;
             ViewBag.sortDirection = sortDirection;
 
-            int pageSize = 5;//Temp value, good value is like 10
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             return View(applications.ToPagedList(pageNumber, pageSize));
@@ -335,7 +316,10 @@ namespace ConferenceFormSubmittal.Controllers
                     application.Expenses.Add(expense);
                 }
 
-                application.DateSubmitted = DateTime.Today;
+                if (application.StatusID == 1)
+                {
+                    application.DateSubmitted = DateTime.Today;
+                }
                 
                 // insert the application
                 db.Applications.Add(application);
@@ -352,7 +336,7 @@ namespace ConferenceFormSubmittal.Controllers
             return View(application);
         }
 
-        // GET: Applications/Edit/5
+        // GET: Applications/Evaluate/5
         public ActionResult Evaluate(int? id)
         {
             if (id == null)
@@ -373,21 +357,26 @@ namespace ConferenceFormSubmittal.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Evaluate([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,Feedback,EmployeeID,ConferenceID,StatusID")] Application application)
+        public JsonResult EvaluatePost(Application a, string status)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(application).State = EntityState.Modified;
+                Application application = db.Applications.Find(a.ID);
+
+                application.StatusID = db.Statuses.Where(s => s.Description == status).SingleOrDefault().ID;
+                application.Feedback = a.Feedback;
+                application.PaymentTypeID = a.PaymentTypeID;
+                application.BudgetCode = a.BudgetCode;
+
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json("success");
             }
-            PopulateDropDownLists(application);
-            return View(application);
+            catch (Exception)
+            {
+                return Json("Failed to save changes to the database. Refresh the page and try again. If the problem persists, contact your database administrator.");
+            }
         }
-
-
-
+        
         // GET: Applications/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -414,13 +403,19 @@ namespace ConferenceFormSubmittal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPost([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,ConferenceID")] Application application)
+        public ActionResult EditPost([Bind(Include = "ID,Rationale,ReplStaffReq,BudgetCode,DateSubmitted,AttendStartDate,AttendEndDate,DepartureDate,ReturnDate,PaymentTypeID,ConferenceID,StatusID")] Application application)
         {
             if (ModelState.IsValid)
             {
+                // set DateSubmitted when they submit the Application
+                if (application.DateSubmitted == null && application.StatusID == 1)
+                {
+                    application.DateSubmitted = DateTime.Today;
+                }
+
                 db.Entry(application).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + application.ID);
             }
             PopulateDropDownLists(application);
             return View(application);

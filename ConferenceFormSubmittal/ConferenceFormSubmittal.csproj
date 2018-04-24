@@ -205,6 +205,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MileagesController.cs" />
     <Compile Include="Controllers\SitesController.cs" />
+    <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="DAL\CFSEntities.cs" />
     <Compile Include="DAL\CFSMigrations\201802112120261_InitialCreate.cs" />
     <Compile Include="DAL\CFSMigrations\201802112120261_InitialCreate.Designer.cs">
@@ -226,7 +227,24 @@
     <Compile Include="DAL\CFSMigrations\201803201059446_FileUploads.Designer.cs">
       <DependentUpon>201803201059446_FileUploads.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\CFSMigrations\201804101314129_NullablePaymentType.cs" />
+    <Compile Include="DAL\CFSMigrations\201804101314129_NullablePaymentType.Designer.cs">
+      <DependentUpon>201804101314129_NullablePaymentType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\CFSMigrations\201804102132441_NullableApplicationDates.cs" />
+    <Compile Include="DAL\CFSMigrations\201804102132441_NullableApplicationDates.Designer.cs">
+      <DependentUpon>201804102132441_NullableApplicationDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\CFSMigrations\201804110237377_ExpenseFileCascadeDelete.cs" />
+    <Compile Include="DAL\CFSMigrations\201804110237377_ExpenseFileCascadeDelete.Designer.cs">
+      <DependentUpon>201804110237377_ExpenseFileCascadeDelete.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\CFSMigrations\Configuration.cs" />
+    <Compile Include="DAL\SecurityMigrations\201804110739539_SecurityInitial.cs" />
+    <Compile Include="DAL\SecurityMigrations\201804110739539_SecurityInitial.Designer.cs">
+      <DependentUpon>201804110739539_SecurityInitial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\SecurityMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -406,7 +424,6 @@
     <Content Include="Views\Expenses\Details.cshtml" />
     <Content Include="Views\Expenses\Edit.cshtml" />
     <Content Include="Views\Expenses\Index.cshtml" />
-    <Content Include="Views\Applications\Evaluate.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -433,6 +450,9 @@
     <Content Include="Views\Sites\Details.cshtml" />
     <Content Include="Views\Sites\Edit.cshtml" />
     <Content Include="Views\Sites\Index.cshtml" />
+    <Content Include="Views\Mileages\EditAdmin.cshtml" />
+    <Content Include="Views\Mileages\IndexAdmin.cshtml" />
+    <Content Include="Views\Applications\Evaluate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -455,6 +475,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\CFSMigrations\201803201059446_FileUploads.resx">
       <DependentUpon>201803201059446_FileUploads.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201804101314129_NullablePaymentType.resx">
+      <DependentUpon>201804101314129_NullablePaymentType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201804102132441_NullableApplicationDates.resx">
+      <DependentUpon>201804102132441_NullableApplicationDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\CFSMigrations\201804110237377_ExpenseFileCascadeDelete.resx">
+      <DependentUpon>201804110237377_ExpenseFileCascadeDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\SecurityMigrations\201804110739539_SecurityInitial.resx">
+      <DependentUpon>201804110739539_SecurityInitial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

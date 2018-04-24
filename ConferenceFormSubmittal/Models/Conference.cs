@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ConferenceFormSubmittal.Models
 {
-    public class Conference
+    public class Conference: IValidatableObject
     {
         public Conference()
         {
@@ -42,5 +42,13 @@ namespace ConferenceFormSubmittal.Models
         public DateTime EndDate { get; set; }
 
         public virtual ICollection<Application> Applications { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (StartDate > EndDate)
+            {
+                yield return new ValidationResult("End Date cannot be before Start Date.", new[] { "EndDate" });
+            }
+        }
     }
 }

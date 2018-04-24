@@ -17,36 +17,38 @@ namespace ConferenceFormSubmittal.Models
         public int ID { get; set; }
 
         [StringLength(500, ErrorMessage = "Rationale may include a maximum of 500 characters.")]
+        [DataType(DataType.MultilineText)]
         public string Rationale { get; set; }
 
         [Display(Name = "Replacement Staff Required")]
         public bool ReplStaffReq { get; set; }
 
+        [Display(Name = "Budget Code")]
         public string BudgetCode { get; set; }
 
         // The date on which they will travel to the conference
         [Display(Name = "Departure Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime DepartureDate { get; set; }
+        public DateTime? DepartureDate { get; set; }
 
         // The date on which they will return from the conference
         [Display(Name = "Return Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime ReturnDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
 
         // The first day they will attend the conference
         [Display(Name = "Start of Attendance")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime AttendStartDate { get; set; }
+        public DateTime? AttendStartDate { get; set; }
 
         // The last day they will attend the conference
         [Display(Name = "End of Attendance")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime AttendEndDate { get; set; }
+        public DateTime? AttendEndDate { get; set; }
 
         // The actual submission date (Applications can be saved as drafts)
         [Display(Name = "Date Submitted")]
@@ -56,6 +58,7 @@ namespace ConferenceFormSubmittal.Models
 
         // Administrator feedback
         [StringLength(500, ErrorMessage = "Feedback may include a maximum of 500 characters.")]
+        [DataType(DataType.MultilineText)]
         public string Feedback { get; set; }
 
         [Display(Name = "Employee")]
@@ -65,10 +68,10 @@ namespace ConferenceFormSubmittal.Models
         public int ConferenceID { get; set; }
 
         [Display(Name = "Status")]
-        public int StatusID { get; set; } = 1; // Default status is "Submitted"
+        public int StatusID { get; set; }
 
         [Display(Name = "Payment Type")]
-        public int PaymentTypeID { get; set; }
+        public int? PaymentTypeID { get; set; }
 
         public virtual Employee Employee { get; set; }
 

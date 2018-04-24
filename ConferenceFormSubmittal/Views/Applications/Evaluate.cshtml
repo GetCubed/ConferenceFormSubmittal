@@ -1,253 +1,379 @@
 ﻿@model ConferenceFormSubmittal.Models.Application
+@using ConferenceFormSubmittal.Utilities;
 
 @{
     ViewBag.Title = "Evaluate";
 }
 
+<!--HEADING-->
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card card-header bg-NCDSB-Grey">
+            <h3 class="text-center font-weight-bold">Evaluate Application</h3>
+
+        </div>
+    </div>
+</div>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.ID)
 
-    <!--HEADING-->
-    <div class="row pt-3">
+    @*//------------------------------------------------ Header buttons ---------------------------------*@
+    <div class="row mt-3">
         <div class="col-12">
-            <div class="card card-header bg-NCDSB-Grey">
-                <h3 class="text-center font-weight-bold">Evaluate Application</h3>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-body">
+                    <div class="row ">
+                        <div class="col-12 d-flex justify-content-between">
+                            <a href='@Url.Action("Index", "Applications")' class="btn btn-primary">
+                                @Helper.GetIcon(Icons.Back)
+                                Go Back
+                            </a>
+
+                            <a class="btn btn-primary btnApprove">
+                                @Helper.GetIcon(Icons.Check)
+                                Approve
+                            </a>
+
+                            <a class="btn btn-danger btnDeny">
+                                @Helper.GetIcon(Icons.Denied)
+                                Deny
+                            </a>
+
+                            <a href='@Url.Action("Delete", "Applications", new { id = Model.ID })' class="btn btn-danger">
+                                @Helper.GetIcon(Icons.Flag)
+                                Flag
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-
-
     <div class="row mt-3">
-        <div class="col-3">
-            <div class="card card-body bg-NCDSB-Grey">
-                <div class="col-12">
-                    <input type="button" value="Approve" class="btn btn-primary btn-block mt-3" />
-                    <input type="button" value="Deny" class="btn btn-danger btn-block mt-3" />
-
-                    @Html.ActionLink("Back to List", "IndexAdmin", "Applications", null, new { @class = "btn btn-primary btn-block mt-3" })
-
-
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey">
+                <div class="card-header">
+                    <h4>Evaluation Details</h4>
                 </div>
-            </div>
-        </div> <!--col-->
-
-        <div class="col-9">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card-group w-100">
-
-                        <div class="card card-body bg-NCDSB-Grey mr-2">
-                            <b class="d-block mt-2 ">Conference Name</b>
-                            @*@Html.DisplayNameFor(model => model.Conference.Name)*@
-                            @Html.DisplayFor(model => model.Conference.Name)
-
-                            <b class="d-block mt-2">Date Submitted</b>
-                            @Html.DisplayFor(model => model.DateSubmitted)
-
-
-                            <b class="d-block mt-2">Budget Code</b>
-                            @Html.DisplayFor(model => model.BudgetCode)
+                <div class="card-body">
+                    @Html.HiddenFor(model => model.ID, new { @id = "txtApplicationID" })
+                    <div class="row">
+                        <div class="col-4">
+                            @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.Feedback, new { @class = "form-control" })
                         </div>
-
-                        <div class="card card-body bg-NCDSB-Grey ml-2">
-                            <b class="d-block mt-2">Status</b>
-                            @Html.DisplayFor(model => model.Status.Description)
-
-                            <b class="d-block mt-2">Require Repl Staff</b>
-                            @Html.DisplayFor(model => model.ReplStaffReq)
+                        <div class="col-4">
+                            @Html.LabelFor(model => model.PaymentTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.DropDownList("PaymentTypeID", null, "Select a Payment Type...", htmlAttributes: new { @class = "form-control", @id = "ddlPaymentTypeID" })
                         </div>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-body bg-NCDSB-Grey mt-3">
-                        <div class="col-12">
-                            <b class="d-block mt-2">Rationale</b>
-                            @Html.DisplayFor(model => model.Rationale)
+                        <div class="col-4">
+                            @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                            @Html.EditorFor(model => model.BudgetCode, new { @class = "form-control"})
+                            <label id="lblBudgetCodeRequired" class="text-danger d-none">A budget code is required to approve an application.</label>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+}
+@*-----------------------------------------------------Conference Details ----------------------------------------*@
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-header">
+                <h4>Conference Details</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.ConferenceID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Conference.Name)
+                    </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-body bg-NCDSB-Grey mt-3">
-                        <div class="col-12">
-                            <b class="d-block mt-2">Feedback</b>
-                            <input type="text" />
-                        </div>
+                    <div class="col-6">
+
+                        @Html.LabelFor(model => model.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Conference.Location)
+
+                    </div>
+
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.Conference.StartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Conference.StartDate)
+                    </div>
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.Conference.EndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Conference.EndDate)
+                    </div>
+
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.Conference.RegistrationCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Conference.RegistrationCost)
+                    </div>
+                    <div class="col-6">
+
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-body bg-NCDSB-Grey mt-3">
-                        <div class="col-12">
-                            <b class="d-block mt-2">Expenses</b>
 
+        </div>
+    </div>
+</div>
+
+
+
+@*--------------------------------------------------------------Application details -----------------------------------------------*@
+<div class="row pt-2">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey mt-3">
+            <div class="card-header">
+                <h4>Application Details</h4>
+            </div>
+            <div class="card-body">
+                <div class="row pt-2">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.DateSubmitted, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.DateSubmitted)
+                    </div>
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.ReplStaffReq, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Helper.YesNoFromBool(Model.ReplStaffReq)
+                    </div>
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.AttendStartDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.AttendStartDate)
+                    </div>
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.AttendEndDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.AttendEndDate)
+                    </div>
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.DepartureDate)
+                    </div>
+                    <div class="col-6">
+                        @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.ReturnDate)
+                    </div>
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-12">
+                        @Html.LabelFor(model => model.Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                        @Html.DisplayFor(model => model.Rationale)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*----------------------------------------Expenses -----------------------------*@
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey mt-3">
+            <div class="card-header">
+                <h4>Expenses</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().ExpenseTypeID, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().EstimatedCost, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.Expenses.SingleOrDefault().Rationale, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Expenses)
+                            {
+                                <tr>
+                                    <td>@item.ExpenseType.Description</td>
+                                    <td>@item.EstimatedCost</td>
+                                    <td>@item.Rationale</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*-------------------------------------------Mileages---------------------------------------------------------*@
+@*<div class="row">
+        <div class="col-12">
+            <div class="card bg-NCDSB-Grey mt-3">
+                <div class="card-header">
+                    <h4>Mileages</h4>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
 
 
                             <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.LabelFor(model => model.Mileages.SingleOrDefault().TravelDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Mileages.SingleOrDefault().StartAddress, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Mileages.SingleOrDefault().EndAddress, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Mileages.SingleOrDefault().Kilometres, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Mileages.SingleOrDefault().Status, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                        </th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-
-                                    <tr>
-                                        <th>
-                                            <b>Type</b>
-                                        </th>
-                                        <th>
-                                            <b>Estimated Cost</b>
-                                        </th>
-                                        <th>
-                                            <b>Payment Type</b>
-                                        </th>
-                                        <th>
-                                            <b>Status</b>
-                                        </th>
-                                        <th>
-                                            
-                                        </th>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            Food
-                                        </td>
-                                        <td>
-                                            $200.00
-                                        </td>
-                                        <td>
-                                            Credit Card
-                                        </td>
-                                        <td>
-                                            Estimated
-                                        </td>
-                                        <td>
-                                            <a class="badge badge-primary" href="/Expenses/Edit/1">Eval</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="rgba-black-light">
-                                        <td>
-                                            Hotel
-                                        </td>
-                                        <td>
-                                            $20.00
-                                        </td>
-                                        <td>
-                                            Credit Card
-                                        </td>
-                                        <td>
-                                            Denied
-                                        </td>
-                                        <td>
-                                            <a class="badge badge-primary bg-NCDSB-Blue text-white" href="/Expenses/Details/1">View</a>
-                                            <a class="badge badge-danger" href="/Expenses/Delete/1">Delete</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            Limo
-                                        </td>
-
-                                        <td>
-                                            $200.00
-                                        </td>
-                                        <td>
-                                            Cash
-                                        </td>
-                                        <td>
-                                            Estimated
-                                        </td>
-                                        <td>
-                                            <a class="badge badge-primary" href="/Expenses/Edit/1">Eval</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            Food
-                                        </td>
-
-                                        <td>
-                                            $200.00
-                                        </td>
-                                        <td>
-                                            Cash
-                                        </td>
-                                        <td>
-                                            Estimated
-                                        </td>
-                                        <td>
-                                            <a class="badge badge-primary" href="/Expenses/Edit/1">Eval</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="rgba-black-light">
-                                        <td>
-                                            Hotel
-                                        </td>
-                                        <td>
-                                            $20.00
-                                        </td>
-                                        <td>
-                                            Cash
-                                        </td>
-                                        <td>
-                                            Denied
-                                        </td>
-                                        <td>
-                                            <a class="badge badge-primary bg-NCDSB-Blue text-white" href="/Expenses/Details/1">View</a>
-                                            <a class="badge badge-danger" href="/Expenses/Delete/2">Delete</a>
-                                        </td>
-
-                                    </tr>
-                                    <tr class="gba-yellow-light">
-                                        <td>
-                                            Limo
-                                        </td>
-                                        <td>
-                                            $200.00
-                                        </td>
-                                        <td>
-                                            Credit Card
-                                        </td>
-                                        <td>
-                                            Estimated
-                                        </td>
-                                        <td>
-                                            <a class="badge badge-primary" href="/Expenses/Edit/1">Eval</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="rgba-green-light">
-
+                                    @foreach (var item in Model.Mileages)
+                    {
+                        <tr>
+                            <td>
+                                @item.TravelDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @item.StartAddress
+                            </td>
+                            <td>
+                                @item.EndAddress
+                            </td>
+                            <td>
+                                @item.Kilometres km
+                            </td>
+                            <td>
+                               @Helper.GetIcon(item.Status.Description)
+                                @item.Status.Description
+                            </td>
+                        </tr>
+    }
                                 </tbody>
                             </table>
 
+
                         </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>*@
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card bg-NCDSB-Grey">
+            <div class="card-body">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <a href='@Url.Action("Index", "Applications")' class="btn btn-primary">
+                            @Helper.GetIcon(Icons.Back)
+                            Go Back
+                        </a>
+
+                        <a class="btn btn-primary btnApprove">
+                            @Helper.GetIcon(Icons.Check)
+                            Approve
+                        </a>
+
+                        <a class="btn btn-danger btnDeny">
+                            @Helper.GetIcon(Icons.Denied)
+                            Deny
+                        </a>
+
+                        <a href='@Url.Action("Delete", "Applications", new { id = Model.ID })' class="btn btn-danger">
+                            @Helper.GetIcon(Icons.Flag)
+                            Flag
+                        </a>
                     </div>
                 </div>
             </div>
-
-
-        </div> <!--col-->
-
-
-
-
-
+        </div>
     </div>
-
-}
+</div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        $("#BudgetCode").keyup(function () {
+            if ($(this).val().length)
+                $("#lblBudgetCodeRequired").addClass("d-none");
+        });
+
+        function submitEvaluation(status) {
+            var application = {
+                ID: $("#txtApplicationID").val(),
+                Feedback: $("#Feedback").val(),
+                PaymentTypeID: $("#ddlPaymentTypeID").val(),
+                BudgetCode: $("#BudgetCode").val()
+            };
+
+            $.ajax("/Applications/EvaluatePost/" + status, {
+                data: JSON.stringify({ a: application, status: status }),
+                type: "post", contentType: "application/json",
+                success: function (response) {
+                    if (response == "success") {
+                        alert("Application " + status + ".\n\nRedirecting to Applications List...");
+                        window.location.replace("/Applications/IndexAdmin");
+                    }
+                    else
+                        alert(response);
+                }
+            });
+        }
+
+        $(".btnApprove").click(function () {
+            if ($("#BudgetCode").val().length) {
+                if (confirm("Are you sure?\n\nClick OK to approve the application."))
+                    submitEvaluation("Approved");
+            }
+            else {
+                $("#lblBudgetCodeRequired").removeClass("d-none");
+
+                $(window).scrollTop(0);
+            }
+        });
+
+        $(".btnDeny").click(function () {
+            if (confirm("Are you sure?\n\nClick OK to deny the application.")) {
+                submitEvaluation("Denied");
+            }
+        });
+    </script>
 }

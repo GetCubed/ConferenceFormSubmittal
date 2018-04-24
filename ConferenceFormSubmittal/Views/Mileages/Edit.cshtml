@@ -15,15 +15,17 @@
 
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmEditMileage" }))
 {
     @Html.AntiForgeryToken()
 
+
+    @*---------------------FILTER BAR-------------------------------------------*@
     <div class="row pt-3">
         <div class="col-12">
             <div class="card bg-NCDSB-Grey">
-                <div class="card-body">
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
+                <div class="card-header">
+
                     <div class="row">
                         <div class="col-12 d-flex justify-content-between">
 
@@ -31,7 +33,11 @@
                                 @Helper.GetIcon(Icons.Back) Go Back
                             </a>
 
-                            <button type="submit" class="btn btn-info ">
+                            <button id="btnDraft" type="button" value="Draft" class="btn btn-info float-right">
+                                @Helper.GetIcon(Icons.Draft) Save as Draft
+                            </button>
+
+                            <button type="submit" class="btn btn-success ">
                                 @Helper.GetIcon(Icons.Save) Save
                             </button>
 
@@ -43,117 +49,150 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
 
 
-
+    @*---------------------Edit Form------------------------------------------------------------------------------------*@
     <div class="row pt-3">
 
-
-        @*---------------------Edit Form------------------------------------------------------------------------------------*@
         <div class="col-8">
-            <div class="card bg-NCDSB-Grey">
-                <div class="card-body">
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
-                    <div class="row pt-3">
-                        <div class="col-1">
-                            @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+
+            <div class="row">
+
+                @*------------------------Conference Details ------------------------------------------------------------*@
+                <div class="col-12">
+                    <div class="card bg-NCDSB-Grey">
+                        <div class="card-header">
+                            <h3>@Html.LabelFor(model => model.Application.Conference.Name, htmlAttributes: new { @class = "control-label d-block" })</h3>
+                            @Html.DisplayFor(model => model.Application.Conference.Name)
                         </div>
-                        <div class="col-3">
-                            @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
-                            Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />
-                            @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block bg-NCDSB-GreyLight", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
-                            @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-2">
-                            @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
-                            @Html.DropDownList("Sites", null, "Select A Site", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
-                            Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />
-                            @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
-                            @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-3">
-                            <a onclick="GetRoute()" class="btn btn-primary d-block">
-                                <i class="fa fa-map-marker fa-2x"></i>
-                                Get Route
-                            </a>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    @Html.LabelFor(model => model.Application.Conference.Location, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                    @Html.DisplayFor(model => model.Application.Conference.Location)
+                                </div>
+                                <div class="col-4">
+                                    @Html.LabelFor(model => model.Application.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                    @Html.DisplayFor(model => model.Application.DepartureDate)
+                                </div>
+                                <div class="col-4">
+                                    @Html.LabelFor(model => model.Application.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
+                                    @Html.DisplayFor(model => model.Application.ReturnDate)
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
-                    <div class="row pt-3">
-                        <div class="col-1">
-                            @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-3">
-                            @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "txtTravelDate" } })
-                            @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-2">
-                            <label class="font-weight-bold">Attached Conference</label>
-                        </div>
-                        <div class="col-3">
-                            @Html.DropDownList("ConferenceName", null, "None", htmlAttributes: new { @class = "form-control", @id = "ddlApplicationID" })
-                        </div>
-                        <div class="col-2">
-                            @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                        </div>
-                        <div class="col-1">
-                            @Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "chkRoundTrip" } })
-                        </div>
-                    </div>
-
-
-                    @*---------------------ERROR MESSAGES ---------------------*@
-                    <div class="row pt-3">
-                        <div class="col-12">
-
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @Html.HiddenFor(model => model.ID)
-                        </div>
-                    </div>
-
-
                 </div>
 
-                <div class="card-footer rgba-grey-light">
-                    @*---------------------ROW------------------------------------------------------------------------------------*@
-                    <div class="row pt-3 ">
-                        <div class="col-2">
-                            <label" class="font-weight-bold">Kilometers</label">
-                        </div>
-                        <div class="col-3">
-                            @Html.EditorFor(model => model.Kilometres, new
-                            {
-                                htmlAttributes = new
-                                {
-                                    @class = "form-control text-dark",
-                                    @id = "txtKilometres",
-                                    @disabled = "disabled"
-                                }
-                            })
-                            @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
+                @*------------------------Mileage Edit ------------------------------------------------------------*@
+                <div class="col-12 pt-3">
+                    <div class="card bg-NCDSB-Grey">
+
+                        <div class="card-body">
+
+                            @*---------------------ROW------------------------------------------------------------------------------------*@
+                            <div class="row">
+                                <div class="col-2">
+                                    @Html.LabelFor(model => model.StartAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                </div>
+                                <div class="col-3">
+                                    @Html.DropDownList("Sites", null, "Custom Location", htmlAttributes: new { @class = "form-control", @id = "ddlStartSite" })
+                                    @*Enter a Custom Location?<input type="checkbox" id="chkCustomStartLocation" />*@
+                                    @Html.EditorFor(model => model.StartAddress, new { htmlAttributes = new { @class = "form-control d-block bg-NCDSB-GreyLight", @id = "txtStartAddress", @placeholder = "Enter an Address" } })
+                                    @Html.ValidationMessageFor(model => model.StartAddress, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-3">
+                                    @Html.LabelFor(model => model.EndAddress, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                </div>
+                                <div class="col-4">
+                                    @Html.DropDownList("Sites", null, "Custom Location", htmlAttributes: new { @class = "form-control", @id = "ddlEndSite" })
+                                    @*Enter a Custom Location?<input type="checkbox" id="chkCustomEndLocation" />*@
+                                    @Html.EditorFor(model => model.EndAddress, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @id = "txtEndAddress", @placeholder = "Enter an Address" } })
+                                    @Html.ValidationMessageFor(model => model.EndAddress, "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <div class="col-12">
+                                    <a onclick="GetRoute()" class="btn btn-success d-block">
+                                        <i class="fa fa-map-marker fa-2x"></i>
+                                        @Helper.GetIcon(Icons.Marker)
+                                        Get Route
+                                    </a>
+                                </div>
+
+                            </div>
+
+                            @*---------------------ROW------------------------------------------------------------------------------------*@
+                            <div class="row ">
+                                <div class="col-12">
+                                    <hr />
+                                </div>
+
+                                <div class="col-4">
+                                    @Html.LabelFor(model => model.TravelDate, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                    @Html.EditorFor(model => model.TravelDate, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight" } })
+                                    @Html.ValidationMessageFor(model => model.TravelDate, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-4">
+                                    @Html.EditorFor(model => model.ApplicationID, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight", @hidden = "hidden" } })
+                                </div>
+
+                                <div class="col-4">
+                                    @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold d-block" })
+                                    @Html.EditorFor(model => model.RoundTrip, new { htmlAttributes = new { @class = "form-control bg-NCDSB-GreyLight toggle", @id = "chkRoundTrip" } })
+                                </div>
+
+                                @*---------------------ERROR MESSAGES ---------------------*@
+                                <div class="row pt-3 ">
+                                    <div class="col-12">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(model => model.ID)
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
-                        <div class="col-2">
-                            <label class="font-weight-bold">Mileage Claim</label>
+
+                        <div class="card-footer rgba-grey-light">
+                            @*---------------------ROW------------------------------------------------------------------------------------*@
+                            <div class="row pt-3 ">
+                                <div class="col-2">
+                                    <label" class="font-weight-bold">Kilometers</label">
+                                </div>
+                                <div class="col-3">
+                                    @Html.EditorFor(model => model.Kilometres, new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "form-control text-dark",
+                        @id = "txtKilometres"
+                    }
+                })
+                                    @Html.ValidationMessageFor(model => model.Kilometres, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="col-2">
+                                    <label class="font-weight-bold">Mileage Claim</label>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="col-3">
-                            <input class="form-control text-dark" type="text" id="txtReimbursement" disabled="disabled" />
-                        </div>
+
                     </div>
 
-                   
                 </div>
 
             </div>
-
+         
         </div>
-
-
 
 
         @*-------------------------  GOOGLE MAP Column ---------------*@
@@ -168,8 +207,9 @@
                 </div>
             </div>
         </div>
-    </div>
 
+       
+    </div>
 
 
 }
@@ -183,6 +223,51 @@
 
     @*This script is the actual google api calculatin the distance and cost(with dummy rate) between two locations*@
     <script>
+
+        window.onload = function () {
+            var txtMileage = document.getElementById("txtKilometres").value
+            var txtReimbursement = document.getElementById("txtReimbursement");
+
+            document.getElementById("txtReimbursement").value = (txtMileage / 2).toFixed(2);
+
+        }
+
+        $("#btnDraft").click(function () {
+            var $status = $("#txtStatusID");
+
+            if (confirm("Do you want to save this Mileage Application as Draft?")) {
+                $status.val(4);
+                document.getElementById("frmEditMileageAdmin").submit();
+            }
+        });
+
+        $(function () {
+            $('.toggle').change(function () {
+                var self = $(this);
+                var roundTrip = 2;
+                var $txtMileage = $("#txtKilometres");
+                var txtMileageVal = $txtMileage.val();
+                var newMileage;
+                var $txtReim = $("#txtReimbursement");
+                var txtReimVal = $txtReim.val();
+                var newReim;
+
+                if (self.prop('checked')) {
+                    newMileage = txtMileageVal * roundTrip;
+                    $txtMileage.val(newMileage.toFixed(2));
+
+                    newReim = txtReimVal * roundTrip;
+                    $txtReim.val(newReim.toFixed(2));
+                }
+                else {
+                    newMileage = txtMileageVal / roundTrip;
+                    $txtMileage.val(newMileage.toFixed(2));
+
+                    newReim = txtReimVal / roundTrip;
+                    $txtReim.val(newReim.toFixed(2));
+                }
+            });
+        });
 
         var source, destination, $chkCustomStartLocation, $chkCustomEndLocation;
         var directionsDisplay;
@@ -203,31 +288,33 @@
         function GetRoute() {
 
             directionsDisplay.setMap(map);
+            
+            $chkRoundTrip = document.getElementById("chkRoundTrip");
 
-            $chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
-            $chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
-
+            var txtStartSite = document.getElementById("txtStartAddress");
             var ddlStartSite = document.getElementById("ddlStartSite");
             var ddlStartSiteValue = ddlStartSite[ddlStartSite.selectedIndex].value;
-            var txtStartAddress = document.getElementById("txtStartAddress");
+            var txtEndSite = document.getElementById("txtEndAddress");
             var ddlEndSite = document.getElementById("ddlEndSite");
             var ddlEndSiteValue = ddlEndSite[ddlEndSite.selectedIndex].value;
-            var txtEndAddress = document.getElementById("txtEndAddress");
 
-            if ($chkCustomStartLocation.checked) {
-                source = txtStartAddress.value;
-            }
-            else {
-                source = ddlStartSiteValue;
-                txtStartAddress.value = source;
+            if (ddlStartSiteValue != "") {
+                txtStartSite.value = ddlStartSiteValue;
             }
 
-            if ($chkCustomEndLocation.checked) {
-                destination = txtEndAddress.value;
+            if (ddlEndSiteValue != "") {
+                txtEndSite.value = ddlEndSiteValue;
+            }
+
+            source = txtStartSite.value;
+            destination = txtEndSite.value;
+            
+
+            if ($chkRoundTrip.checked) {
+                roundTrip = 2;
             }
             else {
-                destination = ddlEndSiteValue;
-                txtEndAddress.value = destination;
+                roundTrip = 1;
             }
 
             var request = {
@@ -254,21 +341,15 @@
 
                 if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
                     var distance = response.rows[0].elements[0].distance.text;
-                    //var duration = response.rows[0].elements[0].duration.value;
                     var dvDistance = document.getElementById("txtKilometres");
-                    //this will be changed from dvcost to Cost once the database supports it
                     var dvCost = document.getElementById("txtReimbursement");
-                    //duration = parseFloat(duration / 60).toFixed(2);
-                    //This is a dummy rate value for Cost per Km
-                    var rate = 5;
-                    //Converts the Distance from meters to kilometers
-                    var distancecost = response.rows[0].elements[0].distance.value / 1000;
-                    var cost = distancecost * rate;
+                    var rate = .5;
+                    var distance = (response.rows[0].elements[0].distance.value / 1000);
+                    var cost = (distance * rate) * roundTrip;
+                    var distanceRoundTrip = distance * roundTrip;
 
-                    //dvDistance.value = distance;//"Distance: " + distance; CURRENTLY COMMITED OUT FOR TRANSFER FORMATING
-                    dvDistance.value = distancecost;//CURRENTLY USING THIS SINCE ITS THE RAW NUMBER INSTEAD OF ALREADY FORMATTED
-                    dvCost.value = cost;//;"Cost: $" + cost; CURRENTLY COMMITED OUT FOR TRANSFER FORMATING
-                    //dvDistance.innerHTML += "Time:" + duration + " min";
+                    dvDistance.value = distanceRoundTrip.toFixed(2);
+                    dvCost.value = cost.toFixed(2);
 
                 } else {
                     alert("Unable to find the distance via road.");

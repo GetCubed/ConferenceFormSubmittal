@@ -20,7 +20,7 @@
     <div class="col-12">
 
         <div class="card bg-NCDSB-Grey">
-            <div class="card-body">
+            <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <a href='@Url.Action("Index", "Applications")' class="btn btn-primary">
@@ -28,7 +28,7 @@
                             Go Back
                         </a>
 
-                        <a href='@Url.Action("Edit", "Applications", new { id = Model.ID })' class="btn btn-primary">
+                        <a href='@Url.Action("Edit", "Applications", new { id = Model.ID })' class="btn btn-info">
                             @Helper.GetIcon(Icons.Edit)
                             Edit
                         </a>
@@ -111,7 +111,6 @@
                     <div class="col-4">
                         @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.Raw(Helper.GetIcon(Model.Status.Description)) @Html.DisplayFor(model => model.Status.Description)
-                       
                     </div>
                     <div class="col-4">
                         @Html.LabelFor(model => model.DateSubmitted, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
@@ -120,6 +119,9 @@
                     <div class="col-4">
                         @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.DisplayFor(model => model.Feedback)
+                    </div>
+                    <div class="col-12">
+                        <hr />
                     </div>
                 </div>
 
@@ -134,21 +136,28 @@
                         @Html.DisplayFor(model => model.AttendEndDate)
                     </div>
                 </div>
+
                 <div class="row pt-2">
                     <div class="col-6">
                         @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.DisplayFor(model => model.DepartureDate)
 
-                       
+
                     </div>
                     <div class="col-6">
                         @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.DisplayFor(model => model.ReturnDate)
                     </div>
+
+                    <div class="col-12">
+                        <hr />
+                    </div>
                 </div>
 
+               
+
                 <div class="row pt-2">
-                    <div class="col-6">                     
+                    <div class="col-6">
                         @Html.LabelFor(model => model.BudgetCode, htmlAttributes: new { @class = "control-label d-block font-weight-bold" })
                         @Html.DisplayFor(model => model.BudgetCode)
 
@@ -171,7 +180,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 
 
@@ -184,7 +193,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    
+
 
                     <table class="table">
                         <thead>
@@ -205,36 +214,36 @@
                         </thead>
                         <tbody>
                             @foreach (var item in Model.Expenses)
-                {
-                    var estimatedCost = item.EstimatedCost?.ToString("C");
+                            {
+                                var estimatedCost = item.EstimatedCost?.ToString("C");
 
-                    if (String.IsNullOrEmpty(estimatedCost))
-                    {
-                        estimatedCost = "N/A";
-                    }
+                                if (String.IsNullOrEmpty(estimatedCost))
+                                {
+                                    estimatedCost = "N/A";
+                                }
 
-                    var actualCost = item.ActualCost?.ToString("C");
+                                var actualCost = item.ActualCost?.ToString("C");
 
-                    if (String.IsNullOrEmpty(actualCost))
-                    {
-                        actualCost = "TBD";
-                    }
-                    <tr>
-                        <td>@item.ExpenseType.Description</td>
-                        <td>@estimatedCost</td>
-                        <td>
-                            @actualCost
-                        </td>
-                        <td>@item.Rationale</td>
-                    </tr>
-    }
+                                if (String.IsNullOrEmpty(actualCost))
+                                {
+                                    actualCost = "TBD";
+                                }
+                                <tr>
+                                    <td>@item.ExpenseType.Description</td>
+                                    <td>@estimatedCost</td>
+                                    <td>
+                                        @actualCost
+                                    </td>
+                                    <td>@item.Rationale</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
 
 
                 </div>
             </div>
-           
+
         </div>
     </div>
 </div>
@@ -251,8 +260,6 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-
-
                         <table class="table">
                             <thead>
                                 <tr>
@@ -275,35 +282,35 @@
                             </thead>
                             <tbody>
                                 @foreach (var item in Model.Mileages)
-                {
-                    <tr>
-                        <td>
-                            @item.TravelDate.ToShortDateString()
-                        </td>
-                        <td>
-                            @item.StartAddress
-                        </td>
-                        <td>
-                            @item.EndAddress
-                        </td>
-                        <td>
-                            @item.Kilometres km
-                        </td>
-                        <td>
-                           @Helper.GetIcon(item.Status.Description)
-                            @item.Status.Description
-                        </td>
-                    </tr>
-}
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.TravelDate.ToShortDateString()
+                                        </td>
+                                        <td>
+                                            @item.StartAddress
+                                        </td>
+                                        <td>
+                                            @item.EndAddress
+                                        </td>
+                                        <td>
+                                            @item.Kilometres km
+                                        </td>
+                                        <td>
+                                            @Helper.GetIcon(item.Status.Description)
+                                            @item.Status.Description
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
 
 
                     </div>
                 </div>
-               
+
             </div>
-          
+
         </div>
     </div>
 </div>
