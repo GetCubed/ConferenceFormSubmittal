@@ -288,9 +288,7 @@
         function GetRoute() {
 
             directionsDisplay.setMap(map);
-
-            //$chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
-            //$chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+            
             $chkRoundTrip = document.getElementById("chkRoundTrip");
 
             var txtStartSite = document.getElementById("txtStartAddress");
@@ -310,20 +308,7 @@
 
             source = txtStartSite.value;
             destination = txtEndSite.value;
-
-            //if ($chkCustomStartLocation.checked) {
-            //    source = txtStartSite.value;
-            //}
-            //else {
-            //    source = ddlStartSiteValue;
-            //}
-
-            //if ($chkCustomEndLocation.checked) {
-            //    destination = txtEndSite.value;
-            //}
-            //else {
-            //    destination = ddlEndSiteValue;
-            //}
+            
 
             if ($chkRoundTrip.checked) {
                 roundTrip = 2;
@@ -357,11 +342,8 @@
                 if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
                     var distance = response.rows[0].elements[0].distance.text;
                     var dvDistance = document.getElementById("txtKilometres");
-                    //this will be changed from dvcost to Cost once the database supports it
                     var dvCost = document.getElementById("txtReimbursement");
-                    //This is a dummy rate value for Cost per Km
                     var rate = .5;
-                    //Converts the Distance from meters to kilometers
                     var distance = (response.rows[0].elements[0].distance.value / 1000);
                     var cost = (distance * rate) * roundTrip;
                     var distanceRoundTrip = distance * roundTrip;

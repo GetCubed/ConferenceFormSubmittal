@@ -306,6 +306,7 @@
 
     <script>
 
+        //attachs a conference to mileage creation
         function attachConference() {
             var $ApplicationID = $("#ddlApplicationID"),
                 app = $ApplicationID.find(":selected").text(),
@@ -318,10 +319,12 @@
             }
         }
 
+        //resets the mileage creation to detach conference
         function Reset() {
             window.location.replace("/Mileages/Create/");
         }
 
+        //client side validation for individual mileages
         function validMileage(travelDate, startAddress, endAddress, kilometres) {
 
             var result = true;
@@ -354,16 +357,13 @@
             var $txtTravelDate = $("#txtTravelDate"),
                 $txtKilometres = $("#txtKilometres"),
                 $appID = $("#ApplicationID"),
-                $con = $("#ConferenceName")
-                //$ddlAppID = $("#ddlApplicationID"),
+                $con = $("#ConferenceName"),
                 $chkRoundTrip = $("#chkRoundTrip"),
                 $txtreimbursement = $("#txtReimbursement"),
                 travelDate = $txtTravelDate.val(),
                 kilometres = $txtKilometres.val(),
                 appID = $appID.val(),
                 ConName = $con.val(),
-                //app = $ddlAppID.find(":selected").val(),
-                //appID = $ddlAppID.val(),
                 roundTrip = $chkRoundTrip.is(':checked'),
                 roundTriptxt = roundTrip ? "Yes" : "No";
                 reimbursement = $txtreimbursement.val();
@@ -372,24 +372,10 @@
                 $ddlStartAddress = $("#ddlStartSite"),
                 $txtEndAddress = $("#txtEndAddress"),
                 $ddlEndAddress = $("#ddlEndSite");
-                //$chkCustomStartLocation = $("#chkCustomStartLocation"),
-                //$chkCustomEndLocation = $("#chkCustomEndLocation"),
-                //customStartLocation = $chkCustomStartLocation.is(":checked"),
-                //customEndLocation = $chkCustomEndLocation.is(":checked");
                 
-            //if (!customStartLocation) {
-            //    var startAddress = $ddlStartAddress.val();
-            //}
-            //else {
-                var startAddress = $txtStartAddress.val();
-            //}
-
-            //if (!customEndLocation) {
-            //    var endAddress = $ddlEndAddress.val();
-            //}
-            //else {
-                var endAddress = $txtEndAddress.val();
-            //}
+            var startAddress = $txtStartAddress.val();
+            var endAddress = $txtEndAddress.val();
+            
 
             if (typeof appID != 'string') {
                 ConName = "None";
@@ -407,7 +393,6 @@
                         "<td class='startAddress'>" + startAddress + "</td>" +
                         "<td class='endAddress'>" + endAddress + "</td>" +
                         "<td class='kilometres'>" + kilometres + "</td > " +
-                        //"<td class='applicationID' data-id='" + appID + "'>" + app + "</td>" +
                         "<td class='applicationID' data-id='" + appID + "'>" + ConName + "</td>" +
                         "<td class='roundTrip' data-roundTrip='" + roundTrip + "' > " + roundTriptxt + "</td > " +
                         "<td class='reimbursement'>" + reimbursement + "</td>" +
@@ -434,6 +419,7 @@
             }
         }
 
+        //submits the current list
         $("#btnSubmit").click(function () {
 
             var mileageBatch = [];
@@ -451,7 +437,7 @@
                         ApplicationID: row.find(".applicationID").data("id"),
                         RoundTrip: row.find(".roundTrip").data("roundTrip"),
                         StatusID: 1,
-                        EmployeeID: 1 //needs to reference the logged in user
+                        EmployeeID: 1 
                     };
 
                     mileageBatch.push(mileage);
@@ -464,7 +450,7 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        //alert((response + 1) + " mileage(s) added.");
+                        alert((response) + " mileage(s) added.");
                         $("#frmCreateMileage").submit();
                         window.location = "/Mileages"
                     }
@@ -472,6 +458,7 @@
             }
         });
 
+        //saves current list as a draft
         $("#btnDraft").click(function () {
 
             var mileageBatch = [];
@@ -488,7 +475,7 @@
                         ApplicationID: row.find(".applicationID").data("id"),
                         RoundTrip: row.find(".roundTrip").data("roundTrip"),
                         StatusID: 4,
-                        EmployeeID: 1 //needs to reference the logged in user
+                        EmployeeID: 1
                     };
 
                     mileageBatch.push(mileage);
@@ -501,7 +488,7 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        //alert((response + 1) + " mileage(s) added.");
+                        alert((response) + " mileage(s) added.");
                         $("#frmCreateMileage").submit();
                         window.location = "/Mileages"
                     }
@@ -562,9 +549,7 @@
         function GetRoute() {
 
             directionsDisplay.setMap(map);
-
-            //$chkCustomStartLocation = document.getElementById("chkCustomStartLocation");
-            //$chkCustomEndLocation = document.getElementById("chkCustomEndLocation");
+            
             $chkRoundTrip = document.getElementById("chkRoundTrip");
 
             var txtStartSite = document.getElementById("txtStartAddress");
@@ -584,20 +569,6 @@
 
             source = txtStartSite.value;
             destination = txtEndSite.value;
-
-            //if ($chkCustomStartLocation.checked) {
-            //    source = txtStartSite.value;
-            //}
-            //else {
-            //    source = ddlStartSiteValue;
-            //}
-
-            //if ($chkCustomEndLocation.checked) {
-            //    destination = txtEndSite.value;
-            //}
-            //else {
-            //    destination = ddlEndSiteValue;
-            //}
 
             if ($chkRoundTrip.checked) {
                 roundTrip = 2;
@@ -631,11 +602,8 @@
                 if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
                     var distance = response.rows[0].elements[0].distance.text;
                     var dvDistance = document.getElementById("txtKilometres");
-                    //this will be changed from dvcost to Cost once the database supports it
                     var dvCost = document.getElementById("txtReimbursement");
-                    //This is a dummy rate value for Cost per Km
                     var rate = .5;
-                    //Converts the Distance from meters to kilometers
                     var distance = (response.rows[0].elements[0].distance.value / 1000);
                     var cost = (distance * rate) * roundTrip;
                     var distanceRoundTrip = distance * roundTrip;

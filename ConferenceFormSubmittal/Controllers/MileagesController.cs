@@ -132,19 +132,7 @@ namespace ConferenceFormSubmittal.Controllers
                     mileages = mileages.OrderByDescending(c => c.Kilometres);
                 }
             }
-            else if (sortField == "Description")//Sorting by Status
-            {
-                if (String.IsNullOrEmpty(sortDirection))
-                {
-                    mileages = mileages
-                        .OrderBy(c => c.StatusID);
-                }
-                else
-                {
-                    mileages = mileages.OrderByDescending(c => c.StatusID);
-                }
-            }
-            else //By default sort by Travel Date
+            else if (sortField == "Travel Date")//Sorting by Status
             {
                 if (String.IsNullOrEmpty(sortDirection))
                 {
@@ -157,11 +145,23 @@ namespace ConferenceFormSubmittal.Controllers
                         .OrderByDescending(p => p.TravelDate);
                 }
             }
+            else //By default sort by Travel Date
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    mileages = mileages
+                        .OrderBy(c => c.StatusID);
+                }
+                else
+                {
+                    mileages = mileages.OrderByDescending(c => c.StatusID);
+                }
+            }
 
             ViewBag.sortField = sortField;
             ViewBag.sortDirection = sortDirection;
 
-            int pageSize = 5;//Temp value, good value is like 10
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             return View(mileages.ToPagedList(pageNumber, pageSize));
@@ -231,9 +231,6 @@ namespace ConferenceFormSubmittal.Controllers
                 ViewBag.Filtering = " in";//Flag filtering
                 ViewBag.LastStatusID = statusID;
             }
-            statusID = 4;
-            mileages = mileages.Where(p => p.StatusID < statusID);
-            ViewBag.Filtering = " in";//Flag filtering
 
             if (!String.IsNullOrEmpty(actionButton))
             {
@@ -285,19 +282,7 @@ namespace ConferenceFormSubmittal.Controllers
                     mileages = mileages.OrderByDescending(c => c.Kilometres);
                 }
             }
-            else if (sortField == "Description")//Sorting by Status
-            {
-                if (String.IsNullOrEmpty(sortDirection))
-                {
-                    mileages = mileages
-                        .OrderBy(c => c.StatusID);
-                }
-                else
-                {
-                    mileages = mileages.OrderByDescending(c => c.StatusID);
-                }
-            }
-            else //By default sort by Travel Date
+            else if (sortField == "Travel Date")//Sorting by Status
             {
                 if (String.IsNullOrEmpty(sortDirection))
                 {
@@ -310,11 +295,23 @@ namespace ConferenceFormSubmittal.Controllers
                         .OrderByDescending(p => p.TravelDate);
                 }
             }
+            else //By default sort by Travel Date
+            {
+                if (String.IsNullOrEmpty(sortDirection))
+                {
+                    mileages = mileages
+                        .OrderBy(c => c.StatusID);
+                }
+                else
+                {
+                    mileages = mileages.OrderByDescending(c => c.StatusID);
+                }
+            }
 
             ViewBag.sortField = sortField;
             ViewBag.sortDirection = sortDirection;
 
-            int pageSize = 5;//Temp value, good value is like 10
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             return View(mileages.ToPagedList(pageNumber, pageSize));
