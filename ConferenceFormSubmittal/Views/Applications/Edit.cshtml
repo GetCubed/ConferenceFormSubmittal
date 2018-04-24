@@ -505,7 +505,7 @@
             self.FileName = data.fileName;
         }
 
-        function Expense(data, type, ExpenseTypeID, EstimatedCost, ActualCost, Rationale) {
+        function Expense(data) {
             var self = this,
                 currentData; // saved in case the user cancels edits
 
@@ -519,21 +519,7 @@
                 self.ActualCost = ko.observable(data.ActualCost);
                 self.Rationale = ko.observable(data.Rationale);
             }
-            else {
-                self.type = ko.observable(type); // Expense type description
-                self.ExpenseTypeID = ko.observable(ExpenseTypeID);
-                self.EstimatedCost = ko.observable(EstimatedCost);
-                self.ActualCost = ko.observable(ActualCost);
-                self.Rationale = ko.observable(Rationale);
 
-                currentData = {
-                    type: self.type,
-                    ExpenseTypeID: self.ExpenseTypeID,
-                    EstimatedCost: self.EstimatedCost,
-                    ActualCost: self.ActualCost,
-                    Rationale: self.Rationale
-                }
-            }
             self.ApplicationID = $("#applicationID").val();
             self.Files = ko.observableArray();
 
@@ -672,6 +658,14 @@
             return result;
         }
 
+        function ClearExpenseInputs() {
+            $("#ddlExpenseType").val("");
+            $("#newExpense").find("input").not(":disabled").val("");
+
+            $("#btnClearExpenseInputs").addClass("d-none");
+            $("#newExpense").find("label.text-danger").addClass("d-none");
+        }
+
         function ExpenseVM() {
             var self = this;
             self.applicationIsApproved = $("#lblStatus").html() == "Approved";
@@ -701,21 +695,25 @@
 
             self.addExpense = function () {
                 if (expenseIsValid() && confirm("Are you sure?\n\nClick OK to add the expense.")) {
-                    self.newExpense(new Expense(false,
-                        $("#ddlExpenseType option:selected").text(),
-                        self.newTypeID(),
-                        self.newEstCost(),
-                        self.newActCost(),
-                        self.newRationale()
-                    ));
+                    var newExpense = new Expense({
+                        type: $("#ddlExpenseType option:selected").text(),
+                        ExpenseTypeID: self.newTypeID(),
+                        EstimatedCost: self.newEstCost(),
+                        ActualCost: self.newActCost(),
+                        Rationale: self.newRationale()
+                    });
 
                     $.ajax("/Expenses/AddOrUpdateExpense", {
                         type: "post",
                         contentType: "application/json",
-                        data: ko.toJSON({ expense: self.newExpense() }),
+                        data: ko.toJSON({ expense: newExpense }),
                         success: function (response) {
                             if (response.split(":")[0] == "success")
-                                window.location.reload();
+                            {
+                                ClearExpenseInputs();
+
+                                self.loadExpenses();
+                            }
                             else
                                 alert(response);
                         }
@@ -723,19 +721,22 @@
                 }
             }
 
-            // load expenses
-            $.getJSON("/Expenses/LoadExpenses/", { applicationID: $("#applicationID").val() }, function (data) {
-                var mappedExpenses = $.map(data, function (item) { return new Expense(item) });
-                self.expenses(mappedExpenses);
+            self.loadExpenses = function () {
+                $.getJSON("/Expenses/LoadExpenses/", { applicationID: $("#applicationID").val() }, function (data) {
+                    var mappedExpenses = $.map(data, function (item) { return new Expense(item) });
+                    self.expenses(mappedExpenses);
 
-                // load documentation for each expense
-                ko.utils.arrayForEach(self.expenses(), function (expense) {
-                    $.getJSON("/Expenses/LoadDocumentation/", { expenseID: expense.ID }, function (data) {
-                        var mappedFiles = $.map(data, function (item) { return new File(item) });
-                        expense.Files(mappedFiles);
+                    // load documentation for each expense
+                    ko.utils.arrayForEach(self.expenses(), function (expense) {
+                        $.getJSON("/Expenses/LoadDocumentation/", { expenseID: expense.ID }, function (data) {
+                            var mappedFiles = $.map(data, function (item) { return new File(item) });
+                            expense.Files(mappedFiles);
+                        });
                     });
                 });
-            });
+            }
+
+            self.loadExpenses();
         }
 
         var vm = new ExpenseVM();
@@ -810,12 +811,7 @@
             }).change();
 
             $("#btnClearExpenseInputs").click(function () {
-
-                $("#ddlExpenseType").val("");
-                $("#newExpense").find("input").not(":disabled").val("");
-
-                $(this).addClass("d-none");
-                $("#newExpense").find("label.text-danger").addClass("d-none");
+                ClearExpenseInputs();
             });
         });
     </script>
