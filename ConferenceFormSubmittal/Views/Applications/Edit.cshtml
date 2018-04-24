@@ -507,18 +507,14 @@
 
         function Expense(data) {
             var self = this,
-                currentData; // saved in case the user cancels edits
-
-            if (data) {
                 currentData = data;
 
-                self.ID = data.ID;
-                self.type = ko.observable(data.type); // Expense type description
-                self.ExpenseTypeID = ko.observable(data.ExpenseTypeID);
-                self.EstimatedCost = ko.observable(data.EstimatedCost);
-                self.ActualCost = ko.observable(data.ActualCost);
-                self.Rationale = ko.observable(data.Rationale);
-            }
+            self.ID = data.ID;
+            self.type = ko.observable(data.type); // Expense type description
+            self.ExpenseTypeID = ko.observable(data.ExpenseTypeID);
+            self.EstimatedCost = ko.observable(data.EstimatedCost);
+            self.ActualCost = ko.observable(data.ActualCost);
+            self.Rationale = ko.observable(data.Rationale);
 
             self.ApplicationID = $("#applicationID").val();
             self.Files = ko.observableArray();
