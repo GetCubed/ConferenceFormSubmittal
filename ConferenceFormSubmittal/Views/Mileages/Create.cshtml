@@ -155,18 +155,12 @@
                             <div class="col-6">
                                 @Html.LabelFor(model => model.RoundTrip, htmlAttributes: new { @class = "control-label font-weight-bold" })
                                 <input type="checkbox" class="toggle" id="chkRoundTrip" />
-                            </div>
-                            <div class="col-12">
-                                <hr />
-                            </div>
+                            </div>                        
                         </div>
 
 
-                     
-
-
                         @*---------------------ERROR MESSAGES ---------------------*@
-                        <div class="row pt-3">
+                        <div class="row pt-3 d-none" id="divValid" >
                             <div class="col-12">
                                 <label id="txtValid" class="text-danger "> </label>
                             </div>
@@ -330,6 +324,7 @@
             var result = true;
             var valid = $("#txtValid");
             valid.empty();
+            $("#divValid").addClass("d-none");
 
             if (travelDate == "") {
                 result = false;
@@ -348,6 +343,11 @@
                 valid.append("There must be a Kilometre amount.");
             }
 
+
+            if (!result)
+            {
+                $("#divValid").removeClass("d-none");
+            }
             return result;
         }
 

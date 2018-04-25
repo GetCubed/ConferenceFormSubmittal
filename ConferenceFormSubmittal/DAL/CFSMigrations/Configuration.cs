@@ -91,37 +91,37 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
                     StartDate =DateTime.Parse("2018-10-20"), EndDate=DateTime.Parse("2018-10-22")  },
 
                 new Conference { Name = "Kingston Math Expo 2018",   Location = "Kingston",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-11-20"), EndDate=DateTime.Parse("2018-11-22")  },
+                    StartDate =DateTime.Parse("2018-11-20"), EndDate=DateTime.Parse("2018-11-22")  }
 
-                new Conference { Name = "Intel Technology",   Location = "Orlando",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-7-20"), EndDate=DateTime.Parse("2018-7-24")  },
+                //new Conference { Name = "Intel Technology",   Location = "Orlando",  RegistrationCost=100,
+                //    StartDate =DateTime.Parse("2018-7-20"), EndDate=DateTime.Parse("2018-7-24")  },
 
-                new Conference { Name = "History Extended",   Location = "Washington",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-2-20"), EndDate=DateTime.Parse("2018-2-22")  },
+                //new Conference { Name = "History Extended",   Location = "Washington",  RegistrationCost=100,
+                //    StartDate =DateTime.Parse("2018-2-20"), EndDate=DateTime.Parse("2018-2-22")  },
 
-                new Conference { Name = "Time Managment Made Easy",   Location = "Toronto",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-4-20"), EndDate=DateTime.Parse("2018-4-22")  },
+                //new Conference { Name = "Time Managment Made Easy",   Location = "Toronto",  RegistrationCost=100,
+                //    StartDate =DateTime.Parse("2018-4-20"), EndDate=DateTime.Parse("2018-4-22")  },
 
-                new Conference { Name = "New Chemistry Instruction & Technique",   Location = "Montreal",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-5-20"), EndDate=DateTime.Parse("2018-5-22")  },
+                //new Conference { Name = "New Chemistry Instruction & Technique",   Location = "Montreal",  RegistrationCost=100,
+                //    StartDate =DateTime.Parse("2018-5-20"), EndDate=DateTime.Parse("2018-5-22")  },
 
-                new Conference { Name = "Better Understanding of Literature",   Location = "Hamilton",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-8-20"), EndDate=DateTime.Parse("2018-8-22")  },
+                //new Conference { Name = "Better Understanding of Literature",   Location = "Hamilton",  RegistrationCost=100,
+                //    StartDate =DateTime.Parse("2018-8-20"), EndDate=DateTime.Parse("2018-8-22")  },
 
-                new Conference { Name = "Shakespeare to Understandable English",   Location = "London",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-8-14"), EndDate=DateTime.Parse("2018-8-18")  },
+                //new Conference { Name = "Shakespeare to Understandable English",   Location = "London",  RegistrationCost=100,
+                //    StartDate =DateTime.Parse("2018-8-14"), EndDate=DateTime.Parse("2018-8-18")  },
 
-                new Conference { Name = "Guide to Better Leadership",   Location = "Windsor",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-5-6"), EndDate=DateTime.Parse("2018-5-9")  },
+                //new Conference { Name = "Guide to Better Leadership",   Location = "Windsor",  RegistrationCost=100,
+                //    StartDate =DateTime.Parse("2018-5-6"), EndDate=DateTime.Parse("2018-5-9")  },
 
-                new Conference { Name = "Nutrition for Learning 2.0",   Location = "Toronto",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-4-6"), EndDate=DateTime.Parse("2018-4-9")  },
+                //new Conference { Name = "Nutrition for Learning 2.0",   Location = "Toronto",  RegistrationCost=100,
+                //    StartDate =DateTime.Parse("2018-4-6"), EndDate=DateTime.Parse("2018-4-9")  },
 
-                new Conference { Name = "Nashville Music Conference 2018",   Location = "Nashville",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-6-6"), EndDate=DateTime.Parse("2018-6-10")  },
+                //new Conference { Name = "Nashville Music Conference 2018",   Location = "Nashville",  RegistrationCost=100,
+                //    StartDate =DateTime.Parse("2018-6-6"), EndDate=DateTime.Parse("2018-6-10")  },
 
-                new Conference { Name = "Shapes & Lines",   Location = "Niagara Falls",  RegistrationCost=100,
-                    StartDate =DateTime.Parse("2018-6-20"), EndDate=DateTime.Parse("2018-6-22")  }
+                //new Conference { Name = "Shapes & Lines",   Location = "Niagara Falls",  RegistrationCost=100,
+                //    StartDate =DateTime.Parse("2018-6-20"), EndDate=DateTime.Parse("2018-6-22")  }
             };
             conferences.ForEach(a => context.Conferences.AddOrUpdate(n => n.Name, a));
             SaveChanges(context);
@@ -147,88 +147,88 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
                     StatusID=(context.Statuses.Where(s => s.Description == "Submitted").SingleOrDefault().ID),
                     PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Corporate Credit Card").SingleOrDefault().ID)
 
-                },
-                new Application {Rationale="Need to learn about math.", ReplStaffReq=true, BudgetCode="12345",
-                    DepartureDate =DateTime.Parse("2018-11-20"), ReturnDate =DateTime.Parse("2018-11-22"),
-                    AttendStartDate =DateTime.Parse("2018-11-20"), AttendEndDate =DateTime.Parse("2018-11-22"),
-                    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
-                    EmployeeID =(context.Employees.Where(e => e.Email == "wflintstone@outlook.com").SingleOrDefault().ID),
-                    ConferenceID=(context.Conferences.Where(c=>c.Name == "Kingston Math Expo 2018").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
-                    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Corporate Cheque Requisition").SingleOrDefault().ID)
-                },
-                new Application {Rationale="Need to learn about Leadership.", ReplStaffReq=true, BudgetCode="12345",
-                    DepartureDate =DateTime.Parse("2018-5-6"), ReturnDate =DateTime.Parse("2018-5-9"),
-                    AttendStartDate =DateTime.Parse("2018-5-6"), AttendEndDate =DateTime.Parse("2018-5-9"),
-                    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
-                    EmployeeID =(context.Employees.Where(e => e.Email == "cservos@outlook.com").SingleOrDefault().ID),
-                    ConferenceID=(context.Conferences.Where(c=>c.Name == "Guide to Better Leadership").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
-                    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Union Reimbursement").SingleOrDefault().ID)
-                },
-                new Application {Rationale="Need to learn about Time Management.", ReplStaffReq=true, BudgetCode="12345",
-                    DepartureDate =DateTime.Parse("2018-4-18"), ReturnDate =DateTime.Parse("2018-4-24"),
-                    AttendStartDate =DateTime.Parse("2018-4-20"), AttendEndDate =DateTime.Parse("2018-4-22"),
-                    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
-                    EmployeeID =(context.Employees.Where(e => e.Email == "ragbuya@outlook.com").SingleOrDefault().ID),
-                    ConferenceID=(context.Conferences.Where(c=>c.Name == "Time Managment Made Easy").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Denied").SingleOrDefault().ID),
-                    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Corporate Credit Card").SingleOrDefault().ID)
-                },
-                new Application {Rationale="Need to learn about Music.", ReplStaffReq=false, BudgetCode="12345",
-                    DepartureDate =DateTime.Parse("2018-6-6"), ReturnDate =DateTime.Parse("2018-6-9"),
-                    AttendStartDate =DateTime.Parse("2018-6-6"), AttendEndDate =DateTime.Parse("2018-6-9"),
-                    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
-                    EmployeeID =(context.Employees.Where(e => e.Email == "ereed@outlook.com").SingleOrDefault().ID),
-                    ConferenceID=(context.Conferences.Where(c=>c.Name == "Nashville Music Conference 2018").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
-                    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Paid By Staff Member").SingleOrDefault().ID)
-                },
-                new Application {Rationale="Would like to have a better understanding of Shakespeare.", ReplStaffReq=true, BudgetCode="12345",
-                    DepartureDate =DateTime.Parse("2018-8-14"), ReturnDate =DateTime.Parse("2018-8-18"),
-                    AttendStartDate =DateTime.Parse("2018-8-14"), AttendEndDate =DateTime.Parse("2018-8-18"),
-                    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
-                    EmployeeID =(context.Employees.Where(e => e.Email == "sbegonias@outlook.com").SingleOrDefault().ID),
-                    ConferenceID=(context.Conferences.Where(c=>c.Name == "Shakespeare to Understandable English").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Denied").SingleOrDefault().ID),
-                    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Paid By Staff Member").SingleOrDefault().ID)
-                },
-                new Application {Rationale="Would like to learn more about Chemistry.", ReplStaffReq=false, BudgetCode="12345",
-                    DepartureDate =DateTime.Parse("2018-5-20"), ReturnDate =DateTime.Parse("2018-5-22"),
-                    AttendStartDate =DateTime.Parse("2018-5-20"), AttendEndDate =DateTime.Parse("2018-5-22"),
-                    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
-                    EmployeeID =(context.Employees.Where(e => e.Email == "cneil@outlook.com").SingleOrDefault().ID),
-                    ConferenceID=(context.Conferences.Where(c=>c.Name == "New Chemistry Instruction & Technique").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
-                    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Corporate Credit Card").SingleOrDefault().ID)
-                },
-                new Application {Rationale="I love History!", ReplStaffReq=true, BudgetCode="12345",
-                    DepartureDate =DateTime.Parse("2018-2-22"), ReturnDate =DateTime.Parse("2018-2-22"),
-                    AttendStartDate =DateTime.Parse("2018-2-20"), AttendEndDate =DateTime.Parse("2018-2-22"),
-                    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
-                    EmployeeID =(context.Employees.Where(e => e.Email == "jbookman@outlook.com").SingleOrDefault().ID),
-                    ConferenceID=(context.Conferences.Where(c=>c.Name == "History Extended").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
-                    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Paid By Staff Member").SingleOrDefault().ID)
-                },
-                new Application {Rationale="I need to know how to turn on the sound on my cell phone.", ReplStaffReq=false, BudgetCode="12345",
-                    DepartureDate =DateTime.Parse("2018-7-20"), ReturnDate =DateTime.Parse("2018-7-24"),
-                    AttendStartDate =DateTime.Parse("2018-7-20"), AttendEndDate =DateTime.Parse("2018-7-24"),
-                    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
-                    EmployeeID =(context.Employees.Where(e => e.Email == "azetter@outlook.com").SingleOrDefault().ID),
-                    ConferenceID=(context.Conferences.Where(c=>c.Name == "Intel Technology").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Submitted").SingleOrDefault().ID),
-                    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Paid By Staff Member").SingleOrDefault().ID)
-                },
-                new Application {Rationale="I'm a square", ReplStaffReq=true, BudgetCode="12345",
-                    DepartureDate =DateTime.Parse("2018-6-20"), ReturnDate =DateTime.Parse("2018-6-22"),
-                    AttendStartDate =DateTime.Parse("2018-6-20"), AttendEndDate =DateTime.Parse("2018-6-22"),
-                    DateSubmitted =DateTime.Parse("2018-2-7"), Feedback="Not gonna happen",
-                    EmployeeID =(context.Employees.Where(e => e.Email == "bvance@outlook.com").SingleOrDefault().ID),
-                    ConferenceID=(context.Conferences.Where(c=>c.Name == "Shapes & Lines").SingleOrDefault().ID),
-                    StatusID=(context.Statuses.Where(s => s.Description == "Submitted").SingleOrDefault().ID),
-                    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Corporate Credit Card").SingleOrDefault().ID)
                 }
+                //new Application {Rationale="Need to learn about math.", ReplStaffReq=true, BudgetCode="12345",
+                //    DepartureDate =DateTime.Parse("2018-11-20"), ReturnDate =DateTime.Parse("2018-11-22"),
+                //    AttendStartDate =DateTime.Parse("2018-11-20"), AttendEndDate =DateTime.Parse("2018-11-22"),
+                //    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
+                //    EmployeeID =(context.Employees.Where(e => e.Email == "wflintstone@outlook.com").SingleOrDefault().ID),
+                //    ConferenceID=(context.Conferences.Where(c=>c.Name == "Kingston Math Expo 2018").SingleOrDefault().ID),
+                //    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
+                //    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Corporate Cheque Requisition").SingleOrDefault().ID)
+                //},
+                //new Application {Rationale="Need to learn about Leadership.", ReplStaffReq=true, BudgetCode="12345",
+                //    DepartureDate =DateTime.Parse("2018-5-6"), ReturnDate =DateTime.Parse("2018-5-9"),
+                //    AttendStartDate =DateTime.Parse("2018-5-6"), AttendEndDate =DateTime.Parse("2018-5-9"),
+                //    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
+                //    EmployeeID =(context.Employees.Where(e => e.Email == "cservos@outlook.com").SingleOrDefault().ID),
+                //    ConferenceID=(context.Conferences.Where(c=>c.Name == "Guide to Better Leadership").SingleOrDefault().ID),
+                //    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
+                //    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Union Reimbursement").SingleOrDefault().ID)
+                //},
+                //new Application {Rationale="Need to learn about Time Management.", ReplStaffReq=true, BudgetCode="12345",
+                //    DepartureDate =DateTime.Parse("2018-4-18"), ReturnDate =DateTime.Parse("2018-4-24"),
+                //    AttendStartDate =DateTime.Parse("2018-4-20"), AttendEndDate =DateTime.Parse("2018-4-22"),
+                //    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
+                //    EmployeeID =(context.Employees.Where(e => e.Email == "ragbuya@outlook.com").SingleOrDefault().ID),
+                //    ConferenceID=(context.Conferences.Where(c=>c.Name == "Time Managment Made Easy").SingleOrDefault().ID),
+                //    StatusID=(context.Statuses.Where(s => s.Description == "Denied").SingleOrDefault().ID),
+                //    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Corporate Credit Card").SingleOrDefault().ID)
+                //},
+                //new Application {Rationale="Need to learn about Music.", ReplStaffReq=false, BudgetCode="12345",
+                //    DepartureDate =DateTime.Parse("2018-6-6"), ReturnDate =DateTime.Parse("2018-6-9"),
+                //    AttendStartDate =DateTime.Parse("2018-6-6"), AttendEndDate =DateTime.Parse("2018-6-9"),
+                //    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
+                //    EmployeeID =(context.Employees.Where(e => e.Email == "ereed@outlook.com").SingleOrDefault().ID),
+                //    ConferenceID=(context.Conferences.Where(c=>c.Name == "Nashville Music Conference 2018").SingleOrDefault().ID),
+                //    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
+                //    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Paid By Staff Member").SingleOrDefault().ID)
+                //},
+                //new Application {Rationale="Would like to have a better understanding of Shakespeare.", ReplStaffReq=true, BudgetCode="12345",
+                //    DepartureDate =DateTime.Parse("2018-8-14"), ReturnDate =DateTime.Parse("2018-8-18"),
+                //    AttendStartDate =DateTime.Parse("2018-8-14"), AttendEndDate =DateTime.Parse("2018-8-18"),
+                //    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
+                //    EmployeeID =(context.Employees.Where(e => e.Email == "sbegonias@outlook.com").SingleOrDefault().ID),
+                //    ConferenceID=(context.Conferences.Where(c=>c.Name == "Shakespeare to Understandable English").SingleOrDefault().ID),
+                //    StatusID=(context.Statuses.Where(s => s.Description == "Denied").SingleOrDefault().ID),
+                //    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Paid By Staff Member").SingleOrDefault().ID)
+                //},
+                //new Application {Rationale="Would like to learn more about Chemistry.", ReplStaffReq=false, BudgetCode="12345",
+                //    DepartureDate =DateTime.Parse("2018-5-20"), ReturnDate =DateTime.Parse("2018-5-22"),
+                //    AttendStartDate =DateTime.Parse("2018-5-20"), AttendEndDate =DateTime.Parse("2018-5-22"),
+                //    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
+                //    EmployeeID =(context.Employees.Where(e => e.Email == "cneil@outlook.com").SingleOrDefault().ID),
+                //    ConferenceID=(context.Conferences.Where(c=>c.Name == "New Chemistry Instruction & Technique").SingleOrDefault().ID),
+                //    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
+                //    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Corporate Credit Card").SingleOrDefault().ID)
+                //},
+                //new Application {Rationale="I love History!", ReplStaffReq=true, BudgetCode="12345",
+                //    DepartureDate =DateTime.Parse("2018-2-22"), ReturnDate =DateTime.Parse("2018-2-22"),
+                //    AttendStartDate =DateTime.Parse("2018-2-20"), AttendEndDate =DateTime.Parse("2018-2-22"),
+                //    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
+                //    EmployeeID =(context.Employees.Where(e => e.Email == "jbookman@outlook.com").SingleOrDefault().ID),
+                //    ConferenceID=(context.Conferences.Where(c=>c.Name == "History Extended").SingleOrDefault().ID),
+                //    StatusID=(context.Statuses.Where(s => s.Description == "Approved").SingleOrDefault().ID),
+                //    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Paid By Staff Member").SingleOrDefault().ID)
+                //},
+                //new Application {Rationale="I need to know how to turn on the sound on my cell phone.", ReplStaffReq=false, BudgetCode="12345",
+                //    DepartureDate =DateTime.Parse("2018-7-20"), ReturnDate =DateTime.Parse("2018-7-24"),
+                //    AttendStartDate =DateTime.Parse("2018-7-20"), AttendEndDate =DateTime.Parse("2018-7-24"),
+                //    DateSubmitted =DateTime.Parse("2018-1-7"), Feedback="Very useful",
+                //    EmployeeID =(context.Employees.Where(e => e.Email == "azetter@outlook.com").SingleOrDefault().ID),
+                //    ConferenceID=(context.Conferences.Where(c=>c.Name == "Intel Technology").SingleOrDefault().ID),
+                //    StatusID=(context.Statuses.Where(s => s.Description == "Submitted").SingleOrDefault().ID),
+                //    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Paid By Staff Member").SingleOrDefault().ID)
+                //},
+                //new Application {Rationale="I'm a square", ReplStaffReq=true, BudgetCode="12345",
+                //    DepartureDate =DateTime.Parse("2018-6-20"), ReturnDate =DateTime.Parse("2018-6-22"),
+                //    AttendStartDate =DateTime.Parse("2018-6-20"), AttendEndDate =DateTime.Parse("2018-6-22"),
+                //    DateSubmitted =DateTime.Parse("2018-2-7"), Feedback="Not gonna happen",
+                //    EmployeeID =(context.Employees.Where(e => e.Email == "bvance@outlook.com").SingleOrDefault().ID),
+                //    ConferenceID=(context.Conferences.Where(c=>c.Name == "Shapes & Lines").SingleOrDefault().ID),
+                //    StatusID=(context.Statuses.Where(s => s.Description == "Submitted").SingleOrDefault().ID),
+                //    PaymentTypeID=(context.PaymentTypes.Where(w => w.Description == "Corporate Credit Card").SingleOrDefault().ID)
+                //}
             };
             applications.ForEach(a => context.Applications.AddOrUpdate(n => n.Rationale, a));
             SaveChanges(context);
@@ -251,26 +251,26 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
 
             var expenses = new List<Expense>
             {
-                new Expense {Rationale="I will get hungry.", EstimatedCost=200,
-                    ExpenseTypeID =1, ApplicationID=1 },
-                new Expense {Rationale="I need a place to stay.", EstimatedCost=20, ActualCost=18,
-                    ExpenseTypeID=2, ApplicationID=3 },
-                new Expense {Rationale="I'm a too important for a taxi.", EstimatedCost=200, ActualCost=180,
-                    ExpenseTypeID=3, ApplicationID=2 },
-                new Expense {Rationale="I need to write things down.", EstimatedCost=13,
-                    ExpenseTypeID =4, ApplicationID=1 },
-                new Expense {Rationale="We must meet the required dress code.", EstimatedCost=80, ActualCost=72,
-                    ExpenseTypeID=5, ApplicationID=3 },
-                new Expense {Rationale="I need a kart to carry things around in the conference.", EstimatedCost=30, ActualCost=49,
-                    ExpenseTypeID=6, ApplicationID=2 },
-                new Expense {Rationale="I need to record the conference speech.", EstimatedCost=50,
-                    ExpenseTypeID =7, ApplicationID=1 },
-                new Expense {Rationale="I need transportation (My car is in shop).", EstimatedCost=80, ActualCost=72,
-                    ExpenseTypeID=8, ApplicationID=3 },
-                new Expense {Rationale="A bus would be much cheeper.", EstimatedCost=150, ActualCost=140,
-                    ExpenseTypeID=9, ApplicationID=2 },
-                new Expense {Rationale="A flight would be much cheeper.", EstimatedCost=240,
-                    ExpenseTypeID=10, ApplicationID=1 },
+                //new Expense {Rationale="I will get hungry.", EstimatedCost=200,
+                //    ExpenseTypeID =1, ApplicationID=1 },
+                //new Expense {Rationale="I need a place to stay.", EstimatedCost=20, ActualCost=18,
+                //    ExpenseTypeID=2, ApplicationID=3 },
+                //new Expense {Rationale="I'm a too important for a taxi.", EstimatedCost=200, ActualCost=180,
+                //    ExpenseTypeID=3, ApplicationID=2 },
+                //new Expense {Rationale="I need to write things down.", EstimatedCost=13,
+                //    ExpenseTypeID =4, ApplicationID=1 },
+                //new Expense {Rationale="We must meet the required dress code.", EstimatedCost=80, ActualCost=72,
+                //    ExpenseTypeID=5, ApplicationID=3 },
+                //new Expense {Rationale="I need a kart to carry things around in the conference.", EstimatedCost=30, ActualCost=49,
+                //    ExpenseTypeID=6, ApplicationID=2 },
+                //new Expense {Rationale="I need to record the conference speech.", EstimatedCost=50,
+                //    ExpenseTypeID =7, ApplicationID=1 },
+                //new Expense {Rationale="I need transportation (My car is in shop).", EstimatedCost=80, ActualCost=72,
+                //    ExpenseTypeID=8, ApplicationID=3 },
+                //new Expense {Rationale="A bus would be much cheeper.", EstimatedCost=150, ActualCost=140,
+                //    ExpenseTypeID=9, ApplicationID=2 },
+                //new Expense {Rationale="A flight would be much cheeper.", EstimatedCost=240,
+                //    ExpenseTypeID=10, ApplicationID=1 },
 
             };
             expenses.ForEach(a => context.Expenses.AddOrUpdate(n => n.Rationale, a));
@@ -278,35 +278,35 @@ namespace ConferenceFormSubmittal.DAL.CFSMigrations
 
             var mileages = new List<Mileage>
             {
-                new Mileage {TravelDate=DateTime.Parse("2018-10-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="40 Bay St, Toronto, ON M5J 2X2",
-                    RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=13, ApplicationID=1},
+                //new Mileage {TravelDate=DateTime.Parse("2018-10-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="40 Bay St, Toronto, ON M5J 2X2",
+                //    RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=13, ApplicationID=1},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-11-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="421 Union St W, Kingston, ON K7L 3N6",
-                    RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=6, ApplicationID=2},
+                //new Mileage {TravelDate=DateTime.Parse("2018-11-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="421 Union St W, Kingston, ON K7L 3N6",
+                //    RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=6, ApplicationID=2},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-5-6"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="3995 Geraedts Dr, Windsor, ON N9G 3C3",
-                    RoundTrip = true, Kilometres =200, Feedback="okay lets go", StatusID=2, EmployeeID=7, ApplicationID=3},
+                //new Mileage {TravelDate=DateTime.Parse("2018-5-6"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="3995 Geraedts Dr, Windsor, ON N9G 3C3",
+                //    RoundTrip = true, Kilometres =200, Feedback="okay lets go", StatusID=2, EmployeeID=7, ApplicationID=3},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-4-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="222 Bremner Blvd, Toronto, ON M5V 3L9",
-                    RoundTrip = true, Kilometres =600, Feedback="okay lets go", StatusID=3, EmployeeID=8, ApplicationID=4},
+                //new Mileage {TravelDate=DateTime.Parse("2018-4-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="222 Bremner Blvd, Toronto, ON M5V 3L9",
+                //    RoundTrip = true, Kilometres =600, Feedback="okay lets go", StatusID=3, EmployeeID=8, ApplicationID=4},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-6-6"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="2800 Opryland Dr, Nashville, TN 37214, USA",
-                    RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=4, EmployeeID=11, ApplicationID=5},
+                //new Mileage {TravelDate=DateTime.Parse("2018-6-6"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="2800 Opryland Dr, Nashville, TN 37214, USA",
+                //    RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=4, EmployeeID=11, ApplicationID=5},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-8-14"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="300 York St, London, ON N6B 1P8",
-                    RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=3, EmployeeID=12, ApplicationID=6},
+                //new Mileage {TravelDate=DateTime.Parse("2018-8-14"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="300 York St, London, ON N6B 1P8",
+                //    RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=3, EmployeeID=12, ApplicationID=6},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-5-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="1001 Jean Paul Riopelle Pl, Montreal, QC H2Z 1H5",
-                    RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=4, EmployeeID=10, ApplicationID=7},
+                //new Mileage {TravelDate=DateTime.Parse("2018-5-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="1001 Jean Paul Riopelle Pl, Montreal, QC H2Z 1H5",
+                //    RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=4, EmployeeID=10, ApplicationID=7},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-2-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="801 Mt Vernon Place NW, Washington, DC 20001, USA",
-                    RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=2, EmployeeID=2, ApplicationID=8},
+                //new Mileage {TravelDate=DateTime.Parse("2018-2-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="801 Mt Vernon Place NW, Washington, DC 20001, USA",
+                //    RoundTrip = false, Kilometres =60, Feedback="okay lets go", StatusID=2, EmployeeID=2, ApplicationID=8},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-7-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="9800 International Dr, Orlando, FL 32819, USA",
-                    RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=5, ApplicationID=9},
+                //new Mileage {TravelDate=DateTime.Parse("2018-7-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="9800 International Dr, Orlando, FL 32819, USA",
+                //    RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=5, ApplicationID=9},
 
-                new Mileage {TravelDate=DateTime.Parse("2018-6-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="6815 Stanley Ave, Niagara Falls, ON L2G 3Y9",
-                    RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=3, ApplicationID=10}
+                //new Mileage {TravelDate=DateTime.Parse("2018-6-20"), StartAddress="427 Rice Rd, Welland, ON L3C 7C1", EndAddress="6815 Stanley Ave, Niagara Falls, ON L2G 3Y9",
+                //    RoundTrip = true, Kilometres =60, Feedback="okay lets go", StatusID=1, EmployeeID=3, ApplicationID=10}
             };
             mileages.ForEach(a => context.Mileages.AddOrUpdate(n => n.TravelDate, a));
             SaveChanges(context);
