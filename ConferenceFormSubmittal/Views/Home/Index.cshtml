@@ -17,9 +17,10 @@
 
                     <div class="row">
                         <div class="col-12 justify-content-end d-flex">
+                            @*Notifications are simulated for now*@
                             @if (ViewBag.NewApplications > 0)
                             {
-                                <a href='@Url.Action("IndexAdmin", "Applications")' class="btn btn-success">
+                                <a href='@Url.Action("IndexAdmin", "Applications")' class="btn btn-primary">
                                     @Helper.GetIcon(Icons.View)
                                     @if (ViewBag.NewApplications == 1)
                                     {
@@ -31,6 +32,15 @@
             }
                                 </a>
                             }
+
+                            @if (ViewBag.Approved > 0)
+                            {
+                                <a href='/Applications/Index?StatusID=2' class="btn btn-success">
+                                    @Helper.GetIcon(Icons.Approved)
+                                    Application Approved
+                                </a>
+                            }
+
                             @if (ViewBag.Denied > 0)
                             {
                                 <a href='/Applications/Index?StatusID=3' class="btn btn-danger">
