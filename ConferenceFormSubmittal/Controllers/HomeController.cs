@@ -18,7 +18,9 @@ namespace ConferenceFormSubmittal.Controllers
 
             // the email address criteria would need to be changed to the current user's.
             // for now it's Fred
+            // this is simply a demonstration of what notifications might look like, if time was taken to properly implement the functionality
             ViewBag.Denied = db.Applications.Where(a => a.Employee.Email == "fflintstone@outlook.com" && a.Status.Description == "Denied").Count();
+            ViewBag.Approved = db.Applications.Where(a => a.Employee.Email == "fflintstone@outlook.com" && a.Status.Description == "Approved").Count();
             return View();
         }
 
